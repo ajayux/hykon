@@ -87,4 +87,4 @@ export default async function HomePage({ params }) {
       {partners && <HomePartners data={partners} locale={locale} />}
     </>
   );
-}
+} 

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -43,6 +43,10 @@ export default function HomeHero({ data, locale }) {
   const { selectedIndex, scrollSnaps, onDotButtonClick } =
     useDotButton(emblaApi);
 
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 1000], [1, 0]);
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsRevealed(true);
@@ -58,7 +62,7 @@ export default function HomeHero({ data, locale }) {
 
   return (
     <ParallaxProvider>
-      <section className="w-full h-auto block bg-black relative z-0 overflow-hidden">
+      <section className="w-full h-auto block bg-black relative z-0 xl:sticky xl:top-0 overflow-hidden">
         <AnimatePresence>
           {!isRevealed && (
             <motion.div
@@ -79,6 +83,7 @@ export default function HomeHero({ data, locale }) {
           animate={
             isRevealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.1 }
           }
+          style={{ opacity }}
           transition={{
             duration: 1,
             ease: [0.25, 0.46, 0.45, 0.94],
@@ -106,12 +111,12 @@ export default function HomeHero({ data, locale }) {
           {/* Single WebGL instance with conditional parallax for desktop */}
           <MediaQuery minWidth={640}>
             {images.length > 0 && (
-              <Parallax speed={-10} className="w-full h-full">
+              <div className="w-full h-full">
                 <WebglDisplacementCarousel
                   images={images}
                   activeIndex={selectedIndex}
                 />
-              </Parallax>
+              </div>
             )}
           </MediaQuery>
           <MediaQuery maxWidth={639}>
@@ -139,7 +144,10 @@ export default function HomeHero({ data, locale }) {
         </div>
 
         {/* Static Content Overlay */}
-        <div className="relative z-30 pointer-events-none w-full h-[576px] sm:h-[576px] xl:h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[576px] 2xl:min-h-[768px] 3xl:min-h-[900px] flex items-end py-[calc(20px+var(--header-y))_20px] sm:py-[calc(30px+var(--header-y))_30px] xl:py-[calc(40px+var(--header-y))_40px] 2xl:py-[calc(60px+var(--header-y))_60px]">
+        <motion.div
+          style={{ opacity: contentOpacity }}
+          className="relative z-30 pointer-events-none w-full h-[576px] sm:h-[576px] xl:h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[576px] 2xl:min-h-[768px] 3xl:min-h-[900px] flex items-end py-[calc(20px+var(--header-y))_20px] sm:py-[calc(30px+var(--header-y))_30px] xl:py-[calc(40px+var(--header-y))_40px] 2xl:py-[calc(60px+var(--header-y))_60px]"
+        >
           <div className="container">
             <div className="flex flex-wrap items-end">
               <div className="w-full">
@@ -238,7 +246,7 @@ export default function HomeHero({ data, locale }) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </ParallaxProvider>
   );

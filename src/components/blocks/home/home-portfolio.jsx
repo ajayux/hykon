@@ -42,7 +42,7 @@ export default function HomePortfolio({ data, locale }) {
   }, [items.length]);
 
   return (
-    <section className="w-full py-[40px] sm:py-[40px] xl:py-[70px] 2xl:py-[100px] bg-[#fffbf2] overflow-hidden">
+    <section className="w-full py-[40px] sm:py-[40px] xl:py-[70px] 2xl:py-[100px] bg-[#fffbf2] overflow-hidden relative z-0">
       <div className="container">
         <div className="flex flex-wrap mb-6 xl:mb-10 2xl:mb-14">
           <div className="w-full sm:w-7/12">

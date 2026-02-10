@@ -23,7 +23,7 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
 export default function HomeAbout({ data, locale }) {
   return (
     <ParallaxProvider>
-      <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[110px] 2xl:py-[120px] overflow-hidden">
+      <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[110px] 2xl:py-[120px] bg-white overflow-hidden relative z-0">
         <div className="container">
           <div className="flex flex-wrap sm:items-center -mx-3 sm:-mx-1 [&>*]:p-3 sm:[&>*]:p-1">
             <MediaQuery maxWidth={639}>

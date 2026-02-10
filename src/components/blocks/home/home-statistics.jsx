@@ -16,7 +16,7 @@ export default function HomeStatistics({ data, locale }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   return (
-    <section className="w-full block">
+    <section className="w-full block bg-white relative z-0">
       <div className="container">
         <div className="w-full h-[1px] bg-[#d9d9d9]" />
         <div className="flex flex-wrap">

@@ -114,7 +114,7 @@ export default function HomePartners({ data, locale }) {
   }));
 
   return (
-    <section className="w-full h-auto block pt-[30px] sm:pt-[40px] xl:pt-[70px] 2xl:pt-[90px] overflow-hidden relative z-0">
+    <section className="w-full h-auto bg-white block pt-[30px] sm:pt-[40px] xl:pt-[70px] 2xl:pt-[90px] overflow-hidden relative z-0">
       <div
         className={cn(
           "w-full sm:max-w-[calc(var(--container-sm)/2+50%)] md:max-w-[calc(var(--container-md)/2+50%)] lg:max-w-[calc(var(--container-lg)/2+50%)] xl:max-w-[calc(var(--container-xl)/2+50%)] 2xl:max-w-[calc(var(--container-2xl)/2+50%)] 3xl:max-w-[calc(var(--container-3xl)/2+50%)]",

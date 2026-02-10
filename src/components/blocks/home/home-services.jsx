@@ -31,7 +31,7 @@ export default function HomeServices({ data, locale }) {
   );
 
   return (
-    <section className="w-full h-auto block py-[40px] sm:py-[40px] xl:py-[70px_80px] 2xl:py-[80px_110px] overflow-hidden">
+    <section className="w-full h-auto bg-white block py-[40px] sm:py-[40px] xl:py-[70px_80px] 2xl:py-[80px_110px] overflow-hidden relative z-0">
       <div className="container">
         <div className="flex flex-wrap mb-6 xl:mb-10 2xl:mb-14">
           <div className="w-full sm:w-7/12">
