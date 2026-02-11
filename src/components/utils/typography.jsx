@@ -16,6 +16,7 @@ const headingVariants = cva("leading-tight font-light", {
       h5: "text-[16px] sm:text-[16px] lg:text-[17px] 2xl:text-[20px] 3xl:text-[25px]",
       h6: "text-[14px] sm:text-[13px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px]",
       h7: "text-[13px] 2xl:text-[14px] 3xl:text-[18px]",
+      h8: "text-[20px] sm:text-[24px] lg:text-[30px] 2xl:text-[36px] 3xl:text-[45px]",
     },
   },
   defaultVariants: {

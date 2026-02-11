@@ -26,15 +26,19 @@ const local_data = {
     },
     title: "Projects of the Month",
     title_ar: "مشاريع الشهر",
-    description: "<p>A 45-story luxury residential tower featuring sustainable design elements, panoramic views,<br /> and world-class amenities. This landmark project redefines modern urban living with its innovative architectural approach and commitment to environmental excellence.</p>",
-    description_ar: "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
+    description:
+      "<p>A 45-story luxury residential tower featuring sustainable design elements, panoramic views,<br /> and world-class amenities. This landmark project redefines modern urban living with its innovative architectural approach and commitment to environmental excellence.</p>",
+    description_ar:
+      "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
   },
 
   recent_projects: {
     title: "Recent Projects",
     title_ar: "المشاريع الحديثة",
-    description: "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
-    description_ar: "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
+    description:
+      "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
+    description_ar:
+      "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
     items: [
       {
         id: 1,
@@ -97,8 +101,10 @@ const local_data = {
   success_stories: {
     title: "Building Success Stories",
     title_ar: "بناء قصص النجاح",
-    description: "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
-    description_ar: "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
+    description:
+      "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
+    description_ar:
+      "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
     items: [
       {
         id: 1,
@@ -254,7 +260,10 @@ export default async function ProjectsPage({ params, searchParams }) {
 
       <ProjectsMonth locale={locale} data={local_data?.project_month} />
 
-      <ProjectsSuccessStories locale={locale} data={local_data?.success_stories} />
+      <ProjectsSuccessStories
+        locale={locale}
+        data={local_data?.success_stories}
+      />
 
       <ProjectsMore locale={locale} data={local_data?.recent_projects} />
 

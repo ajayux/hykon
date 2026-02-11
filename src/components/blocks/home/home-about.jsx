@@ -54,7 +54,8 @@ export default function HomeAbout({ data, locale }) {
                 <Heading
                   as="h2"
                   size="h3"
-                  className="font-normal text-[#1e1e1e] mb-2 xl:mb-4 2xl:mb-6">
+                  className="font-normal text-[#1e1e1e] mb-2 xl:mb-4 2xl:mb-6"
+                >
                   {parse(locale == "ar" ? data?.title_ar : data?.title)}
                 </Heading>
               </ScrollReveal>
@@ -62,7 +63,8 @@ export default function HomeAbout({ data, locale }) {
                 <Text
                   as="div"
                   size="p1"
-                  className="line-clamp-1 text-black mb-4 xl:mb-8 2xl:mb-10">
+                  className="line-clamp-1 text-black mb-4 xl:mb-8 2xl:mb-10"
+                >
                   {parse(
                     locale == "ar" ? data?.description_ar : data?.description,
                   )}

@@ -23,10 +23,9 @@ export default function ProjectsSuccessStories({ data, locale }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-
     <section className="w-full py-8 sm:py-10 xl:py-[50px_80px] 2xl:py-[60px_100px] bg-[#fffbf2]">
       <div className="container">
-        <div className="w-full max-w-[576px] xl:max-w-[668px] 2xl:max-w-[810px] mx-auto mb-4 xl:mb-6 2xl:mb-8">
+        <div className="w-full max-w-[576px] xl:max-w-[668px] 2xl:max-w-[1020px] mx-auto mb-4 xl:mb-6 2xl:mb-8">
           <ScrollReveal delay={0.1}>
             <Heading
               as="h2"
@@ -37,11 +36,7 @@ export default function ProjectsSuccessStories({ data, locale }) {
             </Heading>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <Text
-              as="div"
-              size="p1"
-              className="text-center text-[#1e1e1e]"
-            >
+            <Text as="div" size="p1" className="text-center text-[#1e1e1e]">
               {parse(locale == "ar" ? data?.description_ar : data?.description)}
             </Text>
           </ScrollReveal>
@@ -64,7 +59,8 @@ export default function ProjectsSuccessStories({ data, locale }) {
                         src={item?.media?.path}
                         alt={
                           locale === "ar"
-                            ? item?.media?.alt_ar : item?.media?.alt
+                            ? item?.media?.alt_ar
+                            : item?.media?.alt
                         }
                         width={540}
                         height={700}
