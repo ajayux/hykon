@@ -23,9 +23,10 @@ export async function generateMetadata({ params }) {
 
 export default async function ServicesPage({ params, searchParams }) {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const locale = resolvedParams.locale;
-  const category = searchParams?.category || null;
-  const page = searchParams?.page || "1";
+  const category = resolvedSearchParams?.category || null;
+  const page = resolvedSearchParams?.page || "1";
 
   let servicesData = null;
 
