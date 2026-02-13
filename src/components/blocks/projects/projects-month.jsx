@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { Heading, Text } from "@/components/utils/typography";
 import ScrollReveal from "@/components/animations/scroll-reveal";
@@ -9,7 +8,7 @@ export default function ProjectsMonth({ data, locale }) {
   return (
     <section className="w-full h-auto block py-7.5 sm:py-10 xl:py-[70px_110px] 2xl:py-[90px_130px]">
       <div className="container">
-        <div className="w-full max-w-[576px] xl:max-w-[700px] 2xl:max-w-[840px] mx-auto mb-5 xl:mb-10 2xl:mb-18">
+        <div className="w-full max-w-[668px] xl:max-w-[700px] 2xl:max-w-[840px] mx-auto mb-5 xl:mb-10 2xl:mb-18">
           <ScrollReveal delay={0.1}>
             <Heading
               as="h2"
@@ -20,11 +19,7 @@ export default function ProjectsMonth({ data, locale }) {
             </Heading>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <Text
-              as="div"
-              size="p1"
-              className="text-center text-[#1e1e1e]"
-            >
+            <Text as="div" size="p1" className="text-center text-[#1e1e1e]">
               {parse(locale == "ar" ? data?.description_ar : data?.description)}
             </Text>
           </ScrollReveal>

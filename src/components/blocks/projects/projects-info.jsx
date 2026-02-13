@@ -6,7 +6,6 @@ import parse from "html-react-parser";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
-
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
@@ -44,13 +43,13 @@ export default function ProjectsInfo({ data, locale }) {
 
   const scrollTo = useCallback(
     (index) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
+    [emblaApi],
   );
 
   const currentSlide = data?.items?.[selectedIndex];
 
   return (
-    <section className="w-full py-[30px_15px] sm:py-[40px_20px] xl:py-[90px_45px] 2xl:py-[110px_55px]">
+    <section className="w-full py-[30px_15px] sm:py-[40px_20px] xl:py-[80px_45px] 2xl:py-[100px_55px]">
       <div className="container">
         <div className="flex flex-wrap -mx-1.5 lg:-mx-6 2xl:-mx-7.5 [&>*]:p-1.5 lg:[&>*]:p-6 2xl:[&>*]:p-7.5">
           <div className="w-full sm:w-7/12">
@@ -65,12 +64,13 @@ export default function ProjectsInfo({ data, locale }) {
                     key={"product" + index}
                     className={cn("flex-[0_0_100%] min-w-0 select-none")}
                   >
-                    <div className="w-full aspect-auto">
+                    <div className="w-full h-[320px] xl:h-[440px] 2xl:h-[530px] 3xl:h-[668px]">
                       <Image
                         src={item?.media?.path}
                         alt={
                           locale === "ar"
-                            ? item?.media?.alt_ar : item?.media?.alt
+                            ? item?.media?.alt_ar
+                            : item?.media?.alt
                         }
                         width={1100}
                         height={668}
@@ -80,16 +80,16 @@ export default function ProjectsInfo({ data, locale }) {
                   </div>
                 ))}
               </div>
-              <div className="absolute z-0 bottom-4 right-4 flex gap-2">
+              <div className="absolute z-0 bottom-4 right-4 xl:bottom-6 xl:right-6 flex gap-2">
                 {scrollSnaps.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => scrollTo(index)}
                     className={cn(
-                      "size-2.5 border rounded-full transition-all",
+                      "size-2.5 xl:size-3.5 border rounded-full transition-all",
                       index === selectedIndex
                         ? "bg-none border-white"
-                        : "border-[#d9d9d9] bg-[#d9d9d9] scale-60"
+                        : "border-white bg-white scale-60",
                     )}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -110,24 +110,22 @@ export default function ProjectsInfo({ data, locale }) {
 
               <Heading
                 as="h2"
-                size="h3"
-                className="text-[22px] sm:text-[32px] lg:text-[40px] 2xl:text-[48px] 3xl:text-[60px] font-normal text-[#1e1e1e] mb-2"
+                size="h8"
+                className="font-normal text-[#1e1e1e] mb-3 xl:mb-8 3xl:mb-11"
               >
                 {parse(
-                  (locale == "ar"
-                    ? currentSlide?.title_ar
-                    : currentSlide?.title)
+                  locale == "ar" ? currentSlide?.title_ar : currentSlide?.title,
                 )}
               </Heading>
               <Text
                 as="div"
                 size="p1"
-                className="text-[#1e1e1e] mb-3 xl:mb-5 2xl:mb-6"
+                className="text-[#1e1e1e] mb-3 xl:mb-5 2xl:mb-6 xl:[&>p]:mb-2.5 3xl:[&>p]:mb-3"
               >
                 {parse(
-                  (locale === "ar"
+                  locale === "ar"
                     ? currentSlide?.description_ar
-                    : currentSlide?.description)
+                    : currentSlide?.description,
                 )}
               </Text>
             </div>

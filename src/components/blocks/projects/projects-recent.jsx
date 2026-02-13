@@ -25,7 +25,7 @@ export default function ProjectsRecent({ data, locale }) {
   return (
     <section className="w-full py-[15px] sm:py-[20px] xl:py-[45px] 2xl:py-[55px]">
       <div className="container">
-        <div className="w-full max-w-[576px] xl:max-w-[668px] 2xl:max-w-[810px] mx-auto mb-4 xl:mb-6 2xl:mb-8">
+        <div className="w-full max-w-[576px] xl:max-w-[780px] 2xl:max-w-[810px] mx-auto mb-4 xl:mb-6 2xl:mb-8">
           <ScrollReveal delay={0.1}>
             <Heading
               as="h2"

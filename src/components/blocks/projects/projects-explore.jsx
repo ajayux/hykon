@@ -6,7 +6,6 @@ import parse from "html-react-parser";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
-
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -39,11 +38,13 @@ export default function ProjectsExplore({ data, locale }) {
             <Button
               size="lg"
               variant={"outline"}
-              className="text-center min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] transition-all duration-300 hover:scale-105"
+              className="text-center min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] transition-all duration-300 bg-[#fffbf2] hover:scale-105"
               asChild
             >
               <Link href={data?.slug}>
-                {locale == "ar" ? "عرض المزيد من المشاريع" : "View More Projects"}
+                {locale == "ar"
+                  ? "عرض المزيد من المشاريع"
+                  : "View More Projects"}
               </Link>
             </Button>
           </div>
