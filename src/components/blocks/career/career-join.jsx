@@ -64,7 +64,7 @@ export default function CareerJoin({ data, locale}) {
 
         {/* Carousel */}
         <div ref={emblaRef} className="w-full max-w-full py-[18px] sm:py-[20px_25px] xl:py-[50px_52px] 2xl:py-[65px_70px] 3xl:py-[84px] overflow-hidden" data-cursor="carousel">
-          <div className="flex touch-pan-y touch-pinch-zoom mx-[-2.5] sm:mx-[-4] xl:mx-[-6.25] 2xl:mx-[-8] 3xl:mx-[-10] [&>*]:px-2.5 sm:[&>*]:px-4 xl:[&>*]:px-6.25 2xl:[&>*]:px-8 3xl:[&>*]:px-10">
+          <div className="flex touch-pan-y touch-pinch-zoom -mx-2.5 sm:-mx-4 xl:-mx-6.5 2xl:-mx-8 3xl:-mx-10 [&>*]:px-2.5 sm:[&>*]:px-4 xl:[&>*]:px-6.5 2xl:[&>*]:px-8 3xl:[&>*]:px-10">
             {slides.map((slide, index) => (
               <div
                 key={index}

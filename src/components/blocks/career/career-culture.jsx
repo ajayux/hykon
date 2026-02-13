@@ -32,8 +32,8 @@ export default function CareerCulture({ data, locale}) {
   return (
     <section className="w-full pt-[20px] sm:pt-[25px] xl:pt-[50px] 2xl:pt-[70px] 3xl:pt-[85px]">
       <div className="container">
-        <div className="w-full overflow-hidden">
-          <div className="flex flex-wrap md:m-[-25px] xl:m-[-50px] 2xl:m-[-70px] 3xl:m-[-85px] md:[&>*]:p-[25px] xl:[&>*]:p-[50px] 2xl:[&>*]:p-[70px] 3xl:[&>*]:p-[85px]">
+        <div className="w-full">
+          <div className="flex flex-wrap md:-m-25px xl:-m-50px 2xl:-m-70px 3xl:-m-85px md:[&>*]:p-[25px] xl:[&>*]:p-[50px] 2xl:[&>*]:p-[70px] 3xl:[&>*]:p-[85px]">
             <div className="w-full md:w-[45%]">
               <Heading
               as="h2"
