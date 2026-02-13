@@ -16,18 +16,18 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // minimumCacheTTL: 60,
+    minimumCacheTTL: 60,
   },
   // Compress responses
-  // compress: true,
+  compress: true,
   // Enable React strict mode
-  // reactStrictMode: true,
+  reactStrictMode: true,
   // Power optimization
-  // poweredByHeader: false,
+  poweredByHeader: false,
   // Experimental features for better performance
-  // experimental: {
-  //   optimizePackageImports: ['lucide-react', '@radix-ui/react-slot'],
-  // },
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-slot'],
+  },
 };
 
 export default nextConfig;

@@ -3,6 +3,9 @@ import Link from "next/link";
 import InnerHero from "@/components/common/inner-hero";
 import CareerHero from "@/components/blocks/career/career-hero";
 import CareerJoin from "@/components/blocks/career/career-join";
+import CareerCulture from "@/components/blocks/career/career-culture";
+import CareerOpening from "@/components/blocks/career/career-opening";
+
 const local_data = {
   career_hero: {
     media: {
@@ -53,14 +56,9 @@ export default async function CareerPage({ params }) {
 
         <CareerHero locale={locale} data={local_data?.career_info} />
         <CareerJoin locale={locale} data={local_data?.career_join} />
-  
-        {/* <ProjectsMonth locale={locale} data={local_data?.project_month} />
-  
-        <ProjectsSuccessStories locale={locale} data={local_data?.success_stories} />
-  
-        <ProjectsMore locale={locale} data={local_data?.recent_projects} />
-  
-        <ProjectsImage locale={locale} data={local_data?.project_image} /> */}
+        <CareerCulture locale={locale} data={local_data?.career_culture} />
+        <CareerOpening locale={locale} data={local_data?.career_opening} />
+          
       </>
     );
 }
