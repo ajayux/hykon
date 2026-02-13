@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
   let serviceData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const res = await fetch(
       `${baseUrl}/api/services/${slug}?locale=${locale}`,
       {
@@ -56,7 +56,7 @@ export default async function ServiceDetailPage({ params }) {
   let serviceData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const res = await fetch(
       `${baseUrl}/api/services/${slug}?locale=${locale}`,
       {
@@ -78,7 +78,11 @@ export default async function ServiceDetailPage({ params }) {
 
   return (
     <>
-      <InnerHero locale={locale} data={serviceData?.heroInfo_data} slug={"Services"} />
+      <InnerHero
+        locale={locale}
+        data={serviceData?.heroInfo_data}
+        slug={"Services"}
+      />
       <ServiceOverview data={serviceData?.overview_data} locale={locale} />
       <ServiceApproach data={serviceData?.approach_data} locale={locale} />
       <ServiceBenefit data={serviceData?.benefit_data} locale={locale} />

@@ -35,9 +35,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -73,7 +71,7 @@ export default async function RootLayout({ children, params }) {
 
   try {
     // During build, use relative URL or skip fetch
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const url = `${baseUrl}/api/global?locale=${locale}`;
 
     const res = await fetch(url, {

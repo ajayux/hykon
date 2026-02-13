@@ -31,7 +31,7 @@ export default async function ServicesPage({ params, searchParams }) {
   let servicesData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const queryParams = new URLSearchParams({
       locale,
       page,
@@ -62,11 +62,7 @@ export default async function ServicesPage({ params, searchParams }) {
 
   return (
     <>
-      <InnerHero
-        locale={locale}
-        data={heroInfo}
-        slug={"Services"}
-      />
+      <InnerHero locale={locale} data={heroInfo} slug={"Services"} />
 
       <ServiceList data={serviceList} locale={locale} />
     </>

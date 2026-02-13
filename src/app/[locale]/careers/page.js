@@ -26,8 +26,7 @@ export default async function CareersPage({ params, searchParams }) {
   let careersData = null;
 
   try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const queryParams = new URLSearchParams({
       locale,
       page,
@@ -40,7 +39,7 @@ export default async function CareersPage({ params, searchParams }) {
       `${baseUrl}/api/careers?${queryParams.toString()}`,
       {
         cache: "no-store",
-      }
+      },
     );
 
     if (res.ok) {
@@ -126,23 +125,24 @@ export default async function CareersPage({ params, searchParams }) {
               {/* Pagination */}
               {pagination && pagination.totalPages > 1 && (
                 <div className="mt-12 flex justify-center gap-2">
-                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
-                    (pageNum) => (
-                      <Link
-                        key={pageNum}
-                        href={`/${locale}/careers?page=${pageNum}${
-                          department ? `&department=${department}` : ""
-                        }${type ? `&type=${type}` : ""}`}
-                        className={`px-4 py-2 ${
-                          pageNum === pagination.page
-                            ? "bg-gray-900 text-white"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                      >
-                        {pageNum}
-                      </Link>
-                    )
-                  )}
+                  {Array.from(
+                    { length: pagination.totalPages },
+                    (_, i) => i + 1,
+                  ).map((pageNum) => (
+                    <Link
+                      key={pageNum}
+                      href={`/${locale}/careers?page=${pageNum}${
+                        department ? `&department=${department}` : ""
+                      }${type ? `&type=${type}` : ""}`}
+                      className={`px-4 py-2 ${
+                        pageNum === pagination.page
+                          ? "bg-gray-900 text-white"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                    >
+                      {pageNum}
+                    </Link>
+                  ))}
                 </div>
               )}
             </>

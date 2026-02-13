@@ -28,7 +28,7 @@ export default async function AboutPage({ params }) {
   let aboutData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const res = await fetch(`${baseUrl}/api/about?locale=${locale}`, {
       cache: "no-store",
     });
