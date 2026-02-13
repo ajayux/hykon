@@ -35,7 +35,7 @@ const careerData = {
     jobSpecs: [
       {
         id: 1,
-        iconPath: "/images/career-benefits-1.png",
+        iconPath: "/images/career-benefits-1.svg",
         title: "Job Type",
         title_ar: "النوع الوظيفي",
         description: "Full-time",
@@ -43,7 +43,7 @@ const careerData = {
       },
       {
         id: 2,
-        iconPath: "/images/career-benefits-2.png",
+        iconPath: "/images/career-benefits-2.svg",
         title: "Requirements",
         title_ar: "المتطلبات",
         description: "Minimum 5 years of experience",
@@ -51,7 +51,7 @@ const careerData = {
       },
       {
         id: 3,
-        iconPath: "/images/career-benefits-3.png",
+        iconPath: "/images/career-benefits-3.svg",
         title: "Deadline to Apply",
         title_ar: " край موعد التقديم",
         description: "2025-12-31",
@@ -59,7 +59,7 @@ const careerData = {
       },
       {
         id: 4,
-        iconPath: "/images/career-benefits-4.png",
+        iconPath: "/images/career-benefits-4.svg",
         title: "Division",
         title_ar: "القسم",
         description: "Construction",
@@ -67,7 +67,7 @@ const careerData = {
       },
       {
         id: 5,
-        iconPath: "/images/career-benefits-5.png",
+        iconPath: "/images/career-benefits-5.svg",
         title: "Location",
         title_ar: "الموقع",
         description: "Multiple",
@@ -75,7 +75,7 @@ const careerData = {
       },
       {
         id: 6,
-        iconPath: "/images/career-benefits-6.png",
+        iconPath: "/images/career-benefits-6.svg",
         title: "Salary",
         title_ar: "الراتب",
         description: "Competitive",
@@ -89,37 +89,42 @@ const careerData = {
       media_alt: "Career Responsibilities",
       media_alt_ar: "مسؤوليات الوظيفة",
     },
-    responsibilities:
+    responsibilities_title: "Key Responsibilities",
+    responsibilities_title_ar: "المسؤوليات الرئيسية",
+    responsibilities_description:
       "<ul><li>Supervise and coordinate all on-site construction activities and workers</li><li>Review and interpret construction drawings, specifications, and blueprints</li><li>Monitor project progress and ensure work is completed on schedule</li><li>Ensure compliance with health, safety, and environmental regulations</li></ul>",
-    responsibilities_ar:
+    responsibilities_description_ar:
       "<ul><li>الإشراف على الأنشطة الإنشائية اليومية</li><li>مراجعة وتفسير الرسومات والمواصفات والمخططات الإنشائية</li><li>مراقبة تقدم العمل وضمان إنجازه في الموعد المحدد</li><li>ضمان الامتثال للوائح الصحة والسلامة والبيئة</li></ul>",
 
     benefits: {
-      title: "Benefits & Perks",
-      title_ar: "المزايا والفوائد",
+      title: "Ready to Join Our Team?",
+      title_ar: "هل أنت مستعد للانضمام إلى فريقنا؟",
       items: [
         {
-          iconPath: "/images/career-benefits-1.svg",
+          iconPath: "/images/career-perks-1.svg",
           title: "Health Insurance",
           title_ar: "التأمين الصحي",
         },
         {
-          iconPath: "/images/career-benefits-2.svg",
+          iconPath: "/images/career-perks-2.svg",
           title: "Paid Time Off",
           title_ar: "الإجازات المدفوعة",
         },
         {
-          iconPath: "/images/career-benefits-3.svg",
+          iconPath: "/images/career-perks-3.svg",
           title: "Career Growth",
           title_ar: "بيئة عمل تعاونية",
         },
         {
-          iconPath: "/images/career-benefits-4.svg",
+          iconPath: "/images/career-perks-4.svg",
           title: "Life Insurance",
           title_ar: "التأمين على الحياة",
         },
       ],
     },
+
+    formTitle: "Ready to Join Our Team?",
+    formTitle_ar: "هل أنت مستعد للانضمام إلى فريقنا؟",
   },
 };
 
