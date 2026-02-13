@@ -1,4 +1,6 @@
+import AboutConcern from "@/components/blocks/about/about-concern";
 import AboutInfo from "@/components/blocks/about/about-info";
+import AboutLetter from "@/components/blocks/about/about-letter";
 import AboutSpec from "@/components/blocks/about/about-spec";
 import AboutStatistics from "@/components/blocks/about/about-statistics";
 import InnerHero from "@/components/common/inner-hero";
@@ -61,7 +63,11 @@ export default async function AboutPage({ params }) {
   return (
     <>
       {hero && (
-        <InnerHero locale={locale} data={aboutData?.hero} slug={"Our Projects"} />
+        <InnerHero
+          locale={locale}
+          data={aboutData?.hero}
+          slug={"Our Projects"}
+        />
       )}
 
       <AboutInfo locale={locale} data={aboutData?.about_info} />
@@ -69,6 +75,10 @@ export default async function AboutPage({ params }) {
       <AboutSpec locale={locale} data={aboutData?.about_spec} />
 
       <AboutStatistics locale={locale} data={aboutData?.about_statistics} />
+
+      <AboutConcern locale={locale} data={aboutData?.sister_concern} />
+
+      <AboutLetter />
 
       {/* <div className="min-h-screen">
         {(mission || vision) && (
