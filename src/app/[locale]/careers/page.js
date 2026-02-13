@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import InnerHero from "@/components/common/inner-hero";
-import CareerList from "@/components/blocks/career/career-list";
+import CareerHero from "@/components/blocks/career/career-hero";
+import CareerJoin from "@/components/blocks/career/career-join";
 const local_data = {
   career_hero: {
     media: {
@@ -50,7 +51,8 @@ export default async function CareerPage({ params }) {
           slug={"Career"}
         />
 
-        <CareerList locale={locale} data={local_data?.career_info} />
+        <CareerHero locale={locale} data={local_data?.career_info} />
+        <CareerJoin locale={locale} data={local_data?.career_join} />
   
         {/* <ProjectsMonth locale={locale} data={local_data?.project_month} />
   

@@ -3,7 +3,7 @@ import { Heading, Text } from "@/components/utils/typography";
 import parse from "html-react-parser";
 import Image from "next/image";
 
-export default function CareerList({ data, locale = "en" }) {
+export default function CareerHero({ data, locale = "en" }) {
   const isArabic = locale === "ar";
   return (
     <section className="w-full py-[30px_15px] sm:py-[44px_28px] xl:py-[55px_35px] 2xl:py-[70px_44px]">
