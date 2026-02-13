@@ -18,8 +18,8 @@ const careerData = {
   hero: {
     media: {
       media_type: "image",
-      mobile_path: "/images/career-banner.jpg",
-      desktop_path: "/images/career-banner.jpg",
+      mobile_path: "/images/service-bnr.jpg",
+      desktop_path: "/images/service-bnr.jpg",
       media_alt: "career-hero-1",
     },
     title_ar: "عننا",
@@ -156,6 +156,7 @@ export default async function CareerDetailPage({ params }) {
 
   return (
     <>
+      <InnerHero locale={locale} data={hero} slug={"Career"} />
       <CareerDetailInfo data={career_info} locale={locale} />
     </>
     // <div className="min-h-screen">

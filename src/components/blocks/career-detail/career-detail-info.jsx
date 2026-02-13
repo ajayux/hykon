@@ -6,7 +6,7 @@ import CareerEnquiryForm from "@/components/form/career-enquiry-form";
 
 export default function CareerDetailInfo({ data, locale }) {
   return (
-    <section className="w-full h-auto block py-6 sm:py-10 lg:py-12 xl:py-15 2xl:py-18 3xl:py-22 mt-20">
+    <section className="w-full h-auto block py-6 sm:py-10 lg:py-12 xl:py-15 2xl:py-18 3xl:py-22">
       <div className="container">
         <Heading
           as="h2"
