@@ -27,15 +27,17 @@ export default function CareerDetailPage() {
   useEffect(() => {
     async function fetchCareer() {
       if (!slug || !locale) return;
-      
+
       try {
         const baseUrl =
           process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : "http://localhost:3000");
-        const res = await fetch(`${baseUrl}/api/careers/${slug}?locale=${locale}`);
+        // Changed to singular /api/career
+        const res = await fetch(`${baseUrl}/api/career/${slug}?locale=${locale}`);
 
         if (res.ok) {
           const response = await res.json();
-          setCareerData(response.data);
+          // The new API returns data: { career: ... }, so we access response.data.career
+          setCareerData(response.data.career);
         }
       } catch (error) {
         console.error("Error fetching career data:", error);
@@ -55,7 +57,8 @@ export default function CareerDetailPage() {
     try {
       const baseUrl =
         process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-      const res = await fetch(`${baseUrl}/api/careers`, {
+      // Changed to singular /api/career
+      const res = await fetch(`${baseUrl}/api/career`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -239,8 +242,8 @@ export default function CareerDetailPage() {
                         ? "جاري الإرسال..."
                         : "Submitting..."
                       : locale === "ar"
-                      ? "إرسال الطلب"
-                      : "Submit Application"}
+                        ? "إرسال الطلب"
+                        : "Submit Application"}
                   </button>
                 </form>
               )}

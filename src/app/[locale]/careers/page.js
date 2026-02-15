@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export default async function CareersPage({ params, searchParams }) {
   const type = searchParams?.type || null;
   const page = searchParams?.page || "1";
 
-  let careersData = null;
+  let pageData = null;
 
   try {
     const baseUrl =
@@ -36,8 +37,9 @@ export default async function CareersPage({ params, searchParams }) {
     if (department) queryParams.append("department", department);
     if (type) queryParams.append("type", type);
 
+    // Changed to singular /api/career
     const res = await fetch(
-      `${baseUrl}/api/careers?${queryParams.toString()}`,
+      `${baseUrl}/api/career?${queryParams.toString()}`,
       {
         cache: "no-store",
       }
@@ -45,30 +47,39 @@ export default async function CareersPage({ params, searchParams }) {
 
     if (res.ok) {
       const response = await res.json();
-      careersData = response.data;
+      pageData = response.data;
     }
   } catch (error) {
     console.error("Error fetching careers data:", error);
   }
 
-  if (!careersData) {
+  if (!pageData) {
     notFound();
   }
 
-  const { careers, pagination } = careersData;
+  const { hero, careers, pagination } = pageData;
 
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="bg-gray-900 py-16 text-white md:py-24">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-gray-900 py-16 text-white md:py-24">
+        {hero?.media?.desktop_path && (
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <Image
+              src={hero.media.desktop_path}
+              alt={hero.media.media_alt || "Careers Hero"}
+              fill
+              className="object-cover opacity-30"
+              priority
+            />
+          </div>
+        )}
+        <div className="container relative z-10 mx-auto px-4">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">
-            {locale === "ar" ? "الوظائف" : "Careers"}
+            {locale === "ar" ? hero.title_ar : hero.title}
           </h1>
           <p className="text-lg text-gray-300">
-            {locale === "ar"
-              ? "انضم إلى فريقنا وكن جزءًا من مستقبل إدارة المشاريع"
-              : "Join our team and be part of the future of project management"}
+            {locale === "ar" ? hero.description_ar : hero.description}
           </p>
         </div>
       </section>
@@ -130,14 +141,12 @@ export default async function CareersPage({ params, searchParams }) {
                     (pageNum) => (
                       <Link
                         key={pageNum}
-                        href={`/${locale}/careers?page=${pageNum}${
-                          department ? `&department=${department}` : ""
-                        }${type ? `&type=${type}` : ""}`}
-                        className={`px-4 py-2 ${
-                          pageNum === pagination.page
+                        href={`/${locale}/careers?page=${pageNum}${department ? `&department=${department}` : ""
+                          }${type ? `&type=${type}` : ""}`}
+                        className={`px-4 py-2 ${pageNum === pagination.page
                             ? "bg-gray-900 text-white"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </Link>
