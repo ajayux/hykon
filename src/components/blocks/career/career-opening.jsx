@@ -5,211 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const openingData = {
-  title: "Current Openings",
-  description:
-    "Find your next challenge and join a team that values your unique skills and perspectives.",
-  items: [
-    {
-      id: 1,
-      jobTitle: "Project Manager",
-      jobTitle_ar: "مدير المشروع",
-      jobDesc:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      jobDesc_ar:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      // jobType: "Full-time",
-      // jobType_ar: "دوام كامل",
-      // jobRequirement: "Minimum 5 years of experience",
-      // jobRequirement_ar: "خبرة لا تقل عن 5 سنوات",
-      // jobDeadline: "2025-12-31",
-      // jobDeadline_ar: "2025-12-31",
-      ctaLabel: "Explore opportunities",
-      ctaLabel_ar: "استكشف الفرص",
-      slug: "/careers/project-manager",
-      opening_specs: [
-        {
-          id: 1,
-          iconPath: "/images/career-benefits-1.svg",
-          title: "Job Type",
-          title_ar: "النوع الوظيفي",
-          description: "Full-time",
-          description_ar: "دوام كامل",
-        },
-        {
-          id: 2,
-          iconPath: "/images/career-benefits-2.svg",
-          title: "Requirements",
-          title_ar: "المتطلبات",
-          description: "Minimum 5 years of exp",
-          description_ar: "خبرة لا تقل عن 5 سنوات",
-        },
-        {
-          id: 3,
-          iconPath: "/images/career-benefits-3.svg",
-          title: "Deadline to Apply",
-          title_ar: "آخر موعد التقديم",
-          description: "2025-12-31",
-          description_ar: "2025-12-31",
-        },
-      ],
-    },
-    {
-      id: 2,
-      jobTitle: "Site Engineer",
-      jobTitle_ar: "مهندس ميدان",
-      jobDesc:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      jobDesc_ar:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      ctaLabel: "Explore opportunities",
-      ctaLabel_ar: "استكشف الفرص",
-      slug: "/careers/project-manager",
-      opening_specs: [
-        {
-          id: 1,
-          iconPath: "/images/career-benefits-1.svg",
-          title: "Job Type",
-          title_ar: "النوع الوظيفي",
-          description: "Full-time",
-          description_ar: "دوام كامل",
-        },
-        {
-          id: 2,
-          iconPath: "/images/career-benefits-2.svg",
-          title: "Requirements",
-          title_ar: "المتطلبات",
-          description: "Minimum 5 years of exp",
-          description_ar: "خبرة لا تقل عن 5 سنوات",
-        },
-        {
-          id: 3,
-          iconPath: "/images/career-benefits-3.svg",
-          title: "Deadline to Apply",
-          title_ar: "آخر موعد التقديم",
-          description: "2025-12-31",
-          description_ar: "2025-12-31",
-        },
-      ],
-    },
-    {
-      id: 3,
-      jobTitle: "Civil Engineer",
-      jobTitle_ar: "مهندس مدني",
-      jobDesc:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      jobDesc_ar:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      ctaLabel: "Explore opportunities",
-      ctaLabel_ar: "استكشف الفرص",
-      slug: "/careers/project-manager",
-      opening_specs: [
-        {
-          id: 1,
-          iconPath: "/images/career-benefits-1.svg",
-          title: "Job Type",
-          title_ar: "النوع الوظيفي",
-          description: "Full-time",
-          description_ar: "دوام كامل",
-        },
-        {
-          id: 2,
-          iconPath: "/images/career-benefits-2.svg",
-          title: "Requirements",
-          title_ar: "المتطلبات",
-          description: "Minimum 5 years of exp",
-          description_ar: "خبرة لا تقل عن 5 سنوات",
-        },
-        {
-          id: 3,
-          iconPath: "/images/career-benefits-3.svg",
-          title: "Deadline to Apply",
-          title_ar: "آخر موعد التقديم",
-          description: "2025-12-31",
-          description_ar: "2025-12-31",
-        },
-      ],
-    },
-    {
-      id: 4,
-      jobTitle: "Architect",
-      jobTitle_ar: "مهندس معماري",
-      jobDesc:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      jobDesc_ar:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      ctaLabel: "Explore opportunities",
-      ctaLabel_ar: "استكشف الفرص",
-      slug: "/careers/project-manager",
-      opening_specs: [
-        {
-          id: 1,
-          iconPath: "/images/career-benefits-1.svg",
-          title: "Job Type",
-          title_ar: "النوع الوظيفي",
-          description: "Full-time",
-          description_ar: "دوام كامل",
-        },
-        {
-          id: 2,
-          iconPath: "/images/career-benefits-2.svg",
-          title: "Requirements",
-          title_ar: "المتطلبات",
-          description: "Minimum 5 years of exp",
-          description_ar: "خبرة لا تقل عن 5 سنوات",
-        },
-        {
-          id: 3,
-          iconPath: "/images/career-benefits-3.svg",
-          title: "Deadline to Apply",
-          title_ar: "آخر موعد التقديم",
-          description: "2025-12-31",
-          description_ar: "2025-12-31",
-        },
-      ],
-    },
-    {
-      id: 5,
-      jobTitle: "Procurement Officer",
-      jobTitle_ar: "أمين شراء",
-      jobDesc:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      jobDesc_ar:
-        "Wasso is proud to be associated with Hemin Group UAE, a diversified business group.",
-      ctaLabel: "Explore opportunities",
-      ctaLabel_ar: "استكشف الفرص",
-      slug: "/careers/project-manager",
-      opening_specs: [
-        {
-          id: 1,
-          iconPath: "/images/career-benefits-1.svg",
-          title: "Job Type",
-          title_ar: "النوع الوظيفي",
-          description: "Full-time",
-          description_ar: "دوام كامل",
-        },
-        {
-          id: 2,
-          iconPath: "/images/career-benefits-2.svg",
-          title: "Requirements",
-          title_ar: "المتطلبات",
-          description: "Minimum 5 years of exp",
-          description_ar: "خبرة لا تقل عن 5 سنوات",
-        },
-        {
-          id: 3,
-          iconPath: "/images/career-benefits-3.svg",
-          title: "Deadline to Apply",
-          title_ar: "آخر موعد التقديم",
-          description: "2025-12-31",
-          description_ar: "2025-12-31",
-        },
-      ],
-    },
-  ],
-};
-
-export default function CareerOpening({ data = openingData, locale }) {
+export default function CareerOpening({ data, locale }) {
   return (
     <section className="w-full pb-[20px] sm:pb-[25px] xl:pb-[120px] 2xl:pb-[140px] 3xl:pb-[160px] pt-8 md:pt-10 xl:pt-14 2xl:pt-16">
       <div className="container">
@@ -219,10 +15,10 @@ export default function CareerOpening({ data = openingData, locale }) {
             size="h3"
             className="font-normal text-[#1e1e1e] text-center xl:mb-2"
           >
-            {data?.title}
+            {locale === "ar" ? data?.title_ar : data?.title}
           </Heading>
           <Text as="div" size="p1" className="text-[#1e1e1e] text-center">
-            {data?.description}
+            {locale === "ar" ? data?.description_ar : data?.description}
           </Text>
         </div>
         {data?.items?.map((item) => (
@@ -302,7 +98,7 @@ export default function CareerOpening({ data = openingData, locale }) {
                   )}
                   asChild
                 >
-                  <Link href={`${locale}/${item?.slug}`}>
+                  <Link href={`/${locale}/careers/${item?.slug}`}>
                     {locale == "ar" ? item?.ctaLabel_ar : item?.ctaLabel}
                   </Link>
                 </Button>

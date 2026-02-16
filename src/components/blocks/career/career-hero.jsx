@@ -10,7 +10,7 @@ export default function CareerHero({ data, locale }) {
             size="h2"
             className="font-normal text-[#1e1e1e] text-center xl:leading-[1]"
           >
-            “We’re not just building projects we’re building future leaders.”
+            {locale === "ar" ? data?.text_ar : data?.text}
           </Heading>
         </div>
       </div>

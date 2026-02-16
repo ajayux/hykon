@@ -100,10 +100,10 @@ export default function CareerDetailInfo({ data, locale }) {
                       : data?.benefits?.title,
                   )}
                 </Heading>
-                <div className="flex flex-wrap justify-center  xl:justify-between gap-10 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
+                <div className="flex flex-wrap justify-start xl:justify-between gap-10 lg:gap-5 xl:gap-6 2xl:gap-7 3xl:gap-8">
                   {data?.benefits?.items?.map((item) => (
-                    <div key={item?.id}>
-                      <div className="w-full max-w-[70px] lg:max-w-[75px] xl:max-w-[80px] 2xl:max-w-[90px] 3xl:max-w-[100px]">
+                    <div key={"benefits" + item?.id}>
+                      <div className="w-full max-w-[60px] sm:max-w-[70px] lg:max-w-[75px] xl:max-w-[80px] 2xl:max-w-[90px] 3xl:max-w-[100px]">
                         <Image
                           src={item?.iconPath}
                           alt={locale == "ar" ? item?.title_ar : item?.title}
@@ -114,7 +114,7 @@ export default function CareerDetailInfo({ data, locale }) {
                         <Text
                           as="div"
                           size="p1"
-                          className="leading-tight font-medium text-center text-[#1e1e1e]"
+                          className="leading-tight font-medium text-center text-[#1e1e1e] max-sm:text-[12px]"
                         >
                           {parse(locale == "ar" ? item?.title_ar : item?.title)}
                         </Text>

@@ -1,5 +1,5 @@
+import CareerDetailInfo from "@/components/blocks/career/career-detail-info";
 import InnerHero from "@/components/common/inner-hero";
-import CareerDetailInfo from "@/components/blocks/career-detail/career-detail-info";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -101,21 +101,25 @@ const careerData = {
       title_ar: "هل أنت مستعد للانضمام إلى فريقنا؟",
       items: [
         {
+          id: 1,
           iconPath: "/images/career-perks-1.svg",
           title: "Health Insurance",
           title_ar: "التأمين الصحي",
         },
         {
+          id: 2,
           iconPath: "/images/career-perks-2.svg",
           title: "Paid Time Off",
           title_ar: "الإجازات المدفوعة",
         },
         {
+          id: 3,
           iconPath: "/images/career-perks-3.svg",
           title: "Career Growth",
           title_ar: "بيئة عمل تعاونية",
         },
         {
+          id: 4,
           iconPath: "/images/career-perks-4.svg",
           title: "Life Insurance",
           title_ar: "التأمين على الحياة",

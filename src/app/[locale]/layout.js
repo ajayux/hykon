@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer";
 import CursorFollower from "@/components/animations/cursor-follower";
 import PageLoader from "@/components/animations/page-loader";
 import SmoothScrolling from "@/components/utils/smooth-scrolling";
+import FloatNavigation from "@/components/common/float-navigation";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -134,6 +135,7 @@ export default async function RootLayout({ children, params }) {
         <SmoothScrolling>
           <PageLoader />
           <CursorFollower />
+          <FloatNavigation locale={locale} />
 
           <Header
             locale={locale}
