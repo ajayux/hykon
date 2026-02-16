@@ -1,70 +1,12 @@
-import { notFound } from "next/navigation";
-import ProjectsMonth from "@/components/blocks/projects/projects-month";
-import InnerHero from "@/components/common/inner-hero";
-import ProjectsMore from "@/components/blocks/projects/projects-more";
-import ProjectsSuccessStories from "@/components/blocks/projects/projects-success-stories";
-import ProjectsImage from "@/components/blocks/projects/projects-image";
+export const metadata = {
+  title: "Projects - Hykon",
+  description: "Projects by Hykon",
+};
 
-// Local data removed
-
-export const dynamic = "force-dynamic";
-
-export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale;
-
-  return {
-    title: locale === "ar" ? "المشاريع" : "Projects",
-    description:
-      locale === "ar"
-        ? "استعرض مشاريعنا المميزة في إدارة المشاريع والهندسة وتطوير العقارات"
-        : "Browse our featured projects in project management, engineering, and real estate development",
-  };
-}
-
-export default async function ProjectsPage({ params, searchParams }) {
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale;
-
-  let projectsData = null;
-
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
-    const res = await fetch(`${baseUrl}/api/projects?locale=${locale}`, {
-      cache: "no-store",
-    });
-
-    if (res.ok) {
-      const response = await res.json();
-      projectsData = response.data;
-    }
-  } catch (error) {
-    console.error("Error fetching home data:", error);
-  }
-
-  if (!projectsData) {
-    notFound();
-  }
-
-  const {
-    projects_hero,
-    project_month,
-    recent_projects,
-    success_stories,
-    project_image,
-  } = projectsData;
-
+export default function ProjectsPage() {
   return (
-    <>
-      <InnerHero locale={locale} data={projects_hero} slug={"Our Projects"} />
-
-      <ProjectsMonth locale={locale} data={project_month} />
-
-      <ProjectsSuccessStories locale={locale} data={success_stories} />
-
-      <ProjectsMore locale={locale} data={recent_projects} />
-
-      <ProjectsImage locale={locale} data={project_image} />
-    </>
+    <div className="min-h-screen flex items-center justify-center">
+      <h1 className="text-4xl font-bold">Projects Page</h1>
+    </div>
   );
 }

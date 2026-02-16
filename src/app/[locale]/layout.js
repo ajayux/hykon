@@ -15,22 +15,22 @@ export async function generateStaticParams() {
 
 export const metadata = {
   title: {
-    default: "WASSO Project Management LLC",
-    template: "%s | WASSO",
+    default: "HYKON",
+    template: "%s | HYKON",
   },
   description:
-    "Leading project management, engineering, and real estate development solutions across the UAE and GCC region.",
+    "Modern Next.js boilerplate with internationalization, animations, and UI components.",
   keywords: [
-    "project management",
-    "engineering",
-    "real estate",
-    "UAE",
-    "construction",
-    "workspace solutions",
+    "nextjs",
+    "react",
+    "tailwind",
+    "boilerplate",
+    "i18n",
+    "framer-motion",
   ],
-  authors: [{ name: "WASSO Project Management LLC" }],
-  creator: "WASSO Project Management LLC",
-  publisher: "WASSO Project Management LLC",
+  authors: [{ name: "HYKON" }],
+  creator: "HYKON",
+  publisher: "HYKON",
   formatDetection: {
     email: false,
     address: false,
@@ -41,11 +41,11 @@ export const metadata = {
     type: "website",
     locale: "en_US",
     alternateLocale: "ar_AE",
-    siteName: "WASSO Project Management LLC",
+    siteName: "HYKON",
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@wasso",
+    creator: "@hykon",
   },
   robots: {
     index: true,
@@ -94,16 +94,16 @@ export default async function RootLayout({ children, params }) {
   // Fallback data if API fails
   const fallbackData = {
     header_data: {
-      name: "WASSO Project Management LLC",
-      name_ar: "واسو لإدارة المشاريع",
-      logoUrl: "/images/brand-logo-primary.svg",
-      logoWhiteUrl: "/images/brand-logo.svg",
+      name: "HYKON",
+      name_ar: "هايكون",
+      logoUrl: "/images/logo.svg",
+      logoWhiteUrl: "/images/logo-white.svg",
     },
     navigation_data: [],
     footer_data: {
-      name: "WASSO Project Management LLC",
-      name_ar: "واسو لإدارة المشاريع",
-      logoUrl: "/images/brand-logo-primary.svg",
+      name: "HYKON",
+      name_ar: "هايكون",
+      logoUrl: "/images/logo.svg",
     },
     social_link_data: [],
   };

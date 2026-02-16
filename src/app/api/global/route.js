@@ -4,35 +4,24 @@ import { NextResponse } from "next/server";
  * GET /api/global
  */
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const locale = searchParams.get("locale") || "en";
-
   const globalData = {
     header_data: {
       id: "uuid-primary-key",
-      name: "WASSO Project Management LLC",
-      name_ar: "واسو لإدارة المشاريع",
+      name: "Hykon",
+      tagline: "Powering the Nation",
       slug: "/",
       logoUrl: "/images/brand-logo.svg",
-      logoWhiteUrl: "/images/brand-footer-logo.svg",
-      description: "Leading project management and workspace solutions",
-      description_ar: "الحلول الرائدة في إدارة المشاريع ومساحات العمل",
-      websiteUrl: "https://wasso.ae/",
-      countryOfOrigin: "AE",
-      establishedYear: "2026",
-      specialties: [
-        "project management",
-        "workspace solutions",
-        "office furniture",
-      ],
-      specialties_ar: ["إدارة المشاريع", "حلول مساحات العمل", "أثاث المكاتب"],
-      isFeatured: true,
-      sortOrder: 0,
-      isActive: true,
-      seoTitle: "WASSO Project Management LLC",
-      seoTitle_ar: "واسو لإدارة المشاريع",
-      seoDescription: "Leading project management and workspace solutions",
-      seoDescription_ar: "الحلول الرائدة في إدارة المشاريع ومساحات العمل",
+      logoWhiteUrl: "/images/brand-logo-white.svg",
+      description:
+        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
+      websiteUrl: "https://hykon.in/",
+      countryOfOrigin: "India",
+      establishedYear: "2025",
+      phone: "+91 123 456 7890",
+      email: "info@company.com",
+      seoTitle: "Hykon - Powering the Nation",
+      seoDescription:
+        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
@@ -40,189 +29,408 @@ export async function GET(request) {
       {
         id: 1,
         hasSubmenu: false,
-        name: "Home",
-        name_ar: "الرئيسية",
-        slug: "",
-      },
-      {
-        id: 2,
-        hasSubmenu: false,
-        name: "About Us",
-        name_ar: "من نحن",
+        name: "About",
         slug: "/about",
       },
       {
+        id: 2,
+        hasSubmenu: true,
+        name: "Products",
+        slug: "/products",
+        submenu: [
+          {
+            id: "2-1",
+            name: "Solar Water Heater",
+            slug: "/products/solar-water-heater",
+          },
+          {
+            id: "2-2",
+            name: "SST",
+            slug: "/products/sst",
+          },
+          {
+            id: "2-3",
+            name: "Inverter Battery",
+            slug: "/products/inverter-battery",
+          },
+          {
+            id: "2-4",
+            name: "Lithium Battery",
+            slug: "/products/lithium-battery",
+          },
+          {
+            id: "2-5",
+            name: "Electric Vehicle",
+            slug: "/products/electric-vehicle",
+          },
+          {
+            id: "2-6",
+            name: "E-Generator",
+            slug: "/products/e-generator",
+          },
+          {
+            id: "2-7",
+            name: "BESS",
+            slug: "/products/bess",
+          },
+          {
+            id: "2-8",
+            name: "UPS",
+            slug: "/products/ups",
+          },
+          {
+            id: "2-9",
+            name: "Solar Systems",
+            slug: "/products/solar-systems",
+          },
+          {
+            id: "2-10",
+            name: "Heat Pump",
+            slug: "/products/heat-pump",
+          },
+        ],
+      },
+      {
         id: 3,
-        hasSubmenu: false,
-        name: "Services",
-        name_ar: "الخدمات",
-        slug: "/services",
+        hasSubmenu: true,
+        name: "Projects",
+        slug: "/projects",
       },
       {
         id: 4,
         hasSubmenu: false,
-        name: "Projects",
-        name_ar: "المشاريع",
-        slug: "/projects",
+        name: "News",
+        slug: "/news",
       },
       {
         id: 5,
         hasSubmenu: false,
-        name: "Careers",
-        name_ar: "الوظائف",
-        slug: "/careers",
+        name: "Blogs",
+        slug: "/blogs",
       },
       {
         id: 6,
         hasSubmenu: false,
-        name: "Contact Us",
-        name_ar: "اتصل بنا",
-        slug: "/contact",
+        name: "Career",
+        slug: "/career",
+      },
+      {
+        id: 7,
+        hasSubmenu: false,
+        name: "Hykonnect",
+        slug: "/hykonnect",
+      },
+      {
+        id: 8,
+        hasSubmenu: false,
+        name: "FAQ",
+        slug: "/faq",
+      },
+      {
+        id: 9,
+        hasSubmenu: true,
+        name: "Customer Care",
+        slug: "/customer-care",
+        submenu: [
+          {
+            id: "9-1",
+            name: "Warranty Registration",
+            slug: "/customer-care/warranty-registration",
+          },
+          {
+            id: "9-2",
+            name: "Register Complaints",
+            slug: "/customer-care/register-complaints",
+          },
+          {
+            id: "9-3",
+            name: "Privacy Policy",
+            slug: "/customer-care/privacy-policy",
+          },
+          {
+            id: "9-4",
+            name: "Terms & Conditions",
+            slug: "/customer-care/terms-conditions",
+          },
+          {
+            id: "9-5",
+            name: "Return Policy",
+            slug: "/customer-care/return-policy",
+          },
+          {
+            id: "9-6",
+            name: "Shipping Policy",
+            slug: "/customer-care/shipping-policy",
+          },
+          {
+            id: "9-7",
+            name: "Investor Relations",
+            slug: "/customer-care/investor-relations",
+          },
+        ],
       },
     ],
     footer_data: {
       id: "uuid-primary-key",
-      name: "WASSO Project Management LLC",
-      name_ar: "واسو لإدارة المشاريع",
+      name: "Hykon",
+      tagline: "Powering the Nation",
       slug: "/",
-      logoUrl: "/images/brand-footer-logo.svg",
-      logoWhiteUrl: "/images/brand-logo.svg",
-      address:
-        "<p>WASSO Project Management LLC,<br /> 57PH+4PJ - Business Bay - Bay Square Dubai United Arab Emirates</p>",
-      address_ar:
-        "<p>واسو لإدارة المشاريع ش.ذ.م.م<br /> مكتب رقم 133، برج الأعمال، طريق ميدان،294568</p>",
-      websiteUrl: "https://wasso.ae/",
-      phone: ["+971 4 123 4567"],
-      email: ["info@wassopm.com"],
+      logoUrl: "/images/brand-logo.svg",
+      logoWhiteUrl: "/images/brand-logo-white.svg",
+      description:
+        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
+      websiteUrl: "https://hykon.in/",
+      phone: ["+91 123 456 7890"],
+      email: ["info@company.com"],
       location_map_link: "https://goo.gl/maps/example",
-      services_navigation: [
-        {
-          id: "01",
-          label: "Project Management",
-          label_ar: "إدارة المشاريع",
-          link: "/services/project-management",
-        },
-        {
-          id: "02",
-          label: "Engineering Supervision",
-          label_ar: "حلول مساحات العمل",
-          link: "/services/workspace-solutions",
-        },
-        {
-          id: "03",
-          label: "Contracts & Tenders",
-          label_ar: "الاستشارات",
-          link: "/services",
-        },
-        {
-          id: "04",
-          label: "Quality Assurance",
-          label_ar: "عرض جميع الخدمات",
-          link: "/services",
-        },
-      ],
-      quick_link_navigation: [
-        {
-          id: "01",
-          label: "Home",
-          label_ar: "الرئيسية",
-          link: "/",
-        },
-        {
-          id: "02",
-          label: "About",
-          label_ar: "من نحن",
-          link: "/about",
-        },
-        {
-          id: "03",
-          label: "Services",
-          label_ar: "الخدمات",
-          link: "/services",
-        },
-        {
-          id: "04",
-          label: "Projects",
-          label_ar: "المشاريع",
-          link: "/projects",
-        },
-        {
-          id: "05",
-          label: "Careers",
-          label_ar: "الوظائف",
-          link: "/careers",
-        },
-        {
-          id: "06",
-          label: "Contact",
-          label_ar: "اتصل بنا",
-          link: "/contact",
-        },
-      ],
-      copyright: "<p>© 2026 WASSO. All Rights Reserved.</p>",
-      copyright_ar:
-        "<p>© 2026 واسو لإدارة المشاريع ش.ذ.م.م. جميع الحقوق محفوظة.</p>",
+      quick_links: {
+        title: "Quick Links",
+        items: [
+          {
+            id: "01",
+            label: "Warranty Registration",
+            link: "/customer-care/warranty-registration",
+          },
+          {
+            id: "02",
+            label: "Register Complaints",
+            link: "/customer-care/register-complaints",
+          },
+          {
+            id: "03",
+            label: "Privacy Policy",
+            link: "/customer-care/privacy-policy",
+          },
+          {
+            id: "04",
+            label: "Terms & Conditions",
+            link: "/customer-care/terms-conditions",
+          },
+          {
+            id: "05",
+            label: "Return Policy",
+            link: "/customer-care/return-policy",
+          },
+          {
+            id: "06",
+            label: "Shipping Policy",
+            link: "/customer-care/shipping-policy",
+          },
+          {
+            id: "07",
+            label: "Investor Relations",
+            link: "/customer-care/investor-relations",
+          },
+        ],
+      },
+      pages_navigation: {
+        title: null,
+        items: [
+          {
+            id: "01",
+            label: "Factory",
+            link: "/factory",
+          },
+          {
+            id: "02",
+            label: "Career",
+            link: "/career",
+          },
+          {
+            id: "03",
+            label: "Services",
+            link: "/services",
+          },
+          {
+            id: "04",
+            label: "Projects",
+            link: "/projects",
+          },
+          {
+            id: "05",
+            label: "News",
+            link: "/news",
+          },
+          {
+            id: "06",
+            label: "Contact",
+            link: "/contact",
+          },
+        ],
+      },
+      product_categories: {
+        title: "Product Categories",
+        items: [
+          {
+            id: "01",
+            label: "Solar Water Heater",
+            link: "/products/solar-water-heater",
+          },
+          {
+            id: "02",
+            label: "SST",
+            link: "/products/sst",
+          },
+          {
+            id: "03",
+            label: "Inverter Battery",
+            link: "/products/inverter-battery",
+          },
+          {
+            id: "04",
+            label: "Lithium Battery",
+            link: "/products/lithium-battery",
+          },
+          {
+            id: "05",
+            label: "Electric Vehicle",
+            link: "/products/electric-vehicle",
+          },
+          {
+            id: "06",
+            label: "E-Generator",
+            link: "/products/e-generator",
+          },
+          {
+            id: "07",
+            label: "BESS",
+            link: "/products/bess",
+          },
+          {
+            id: "08",
+            label: "UPS",
+            link: "/products/ups",
+          },
+          {
+            id: "09",
+            label: "Solar Systems",
+            link: "/products/solar-systems",
+          },
+          {
+            id: "10",
+            label: "Heat Pump",
+            link: "/products/heat-pump",
+          },
+        ],
+      },
+      manufacturing_locations: {
+        title: "Manufacturing Locations",
+        items: [
+          {
+            id: "01",
+            city: "Thrissur",
+            email: "info@company.com",
+          },
+          {
+            id: "02",
+            city: "Coimbatore",
+            email: "info@company.com",
+          },
+          {
+            id: "03",
+            city: "Kochi",
+            email: "info@company.com",
+          },
+          {
+            id: "04",
+            city: "Pune",
+            email: "info@company.com",
+          },
+        ],
+      },
+      contact_info: {
+        title: "Contact",
+        phone: "+91 123 456 7890",
+        email: "info@company.com",
+      },
+      copyright: "<p>© 2025 Hykon. All Rights Reserved.</p>",
+      designed_by: "Designed & Developed by: Intersmart",
     },
     social_link_data: [
       {
         id: "01",
         name: "facebook",
         link: "https://www.facebook.com/",
-        media: {
-          media_type: "image",
-          media_path: "/images/social-1.svg",
-          media_alt: "social-fb",
-        },
+        icon: "/images/icon-fb.svg",
       },
       {
         id: "02",
-        name: "instagram",
-        link: "https://www.instagram.com/",
-        media: {
-          media_type: "image",
-          media_path: "/images/social-2.svg",
-          media_alt: "social-insta",
-        },
+        name: "youtube",
+        link: "https://www.youtube.com/",
+        icon: "/images/icon-youtube.svg",
       },
       {
         id: "03",
-        name: "youtube",
-        link: "https://www.youtube.com/",
-        media: {
-          media_type: "image",
-          media_path: "/images/social-3.svg",
-          media_alt: "social-youtube",
-        },
+        name: "instagram",
+        link: "https://www.instagram.com/",
+        icon: "/images/icon-insta.svg",
       },
       {
         id: "04",
         name: "linkedin",
         link: "https://www.linkedin.com/",
-        media: {
-          media_type: "image",
-          media_path: "/images/social-4.svg",
-          media_alt: "social-linkedin",
-        },
+        icon: "/images/icon-linkedin.svg",
       },
       {
         id: "05",
-        name: "linkedin",
-        link: "https://www.linkedin.com/",
-        media: {
-          media_type: "image",
-          media_path: "/images/social-5.svg",
-          media_alt: "social-linkedin",
-        },
+        name: "twitter",
+        link: "https://www.twitter.com/",
+        icon: "/images/icon-x.svg",
       },
     ],
+    mobile_menu_data: {
+      locations: [
+        {
+          id: "01",
+          city: "Kochi",
+        },
+        {
+          id: "02",
+          city: "Pune",
+        },
+        {
+          id: "03",
+          city: "Thrissur",
+        },
+        {
+          id: "04",
+          city: "Coimbatore",
+        },
+      ],
+      contact_info: {
+        phone: "+91 123 456 7890",
+        email: "info@company.com",
+      },
+    },
+    seo_data: {
+      siteName: "Hykon",
+      siteUrl: "https://hykon.in/",
+      defaultTitle: "Hykon - Powering the Nation",
+      defaultDescription:
+        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
+      defaultKeywords: [
+        "solar energy",
+        "lithium battery",
+        "electric vehicle",
+        "sustainable energy",
+        "power electronics",
+        "heat pump",
+        "solar water heater",
+        "inverter battery",
+      ],
+      ogImage: "/images/og-image.jpg",
+      twitterHandle: "@hykon",
+      locale: "en_IN",
+      type: "website",
+    },
   };
 
   return NextResponse.json(
     {
       success: true,
       message: "Global data fetched successfully",
-      message_ar: "تم جلب البيانات العامة بنجاح",
       data: globalData,
+      timestamp: new Date().toISOString(),
     },
     { status: 200 },
   );

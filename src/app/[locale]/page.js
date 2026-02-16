@@ -31,11 +31,11 @@ export async function generateMetadata({ params }) {
   const locale = resolvedParams.locale;
 
   return {
-    title: locale === "ar" ? "واسو - الصفحة الرئيسية" : "WASSO - Home",
+    title: locale === "ar" ? "هايكون - الصفحة الرئيسية" : "HYKON - Home",
     description:
       locale === "ar"
-        ? "واسو لإدارة المشاريع - حلول رائدة في إدارة المشاريع والهندسة وتطوير العقارات"
-        : "WASSO Project Management - Leading solutions in project management, engineering, and real estate development",
+        ? "هايكون - قالب Next.js حديث مع دعم متعدد اللغات والرسوم المتحركة"
+        : "HYKON - Modern Next.js boilerplate with internationalization and animations",
   };
 }
 
