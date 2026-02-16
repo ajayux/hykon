@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function CareerOpening({ data, locale }) {
   return (
-    <section className="w-full pb-[20px] sm:pb-[25px] xl:pb-[120px] 2xl:pb-[140px] 3xl:pb-[160px] pt-8 md:pt-10 xl:pt-14 2xl:pt-16">
+    <section className="w-full pb-[20px] sm:pb-[25px] xl:pb-[80px] 2xl:pb-[100px] 3xl:pb-[120px] pt-8 md:pt-10 xl:pt-14 2xl:pt-16">
       <div className="container">
         <div className="w-full mb-8 xl:mb-15">
           <Heading
@@ -38,7 +38,7 @@ export default function CareerOpening({ data, locale }) {
                 <Text
                   as="div"
                   size="p2"
-                  className="text-[#1e1e1e] xl:text-[8px] 2xl:text-[12px] 3xl:text-[14px]"
+                  className="text-[#1e1e1e] xl:text-[10px] 2xl:text-[12px] 3xl:text-[14px]"
                 >
                   {locale === "ar" ? item.jobDesc_ar : item.jobDesc}
                 </Text>

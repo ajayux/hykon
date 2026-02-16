@@ -9,8 +9,8 @@ const careerData = {
     description_ar: "انضم إلى فريقنا وكن جزءًا من مستقبل إدارة المشاريع",
     media: {
       media_type: "image",
-      mobile_path: "/images/career-hero.jpg",
-      desktop_path: "/images/career-hero.jpg",
+      mobile_path: "/images/contact-banner.jpg",
+      desktop_path: "/images/contact-banner.jpg",
       media_alt: "Careers Hero",
       media_alt_ar: "صورة الوظائف",
     },

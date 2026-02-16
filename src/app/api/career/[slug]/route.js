@@ -10,8 +10,8 @@ export async function GET(request, { params }) {
     hero: {
       media: {
         media_type: "image",
-        mobile_path: "/images/service-bnr.jpg",
-        desktop_path: "/images/service-bnr.jpg",
+        mobile_path: "/images/contact-banner.jpg",
+        desktop_path: "/images/contact-banner.jpg",
         media_alt: "career-hero-1",
       },
       title_ar: "عننا",
