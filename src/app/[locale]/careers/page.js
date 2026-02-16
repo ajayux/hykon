@@ -17,14 +17,13 @@ const local_data = {
     title_ar: "الخدمات",
     title: "Career",
   },
-  
-}
+};
 
 export default async function CareerPage({ params }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale;
 
-   let careerData = null;
+  let careerData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -46,20 +45,18 @@ export default async function CareerPage({ params }) {
 
   const { hero, projects } = careerData;
 
-   return (
-      <>
-        <InnerHero
-          locale={locale}
-          data={local_data?.career_hero}
-          slug={"Career"}
-        />
+  return (
+    <>
+      <InnerHero
+        locale={locale}
+        data={local_data?.career_hero}
+        slug={"Career"}
+      />
 
-        <CareerHero locale={locale} data={local_data?.career_info} />
-        <CareerJoin locale={locale} data={local_data?.career_join} />
-        <CareerCulture locale={locale} data={local_data?.career_culture} />
-        <CareerOpening locale={locale} data={local_data?.career_opening} />
-          
-      </>
-    );
+      <CareerHero locale={locale} data={local_data?.career_info} />
+      <CareerJoin locale={locale} data={local_data?.career_join} />
+      <CareerCulture locale={locale} data={local_data?.career_culture} />
+      <CareerOpening locale={locale} data={local_data?.career_opening} />
+    </>
+  );
 }
-
