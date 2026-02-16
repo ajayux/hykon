@@ -1,325 +1,296 @@
 import { NextResponse } from "next/server";
 
-const aboutData = {
-  hero: {
-    media: {
-      media_type: "image",
-      mobile_path: "/images/about-banner.jpg",
-      desktop_path: "/images/about-banner.jpg",
-      media_alt: "about-hero-1",
-    },
-    title_ar: "عننا",
-    title: "About Us",
-  },
-
-  about_info: {
-    media_type: "image",
-    media_alt: "WASSO Graphic",
-    media_alt_ar: "مشروع سكايلاين هايتس",
-    media_path: "/images/home-about-1.jpg",
-    sub_title: "ABOUT WASSO",
-    sub_title_ar: "عن واسو",
-    title: "Discover the WASSO Difference",
-    title_ar: "اكتشف الفرق في واسو",
-    description:
-      "<p>Wasso is a leading project management company committed to delivering excellence in construction and engineering solutions.</p>",
-    description_ar:
-      "<p>وasso هي شركة إدارة المشاريع المتميزة، ملتزمة بتقديم القيمة في حلول البناء والهندسة.</p>",
-    mission: {
-      title: "Our Mission",
-      title_ar: "مهمتنا",
-      icon_path: "/images/mission-icon.svg",
-      description:
-        "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>",
-      description_ar:
-        "<p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة. هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة.</p>",
-    },
-    vision: {
-      title: "Our Vision",
-      title_ar: "رؤيتنا",
-      icon_path: "/images/vision-icon.svg",
-      description:
-        "<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>",
-      description_ar:
-        "<p>هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة. هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة.</p>",
-    },
-  },
-
-  about_spec: {
-    media: {
-      media_type: "image",
-      media_path: "/images/about-spec-1.jpg",
-      media_alt: "about-spec-1",
-    },
-    items: [
-      {
-        id: 1,
-        title: "Integrity",
-        title_ar: "الكفاءة",
-        icon_path: "/images/spec-icon-1.svg",
-        description:
-          "<p>We uphold the highest standards of honesty, ethics, and transparency in every project we undertake.</p>",
-        description_ar:
-          "<p>نحن نحافظ على أعلى معايير الصدق والأخلاق والشفافية في كل مشروع نقوم به.</p>",
-      },
-      {
-        id: 2,
-        title: "Excellence",
-        title_ar: "الكفاءة",
-        icon_path: "/images/spec-icon-2.svg",
-        description:
-          "<p>We strive for precision, quality, and continuous improvement in all aspects of our work.</p>",
-        description_ar:
-          "<p>نحن نسعى لتحقيق الدقة والكفاءة والتحسين المستمر في جميع جوانب عملنا.</p>",
-      },
-      {
-        id: 3,
-        title: "Collaboration",
-        title_ar: "التعاون",
-        icon_path: "/images/spec-icon-3.svg",
-        description:
-          "<p>We believe in the power of teamwork, strong partnerships, and clear communication to achieve shared success.</p>",
-        description_ar:
-          "<p>نحن نؤمن بالقوة من التعاون، العلاقات القوية، والاتصال واضح لتحقيق النجاح المشترك.</p>",
-      },
-      {
-        id: 4,
-        title: "Innovation",
-        title_ar: "الابتكار",
-        icon_path: "/images/spec-icon-4.svg",
-        description:
-          "<p>We embrace modern technology, creative thinking, and smarter solutions to drive efficiency and sustainability.</p>",
-        description_ar:
-          "<p>نحن نؤمن بالقوة من التعاون، العلاقات القوية، والاتصال واضح لتحقيق النجاح المشترك.</p>",
-      },
-    ],
-  },
-
-  about_statistics: {
-    title: "Our Achievements",
-    title_ar: "إنجازاتنا",
-    items: [
-      {
-        number: "25",
-        suffix: "+",
-        label: "Years of Experience",
-        label_ar: "سنة من الخبرة",
-        description: "Trusted project management solutions across the UAE.",
-        description_ar:
-          "حلول إدارة مشاريع موثوقة في جميع أنحاء الإمارات العربية المتحدة.",
-      },
-      {
-        number: "50",
-        suffix: "+",
-        label: "Projects Delivered",
-        label_ar: "مشروع تم تسليمه",
-        description:
-          "Completed residential, commercial, and infrastructure projects.",
-        description_ar: "مشاريع سكنية وتجارية وبنية تحتية مكتملة.",
-      },
-      {
-        number: "2",
-        suffix: "B+",
-        label: "Project Value Managed",
-        label_ar: "قيمة المشاريع المدارة",
-        description: "Managing diverse projects with precision and efficiency.",
-        description_ar: "إدارة مشاريع متنوعة بدقة وكفاءة.",
-      },
-      {
-        number: "300",
-        suffix: "+",
-        label: "Expert Professionals",
-        label_ar: "محترف خبير",
-        description: "Skilled team delivering quality, on-time execution.",
-        description_ar: "فريق ماهر يقدم تنفيذًا عالي الجودة وفي الوقت المحدد.",
-      },
-      {
-        number: "95",
-        suffix: "%",
-        label: "Client Satisfaction",
-        label_ar: "رضا العملاء",
-        description: "Proven record of exceeding project expectations.",
-        description_ar: "سجل مثبت في تجاوز توقعات المشروع.",
-      },
-    ],
-  },
-
-  sister_concern: {
-    title: "Our Sister Concern",
-    title_ar: "الشركات الشقيقة",
-    description:
-      "<p>Wasso is proud to be associated with Hemin Group UAE, a diversified business group with a strong presence across multiple sectors. Hemin Group has built a reputation for reliability, innovation, and customer-focused solutions, making it a trusted name in the UAE and beyond.</p><p>Through this association, we leverage shared expertise, resources, and values to deliver greater value to our clients. Together, Wasso and Hemin Group continue to strengthen capabilities, expand opportunities, and drive sustainable growth across industries.</p>",
-    description_ar:
-      "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
-    companyLogo: "/images/about-concern-logo.jpg",
-    media: {
-      media_type: "image",
-      media_path: "/images/about-concern-1.jpg",
-      media_alt: "about-concern-1",
-    },
-    button: {
-      label: "Visit Website",
-      label_ar: "زيارة الموقع",
-      slug: "/",
-      slug_ar: "/",
-    },
-  },
-
-  // recent_projects: {
-  //   title: "Recent Projects",
-  //   title_ar: "المشاريع الحديثة",
-  //   description:
-  //     "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
-  //   description_ar:
-  //     "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
-  //   items: [
-  //     {
-  //       id: 1,
-  //       title: "Lume Residences, Garden City",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-1",
-  //       media: {
-  //         path: "/images/projects-recent-1.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "Victoria Residences, UAE",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-2",
-  //       media: {
-  //         path: "/images/projects-recent-2.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "The Majestic Pointe, Al Shindagha",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-3",
-  //       media: {
-  //         path: "/images/projects-recent-3.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 4,
-  //       title: "Lume Residences, Garden City",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-1",
-  //       media: {
-  //         path: "/images/projects-recent-1.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 5,
-  //       title: "Victoria Residences, UAE",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-2",
-  //       media: {
-  //         path: "/images/projects-recent-2.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //   ],
-  // },
-
-  // success_stories: {
-  //   title: "Building Success Stories",
-  //   title_ar: "بناء قصص النجاح",
-  //   description:
-  //     "<p>At Wasso Group, we recognize that every project is unique, with its own set of opportunities and challenges. Our project management service is built on the principle of transforming complex</p>",
-  //   description_ar:
-  //     "<p>في مجموعة واسو، ندرك أن كل مشروع فريد من نوعه، مع مجموعة خاصة من الفرص والتحديات. وتستند خدمة إدارة المشاريع لدينا على مبدأ تحويل المشاريع المعقدة إلى نجاحات ملموسة. سواء كان مشروعًا جديدًا أو توسعة أو تجديدًا، فإننا نقدم نهجًا شاملاً يضمن تحقيق أهدافك بكفاءة وفعالية.</p>",
-  //   items: [
-  //     {
-  //       id: 1,
-  //       title: "Luxury Residential Tower, Dubai",
-  //       title_ar: "برج سكني فاخر، دبي",
-  //       slug: "/project-details-1",
-  //       media: {
-  //         path: "/images/st1.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "Regal Haven, Al Raha Beach",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-2",
-  //       media: {
-  //         path: "/images/st2.png",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "The Majestic Pointe, Al Shindagha",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-3",
-  //       media: {
-  //         path: "/images/st3.png",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 4,
-  //       title: "Lume Residences, Garden City",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-1",
-  //       media: {
-  //         path: "/images/st1.jpg",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //     {
-  //       id: 5,
-  //       title: "Victoria Residences, UAE",
-  //       title_ar: "إدارة المشاريع",
-  //       slug: "/project-details-2",
-  //       media: {
-  //         path: "/images/st2.png",
-  //         alt: "Project Management",
-  //         alt_ar: "إدارة المشاريع",
-  //       },
-  //     },
-  //   ],
-  // },
-
-  // project_image: {
-  //   media: {
-  //     media_type: "image",
-  //     mobile_path: "/images/st4.png",
-  //     desktop_path: "/images/st4.png",
-  //     media_alt: "Projects images",
-  //   },
-  // },
-};
-
 /**
  * GET /api/about
  */
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const locale = searchParams.get("locale") || "en";
+  const aboutData = {
+    hero_section: {
+      media: {
+        type: "image",
+        path: "/images/about-hero.jpg",
+        alt: "Solar Panel Field",
+      },
+      title: "About Us",
+    },
+
+    intro_section: {
+      media: {
+        path: "/images/about-intro.jpg",
+        alt: "Hykon Products",
+      },
+      title: "Powering a Safer, Smarter Tomorrow",
+      description:
+        "<p>Hykon delivers reliable energy solutions built on innovation, quality, and decades of expertise.</p><p>For over three decades, Hykon has been a trusted name in power electronics and renewable energy. From inverters and solar systems to lithium batteries and EV solutions, we design products that empower homes, businesses, and industries with uninterrupted, sustainable power.</p>",
+      stats: [
+        {
+          id: 1,
+          value: "1991",
+          suffix: "",
+          label: "Start Up",
+        },
+        {
+          id: 2,
+          value: "450",
+          suffix: "+",
+          label: "Projects",
+        },
+      ],
+    },
+
+    mission_vision_values_section: {
+      items: [
+        {
+          id: 1,
+          icon: "/images/icon-mission.svg",
+          title: "Mission",
+          description:
+            "To deliver cutting-edge, eco-friendly energy solutions that enhance quality of life while reducing environmental impact.",
+        },
+        {
+          id: 2,
+          icon: "/images/icon-vision.svg",
+          title: "Vision",
+          description:
+            "To be a global leader in renewable energy, driving the transition to a sustainable future through innovation and excellence.",
+        },
+        {
+          id: 3,
+          icon: "/images/icon-values.svg",
+          title: "Values",
+          description:
+            "Innovation, Sustainability, Customer-Centricity, Integrity, and Excellence in everything we do.",
+        },
+      ],
+    },
+
+    chairman_section: {
+      media: {
+        path: "/images/chairman.jpg",
+        alt: "Chairman",
+      },
+      quote:
+        "At Hykon, we don't just build products—we build a sustainable future. Our commitment to innovation and quality ensures that every solution we deliver makes a meaningful impact on the environment and the lives of our customers.",
+      name: "GEORGE M.A",
+      designation: "Chairman & Managing Director",
+    },
+
+    milestones_section: {
+      title: "Milestones",
+      items: [
+        {
+          id: 1,
+          year: "1990",
+          title: "Company Founded",
+          description:
+            "Started with a vision to revolutionize energy solutions",
+        },
+        {
+          id: 2,
+          year: "2010",
+          title: "Expansion Phase",
+          description: "Expanded operations across India",
+        },
+        {
+          id: 3,
+          year: "2020",
+          title: "Innovation Milestone",
+          description: "Launched advanced lithium battery technology",
+        },
+        {
+          id: 4,
+          year: "Today",
+          title: "2500",
+          subtitle: "Employees",
+          description: "Growing team driving innovation forward",
+        },
+      ],
+    },
+
+    why_hykon_section: {
+      title: "Why Hykon",
+      description:
+        "Choose Hykon for unmatched quality, innovation, and commitment to sustainability in every product we deliver.",
+      items: [
+        {
+          id: 1,
+          icon: "/images/icon-quality.svg",
+          title: "Quality Assurance",
+          description:
+            "Every product undergoes rigorous testing to ensure superior performance and longevity.",
+        },
+        {
+          id: 2,
+          icon: "/images/icon-innovation.svg",
+          title: "Cutting-Edge Innovation",
+          description:
+            "We leverage the latest technology to deliver state-of-the-art energy solutions.",
+        },
+        {
+          id: 3,
+          icon: "/images/icon-support.svg",
+          title: "24/7 Customer Support",
+          description:
+            "Our dedicated team is always ready to assist you with any queries or concerns.",
+        },
+        {
+          id: 4,
+          icon: "/images/icon-warranty.svg",
+          title: "Comprehensive Warranty",
+          description:
+            "We stand behind our products with industry-leading warranty coverage.",
+        },
+        {
+          id: 5,
+          icon: "/images/icon-eco.svg",
+          title: "Eco-Friendly Solutions",
+          description:
+            "All our products are designed with environmental sustainability in mind.",
+        },
+        {
+          id: 6,
+          icon: "/images/icon-certified.svg",
+          title: "Certified Excellence",
+          description:
+            "Our products meet international quality and safety standards.",
+        },
+      ],
+    },
+
+    manufacturing_section: {
+      media: {
+        path: "/images/manufacturing.jpg",
+        alt: "Manufacturing Facility",
+      },
+      title: "Manufacturing & R&D",
+      description:
+        "Our state-of-the-art manufacturing facilities and dedicated R&D centers are equipped with cutting-edge technology and staffed by industry experts. We continuously invest in research and development to stay ahead of market trends and deliver innovative solutions that meet evolving customer needs.",
+      features: [
+        {
+          id: 1,
+          icon: "/images/icon-factory.svg",
+          label: "4 Manufacturing Units",
+        },
+        {
+          id: 2,
+          icon: "/images/icon-rd.svg",
+          label: "Advanced R&D Centers",
+        },
+        {
+          id: 3,
+          icon: "/images/icon-capacity.svg",
+          label: "High Production Capacity",
+        },
+      ],
+    },
+
+    awards_section: {
+      title: "Awards & Recognitions",
+      description:
+        "Our commitment to excellence has been recognized through numerous prestigious awards and certifications.",
+      items: [
+        {
+          id: 1,
+          media: {
+            path: "/images/award-1.png",
+            alt: "Award 1",
+          },
+          title: "Excellence Award 2023",
+        },
+        {
+          id: 2,
+          media: {
+            path: "/images/award-2.png",
+            alt: "Award 2",
+          },
+          title: "Innovation Award 2022",
+        },
+        {
+          id: 3,
+          media: {
+            path: "/images/award-3.png",
+            alt: "Award 3",
+          },
+          title: "Quality Excellence 2021",
+        },
+        {
+          id: 4,
+          media: {
+            path: "/images/award-4.png",
+            alt: "Award 4",
+          },
+          title: "Sustainability Award 2020",
+        },
+      ],
+    },
+
+    certifications_section: {
+      title: "Certifications",
+      description:
+        "We maintain the highest standards through internationally recognized certifications.",
+      items: [
+        {
+          id: 1,
+          name: "ISO 9001:2015",
+          description: "Quality Management System",
+        },
+        {
+          id: 2,
+          name: "ISO 14001:2015",
+          description: "Environmental Management",
+        },
+        {
+          id: 3,
+          name: "OHSAS 18001",
+          description: "Occupational Health & Safety",
+        },
+        {
+          id: 4,
+          name: "CE Certification",
+          description: "European Conformity",
+        },
+      ],
+    },
+
+    presence_section: {
+      media: {
+        path: "/images/india-map.png",
+        alt: "India Map",
+      },
+      title: "Presence Across India",
+      description:
+        "With manufacturing facilities and service centers strategically located across India, we ensure prompt delivery and support to our customers nationwide.",
+      locations: [
+        {
+          id: 1,
+          city: "Thrissur",
+          state: "Kerala",
+        },
+        {
+          id: 2,
+          city: "Coimbatore",
+          state: "Tamil Nadu",
+        },
+        {
+          id: 3,
+          city: "Kochi",
+          state: "Kerala",
+        },
+        {
+          id: 4,
+          city: "Pune",
+          state: "Maharashtra",
+        },
+      ],
+    },
+  };
 
   return NextResponse.json(
     {
       success: true,
       message: "About data fetched successfully",
-      message_ar: "تم جلب بيانات عن الشركة بنجاح",
       data: aboutData,
+      timestamp: new Date().toISOString(),
     },
     { status: 200 },
   );
