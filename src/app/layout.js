@@ -3,9 +3,7 @@ import { cn } from "@/lib/utils";
 import { getFontVariable, getFontClassName } from "@/lib/fonts";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import CursorFollower from "@/components/animations/cursor-follower";
-import PageLoader from "@/components/animations/page-loader";
-import SmoothScrolling from "@/components/utils/smooth-scrolling";
+
 import FloatNavigation from "@/components/common/float-navigation";
 
 export const metadata = {
@@ -89,8 +87,8 @@ export default async function RootLayout({ children }) {
 
   const data = globalData || fallbackData;
 
-  const fontVariable = getFontVariable("en");
-  const fontClassName = getFontClassName("en");
+  const fontVariable = getFontVariable();
+  const fontClassName = getFontClassName();
 
   return (
     <html
@@ -109,23 +107,19 @@ export default async function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={cn("antialiased", fontClassName, fontVariable)}>
-        <SmoothScrolling>
-          <PageLoader />
-          <CursorFollower />
-          <FloatNavigation />
+        <FloatNavigation />
 
-          <Header
-            headerData={data.header_data}
-            navigationData={data.navigation_data}
-          />
+        <Header
+          data={data?.header_data}
+          navigationData={data?.navigation_data}
+        />
 
-          <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen">{children}</main>
 
-          <Footer
-            footerData={data.footer_data}
-            socialLinkData={data.social_link_data}
-          />
-        </SmoothScrolling>
+        <Footer
+          footerData={data.footer_data}
+          socialLinkData={data.social_link_data}
+        />
       </body>
     </html>
   );

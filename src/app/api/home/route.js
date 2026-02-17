@@ -7,87 +7,97 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get("locale") || "en";
   const homeData = {
-    hero_section: {
-      main_image: {
+    heroSection: {
+      mainImage: {
         type: "video",
-        mobile_path: "/images/home-hero-1.mp4",
-        desktop_path: "/images/home-hero-1.mp4",
+        mobilePath: "/images/home-hero-1.mp4",
+        desktopPath: "/images/home-hero-1.mp4",
         alt: "Modern Smart Building",
       },
-      contact_info: {
+      contactInfo: {
         title: "For Assistance Contact",
         phone: "+91 8907 414 081",
       },
     },
 
-    categories_section: [
+    categoriesSection: [
       {
         id: 1,
-        icon_path: "/images/product-cat-1.svg",
+        iconPath: "/images/product-cat-1.svg",
+        iconWhitePath: "/images/product-cat-white-1.png",
         name: "Solar Water Heater",
         slug: "/solar-water-heater",
       },
       {
         id: 2,
-        icon_path: "/images/product-cat-2.svg",
+        iconPath: "/images/product-cat-2.svg",
+        iconWhitePath: "/images/product-cat-white-2.png",
         name: "SST",
         slug: "/sst",
       },
       {
         id: 3,
-        icon_path: "/images/product-cat-3.svg",
+        iconPath: "/images/product-cat-3.svg",
+        iconWhitePath: "/images/product-cat-white-3.png",
         name: "Inverter Battery",
         slug: "security",
       },
       {
         id: 4,
-        icon_path: "/images/product-cat-4.svg",
+        iconPath: "/images/product-cat-4.svg",
+        iconWhitePath: "/images/product-cat-white-4.png",
         name: "Lithium Battery",
         slug: "/climate",
       },
       {
         id: 5,
-        icon_path: "/images/product-cat-5.svg",
+        iconPath: "/images/product-cat-5.svg",
+        iconWhitePath: "/images/product-cat-white-5.png",
         name: "Electric Vehicle",
         slug: "/electric-vehicle",
       },
       {
         id: 6,
-        icon_path: "/images/product-cat-6.svg",
+        iconPath: "/images/product-cat-6.svg",
+        iconWhitePath: "/images/product-cat-white-6.png",
         name: "E-Generator",
         slug: "/e-generator",
       },
       {
         id: 7,
-        icon_path: "/images/product-cat-7.svg",
+        iconPath: "/images/product-cat-7.svg",
+        iconWhitePath: "/images/product-cat-white-7.png",
         name: "BESS",
         slug: "/bess",
       },
       {
         id: 8,
-        icon_path: "/images/product-cat-8.svg",
+        iconPath: "/images/product-cat-8.svg",
+        iconWhitePath: "/images/product-cat-white-8.png",
         name: "UPS",
         slug: "/ups",
       },
       {
         id: 9,
-        icon_path: "/images/product-cat-9.svg",
+        iconPath: "/images/product-cat-9.svg",
+        iconWhitePath: "/images/product-cat-white-9.png",
         name: "Solar Systems",
         slug: "/solar-systems",
       },
       {
         id: 10,
-        icon_path: "/images/product-cat-10.svg",
+        iconPath: "/images/product-cat-10.svg",
+        iconWhitePath: "/images/product-cat-white-10.png",
         name: "Heat Pump",
         slug: "/heat-pump",
       },
     ],
 
-    about_section: {
-      sub_title: "Welcome to",
+    aboutSection: {
+      subTitle: "Welcome to",
       title: "India's Leader in Power Electronics & Green Energy",
       description:
-        "For over three decades since 1991, Hykon India has successfully evolved its expertise from power electronics into a leader in sustainable energy. Our core focus now includes complete solar energy solutions and cutting-edge Lithium-ion battery manufacturing. As a top-ranked Indian manufacturer, we ensure reliable, high-quality power for consumers and industries across the nation.",
+        "<p>For over three decades since 1991, Hykon India has successfully evolved its expertise from power electronics into a leader in sustainable energy. Our core focus now includes complete solar energy solutions and cutting-edge Lithium-ion battery manufacturing. As a top-ranked Indian manufacturer, we ensure reliable, high-quality power for consumers and industries across the nation.</p>",
       button: {
         label: "Read More",
         link: "/about",
@@ -162,8 +172,8 @@ export async function GET(request) {
       ],
     },
 
-    business_section: {
-      sub_title: "Business Units",
+    businessSection: {
+      subTitle: "Business Units",
       title: "Manufacturing Excellence in India",
       button: {
         label: "View Details",
@@ -225,9 +235,9 @@ export async function GET(request) {
       ],
     },
 
-    products_section: {
+    productsSection: {
       title: "Categories",
-      corporate_items: {
+      corporateItems: {
         title: "Corporate",
         items: [
           {
@@ -744,7 +754,7 @@ export async function GET(request) {
           },
         ],
       },
-      domestic_items: {
+      domesticItems: {
         title: "Domestic",
         items: [
           {
@@ -1091,7 +1101,7 @@ export async function GET(request) {
       },
     },
 
-    power_section: {
+    powerSection: {
       media: {
         path: "/images/home-calculate-bg.png",
         alt: "home-calculate-bg",
@@ -1105,7 +1115,7 @@ export async function GET(request) {
       },
     },
 
-    vendor_section: {
+    vendorSection: {
       title: "Vendor Login",
       description: "Streamlined Access for All Vendor Operations",
       button: {
@@ -1114,7 +1124,7 @@ export async function GET(request) {
       },
     },
 
-    news_section: {
+    newsSection: {
       title: "News",
       description:
         "Expert perspectives on sustainable energy, industry trends, and technical innovations",
@@ -1199,7 +1209,7 @@ export async function GET(request) {
       ],
     },
 
-    promotions_section: [
+    promotionsSection: [
       {
         id: 1,
         media: {
@@ -1210,7 +1220,7 @@ export async function GET(request) {
       },
     ],
 
-    blogs_section: {
+    blogsSection: {
       title: "Blogs",
       button: {
         label: "View All",
@@ -1268,7 +1278,7 @@ export async function GET(request) {
       ],
     },
 
-    questions_section: {
+    questionsSection: {
       media: {
         path: "/images/home-questions-1.jpg",
         alt: "home-questions-1",
