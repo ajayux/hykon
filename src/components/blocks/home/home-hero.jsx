@@ -6,7 +6,7 @@ import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 export default function HomeHero({ data }) {
   return (
     <ParallaxProvider>
-      <section className="w-full h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[768px] 2xl:min-h-[900px] 3xl:min-h-[1080px] bg-black overflow-hidden relative z-0">
+      <section className="w-full h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[620px] 2xl:min-h-[900px] 3xl:min-h-[1080px] bg-black overflow-hidden relative z-0">
         <Parallax
           speed={-20}
           className="absolute z-0 inset-0 w-full h-full bg-white"
@@ -43,9 +43,9 @@ export default function HomeHero({ data }) {
 
         <div className="absolute z-1 inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
-        <div className="absolute z-2 bottom-0 inset-x-0  container flex justify-end pb-19">
-          <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-5 px-7 flex flex-wrap items-center gap-x-7.5">
-            <div className="">
+        <div className="absolute z-2 bottom-0 inset-x-0  container flex justify-end pb-12.5 2xl:pb-15 3xl:pb-19">
+          <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-3.5 2xl:py-4.5 3xl:py-5 px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
+            <div className="pl-2 2xl:pl-2.5 3xl:pl-3 pr-5 2xl:pr-6 3xl:pr-7.5">
               <Text as="p" size="p2" className="text-white">
                 {data?.contactInfo?.title}
                 <br />
@@ -56,7 +56,7 @@ export default function HomeHero({ data }) {
                 </span>
               </Text>
             </div>
-            <div className="w-11 h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
+            <div className="w-6.5 h-6.5 2xl:w-7 2xl:h-7 3xl:w-11 3xl:h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
               <Image
                 src={"/images/icon-arrow-right.svg"}
                 alt={"icon-arrow-right"}

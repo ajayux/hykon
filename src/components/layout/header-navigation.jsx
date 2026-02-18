@@ -24,7 +24,7 @@ export default function HeaderNavigation({ navigationData }) {
               setOpen(false);
             }}
             className={cn(
-              "text-[20px] leading-none font-normal px-7.5 hover:scale-100",
+              "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-none font-normal px-2 xl:px-4.5 2xl:px-6 3xl:px-7.5 hover:scale-100",
               isActive ? "text-[#1e1e1e]" : "text-[#1e1e1e]/90",
             )}
             asChild

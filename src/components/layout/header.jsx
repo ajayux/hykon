@@ -34,7 +34,7 @@ export default function Header({ data, navigationData, locale }) {
     >
       <div className="container">
         <div className="flex justify-between items-center gap-x-3 lg:gap-x-8 relative z-0">
-          <div className="3xl:w-[228px]">
+          <div className="w-[140px] xl:w-[152px] 2xl:w-[182px] 3xl:w-[228px]">
             <Link href={`/${locale}${data?.slug}`}>
               <Image
                 src={data?.logoUrl}
@@ -48,10 +48,10 @@ export default function Header({ data, navigationData, locale }) {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end lg:justify-end transition gap-x-7 sm:gap-x-7 lg:gap-x-7.5 2xl:gap-x-10 bg-white/75 backdrop-blur-[30px] rounded-[20px] p-4">
+          <div className="flex items-center justify-end lg:justify-end transition gap-x-7 sm:gap-x-7 lg:gap-x-7.5 2xl:gap-x-10 bg-white/75 backdrop-blur-[30px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
             <HeaderNavigation navigationData={navigationData} />
 
-            <Button variant="none" size="none" className="w-5">
+            <Button variant="none" size="none" className="w-4 xl:w-4.5 2xl:w-5 3xl:w-6">
               <Image
                 src={"/images/icon-search.svg"}
                 alt={"icon-search"}

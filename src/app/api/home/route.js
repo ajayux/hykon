@@ -181,12 +181,12 @@ export async function GET(request) {
       },
       items: [
         {
-          id: 1,
+          id: "01",
           title: "EV and Lithium Battery Factory",
           slug: "/ev-and-lithium-battery-factory",
           media: {
             path: "/images/address-loc-1.jpg",
-            alt: "address-loc-1",
+            alt: "ev-factory",
           },
           button: {
             label: "View Details",
@@ -194,42 +194,42 @@ export async function GET(request) {
           },
         },
         {
-          id: 2,
-          title: "EV and Lithium Battery Factory",
-          slug: "/ev-and-lithium-battery-factory",
+          id: "02",
+          title: "Solar Water Heater Unit - Pune",
+          slug: "/solar-water-heater-unit-pune",
           media: {
             path: "/images/address-loc-1.jpg",
-            alt: "address-loc-1",
+            alt: "pune-unit",
           },
           button: {
             label: "View Details",
-            link: "/ev-and-lithium-battery-factory",
+            link: "/solar-water-heater-unit-pune",
           },
         },
         {
-          id: 3,
-          title: "EV and Lithium Battery Factory",
-          slug: "/ev-and-lithium-battery-factory",
+          id: "03",
+          title: "Thrissur Power Electronics Unit",
+          slug: "/thrissur-power-electronics-unit",
           media: {
             path: "/images/address-loc-1.jpg",
-            alt: "address-loc-1",
+            alt: "thrissur-unit",
           },
           button: {
             label: "View Details",
-            link: "/ev-and-lithium-battery-factory",
+            link: "/thrissur-power-electronics-unit",
           },
         },
         {
-          id: 4,
-          title: "EV and Lithium Battery Factory",
-          slug: "/ev-and-lithium-battery-factory",
+          id: "04",
+          title: "Solar Water Heater Unit Coimbatore",
+          slug: "/solar-water-heater-unit-coimbatore",
           media: {
             path: "/images/address-loc-1.jpg",
-            alt: "address-loc-1",
+            alt: "coimbatore-unit",
           },
           button: {
             label: "View Details",
-            link: "/ev-and-lithium-battery-factory",
+            link: "/solar-water-heater-unit-coimbatore",
           },
         },
       ],

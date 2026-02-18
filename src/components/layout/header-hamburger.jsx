@@ -248,14 +248,14 @@ function HumbergerButton({ open, onClick, showDarkHeader }) {
       variant="none"
       size="none"
       onClick={onClick}
-      className="w-16 aspect-square flex items-center justify-center rounded-[10px]  bg-[#008dd2] hover:scale-100"
+      className="w-12 xl:w-11 2xl:w-13.5 3xl:w-16 aspect-square flex items-center justify-center rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px]  bg-[#008dd2] hover:scale-100"
     >
-      <div className="w-7 flex flex-col gap-1 2xl:gap-1.5">
+      <div className="w-4 xl:w-4.5 2xl:w-5 3xl:w-7 flex flex-col gap-1 3xl:gap-1.5">
         {[1, 2, 3].map((item) => (
           <span
             key={item}
             className={cn(
-              "w-full h-[3px] rounded-full transition-all duration-300 ease-in-out origin-center",
+              "w-full h-[2px] 3xl:h-[3px] rounded-full transition-all duration-300 ease-in-out origin-center",
               item === 3 && "max-w-10/12 ml-auto",
               showDarkHeader ? "bg-white" : "bg-white",
 

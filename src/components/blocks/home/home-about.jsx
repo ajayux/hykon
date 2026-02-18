@@ -22,10 +22,10 @@ export default function HomeAbout({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[110px] 2xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
+    <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[140px_70px] 2xl:py-[190px_140px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
       <div className="container">
         <div className="flex flex-wrap sm:items-center -mx-3 sm:-mx-1 3xl:-mx-3 [&>*]:p-3 sm:[&>*]:p-1 3xl:[&>*]:p-3">
-          <div className="w-full sm:w-[40%]">
+          <div className="w-full xl:w-[35%] 2xl:w-[40%]">
             <Heading
               as="div"
               size="h6"
@@ -36,16 +36,16 @@ export default function HomeAbout({ data }) {
             <Heading
               as="h2"
               size="h1"
-              className="text-medium text-white mb-2 xl:mb-4 3xl:mb-14"
+              className="text-medium text-white mb-6 xl:mb-12 2xl:mb-13 3xl:mb-14"
             >
               {data?.title}
             </Heading>
             {data?.achievement && (
-              <div className="w-full max-w-9/12">
+              <div className="w-full max-w-8/12 2xl:max-w-9/12">
                 <Heading
                   as="h6"
                   size="h5"
-                  className="font-normal tracking-widest uppercase text-[#caad63] mb-3 sm:mb-1 xl:mb-2"
+                  className="font-normal tracking-widest uppercase text-[#caad63] mb-3 xl:mb-1 3xl:mb-2"
                 >
                   {data?.achievement?.title}
                 </Heading>
@@ -62,7 +62,7 @@ export default function HomeAbout({ data }) {
                           "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_25%] min-w-0 select-none",
                         )}
                       >
-                        <div className="w-20 aspect-square transition-all duration-300 hover:scale-105">
+                        <div className="w-10 xl:w-13 2xl:w-16 3xl:w-20 aspect-square transition-all duration-300 hover:scale-105">
                           <Image
                             src={item?.media?.path}
                             alt={item?.media?.alt}
@@ -79,11 +79,11 @@ export default function HomeAbout({ data }) {
             )}
           </div>
 
-          <div className="w-full sm:w-[60%]">
-            <div className="flex flex-wrap items-center 3xl:gap-x-20">
+          <div className="w-full xl:w-[65%] 2xl:w-[60%]">
+            <div className="flex flex-wrap items-center gap-x-13 2xl:gap-x-16 3xl:gap-x-20">
               {data?.chairman && (
-                <div className="w-full sm:w-[455px] relative z-0">
-                  <div className="w-full aspect-[45/60] overflow-hidden">
+                <div className="w-full xl:w-[305px] 2xl:w-[362px] 3xl:w-[455px] relative z-0">
+                  <div className="w-full aspect-[45/60] overflow-hidden shadow-2xl">
                     <Image
                       src={data?.chairman?.media?.path}
                       alt={data?.chairman?.media?.alt}
@@ -97,7 +97,7 @@ export default function HomeAbout({ data }) {
                     alt={"home-about-bg"}
                     width={576}
                     height={576}
-                    className="min-w-[657px] aspect-square absolute -z-1 bottom-[25%] right-[33%]"
+                    className="min-w-[320px] xl:min-w-[440px] 2xl:min-w-[526px] 3xl:min-w-[657px] aspect-square absolute -z-1 bottom-[25%] right-[33%]"
                   />
                   <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-8/10">
                     <div className="flex-1 h-[1px] bg-[#008dd2]" />
@@ -118,13 +118,13 @@ export default function HomeAbout({ data }) {
               )}
 
               <div className="flex-1">
-                <Text as="div" size="p1" className="text-white mb-15 mt-15">
+                <Text as="div" size="p1" className="text-white mb-8 xl:mb-12 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15">
                   {parse(data?.description)}
                 </Text>
-                <div className="flex flex-wrap -mx-3 mb-16 3xl:mb-20">
+                <div className="flex flex-wrap -mx-3 mb-12 2xl:mb-14 3xl:mb-20">
                   {data?.statistics?.map((item) => (
                     <div key={item?.id} className="w-full sm:w-1/2 py-2 px-3">
-                      <div className="w-full bg-[#252525] rounded-[10px] py-4.5 px-6">
+                      <div className="w-full bg-[#252525] rounded-[10px] py-4.5 px-6 hover:bg-[#2d2d2d] transition-all duration-300">
                         <Heading
                           as="div"
                           size="h3"
@@ -155,19 +155,19 @@ export default function HomeAbout({ data }) {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px]"
+                  className="text-white min-w-[100px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[187px] pl-4"
                   asChild
                 >
                   <Link href={data?.button?.link}>
                     {data?.button?.label}
 
-                    <div className="w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-white.svg"}
                         alt={"icon-arrow-right-white"}
                         width={18}
                         height={13}
-                        className="w-4.5"
+                        className="w-6/10"
                         unoptimized
                       />
                     </div>
