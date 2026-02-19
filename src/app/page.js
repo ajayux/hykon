@@ -1,14 +1,14 @@
+import { notFound } from "next/navigation";
+
 import HomeHero from "@/components/blocks/home/home-hero";
 import HomeCategories from "@/components/blocks/home/home-categories";
 
-// import HomeAbout from "@/components/blocks/home/home-about";
-// import HomeStatistics from "@/components/blocks/home/home-statistics";
-// import HomeServices from "@/components/blocks/home/home-services";
-import { notFound } from "next/navigation";
-
-import dynamic from "next/dynamic";
 import HomeAbout from "@/components/blocks/home/home-about";
 import HomeBusiness from "@/components/blocks/home/home-business";
+import HomePowerVendor from "@/components/blocks/home/home-power-vendor";
+import HomeNews from "@/components/blocks/home/home-news";
+import HomePromotions from "@/components/blocks/home/home-promotions";
+import HomeBlogs from "@/components/blocks/home/home-blogs";
 
 // Lazy load below-the-fold components for better performance
 // const HomePortfolio = dynamic(
@@ -62,9 +62,11 @@ export default async function HomePage() {
     categoriesSection,
     aboutSection,
     businessSection,
-    services,
-    portfolio,
-    partners,
+    powerSection,
+    vendorSection,
+    newsSection,
+    promotionsSection,
+    blogsSection,
   } = homeData;
 
   return (
@@ -74,14 +76,10 @@ export default async function HomePage() {
       {aboutSection && <HomeAbout data={aboutSection} />}
       {businessSection && <HomeBusiness data={businessSection} />}
 
-      {/* 
-      {statistics && <HomeStatistics data={statistics} />}
-
-      {services && <HomeServices data={services} />}
-
-      {portfolio && <HomePortfolio data={portfolio} />}
-
-      {partners && <HomePartners data={partners} />} */}
+      <HomePowerVendor powerData={powerSection} vendorData={vendorSection} />
+      {newsSection && <HomeNews data={newsSection} />}
+      {promotionsSection && <HomePromotions data={promotionsSection} />}
+      {blogsSection && <HomeBlogs data={blogsSection} />}
     </>
   );
 }

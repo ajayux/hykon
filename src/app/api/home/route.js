@@ -150,21 +150,25 @@ export async function GET(request) {
       },
       statistics: [
         {
+          id: 1,
           number: "1991",
           suffix: null,
           label: "Start Up",
         },
         {
+          id: 2,
           number: "450",
           suffix: "+",
           label: "Employees",
         },
         {
+          id: 3,
           number: "5",
           suffix: "+",
           label: "Companies",
         },
         {
+          id: 4,
           number: "100",
           suffix: "+",
           label: "Crore Turnover",
@@ -174,7 +178,7 @@ export async function GET(request) {
 
     businessSection: {
       subTitle: "Business Units",
-      title: "Manufacturing Excellence in India",
+      title: "Manufacturing<br/> Excellence in India",
       button: {
         label: "View Details",
         link: "/services",
@@ -1141,7 +1145,8 @@ export async function GET(request) {
             alt: "news-1",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
+          publishDay: "09",
+          publishMonthYear: "June 2025",
           title: "Two E-Autos Gifted on Gandhi Jayanti!",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
@@ -1149,11 +1154,12 @@ export async function GET(request) {
         {
           id: 2,
           media: {
-            path: "/images/news-2.jpg",
+            path: "/images/news-2.png",
             alt: "news-2",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
+          publishDay: "15",
+          publishMonthYear: "Aug 2025",
           title: "Empowering a Greener Tomorrow!",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
@@ -1165,8 +1171,9 @@ export async function GET(request) {
             alt: "news-3",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
-          title: "Solar Division to Partner with State Government ..",
+          publishDay: "25",
+          publishMonthYear: "Aug 2025",
+          title: "Solar Division to Partner with State Government",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric ",
         },
@@ -1177,7 +1184,8 @@ export async function GET(request) {
             alt: "news-1",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
+          publishDay: "25",
+          publishMonthYear: "Aug 2025",
           title: "Two E-Autos Gifted on Gandhi Jayanti!",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
@@ -1185,11 +1193,12 @@ export async function GET(request) {
         {
           id: 5,
           media: {
-            path: "/images/news-2.jpg",
+            path: "/images/news-2.png",
             alt: "news-2",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
+          publishDay: "25",
+          publishMonthYear: "Aug 2025",
           title: "Empowering a Greener Tomorrow!",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
@@ -1201,8 +1210,9 @@ export async function GET(request) {
             alt: "news-3",
           },
           slug: "/news/news-1",
-          date: "2025-08-15",
-          title: "Solar Division to Partner with State Government ..",
+          publishDay: "25",
+          publishMonthYear: "Aug 2025",
+          title: "Solar Division to Partner with State Government",
           description:
             "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric ",
         },

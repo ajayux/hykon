@@ -118,7 +118,11 @@ export default function HomeAbout({ data }) {
               )}
 
               <div className="flex-1">
-                <Text as="div" size="p1" className="text-white mb-8 xl:mb-12 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15">
+                <Text
+                  as="div"
+                  size="p1"
+                  className="text-white mb-8 xl:mb-12 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15"
+                >
                   {parse(data?.description)}
                 </Text>
                 <div className="flex flex-wrap -mx-3 mb-12 2xl:mb-14 3xl:mb-20">

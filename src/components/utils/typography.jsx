@@ -29,6 +29,7 @@ const headingVariants = cva("leading-tight font-medium", {
 const textVariants = cva("leading-normal font-normal", {
   variants: {
     size: {
+      p0: "text-[15px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px]",
       p1: "text-[14px] lg:text-[12px] 2xl:text-[15px] 3xl:text-[18px]",
       p2: "text-[13px] lg:text-[11px] 2xl:text-[13px] 3xl:text-[16px]",
     },
