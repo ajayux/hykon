@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
  */
 export async function GET(request) {
   const globalData = {
-    header_data: {
+    headerData: {
       id: "uuid-primary-key",
       name: "Hykon",
       tagline: "Powering the Nation",
@@ -25,7 +25,7 @@ export async function GET(request) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
-    navigation_data: [
+    navigationData: [
       {
         id: 1,
         hasSubmenu: false,
@@ -170,7 +170,7 @@ export async function GET(request) {
         ],
       },
     ],
-    footer_data: {
+    footerData: {
       id: "uuid-primary-key",
       name: "Hykon",
       tagline: "Powering the Nation",
@@ -182,171 +182,166 @@ export async function GET(request) {
       websiteUrl: "https://hykon.in/",
       phone: ["+91 123 456 7890"],
       email: ["info@company.com"],
-      location_map_link: "https://goo.gl/maps/example",
-      quick_links: {
+      locationMapLink: "https://goo.gl/maps/example",
+      quickLinks: {
         title: "Quick Links",
         items: [
           {
-            id: "01",
+            id: 1,
             label: "Warranty Registration",
-            link: "/customer-care/warranty-registration",
+            slug: "/customer-care/warranty-registration",
           },
           {
-            id: "02",
+            id: 2,
             label: "Register Complaints",
-            link: "/customer-care/register-complaints",
+            slug: "/customer-care/register-complaints",
           },
           {
-            id: "03",
+            id: 3,
             label: "Privacy Policy",
-            link: "/customer-care/privacy-policy",
+            slug: "/customer-care/privacy-policy",
           },
           {
-            id: "04",
+            id: 4,
             label: "Terms & Conditions",
-            link: "/customer-care/terms-conditions",
+            slug: "/customer-care/terms-conditions",
           },
           {
-            id: "05",
+            id: 5,
             label: "Return Policy",
-            link: "/customer-care/return-policy",
+            slug: "/customer-care/return-policy",
           },
           {
-            id: "06",
+            id: 6,
             label: "Shipping Policy",
-            link: "/customer-care/shipping-policy",
+            slug: "/customer-care/shipping-policy",
           },
           {
-            id: "07",
+            id: 7,
             label: "Investor Relations",
-            link: "/customer-care/investor-relations",
+            slug: "/customer-care/investor-relations",
           },
-        ],
-      },
-      pages_navigation: {
-        title: null,
-        items: [
           {
-            id: "01",
+            id: 8,
             label: "Factory",
-            link: "/factory",
+            slug: "/factory",
           },
           {
-            id: "02",
+            id: 9,
             label: "Career",
-            link: "/career",
+            slug: "/career",
           },
           {
-            id: "03",
+            id: 10,
             label: "Services",
-            link: "/services",
+            slug: "/services",
           },
           {
-            id: "04",
+            id: 11,
             label: "Projects",
-            link: "/projects",
+            slug: "/projects",
           },
           {
-            id: "05",
+            id: 12,
             label: "News",
-            link: "/news",
+            slug: "/news",
           },
           {
-            id: "06",
+            id: 13,
             label: "Contact",
-            link: "/contact",
+            slug: "/contact",
           },
         ],
       },
-      product_categories: {
+      productCategories: {
         title: "Product Categories",
         items: [
           {
             id: "01",
             label: "Solar Water Heater",
-            link: "/products/solar-water-heater",
+            slug: "/products/solar-water-heater",
           },
           {
             id: "02",
             label: "SST",
-            link: "/products/sst",
+            slug: "/products/sst",
           },
           {
             id: "03",
             label: "Inverter Battery",
-            link: "/products/inverter-battery",
+            slug: "/products/inverter-battery",
           },
           {
             id: "04",
             label: "Lithium Battery",
-            link: "/products/lithium-battery",
+            slug: "/products/lithium-battery",
           },
           {
             id: "05",
             label: "Electric Vehicle",
-            link: "/products/electric-vehicle",
+            slug: "/products/electric-vehicle",
           },
           {
             id: "06",
             label: "E-Generator",
-            link: "/products/e-generator",
+            slug: "/products/e-generator",
           },
           {
             id: "07",
             label: "BESS",
-            link: "/products/bess",
+            slug: "/products/bess",
           },
           {
             id: "08",
             label: "UPS",
-            link: "/products/ups",
+            slug: "/products/ups",
           },
           {
             id: "09",
             label: "Solar Systems",
-            link: "/products/solar-systems",
+            slug: "/products/solar-systems",
           },
           {
             id: "10",
             label: "Heat Pump",
-            link: "/products/heat-pump",
+            slug: "/products/heat-pump",
           },
         ],
       },
-      manufacturing_locations: {
+      manufacturingLocations: {
         title: "Manufacturing Locations",
         items: [
           {
-            id: "01",
+            id: 1,
             city: "Thrissur",
             email: "info@company.com",
           },
           {
-            id: "02",
+            id: 2,
             city: "Coimbatore",
             email: "info@company.com",
           },
           {
-            id: "03",
+            id: 3,
             city: "Kochi",
             email: "info@company.com",
           },
           {
-            id: "04",
+            id: 4,
             city: "Pune",
             email: "info@company.com",
           },
         ],
       },
-      contact_info: {
+      contactInfo: {
         title: "Contact",
         phone: "+91 123 456 7890",
         email: "info@company.com",
       },
       copyright: "<p>© 2025 Hykon. All Rights Reserved.</p>",
-      designed_by: "Designed & Developed by: Intersmart",
+      designedBy: "Designed & Developed by: Intersmart",
     },
-    social_link_data: [
+    socialLinkData: [
       {
         id: "01",
         name: "facebook",
