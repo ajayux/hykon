@@ -6,7 +6,7 @@ import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 export default function HomeHero({ data }) {
   return (
     <ParallaxProvider>
-      <section className="w-full h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[620px] 2xl:min-h-[900px] 3xl:min-h-[1080px] bg-black overflow-hidden relative z-0">
+      <section className="w-full h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[620px] 2xl:min-h-[668px] 3xl:min-h-[768px] bg-black overflow-hidden relative z-0">
         <Parallax
           speed={-20}
           className="absolute z-0 inset-0 w-full h-full bg-white"

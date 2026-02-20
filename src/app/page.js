@@ -9,6 +9,7 @@ import HomePowerVendor from "@/components/blocks/home/home-power-vendor";
 import HomeNews from "@/components/blocks/home/home-news";
 import HomePromotions from "@/components/blocks/home/home-promotions";
 import HomeBlogs from "@/components/blocks/home/home-blogs";
+import HomeQuestions from "@/components/blocks/home/home-questions";
 
 // Lazy load below-the-fold components for better performance
 // const HomePortfolio = dynamic(
@@ -67,6 +68,7 @@ export default async function HomePage() {
     newsSection,
     promotionsSection,
     blogsSection,
+    questionsSection,
   } = homeData;
 
   return (
@@ -80,6 +82,7 @@ export default async function HomePage() {
       {newsSection && <HomeNews data={newsSection} />}
       {promotionsSection && <HomePromotions data={promotionsSection} />}
       {blogsSection && <HomeBlogs data={blogsSection} />}
+      {questionsSection && <HomeQuestions data={questionsSection} />}
     </>
   );
 }

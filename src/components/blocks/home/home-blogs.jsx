@@ -67,41 +67,69 @@ export default function HomeBlogs({ data }) {
                   "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_33.333%] min-w-0 select-none px-1 xl:px-2.5",
                 )}
               >
-                <div className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] relative z-0">
-                  <Image
-                    src={"/images/icon-blog-btn.svg"}
-                    alt={"icon-blog-btn"}
-                    width={40}
-                    height={40}
-                    className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute z-1 top-5 2xl:top-8 3xl:top-12 right-5 2xl:right-8 3xl:right-12 transition-transform duration-300 hover:scale-110 opacity-0 group-hover:opacity-100 group-hover:[mask-image:linear-gradient(to_bottom,black_0%,black_95%,transparent_100%)] max-sm:group-hover:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_95%,transparent_100%)]"
-                  />
-                  <Image
-                    src={item?.media?.path}
-                    alt={item?.media?.alt}
-                    width={560}
-                    height={560}
-                    className="w-full h-full object-cover absolute -z-1 inset-0 transition-transform duration-300 group-hover:scale-89 rounded-[20px]"
-                  />
-                  <div className="absolute z-0 inset-x-7.5 bottom-12">
-                    <div className="w-full h-auto bg-white/70 rounded-[20px] backdrop-blur-[20px] p-2 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] relative z-0 group-hover:bg-transparent group-hover:backdrop-blur-none">
-                      <div className="w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
-                      <Image
-                        src={"/images/icon-blog-btn.svg"}
-                        alt={"icon-blog-btn"}
-                        width={40}
-                        height={40}
-                        className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute -z-1 top-2 2xl:top-2.5 3xl:top-3.5 right-2 2xl:right-2.5 3xl:right-3.5 transition-transform duration-300 hover:scale-110 group-hover:opacity-0"
-                      />
-                      <Text
-                        as="div"
-                        size="p0"
-                        className="line-clamp-3 font-medium text-[#3c3c3c] group-hover:text-white"
-                      >
-                        {parse(item?.title)}
-                      </Text>
+                <Link
+                  href={item?.slug}
+                  className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] block relative z-0"
+                >
+                  <div className="w-full h-full visible group-hover:invisible scale-100 group-hover:scale-90 transition-all duration-300">
+                    <Image
+                      src={item?.media?.path}
+                      alt={item?.media?.alt}
+                      width={560}
+                      height={560}
+                      className="w-full h-full object-cover absolute -z-1 inset-0 transition-transform duration-300 rounded-[20px]"
+                    />
+                    <div className="absolute z-0 inset-x-7.5 bottom-12">
+                      <div className="w-full h-auto bg-white/70 rounded-[20px] backdrop-blur-[20px] p-2 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] relative z-0">
+                        <div className="w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
+                        <Image
+                          src={"/images/icon-blog-btn.svg"}
+                          alt={"icon-blog-btn"}
+                          width={40}
+                          height={40}
+                          className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute -z-1 top-2 2xl:top-2.5 3xl:top-3.5 right-2 2xl:right-2.5 3xl:right-3.5 transition-transform duration-300"
+                        />
+                        <Text
+                          as="div"
+                          size="p0"
+                          className="line-clamp-3 font-medium text-[#3c3c3c]"
+                        >
+                          {parse(item?.title)}
+                        </Text>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div className="w-full max-w-9/10 max-h-9/10 h-full m-auto absolute z-0 inset-0 invisible group-hover:visible scale-0 group-hover:scale-100  transition-all duration-300">
+                    <Image
+                      src={"/images/icon-blog-btn.svg"}
+                      alt={"icon-blog-btn"}
+                      width={40}
+                      height={40}
+                      className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute z-1 top-3 2xl:top-3.5 3xl:top-4 right-3 2xl:right-3.5 3xl:right-4 transition-transform duration-300 hover:scale-110"
+                    />
+                    <div className="w-full h-full rounded-[20px] overflow-hidden relative z-0 bg-black">
+                      <Image
+                        src={item?.media?.path}
+                        alt={item?.media?.alt}
+                        width={560}
+                        height={560}
+                        className="w-full h-full object-cover transition-transform duration-300 opacity-80 [mask-image:linear-gradient(to_bottom,black_0%,black_50%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_50%,transparent_100%)]"
+                      />
+                    </div>
+                    <div className="absolute z-0 inset-x-0 bottom-0">
+                      <div className="w-full h-auto p-2 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] block relative z-0">
+                        <div className="w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
+                        <Text
+                          as="div"
+                          size="p0"
+                          className="line-clamp-3 font-medium text-white"
+                        >
+                          {parse(item?.title)}
+                        </Text>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

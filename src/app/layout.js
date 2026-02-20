@@ -72,17 +72,17 @@ export default async function RootLayout({ children }) {
 
   // Fallback data if API fails
   const fallbackData = {
-    header_data: {
+    headerData: {
       name: "HYKON",
       logoUrl: "/images/logo.svg",
       logoWhiteUrl: "/images/logo-white.svg",
     },
-    navigation_data: [],
-    footer_data: {
+    navigationData: [],
+    footerData: {
       name: "HYKON",
       logoUrl: "/images/logo.svg",
     },
-    social_link_data: [],
+    socialLinkData: [],
   };
 
   const data = globalData || fallbackData;
@@ -109,16 +109,13 @@ export default async function RootLayout({ children }) {
       <body className={cn("antialiased", fontClassName, fontVariable)}>
         <FloatNavigation />
 
-        <Header
-          data={data?.header_data}
-          navigationData={data?.navigation_data}
-        />
+        <Header data={data?.headerData} navigationData={data?.navigationData} />
 
         <main className="min-h-screen">{children}</main>
 
         <Footer
-          footerData={data.footer_data}
-          socialLinkData={data.social_link_data}
+          footerData={data.footerData}
+          socialLinkData={data.socialLinkData}
         />
       </body>
     </html>

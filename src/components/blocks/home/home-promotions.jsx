@@ -1,14 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
-import parse from "html-react-parser";
-import { Heading, Text } from "@/components/utils/typography";
-
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-
 import { cn } from "@/lib/utils";
+
 export default function HomePromotions({ data }) {
   const [emblaRef] = useEmblaCarousel(
     {
@@ -17,10 +12,10 @@ export default function HomePromotions({ data }) {
       slidesToScroll: 1,
       containScroll: "trimSnaps",
     },
-    // [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
+    [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block bg-black py-10 xl:py-15 2xl:py-17.5 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#1e1e1e] py-10 xl:py-15 2xl:py-17.5 3xl:py-20 relative z-0">
       <div className="container">
         <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
           <div className="flex touch-pan-y touch-pinch-zoom">

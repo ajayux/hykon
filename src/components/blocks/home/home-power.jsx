@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 
 export default function HomePower({ data }) {
   return (
-    <div className="w-full h-full overflow-hidden p-[20px] xl:p-[40px] 3xl:p-[60px] relative z-0">
+    <div className="w-full h-full overflow-hidden p-[20px] xl:p-[40px] 3xl:p-[60px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] relative z-0">
       <Image
         src={"/images/home-calculate-bg.png"}
         alt={"home-calculate-bg"}

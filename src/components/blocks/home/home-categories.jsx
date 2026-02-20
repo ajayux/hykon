@@ -39,7 +39,7 @@ export default function HomeCategories({ data }) {
                   "flex-[0_0_220px] sm:flex-[0_0_33.333%] xl:flex-[0_0_130px] 2xl:flex-[0_0_150px] 3xl:flex-[0_0_185px] min-w-0 select-none",
                 )}
               >
-                <div className="group w-full h-full bg-[#16242A] rounded-[17px] flex flex-col px-2 py-5 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
+                <div className="group w-full h-full bg-[#16242A] rounded-[11px] 2xl:rounded-[14px] 3xl:rounded-[17px] flex flex-col px-2 py-5 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
                   <div className="w-full h-[100px] 2xl:h-[120px] 3xl:h-[140px] flex justify-center items-center">
                     <div className="w-[40px] 2xl:w-[48px] 3xl:w-[60px] aspect-square relative group-hover:translate-y-[-10px] transition-all duration-300">
                       <Image
@@ -65,7 +65,6 @@ export default function HomeCategories({ data }) {
                   >
                     {item?.name}
                   </Text>
-
                   <div className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                     <div className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">
                       <Image
@@ -77,7 +76,7 @@ export default function HomeCategories({ data }) {
                         unoptimized
                       />
                     </div>
-                    <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-none font-normal text-white">
+                    <div className="text-[10px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal text-white">
                       View Details
                     </div>
                   </div>

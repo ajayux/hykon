@@ -19,34 +19,60 @@ export default function Footer({ footerData, socialLinkData, locale }) {
   const [openSection, setOpenSection] = useState(null);
 
   return (
-    <footer className="w-full py-[30px_20px] xl:py-[60px_30px] 2xl:py-[60px_40px] overflow-hidden bg-[#fffbf2] relative z-0 max-sm:pb-12">
+    <footer className="w-full pt-8 xl:pt-[45px] 2xl:pt-[50px] 3xl:pt-[70px] overflow-hidden bg-[#212121] relative z-0 max-sm:pb-12">
       <div className="container">
-        <div className="flex flex-wrap -mx-2.5 sm:-mx-3 xl:-mx-5 2xl:-mx-7.5 [&>*]:p-2.5 sm:[&>*]:p-3 xl:[&>*]:p-5 2xl:[&>*]:p-7.5 max-lg:flex-col-reverse">
-          <div className="w-full lg:w-[24%] 2xl:w-[23.5%]">
-            {footerData?.quick_link_navigation && (
+        <div className="flex flex-wrap items-center justify-between">
+          <Link
+            href={footerData?.slug}
+            className="w-[90px] sm:w-[100px] lg:w-[125px] 2xl:w-[150px] 3xl:w-[186px] block"
+          >
+            <Image
+              src={footerData?.logoUrl}
+              alt={footerData?.name}
+              width={186}
+              height={58}
+              className="w-full h-full block hover:scale-105 transition"
+              unoptimized
+            />
+          </Link>
+          <div className="max-w-full xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[880px]">
+            <Heading
+              as="div"
+              size="h4"
+              className="lg:text-[18px] 2xl:text-[22px] 3xl:text-[28px] font-normal text-white"
+            >
+              {parse(footerData?.description)}
+            </Heading>
+          </div>
+        </div>
+        <hr className="border-[#414141] my-4 xl:my-8.5 2xl:my-10 3xl:my-12.5" />
+
+        <div className="flex flex-wrap -mx-1 sm:-mx-2 xl:-mx-3 [&>*]:p-1 sm:[&>*]:p-2 xl:[&>*]:px-3 max-lg:flex-col-reverse">
+          {footerData?.quickLinks && (
+            <div className="w-full lg:w-[30%] 2xl:w-[32%]">
               <div className="w-full">
                 <MediaQuery minWidth={1024}>
                   <>
-                    <Heading
+                    <Text
                       as="h6"
-                      size="h7"
-                      className="font-medium text-[#c09c86] mb-1 xl:mb-2.5 2xl:mb-4"
+                      size="p0"
+                      className="font-medium uppercase text-[#bcbcbc] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-8"
                     >
-                      {locale == "ar" ? "QUICK LINKS ar" : "QUICK LINKS"}
-                    </Heading>
-                    {footerData?.quick_link_navigation?.map((item, index) => (
-                      <div key={"quick_link_navigation" + index}>
-                        <Heading
-                          as="div"
-                          size="h6"
-                          className="font-normal text-[#1e1e1e] transition [&>a]:hover:text-[#cda278] mb-1 xl:mb-1.5"
-                        >
-                          <Link href={`/${locale}${item?.link}`}>
-                            {locale == "ar" ? item?.label_ar : item?.label}
-                          </Link>
-                        </Heading>
-                      </div>
-                    ))}
+                      {footerData?.quickLinks?.title}
+                    </Text>
+                    <div className="grid grid-cols-2 gap-x-1">
+                      {footerData?.quickLinks?.items?.map((item, index) => (
+                        <div key={"quickLinks" + index}>
+                          <Heading
+                            as="div"
+                            size="h5"
+                            className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                          >
+                            <Link href={item?.slug}>{item?.label}</Link>
+                          </Heading>
+                        </div>
+                      ))}
+                    </div>
                   </>
                 </MediaQuery>
                 <MediaQuery maxWidth={1023}>
@@ -59,16 +85,14 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                       openSection={openSection}
                       setOpenSection={setOpenSection}
                     >
-                      {footerData?.quick_link_navigation?.map((item, index) => (
-                        <div key={"quick_link_navigation" + index}>
+                      {footerData?.quickLinks?.items?.map((item, index) => (
+                        <div key={"quick_links" + index}>
                           <Heading
                             as="div"
-                            size="h6"
-                            className="text-[#1e1e1e] transition [&>a]:hover:text-[#cda278] mb-2"
+                            size="h5"
+                            className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
                           >
-                            <Link href={`/${locale}${item?.link}`}>
-                              {locale == "ar" ? item?.label_ar : item?.label}
-                            </Link>
+                            <Link href={item?.slug}>{item?.label}</Link>
                           </Heading>
                         </div>
                       ))}
@@ -77,301 +101,228 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                   </>
                 </MediaQuery>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          <div className="w-full lg:w-[26%] 2xl:w-[27%]">
-            {footerData?.services_navigation && (
+          {footerData?.productCategories && (
+            <div className="w-full lg:w-[30%] 2xl:w-[32%]">
               <div className="w-full">
                 <MediaQuery minWidth={1024}>
                   <>
-                    <Heading
+                    <Text
                       as="h6"
-                      size="h7"
-                      className="font-medium text-[#c09c86] mb-1 xl:mb-2.5 2xl:mb-4"
+                      size="p0"
+                      className="font-medium uppercase text-[#bcbcbc] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-8"
                     >
-                      {locale == "ar" ? "SERVICES ar" : "SERVICES"}
-                    </Heading>
-                    {footerData?.services_navigation?.map((item, index) => (
-                      <div key={"services_navigation" + index}>
-                        <Heading
-                          as="div"
-                          size="h6"
-                          className="font-normal text-[#1e1e1e] transition [&>a]:hover:text-[#cda278] mb-1 xl:mb-1.5"
-                        >
-                          <Link href={`/${locale}${item?.link}`}>
-                            {locale == "ar" ? item?.label_ar : item?.label}
-                          </Link>
-                        </Heading>
-                      </div>
-                    ))}
+                      {footerData?.productCategories?.title}
+                    </Text>
+                    <div className="grid grid-cols-2 gap-x-1">
+                      {footerData?.productCategories?.items?.map(
+                        (item, index) => (
+                          <div key={"productCategories" + index}>
+                            <Heading
+                              as="div"
+                              size="h5"
+                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                            >
+                              <Link href={item?.slug}>{item?.label}</Link>
+                            </Heading>
+                          </div>
+                        ),
+                      )}
+                    </div>
                   </>
                 </MediaQuery>
                 <MediaQuery maxWidth={1023}>
-                  <AccordionItem
-                    locale={locale}
-                    title="Services"
-                    title_ar="SERVICES ar"
-                    section="services"
-                    openSection={openSection}
-                    setOpenSection={setOpenSection}
-                  >
-                    {footerData?.services_navigation?.map((item, index) => (
-                      <div key={"services_navigation" + index}>
-                        <Heading
-                          as="div"
-                          size="h6"
-                          className="text-[#1e1e1e] transition [&>a]:hover:text-[#cda278] mb-2"
-                        >
-                          <Link href={`/${locale}${item?.link}`}>
-                            {locale == "ar" ? item?.label_ar : item?.label}
-                          </Link>
-                        </Heading>
-                      </div>
-                    ))}
-                  </AccordionItem>
+                  <>
+                    <AccordionItem
+                      locale={locale}
+                      title="Quick links"
+                      title_ar="QUICK LINKS ar"
+                      section="quick"
+                      openSection={openSection}
+                      setOpenSection={setOpenSection}
+                    >
+                      {footerData?.productCategories?.items?.map(
+                        (item, index) => (
+                          <div key={"productCategories" + index}>
+                            <Heading
+                              as="div"
+                              size="h5"
+                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                            >
+                              <Link href={item?.slug}>{item?.label}</Link>
+                            </Heading>
+                          </div>
+                        ),
+                      )}
+                    </AccordionItem>
+                    <hr className="border-[#eadcce] mt-4" />
+                  </>
                 </MediaQuery>
               </div>
-            )}
-
-            <MediaQuery minWidth={1024}>
-              {socialLinkData && (
-                <div className="mt-3 xl:mt-5">
-                  <Heading
-                    as="h6"
-                    size="h7"
-                    className="font-medium text-[#c09c86] mb-1 xl:mb-2.5 2xl:mb-4"
-                  >
-                    {locale == "ar" ? "FOLLOW US ar" : "FOLLOW US"}
-                  </Heading>
-                  <div className="flex flex-wrap items-center gap-x-3 xl:gap-x-5">
-                    {socialLinkData?.map((item, index) => (
-                      <div key={"social_link" + index}>
-                        <Button variant="link" size="none" asChild>
-                          <a href={item?.link || "#"} target="_blank">
-                            <Image
-                              src={item?.media?.media_path}
-                              alt={item?.media?.media_alt}
-                              width={12}
-                              height={12}
-                              className="w-2.5 xl:w-3 2xl:w-5 aspect-square block hover:scale-110 transition"
-                              unoptimized
-                            />
-                          </a>
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </MediaQuery>
-          </div>
-
-          <MediaQuery minWidth={1024}>
-            <div className="w-full sm:w-3/12 lg:w-[24%] 2xl:w-[23%]">
-              <Link
-                href={`/${locale}/${footerData?.slug}`}
-                className="w-[120px] xl:w-[160px] 2xl:w-[200px] block"
-              >
-                <Image
-                  src={footerData?.logoUrl}
-                  alt={locale === "ar" ? footerData?.name_ar : footerData?.name}
-                  width={290}
-                  height={260}
-                  className="w-full h-full block hover:scale-105 transition"
-                  unoptimized
-                />
-              </Link>
             </div>
-          </MediaQuery>
+          )}
 
-          <div className="w-full lg:w-[26%] 2xl:w-[24%]">
-            <div className="flex flex-wrap">
-              <MediaQuery maxWidth={1023}>
-                <div className="w-full 3xs:w-4/12 max-sm:mb-3">
-                  <Link
-                    href={`/${locale}/${footerData?.slug}`}
-                    className="w-[80px] sm:w-[120px] block"
-                  >
-                    <Image
-                      src={footerData?.logoUrl}
-                      alt={
-                        locale === "ar" ? footerData?.name_ar : footerData?.name
-                      }
-                      width={290}
-                      height={260}
-                      className="w-full h-full block hover:scale-105 transition"
-                      unoptimized
-                    />
-                  </Link>
-                </div>
-              </MediaQuery>
-              <div className="w-full sm:w-8/12 lg:w-full">
-                {footerData?.address && (
-                  <div>
-                    <Heading
+          {footerData?.manufacturingLocations && (
+            <div className="w-full lg:w-[24%] 2xl:w-[22%]">
+              <div className="w-full">
+                <MediaQuery minWidth={1024}>
+                  <>
+                    <Text
                       as="h6"
-                      size="h7"
-                      className="font-medium text-[#c09c86] mb-1 xl:mb-2.5 2xl:mb-4"
+                      size="p0"
+                      className="font-medium uppercase text-[#bcbcbc] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-8"
                     >
-                      {locale == "ar" ? "CONTACT US ar" : "CONTACT US"}
-                    </Heading>
-                    <Heading
-                      as="div"
-                      size="h6"
-                      className="max-3xs:text-[13px] font-normal text-[#1e1e1e] transition [&>a]:hover:text-[#cda278] mb-2 lg:mb-4 xl:mb-6 "
+                      {footerData?.manufacturingLocations?.title}
+                    </Text>
+                    {footerData?.manufacturingLocations?.items?.map(
+                      (item, index) => (
+                        <div key={"manufacturingLocations" + index}>
+                          <div className="w-full flex flex-wrap gap-x-2 3xl:gap-x-3 mb-2 xl:mb-4 2xl:mb-5 3xl:mb-6">
+                            <div className="w-[10px] 2xl:w-[12px] 3xl:w-[15px]">
+                              <Image
+                                src="/images/home-footer-loc.svg"
+                                alt="Location"
+                                width={15}
+                                height={19}
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <Heading
+                                as="div"
+                                size="h5"
+                                className="leading-none font-normal text-white transition [&>a]:hover:text-red-500 mb-0.5 xl:mb-1"
+                              >
+                                {item?.city}
+                              </Heading>
+                              <Heading
+                                as="div"
+                                size="h6"
+                                className="font-normal text-white transition [&>a]:hover:text-red-500"
+                              >
+                                <a href={`mailto:${item?.email}`}>
+                                  {item?.email}
+                                </a>
+                              </Heading>
+                            </div>
+                          </div>
+                        </div>
+                      ),
+                    )}
+                  </>
+                </MediaQuery>
+                <MediaQuery maxWidth={1023}>
+                  <>
+                    <AccordionItem
+                      locale={locale}
+                      title="Quick links"
+                      title_ar="QUICK LINKS ar"
+                      section="quick"
+                      openSection={openSection}
+                      setOpenSection={setOpenSection}
                     >
-                      {parse(
-                        locale == "ar"
-                          ? footerData?.address_ar
-                          : footerData?.address,
+                      {footerData?.manufacturingLocations?.items?.map(
+                        (item, index) => (
+                          <div key={"manufacturingLocations" + index}>
+                            <Heading
+                              as="div"
+                              size="h5"
+                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                            >
+                              <Link href={item?.slug}>{item?.label}</Link>
+                            </Heading>
+                          </div>
+                        ),
                       )}
-                    </Heading>
-                  </div>
-                )}
-                {footerData?.phone && (
-                  <div className="flex items-center gap-3 mb-1.5 xl:mb-2.5">
-                    <div className="w-3 xl:w-5">
-                      <Image
-                        src={"/images/footer-telephone.svg"}
-                        alt={
-                          locale === "ar"
-                            ? footerData?.name_ar
-                            : footerData?.name
-                        }
-                        width={20}
-                        height={20}
-                        className="w-full h-full block"
-                        unoptimized
-                      />
-                    </div>
-                    <Heading
-                      as="div"
-                      size="h6"
-                      className="font-normal text-[#1e1e1e] flex-1 transition [&>a]:hover:text-[#cda278]"
-                    >
-                      {footerData?.phone.map((phone, index) => (
-                        <a key={"phone" + index} href={`tel:${phone}`}>
-                          {phone}{" "}
-                        </a>
-                      ))}
-                    </Heading>
-                  </div>
-                )}
-                {footerData?.email && (
-                  <div className="flex flex-wrap items-center gap-3 mb-2.5 xl:mb-3.5">
-                    <div className="w-3 xl:w-5">
-                      <Image
-                        src={"/images/footer-mail.svg"}
-                        alt={
-                          locale === "ar"
-                            ? footerData?.name_ar
-                            : footerData?.name
-                        }
-                        width={20}
-                        height={20}
-                        className="w-full h-full block"
-                        unoptimized
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <Heading
-                        as="div"
-                        size="h6"
-                        className="font-normal text-[#1e1e1e] transition [&>a]:hover:text-[#cda278]"
-                      >
-                        {footerData?.email.map((email, index) => (
-                          <a key={"email" + index} href={`mailto:${email}`}>
-                            {email}{" "}
-                          </a>
-                        ))}
-                      </Heading>
-                    </div>
-                  </div>
-                )}
-                {footerData?.location_map_link && (
-                  <Button
-                    size="lg"
-                    variant={"outline"}
-                    className="text-[#cda278] min-w-[100px] xl:min-w-[100px] 2xl:min-w-[130px]"
-                    asChild
+                    </AccordionItem>
+                    <hr className="border-[#eadcce] mt-4" />
+                  </>
+                </MediaQuery>
+              </div>
+            </div>
+          )}
+
+          {footerData?.contactInfo && (
+            <div className="w-full lg:w-[16%] 2xl:w-[14%]">
+              <div className="w-full">
+                <Text
+                  as="h6"
+                  size="p0"
+                  className="font-medium uppercase text-[#bcbcbc] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-8"
+                >
+                  {footerData?.contactInfo?.title}
+                </Text>
+                {footerData?.contactInfo?.phone && (
+                  <Heading
+                    as="div"
+                    size="h5"
+                    className="font-normal text-white transition [&>a]:hover:text-red-500 mb-1 xl:mb-1.5 2xl:mb-2"
                   >
-                    <a href={footerData?.location_map_link} target="_blank">
+                    <Link href={`tel:${footerData?.contactInfo?.phone}`}>
+                      {footerData?.contactInfo?.phone}
+                    </Link>
+                  </Heading>
+                )}
+                {footerData?.contactInfo?.phone && (
+                  <Heading
+                    as="div"
+                    size="h5"
+                    className="font-normal text-white transition [&>a]:hover:text-red-500 mb-1 xl:mb-1.5 2xl:mb-2"
+                  >
+                    <Link href={`mailto:${footerData?.contactInfo?.email}`}>
+                      {footerData?.contactInfo?.email}
+                    </Link>
+                  </Heading>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full bg-black py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-x-5 ">
+            <Text as="div" size="p2" className="tracking-wide text-white">
+              {parse(footerData?.copyright)}
+            </Text>
+            <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
+              {socialLinkData?.map((item, index) => (
+                <div key={"social_link" + index}>
+                  <Button variant="link" size="none" asChild>
+                    <a href={item?.link} target="_blank">
                       <Image
-                        src={"/images/footer-map.svg"}
-                        alt={
-                          locale === "ar"
-                            ? footerData?.name_ar
-                            : footerData?.name
-                        }
-                        width={20}
-                        height={20}
-                        className="w-3 xl:w-5 block"
+                        src={item?.icon}
+                        alt={item?.name}
+                        width={18}
+                        height={18}
+                        className="w-3 xl:w-3 2xl:w-3.5 3xl:w-4.5 aspect-square block hover:scale-110 transition"
                         unoptimized
                       />
-                      {locale == "ar" ? "Locate on Map ar" : "Locate on Map"}
                     </a>
                   </Button>
-                )}
-
-                <MediaQuery maxWidth={1023}>
-                  {socialLinkData && (
-                    <div className="mt-3">
-                      <Heading
-                        as="h6"
-                        size="h7"
-                        className="font-medium text-[#c09c86] mb-1"
-                      >
-                        {locale == "ar" ? "FOLLOW US ar" : "FOLLOW US"}
-                      </Heading>
-                      <div className="flex flex-wrap items-center gap-x-4">
-                        {socialLinkData?.map((item, index) => (
-                          <div key={"social_link" + index}>
-                            <Button variant="link" size="none" asChild>
-                              <a href={item?.link} target="_blank">
-                                <Image
-                                  src={item?.media?.media_path}
-                                  alt={item?.media?.media_alt}
-                                  width={12}
-                                  height={12}
-                                  className="w-4 aspect-square block hover:scale-110 transition"
-                                  unoptimized
-                                />
-                              </a>
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </MediaQuery>
-              </div>
+                </div>
+              ))}
             </div>
+            <Text
+              as="div"
+              size="p2"
+              className="whitespace-nowrap text-end tracking-wide text-white flex"
+            >
+              Designed & Developed by:
+              <a href="https://www.intersmartsolution.com/" target="_blank">
+                <Image
+                  src="/images/footer-author.svg"
+                  alt="footer-author"
+                  width={100}
+                  height={20}
+                  className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline ml-1"
+                  unoptimized
+                />
+              </a>
+            </Text>
           </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-x-5 mt-6 xl:mt-8 2xl:mt-10">
-          <Text as="div" size="p2" className="tracking-wide text-[#1e1e1e]">
-            {parse(footerData?.copyright)}
-          </Text>
-          <hr className="border-[#eadcce] flex-1 max-sm:hidden" />
-          <Text
-            as="div"
-            size="p2"
-            className="whitespace-nowrap text-end tracking-wide text-[#1e1e1e] flex"
-          >
-            {locale == "ar" ? "Designed By: ar" : "Designed By:"}{" "}
-            <a href="https://www.intersmartsolution.com/" target="_blank">
-              <Image
-                src="/images/footer-author.svg"
-                alt="footer-author"
-                width={100}
-                height={20}
-                className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline ml-1"
-                unoptimized
-              />
-            </a>
-          </Text>
         </div>
       </div>
     </footer>

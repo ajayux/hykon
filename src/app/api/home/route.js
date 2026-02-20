@@ -1270,8 +1270,8 @@ export async function GET(request) {
         {
           id: 4,
           media: {
-            path: "/images/blog-4.jpg",
-            alt: "blog-4",
+            path: "/images/blog-1.jpg",
+            alt: "blog-1",
           },
           slug: "/blog/blog-1",
           title: "Two E-Autos Gifted on Gandhi Jayanti!",
@@ -1279,8 +1279,8 @@ export async function GET(request) {
         {
           id: 5,
           media: {
-            path: "/images/blog-5.jpg",
-            alt: "blog-5",
+            path: "/images/blog-2.jpg",
+            alt: "blog-2",
           },
           slug: "/blog/blog-1",
           title: "Empowering a Greener Tomorrow!",
@@ -1290,10 +1290,10 @@ export async function GET(request) {
 
     questionsSection: {
       media: {
-        path: "/images/home-questions-1.jpg",
+        path: "/images/home-questions-1.png",
         alt: "home-questions-1",
       },
-      title: "Have any questions?",
+      title: "Have Any Questions?",
       description:
         "Get in touch with our team for product details, support, or expert assistance.",
       button: {

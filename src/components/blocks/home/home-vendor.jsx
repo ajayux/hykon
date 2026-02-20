@@ -6,12 +6,12 @@ import parse from "html-react-parser";
 
 export default function HomeVendor({ data }) {
   return (
-    <div className="w-full h-full border-1 border-[#D3D7D9] rounded-[10px] p-[20px] xl:p-[40px] 3xl:p-[60px] flex items-center">
+    <div className="w-full h-full border-1 border-[#D3D7D9] rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-[20px] xl:p-[40px] 3xl:p-[60px] flex items-center">
       <div>
         <Heading
           as="h2"
           size="h3"
-          className="text-medium text-white mb-2 xl:mb-8 3xl:mb-12"
+          className="text-medium text-white mb-2 xl:mb-3 3xl:mb-4"
         >
           {parse(data?.title)}
         </Heading>

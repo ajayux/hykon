@@ -23,13 +23,13 @@ export default function HomeAbout({ data }) {
   );
   return (
     <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[140px_70px] 2xl:py-[190px_140px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
-      <div className="container">
+      <div className="container xl:max-w-[1140px] 2xl:max-w-[1360px] 3xl:max-w-[1700px]">
         <div className="flex flex-wrap sm:items-center -mx-3 sm:-mx-1 3xl:-mx-3 [&>*]:p-3 sm:[&>*]:p-1 3xl:[&>*]:p-3">
           <div className="w-full xl:w-[35%] 2xl:w-[40%]">
             <Heading
               as="div"
               size="h6"
-              className="tracking-widest uppercase text-[#008dd2] mb-1 xl:mb-2.5 2xl:mb-4"
+              className="tracking-1 uppercase text-[#008dd2] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-7"
             >
               {data?.subTitle}
             </Heading>
@@ -45,7 +45,7 @@ export default function HomeAbout({ data }) {
                 <Heading
                   as="h6"
                   size="h5"
-                  className="font-normal tracking-widest uppercase text-[#caad63] mb-3 xl:mb-1 3xl:mb-2"
+                  className="font-normal tracking-[0.30rem] uppercase text-[#caad63] mb-3 xl:mb-1 3xl:mb-2"
                 >
                   {data?.achievement?.title}
                 </Heading>
@@ -82,14 +82,14 @@ export default function HomeAbout({ data }) {
           <div className="w-full xl:w-[65%] 2xl:w-[60%]">
             <div className="flex flex-wrap items-center gap-x-13 2xl:gap-x-16 3xl:gap-x-20">
               {data?.chairman && (
-                <div className="w-full xl:w-[305px] 2xl:w-[362px] 3xl:w-[455px] relative z-0">
-                  <div className="w-full aspect-[45/60] overflow-hidden shadow-2xl">
+                <div className="w-full xl:w-[305px] 2xl:w-[362px] 3xl:w-[452px] relative z-0">
+                  <div className="w-full aspect-[45/60] overflow-hidden shadow-2xl rounded-[15px] 2xl:rounded-[18px] 3xl:rounded-[23px]">
                     <Image
                       src={data?.chairman?.media?.path}
                       alt={data?.chairman?.media?.alt}
                       width={454}
                       height={600}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
                     />
                   </div>
                   <Image
@@ -127,7 +127,10 @@ export default function HomeAbout({ data }) {
                 </Text>
                 <div className="flex flex-wrap -mx-3 mb-12 2xl:mb-14 3xl:mb-20">
                   {data?.statistics?.map((item) => (
-                    <div key={item?.id} className="w-full sm:w-1/2 py-2 px-3">
+                    <div
+                      key={item?.id}
+                      className="w-full sm:w-1/2 xl:w-[142px] 2xl:w-[170px] 3xl:w-[215px] py-2 px-3"
+                    >
                       <div className="w-full bg-[#252525] rounded-[10px] py-4.5 px-6 hover:bg-[#2d2d2d] transition-all duration-300">
                         <Heading
                           as="div"
@@ -155,11 +158,10 @@ export default function HomeAbout({ data }) {
                     </div>
                   ))}
                 </div>
-
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-white min-w-[100px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[187px] pl-4"
+                  className="text-center text-white min-w-[100px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[187px] pl-4"
                   asChild
                 >
                   <Link href={data?.button?.link}>
@@ -171,7 +173,7 @@ export default function HomeAbout({ data }) {
                         alt={"icon-arrow-right-white"}
                         width={18}
                         height={13}
-                        className="w-6/10"
+                        className="w-1/2"
                         unoptimized
                       />
                     </div>

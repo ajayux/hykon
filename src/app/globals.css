@@ -25,11 +25,11 @@
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;
-  --breakpoint-xl: 79rem;
-  --breakpoint-2xl: 86rem;
+  --breakpoint-xl: 73.625rem;
+  --breakpoint-2xl: 88rem;
   --breakpoint-3xl: 107.5rem;
 
-  --tracking-1: 7px;
+  --tracking-1: 8px;
 }
 
 :root {

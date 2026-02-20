@@ -86,7 +86,7 @@ export default function HomeBusiness({ data }) {
                       </div>
 
                       <div className="w-full 3xl:min-h-[410px] bg-white px-3 xl:px-4 3xl:px-5 py-4 xl:py-6 3xl:py-8 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 translate-y-4 group-hover:translate-y-0 group-hover:scale-105 rounded-2xl shadow-lg">
-                        <div className="relative w-full aspect-34/18 overflow-hidden mb-2 xl:mb-4.5 3xl:mb-6.5">
+                        <div className="relative w-full aspect-34/18 overflow-hidden rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[10px] mb-2 xl:mb-4.5 3xl:mb-6.5">
                           <Image
                             src={item?.media?.path}
                             alt={item?.media?.alt}
@@ -114,7 +114,7 @@ export default function HomeBusiness({ data }) {
                                 alt={"icon-arrow-right-white"}
                                 width={18}
                                 height={13}
-                                className="w-4.5"
+                                className="w-1/2"
                                 unoptimized
                               />
                             </div>
