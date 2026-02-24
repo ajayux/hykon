@@ -249,512 +249,110 @@ export async function GET(request) {
             title: "Solar Light",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 2,
             title: "Solar power packs",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 3,
             title: "Lithium Battery",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 4,
             title: "Electric Vehicle",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 5,
             title: "Heat Pump",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 6,
             title: "E-Generator",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                slug: "flash-torch-light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                slug: "wallite-series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                slug: "aurora-series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                slug: "billite-series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                slug: "solo-r-series-2",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
           },
           {
             id: 7,
             title: "BESS",
             description:
               "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-1.png",
-                  alt: "pro-1",
-                },
-                title: "Flash torch light",
-                description:
-                  "Hykon Solar flash torch light is a torch that can be charged using solar power",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-2.png",
-                  alt: "pro-2",
-                },
-                title: "Wallite series",
-                description:
-                  "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-3.png",
-                  alt: "pro-3",
-                },
-                title: "Aurora series",
-                description:
-                  "Hykon Aurora series is of solar lantern lights that can lit up your....",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-4.png",
-                  alt: "pro-4",
-                },
-                title: "Billite series",
-                description:
-                  "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-5.png",
-                  alt: "pro-5",
-                },
-                title: "Solo R series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-6.png",
-                  alt: "pro-6",
-                },
-                title: "Solo R series",
-                description:
-                  "Hykon Solo R series is a solar street light which includes higher....",
-              },
-            ],
+          },
+        ],
+        productsItems: [
+          {
+            id: 1,
+            media: {
+              path: "/images/pro-1.png",
+              alt: "pro-1",
+            },
+            title: "Flash torch light",
+            slug: "flash-torch-light",
+            description:
+              "Hykon Solar flash torch light is a torch that can be charged using solar power",
+          },
+          {
+            id: 2,
+            media: {
+              path: "/images/pro-2.png",
+              alt: "pro-2",
+            },
+            title: "Wallite series",
+            slug: "wallite-series",
+            description:
+              "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
+          },
+          {
+            id: 3,
+            media: {
+              path: "/images/pro-3.png",
+              alt: "pro-3",
+            },
+            title: "Aurora series",
+            slug: "aurora-series",
+            description:
+              "Hykon Aurora series is of solar lantern lights that can lit up your....",
+          },
+          {
+            id: 4,
+            media: {
+              path: "/images/pro-4.png",
+              alt: "pro-4",
+            },
+            title: "Billite series",
+            slug: "billite-series",
+            description:
+              "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
+          },
+          {
+            id: 5,
+            media: {
+              path: "/images/pro-5.png",
+              alt: "pro-5",
+            },
+            title: "Solo R series",
+            slug: "solo-r-series",
+            description:
+              "Hykon Solo R series is a solar street light which includes higher....",
+          },
+          {
+            id: 6,
+            media: {
+              path: "/images/pro-6.png",
+              alt: "pro-6",
+            },
+            title: "Solo R series",
+            slug: "solo-r-series-2",
+            description:
+              "Hykon Solo R series is a solar street light which includes higher....",
           },
         ],
       },
