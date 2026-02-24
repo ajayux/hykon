@@ -20,11 +20,11 @@ export default function Footer({ footerData, socialLinkData, locale }) {
 
   return (
     <footer className="w-full pt-8 xl:pt-[45px] 2xl:pt-[50px] 3xl:pt-[70px] overflow-hidden bg-[#212121] relative z-0 max-sm:pb-12">
-      <div className="container">
+      <div className="container opacity-95">
         <div className="flex flex-wrap items-center justify-between">
           <Link
             href={footerData?.slug}
-            className="w-[90px] sm:w-[100px] lg:w-[125px] 2xl:w-[150px] 3xl:w-[186px] block"
+            className="w-[90px] sm:w-[100px] lg:w-[125px] 2xl:w-[150px] 3xl:w-[186px] block mb-3 lg:mb-0"
           >
             <Image
               src={footerData?.logoUrl}
@@ -35,11 +35,11 @@ export default function Footer({ footerData, socialLinkData, locale }) {
               unoptimized
             />
           </Link>
-          <div className="max-w-full xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[880px]">
+          <div className="w-full max-w-full lg:max-w-[468px] xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[880px]">
             <Heading
               as="div"
-              size="h4"
-              className="lg:text-[18px] 2xl:text-[22px] 3xl:text-[28px] font-normal text-white"
+              size="none"
+              className="text-[12px] lg:text-[14px] xl:text-[18px] 2xl:text-[22px] 3xl:text-[28px] font-normal text-white"
             >
               {parse(footerData?.description)}
             </Heading>
@@ -66,7 +66,7 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                           <Heading
                             as="div"
                             size="h5"
-                            className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                            className="font-normal text-white transition [&>a]:hover:text-[#008dd2] my-0.5 xl:my-1"
                           >
                             <Link href={item?.slug}>{item?.label}</Link>
                           </Heading>
@@ -78,26 +78,25 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                 <MediaQuery maxWidth={1023}>
                   <>
                     <AccordionItem
-                      locale={locale}
                       title="Quick links"
-                      title_ar="QUICK LINKS ar"
-                      section="quick"
+                      section="quickLinks"
                       openSection={openSection}
                       setOpenSection={setOpenSection}
                     >
-                      {footerData?.quickLinks?.items?.map((item, index) => (
-                        <div key={"quick_links" + index}>
-                          <Heading
-                            as="div"
-                            size="h5"
-                            className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
-                          >
-                            <Link href={item?.slug}>{item?.label}</Link>
-                          </Heading>
-                        </div>
-                      ))}
+                      <div className="flex flex-wrap -mx-2">
+                        {footerData?.quickLinks?.items?.map((item, index) => (
+                          <div key={"quickLinks" + index} className="w-1/2 p-2">
+                            <Heading
+                              as="div"
+                              size="h5"
+                              className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
+                            >
+                              <Link href={item?.slug}>{item?.label}</Link>
+                            </Heading>
+                          </div>
+                        ))}
+                      </div>
                     </AccordionItem>
-                    <hr className="border-[#eadcce] mt-4" />
                   </>
                 </MediaQuery>
               </div>
@@ -123,7 +122,7 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                             <Heading
                               as="div"
                               size="h5"
-                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                              className="font-normal text-white transition [&>a]:hover:text-[#008dd2] my-0.5 xl:my-1"
                             >
                               <Link href={item?.slug}>{item?.label}</Link>
                             </Heading>
@@ -136,28 +135,30 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                 <MediaQuery maxWidth={1023}>
                   <>
                     <AccordionItem
-                      locale={locale}
-                      title="Quick links"
-                      title_ar="QUICK LINKS ar"
-                      section="quick"
+                      title="Product Categories"
+                      section="productCategories"
                       openSection={openSection}
                       setOpenSection={setOpenSection}
                     >
-                      {footerData?.productCategories?.items?.map(
-                        (item, index) => (
-                          <div key={"productCategories" + index}>
-                            <Heading
-                              as="div"
-                              size="h5"
-                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                      <div className="flex flex-wrap -mx-2">
+                        {footerData?.productCategories?.items?.map(
+                          (item, index) => (
+                            <div
+                              key={"productCategories" + index}
+                              className="w-1/2 p-2"
                             >
-                              <Link href={item?.slug}>{item?.label}</Link>
-                            </Heading>
-                          </div>
-                        ),
-                      )}
+                              <Heading
+                                as="div"
+                                size="h5"
+                                className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
+                              >
+                                <Link href={item?.slug}>{item?.label}</Link>
+                              </Heading>
+                            </div>
+                          ),
+                        )}
+                      </div>
                     </AccordionItem>
-                    <hr className="border-[#eadcce] mt-4" />
                   </>
                 </MediaQuery>
               </div>
@@ -192,14 +193,14 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                               <Heading
                                 as="div"
                                 size="h5"
-                                className="leading-none font-normal text-white transition [&>a]:hover:text-red-500 mb-0.5 xl:mb-1"
+                                className="leading-none font-normal text-white transition [&>a]:hover:text-[#008dd2] mb-0.5 xl:mb-1"
                               >
                                 {item?.city}
                               </Heading>
                               <Heading
                                 as="div"
                                 size="h6"
-                                className="font-normal text-white transition [&>a]:hover:text-red-500"
+                                className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
                               >
                                 <a href={`mailto:${item?.email}`}>
                                   {item?.email}
@@ -215,28 +216,51 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                 <MediaQuery maxWidth={1023}>
                   <>
                     <AccordionItem
-                      locale={locale}
-                      title="Quick links"
-                      title_ar="QUICK LINKS ar"
-                      section="quick"
+                      title="Manufacturing Locations"
+                      section="manufacturingLocations"
                       openSection={openSection}
                       setOpenSection={setOpenSection}
                     >
-                      {footerData?.manufacturingLocations?.items?.map(
-                        (item, index) => (
-                          <div key={"manufacturingLocations" + index}>
-                            <Heading
-                              as="div"
-                              size="h5"
-                              className="font-normal text-white transition [&>a]:hover:text-red-500 my-0.5 xl:my-1"
+                      <div className="flex flex-wrap -mx-2">
+                        {footerData?.manufacturingLocations?.items?.map(
+                          (item, index) => (
+                            <div
+                              key={"manufacturingLocations" + index}
+                              className="w-1/2 p-2"
                             >
-                              <Link href={item?.slug}>{item?.label}</Link>
-                            </Heading>
-                          </div>
-                        ),
-                      )}
+                              <div className="w-full flex flex-wrap gap-x-2 3xl:gap-x-3 mb-2 xl:mb-4 2xl:mb-5 3xl:mb-6">
+                                <div className="w-[10px] 2xl:w-[12px] 3xl:w-[15px]">
+                                  <Image
+                                    src="/images/home-footer-loc.svg"
+                                    alt="Location"
+                                    width={15}
+                                    height={19}
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <Heading
+                                    as="div"
+                                    size="h5"
+                                    className="leading-none font-normal text-white transition [&>a]:hover:text-[#008dd2] mb-0.5 xl:mb-1"
+                                  >
+                                    {item?.city}
+                                  </Heading>
+                                  <Heading
+                                    as="div"
+                                    size="h6"
+                                    className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
+                                  >
+                                    <a href={`mailto:${item?.email}`}>
+                                      {item?.email}
+                                    </a>
+                                  </Heading>
+                                </div>
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
                     </AccordionItem>
-                    <hr className="border-[#eadcce] mt-4" />
                   </>
                 </MediaQuery>
               </div>
@@ -257,7 +281,7 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                   <Heading
                     as="div"
                     size="h5"
-                    className="font-normal text-white transition [&>a]:hover:text-red-500 mb-1 xl:mb-1.5 2xl:mb-2"
+                    className="font-normal text-white transition [&>a]:hover:text-[#008dd2] mb-1 xl:mb-1.5 2xl:mb-2"
                   >
                     <Link href={`tel:${footerData?.contactInfo?.phone}`}>
                       {footerData?.contactInfo?.phone}
@@ -268,7 +292,7 @@ export default function Footer({ footerData, socialLinkData, locale }) {
                   <Heading
                     as="div"
                     size="h5"
-                    className="font-normal text-white transition [&>a]:hover:text-red-500 mb-1 xl:mb-1.5 2xl:mb-2"
+                    className="font-normal text-white transition [&>a]:hover:text-[#008dd2] mb-1 xl:mb-1.5 2xl:mb-2"
                   >
                     <Link href={`mailto:${footerData?.contactInfo?.email}`}>
                       {footerData?.contactInfo?.email}
@@ -282,8 +306,8 @@ export default function Footer({ footerData, socialLinkData, locale }) {
       </div>
 
       <div className="w-full bg-black py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
-        <div className="container">
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-x-5 ">
+        <div className="container opacity-95">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
               {parse(footerData?.copyright)}
             </Text>
@@ -291,13 +315,13 @@ export default function Footer({ footerData, socialLinkData, locale }) {
               {socialLinkData?.map((item, index) => (
                 <div key={"social_link" + index}>
                   <Button variant="link" size="none" asChild>
-                    <a href={item?.link} target="_blank">
+                    <a href={item?.link} target="_blank" className="block">
                       <Image
                         src={item?.icon}
                         alt={item?.name}
                         width={18}
                         height={18}
-                        className="w-3 xl:w-3 2xl:w-3.5 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
                         unoptimized
                       />
                     </a>
@@ -331,9 +355,7 @@ export default function Footer({ footerData, socialLinkData, locale }) {
 
 // Accordion Item Component
 function AccordionItem({
-  locale,
   title,
-  title_ar,
   children,
   section,
   openSection,
@@ -346,18 +368,22 @@ function AccordionItem({
   };
 
   return (
-    <div className="border-t border-[#eadcce]">
+    <div className="border-t border-[#414141]">
       <button
         onClick={toggleAccordion}
-        className="w-full flex items-center justify-between pt-4 text-start"
+        className="w-full flex items-center justify-between pt-5 pb-3 text-start"
       >
-        <Heading as="h6" size="h7" className="font-medium text-black">
-          {locale === "ar" ? title_ar : title}
-        </Heading>
+        <Text
+          as="h6"
+          size="p0"
+          className="font-medium uppercase text-[#bcbcbc]"
+        >
+          {title}
+        </Text>
 
         <ChevronDown
           className={cn(
-            "w-4 h-4 text-[#1e1e1e] transition-transform duration-200",
+            "w-4 h-4 text-white transition-transform duration-200",
             isOpen && "rotate-180",
           )}
         />

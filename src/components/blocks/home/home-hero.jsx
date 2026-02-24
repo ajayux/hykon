@@ -6,10 +6,10 @@ import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 export default function HomeHero({ data }) {
   return (
     <ParallaxProvider>
-      <section className="w-full h-screen min-h-[576px] sm:min-h-[576px] xl:min-h-[620px] 2xl:min-h-[668px] 3xl:min-h-[768px] bg-black overflow-hidden relative z-0">
+      <section className="w-full h-auto lg:h-screen min-h-[576px] sm:min-h-[768px] lg:min-h-[520px] 2xl:min-h-[620px] 3xl:min-h-[768px] bg-black overflow-hidden relative z-0">
         <Parallax
           speed={-20}
-          className="absolute z-0 inset-0 w-full h-full bg-white"
+          className="absolute z-0 inset-0 w-full h-full bg-white "
           style={{ height: "120%" }}
         >
           {data?.mainImage?.type === "video" ? (
@@ -19,7 +19,7 @@ export default function HomeHero({ data }) {
               muted
               loop
               playsInline
-              className="w-full h-full object-cover pointer-events-none"
+              className="w-full h-full object-cover pointer-events-none max-sm:-translate-y-[35px]"
             />
           ) : (
             <picture className="w-full h-full block">
@@ -34,7 +34,7 @@ export default function HomeHero({ data }) {
                 alt={data?.mainImage?.alt || "Hero background"}
                 fill
                 sizes="100vw"
-                className="object-cover"
+                className="object-cover max-sm:-translate-y-[35px]"
                 priority
               />
             </picture>
@@ -43,13 +43,13 @@ export default function HomeHero({ data }) {
 
         <div className="absolute z-1 inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
-        <div className="absolute z-2 bottom-0 inset-x-0  container flex justify-end pb-12.5 2xl:pb-15 3xl:pb-19">
-          <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-3.5 2xl:py-4.5 3xl:py-5 px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
+        <div className="absolute z-2 bottom-0 inset-x-0  container flex justify-end pb-4 lg:pb-12.5 2xl:pb-15 3xl:pb-19">
+          <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-2 xl:py-3 2xl:py-4.5 3xl:py-5 px-4 xl:px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
             <div className="pl-2 2xl:pl-2.5 3xl:pl-3 pr-5 2xl:pr-6 3xl:pr-7.5">
               <Text as="p" size="p2" className="text-white">
                 {data?.contactInfo?.title}
                 <br />
-                <span className="text-[125%] font-medium">
+                <span className="text-[110%] sm:text-[125%] font-medium">
                   <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
                     {data?.contactInfo?.phone}
                   </a>

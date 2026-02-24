@@ -17,16 +17,21 @@ export default function HomeBlogs({ data }) {
       slidesToScroll: 1,
       containScroll: "trimSnaps",
     },
-    // [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
+    [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block bg-black pb-10 xl:pb-[66px] 2xl:pb-20 3xl:pb-[100px] relative z-0">
-      <div className="text-[120px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-gray-900 select-none opacity-40 absolute -z-1 top-0 inset-x-0 ">
+    <section className="w-full h-auto block bg-[#181818] pb-10 xl:pb-[66px] 2xl:pb-20 3xl:pb-[100px] relative z-0">
+      <div className="text-[100px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-[#181818] select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959] -translate-y-1/3">
         {parse(data?.title)}
       </div>
-      <div className="container">
-        <div className="flex flex-wrap sm:items-end gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15">
-          <div className="w-full xl:flex-1">
+      <div
+        className={cn(
+          "container",
+          "max-sm:pr-0 max-sm:[mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)] max-sm:[-webkit-mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)]",
+        )}
+      >
+        <div className="flex flex-wrap items-end gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15 max-sm:pr-4">
+          <div className="flex-1">
             <Heading
               as="h2"
               size="h1"
@@ -35,11 +40,11 @@ export default function HomeBlogs({ data }) {
               {parse(data?.title)}
             </Heading>
           </div>
-          <div className="w-full xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
+          <div className="w-[100px] sm:w-[100px] lg:w-[100px] xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[160px] xl:min-w-full justify-between pl-4 xl:pl-7"
+              className="text-white min-w-full justify-between pl-4 xl:pl-7"
               asChild
             >
               <Link href={data?.button?.link}>
@@ -50,7 +55,7 @@ export default function HomeBlogs({ data }) {
                     alt={"icon-arrow-right-white"}
                     width={18}
                     height={13}
-                    className="w-4.5"
+                    className="w-1/2"
                     unoptimized
                   />
                 </div>
@@ -79,33 +84,33 @@ export default function HomeBlogs({ data }) {
                       height={560}
                       className="w-full h-full object-cover absolute -z-1 inset-0 transition-transform duration-300 rounded-[20px]"
                     />
-                    <div className="absolute z-0 inset-x-7.5 bottom-12">
-                      <div className="w-full h-auto bg-white/70 rounded-[20px] backdrop-blur-[20px] p-2 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] relative z-0">
-                        <div className="w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
+                    <div className="absolute z-0 inset-x-2 sm:inset-x-3 xl:inset-x-6 2xl:inset-x-7 3xl:inset-x-9 bottom-4 sm:bottom-4 xl:bottom-8 2xl:bottom-9.5 3xl:bottom-12">
+                      <div className="w-full h-auto bg-white/70 rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] backdrop-blur-[20px] p-4 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] py-5 xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] relative z-0">
+                        <div className="w-[3px] lg:w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
                         <Image
                           src={"/images/icon-blog-btn.svg"}
                           alt={"icon-blog-btn"}
                           width={40}
                           height={40}
-                          className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute -z-1 top-2 2xl:top-2.5 3xl:top-3.5 right-2 2xl:right-2.5 3xl:right-3.5 transition-transform duration-300"
+                          className="w-4 xl:w-6.5 2xl:w-8 3xl:w-10 object-contain absolute -z-1 top-1 lg:top-2 2xl:top-2.5 3xl:top-3.5 right-1 lg:right-2 2xl:right-2.5 3xl:right-3.5 transition-transform duration-300"
                         />
                         <Text
                           as="div"
                           size="p0"
-                          className="line-clamp-3 font-medium text-[#3c3c3c]"
+                          className="max-lg:text-[13px] line-clamp-3 font-medium text-[#3c3c3c]"
                         >
                           {parse(item?.title)}
                         </Text>
                       </div>
                     </div>
                   </div>
-                  <div className="w-full max-w-9/10 max-h-9/10 h-full m-auto absolute z-0 inset-0 invisible group-hover:visible scale-0 group-hover:scale-100  transition-all duration-300">
+                  <div className="w-full max-w-[95%] sm:max-w-9/10 max-h-[95%] sm:max-h-9/10 h-full m-auto absolute z-0 inset-0 invisible group-hover:visible scale-0 group-hover:scale-100 transition-all duration-300">
                     <Image
                       src={"/images/icon-blog-btn.svg"}
                       alt={"icon-blog-btn"}
                       width={40}
                       height={40}
-                      className="w-6.5 2xl:w-8 3xl:w-10 object-contain absolute z-1 top-3 2xl:top-3.5 3xl:top-4 right-3 2xl:right-3.5 3xl:right-4 transition-transform duration-300 hover:scale-110"
+                      className="w-5 lg:w-6.5 2xl:w-8 3xl:w-10 object-contain absolute z-1 top-3 2xl:top-3.5 3xl:top-4 right-3 2xl:right-3.5 3xl:right-4 transition-transform duration-300 hover:scale-110"
                     />
                     <div className="w-full h-full rounded-[20px] overflow-hidden relative z-0 bg-black">
                       <Image
@@ -117,12 +122,12 @@ export default function HomeBlogs({ data }) {
                       />
                     </div>
                     <div className="absolute z-0 inset-x-0 bottom-0">
-                      <div className="w-full h-auto p-2 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] block relative z-0">
-                        <div className="w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
+                      <div className="w-full h-auto p-2 sm:p-4 xl:px-[40px] 2xl:px-[50px] 3xl:px-[60px] xl:py-[28px] 2xl:py-[32px] 3xl:py-[40px] block relative z-0">
+                        <div className="w-[3px] xl:w-[5px] h-full max-h-1/3 m-auto absolute z-0 left-0 inset-y-0 bg-[#008dd2] rounded-r-lg" />
                         <Text
                           as="div"
                           size="p0"
-                          className="line-clamp-3 font-medium text-white"
+                          className="max-lg:text-[13px] line-clamp-3 font-medium text-white"
                         >
                           {parse(item?.title)}
                         </Text>

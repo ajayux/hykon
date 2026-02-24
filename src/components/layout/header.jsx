@@ -48,16 +48,31 @@ export default function Header({ data, navigationData, locale }) {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end lg:justify-end transition gap-x-7 sm:gap-x-7 lg:gap-x-7.5 2xl:gap-x-10 bg-white/75 backdrop-blur-[30px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
-            <HeaderNavigation navigationData={navigationData} />
+          <div className="flex items-center justify-end lg:justify-end transition gap-x-3 sm:gap-x-4 lg:gap-x-7.5 2xl:gap-x-10 bg-transparent sm:bg-white/75 sm:backdrop-blur-[30px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
+            <HeaderNavigation
+              className="max-lg:hidden"
+              navigationData={navigationData}
+            />
 
-            <Button variant="none" size="none" className="w-4 xl:w-4.5 2xl:w-5 3xl:w-6">
+            <Button
+              variant="none"
+              size="none"
+              className="w-4 xl:w-4.5 2xl:w-5 3xl:w-6"
+            >
               <Image
                 src={"/images/icon-search.svg"}
                 alt={"icon-search"}
                 width={25}
                 height={25}
-                className="w-full h-full block object-contain"
+                className="w-full h-full block object-contain hidden lg:block"
+                unoptimized
+              />
+              <Image
+                src={"/images/icon-search-white.svg"}
+                alt={"icon-search"}
+                width={25}
+                height={25}
+                className="w-full h-full block object-contain block lg:hidden"
                 unoptimized
               />
             </Button>

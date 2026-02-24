@@ -14,13 +14,13 @@ export default function HomeQuestions({ data }) {
         height={455}
         className="w-[100px] xl:w-[160px] 2xl:w-[192px] 3xl:w-[240px] aspect-[222/455] absolute -z-1 left-0 inset-y-0 m-auto"
       />
-      <div className="container lg:pl-[140px] lg:pr-[60px] 2xl:pl-[160px] 2xl:pr-[90px] 3xl:pl-[200px] 3xl:pr-[100px]">
+      <div className="container xl:pl-[140px] xl:pr-[60px] 2xl:pl-[160px] 2xl:pr-[90px] 3xl:pl-[200px] 3xl:pr-[100px]">
         <div className="flex flex-wrap items-center">
           <div className="w-full lg:flex-1">
             <Heading
               as="h2"
               size="none"
-              className="text-[32px] sm:text-[36px] lg:text-[46px] 2xl:text-[55px] 3xl:text-[68px] font-normal text-white 3xl:mb-0.5"
+              className="text-[28px] sm:text-[32px] lg:text-[46px] 2xl:text-[55px] 3xl:text-[68px] font-normal text-white 3xl:mb-0.5"
             >
               {parse(data?.title)}
             </Heading>

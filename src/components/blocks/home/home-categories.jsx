@@ -19,11 +19,11 @@ export default function HomeCategories({ data }) {
   );
 
   return (
-    <section className="w-full h-auto bg-[#171d1f] block py-6 xl:py-10 2xl:py-11 3xl:py-13 overflow-hidden">
+    <section className="w-full h-auto bg-[#171d1f] block py-6 lg:py-10 2xl:py-11 3xl:py-13 overflow-hidden">
       <div
         className={cn(
-          "w-full sm:max-w-[640px] md:max-w-[768px] lg:max-w-[1080px] xl:max-w-[1250px] 2xl:max-w-[1500px] 3xl:max-w-[1870px] mx-auto",
-          "px-4 [mask-image:linear-gradient(to_right,transparent_0%,black_2%,black_98%,transparent_100%)] max-sm:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_2%,black_98%,transparent_100%)]",
+          "w-full lg:max-w-[1080px] xl:max-w-[1250px] 2xl:max-w-[1500px] 3xl:max-w-[1870px] mx-auto",
+          "lg:px-4 max-lg:[mask-image:linear-gradient(to_right,transparent_0%,black_2%,black_98%,transparent_100%)] max-lg:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_2%,black_98%,transparent_100%)]",
         )}
       >
         <div
@@ -36,11 +36,11 @@ export default function HomeCategories({ data }) {
               <div
                 key={item?.id}
                 className={cn(
-                  "flex-[0_0_220px] sm:flex-[0_0_33.333%] xl:flex-[0_0_130px] 2xl:flex-[0_0_150px] 3xl:flex-[0_0_185px] min-w-0 select-none",
+                  "flex-[0_0_130px] lg:flex-[0_0_130px] 2xl:flex-[0_0_150px] 3xl:flex-[0_0_185px] min-w-0 select-none",
                 )}
               >
-                <div className="group w-full h-full bg-[#16242A] rounded-[11px] 2xl:rounded-[14px] 3xl:rounded-[17px] flex flex-col px-2 py-5 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
-                  <div className="w-full h-[100px] 2xl:h-[120px] 3xl:h-[140px] flex justify-center items-center">
+                <div className="group w-full h-full bg-[#16242A] rounded-[11px] 2xl:rounded-[14px] 3xl:rounded-[17px] flex flex-col px-3 sm:px-2 py-3 sm:py-5 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
+                  <div className="w-full h-[80px] sm:h-[100px] 2xl:h-[120px] 3xl:h-[140px] flex justify-center items-center">
                     <div className="w-[40px] 2xl:w-[48px] 3xl:w-[60px] aspect-square relative group-hover:translate-y-[-10px] transition-all duration-300">
                       <Image
                         src={item?.iconPath}

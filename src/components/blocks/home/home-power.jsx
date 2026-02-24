@@ -6,26 +6,27 @@ import parse from "html-react-parser";
 
 export default function HomePower({ data }) {
   return (
-    <div className="w-full h-full overflow-hidden p-[20px] xl:p-[40px] 3xl:p-[60px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] relative z-0">
+    <div className="w-full h-full bg-[#008DD2] overflow-hidden p-[20px] xl:p-[40px] 3xl:p-[60px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] relative z-0">
+      <div className="w-full h-full bg-linear-to-t from-black via-black/30 to-black/90 absolute -z-1 inset-0 opacity-50" />
       <Image
         src={"/images/home-calculate-bg.png"}
         alt={"home-calculate-bg"}
         width={1360}
         height={125}
-        className="w-full h-full absolute -z-1 inset-0 object-cover pointer-events-none"
+        className="w-full h-full absolute -z-1 inset-0 object-cover pointer-events-none opacity-50"
       />
       <div className="flex flex-col">
         <Heading
           as="h2"
           size="h1"
-          className="leading-tight text-medium text-center text-white mb-1 xl:mb-2 3xl:mb-3"
+          className="leading-tight text-medium text-center text-white mb-1 xl:mb-2 3xl:mb-3 xl:max-w-[70%] mx-auto"
         >
           {parse(data?.title)}
         </Heading>
         <Text
           as="p"
           size="p1"
-          className="text-normal text-center text-white mb-2 xl:mb-10 3xl:mb-14"
+          className="text-normal text-center text-white mb-4 lg:mb-2 xl:mb-10 3xl:mb-14"
         >
           {parse(data?.description)}
         </Text>

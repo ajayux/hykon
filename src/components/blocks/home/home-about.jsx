@@ -22,14 +22,14 @@ export default function HomeAbout({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block py-[30px] sm:py-[40px] xl:py-[140px_70px] 2xl:py-[190px_140px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
+    <section className="w-full h-auto block py-[30px] sm:py-[40px] lg:py-[120px_80px] 2xl:py-[150px_110px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
       <div className="container xl:max-w-[1140px] 2xl:max-w-[1360px] 3xl:max-w-[1700px]">
-        <div className="flex flex-wrap sm:items-center -mx-3 sm:-mx-1 3xl:-mx-3 [&>*]:p-3 sm:[&>*]:p-1 3xl:[&>*]:p-3">
-          <div className="w-full xl:w-[35%] 2xl:w-[40%]">
+        <div className="flex flex-wrap sm:items-center -mx-3 lg:-mx-1 3xl:-mx-3 [&>*]:p-3 lg:[&>*]:p-1 3xl:[&>*]:p-3">
+          <div className="w-full lg:w-[36%]  xl:w-[38%] 2xl:w-[40%]">
             <Heading
               as="div"
               size="h6"
-              className="tracking-1 uppercase text-[#008dd2] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-7"
+              className="tracking-1 uppercase text-[#008dd2] mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7"
             >
               {data?.subTitle}
             </Heading>
@@ -41,11 +41,11 @@ export default function HomeAbout({ data }) {
               {data?.title}
             </Heading>
             {data?.achievement && (
-              <div className="w-full max-w-8/12 2xl:max-w-9/12">
+              <div className="w-full lg:max-w-8/12 2xl:max-w-9/12">
                 <Heading
                   as="h6"
                   size="h5"
-                  className="font-normal tracking-[0.30rem] uppercase text-[#caad63] mb-3 xl:mb-1 3xl:mb-2"
+                  className="font-normal tracking-[0.30rem] uppercase text-[#caad63] mb-0.5 xl:mb-1 3xl:mb-2"
                 >
                   {data?.achievement?.title}
                 </Heading>
@@ -59,7 +59,7 @@ export default function HomeAbout({ data }) {
                       <div
                         key={item?.id}
                         className={cn(
-                          "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_25%] min-w-0 select-none",
+                          "flex-[0_0_80px] sm:flex-[0_0_100px] lg:flex-[0_0_25%] min-w-0 select-none",
                         )}
                       >
                         <div className="w-10 xl:w-13 2xl:w-16 3xl:w-20 aspect-square transition-all duration-300 hover:scale-105">
@@ -79,10 +79,10 @@ export default function HomeAbout({ data }) {
             )}
           </div>
 
-          <div className="w-full xl:w-[65%] 2xl:w-[60%]">
+          <div className="w-full lg:w-[64%] xl:w-[62%] 2xl:w-[60%]">
             <div className="flex flex-wrap items-center gap-x-13 2xl:gap-x-16 3xl:gap-x-20">
               {data?.chairman && (
-                <div className="w-full xl:w-[305px] 2xl:w-[362px] 3xl:w-[452px] relative z-0">
+                <div className="w-full sm:w-[368px] lg:w-[268px] xl:w-[305px] 2xl:w-[362px] 3xl:w-[452px] relative z-0">
                   <div className="w-full aspect-[45/60] overflow-hidden shadow-2xl rounded-[15px] 2xl:rounded-[18px] 3xl:rounded-[23px]">
                     <Image
                       src={data?.chairman?.media?.path}
@@ -99,9 +99,9 @@ export default function HomeAbout({ data }) {
                     height={576}
                     className="min-w-[320px] xl:min-w-[440px] 2xl:min-w-[526px] 3xl:min-w-[657px] aspect-square absolute -z-1 bottom-[25%] right-[33%]"
                   />
-                  <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-8/10">
+                  <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-2/10 lg:translate-y-8/10">
                     <div className="flex-1 h-[1px] bg-[#008dd2]" />
-                    <div className="w-full max-w-9/12 h-auto bg-[#181818] rounded-tl-[30px] rounded-bl-[30px] pl-10 py-5">
+                    <div className="w-full max-w-9/12 h-auto bg-[#181818] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-6 lg:pl-10 py-3 lg:py-5">
                       <Heading
                         as="div"
                         size="h4"
@@ -117,26 +117,26 @@ export default function HomeAbout({ data }) {
                 </div>
               )}
 
-              <div className="flex-1">
+              <div className="w-full lg:flex-1">
                 <Text
                   as="div"
                   size="p1"
-                  className="text-white mb-8 xl:mb-12 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15"
+                  className="text-white mb-4 xl:mb-8 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15"
                 >
                   {parse(data?.description)}
                 </Text>
-                <div className="flex flex-wrap -mx-3 mb-12 2xl:mb-14 3xl:mb-20">
+                <div className="flex flex-wrap -mx-3 mb-4 xl:mb-8 2xl:mb-12 3xl:mb-20">
                   {data?.statistics?.map((item) => (
                     <div
                       key={item?.id}
-                      className="w-full sm:w-1/2 xl:w-[142px] 2xl:w-[170px] 3xl:w-[215px] py-2 px-3"
+                      className="w-1/2 sm:w-1/2 xl:w-[166px] 2xl:w-[195px] 3xl:w-[240px] py-2 px-3"
                     >
                       <div className="w-full bg-[#252525] rounded-[10px] py-4.5 px-6 hover:bg-[#2d2d2d] transition-all duration-300">
                         <Heading
                           as="div"
                           size="h3"
                           className={cn(
-                            "font-bold text-[#008dd2] mb-1  2xl:mb-2",
+                            "font-bold text-[#008dd2] mb-0.5 3xl:mb-1",
                           )}
                         >
                           <CountUp

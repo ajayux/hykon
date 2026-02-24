@@ -6,11 +6,11 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
-export default function HeaderNavigation({ navigationData }) {
+export default function HeaderNavigation({ navigationData, className }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
-    <div className="flex flex-wrap">
+    <div className={cn("flex flex-wrap", className)}>
       {navigationData?.map((item) => {
         const isActive = pathname === item?.slug;
 
