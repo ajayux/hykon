@@ -242,6 +242,7 @@ export async function GET(request) {
     productsSection: {
       title: "Categories",
       corporateItems: {
+        id: "01",
         title: "Corporate",
         items: [
           {
@@ -357,6 +358,7 @@ export async function GET(request) {
         ],
       },
       domesticItems: {
+        id: "02",
         title: "Domestic",
         items: [
           {
@@ -364,340 +366,98 @@ export async function GET(request) {
             title: "UPS & Inverters",
             description:
               "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-domestic-1.png",
-                  alt: "pro-1",
-                },
-                title: "Halo Home UPS",
-                description:
-                  "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-domestic-2.png",
-                  alt: "pro-2",
-                },
-                title: "Power Inverter",
-                description:
-                  "Hykon power inverter is an advanced DSP based intelligent control ...",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-domestic-3.png",
-                  alt: "pro-3",
-                },
-                title: "Online UPS",
-                description:
-                  "Hykon Online UPS supplies power irrespective of whether the mains...",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-domestic-4.png",
-                  alt: "pro-4",
-                },
-                title: "Inline UPS",
-                description:
-                  "Green Inline UPS with advanced battery charging technology ensures...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-domestic-5.png",
-                  alt: "pro-5",
-                },
-                title: "Line Interactive UPS",
-                description:
-                  "The line-interactive UPS from Hykon comes with a multi-tap variable...",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-domestic-6.png",
-                  alt: "pro-6",
-                },
-                title: "Tubular Battery",
-                description:
-                  "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
-              },
-            ],
           },
           {
             id: 2,
             title: "E-Power Tools",
             description:
               "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-domestic-1.png",
-                  alt: "pro-1",
-                },
-                title: "Halo Home UPS",
-                description:
-                  "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-domestic-2.png",
-                  alt: "pro-2",
-                },
-                title: "Power Inverter",
-                description:
-                  "Hykon power inverter is an advanced DSP based intelligent control ...",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-domestic-3.png",
-                  alt: "pro-3",
-                },
-                title: "Online UPS",
-                description:
-                  "Hykon Online UPS supplies power irrespective of whether the mains...",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-domestic-4.png",
-                  alt: "pro-4",
-                },
-                title: "Inline UPS",
-                description:
-                  "Green Inline UPS with advanced battery charging technology ensures...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-domestic-5.png",
-                  alt: "pro-5",
-                },
-                title: "Line Interactive UPS",
-                description:
-                  "The line-interactive UPS from Hykon comes with a multi-tap variable...",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-domestic-6.png",
-                  alt: "pro-6",
-                },
-                title: "Tubular Battery",
-                description:
-                  "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
-              },
-            ],
           },
           {
             id: 3,
             title: "Solar Water Heater",
             description:
               "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-domestic-1.png",
-                  alt: "pro-1",
-                },
-                title: "Halo Home UPS",
-                description:
-                  "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-domestic-2.png",
-                  alt: "pro-2",
-                },
-                title: "Power Inverter",
-                description:
-                  "Hykon power inverter is an advanced DSP based intelligent control ...",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-domestic-3.png",
-                  alt: "pro-3",
-                },
-                title: "Online UPS",
-                description:
-                  "Hykon Online UPS supplies power irrespective of whether the mains...",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-domestic-4.png",
-                  alt: "pro-4",
-                },
-                title: "Inline UPS",
-                description:
-                  "Green Inline UPS with advanced battery charging technology ensures...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-domestic-5.png",
-                  alt: "pro-5",
-                },
-                title: "Line Interactive UPS",
-                description:
-                  "The line-interactive UPS from Hykon comes with a multi-tap variable...",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-domestic-6.png",
-                  alt: "pro-6",
-                },
-                title: "Tubular Battery",
-                description:
-                  "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
-              },
-            ],
           },
           {
             id: 4,
             title: "Solar Hybrid Inverter",
             description:
               "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-domestic-1.png",
-                  alt: "pro-1",
-                },
-                title: "Halo Home UPS",
-                description:
-                  "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-domestic-2.png",
-                  alt: "pro-2",
-                },
-                title: "Power Inverter",
-                description:
-                  "Hykon power inverter is an advanced DSP based intelligent control ...",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-domestic-3.png",
-                  alt: "pro-3",
-                },
-                title: "Online UPS",
-                description:
-                  "Hykon Online UPS supplies power irrespective of whether the mains...",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-domestic-4.png",
-                  alt: "pro-4",
-                },
-                title: "Inline UPS",
-                description:
-                  "Green Inline UPS with advanced battery charging technology ensures...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-domestic-5.png",
-                  alt: "pro-5",
-                },
-                title: "Line Interactive UPS",
-                description:
-                  "The line-interactive UPS from Hykon comes with a multi-tap variable...",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-domestic-6.png",
-                  alt: "pro-6",
-                },
-                title: "Tubular Battery",
-                description:
-                  "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
-              },
-            ],
           },
           {
             id: 5,
             title: "Stainless steel water tank",
             description:
               "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
-            products: [
-              {
-                id: 1,
-                media: {
-                  path: "/images/pro-domestic-1.png",
-                  alt: "pro-1",
-                },
-                title: "Halo Home UPS",
-                description:
-                  "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
-              },
-              {
-                id: 2,
-                media: {
-                  path: "/images/pro-domestic-2.png",
-                  alt: "pro-2",
-                },
-                title: "Power Inverter",
-                description:
-                  "Hykon power inverter is an advanced DSP based intelligent control ...",
-              },
-              {
-                id: 3,
-                media: {
-                  path: "/images/pro-domestic-3.png",
-                  alt: "pro-3",
-                },
-                title: "Online UPS",
-                description:
-                  "Hykon Online UPS supplies power irrespective of whether the mains...",
-              },
-              {
-                id: 4,
-                media: {
-                  path: "/images/pro-domestic-4.png",
-                  alt: "pro-4",
-                },
-                title: "Inline UPS",
-                description:
-                  "Green Inline UPS with advanced battery charging technology ensures...",
-              },
-              {
-                id: 5,
-                media: {
-                  path: "/images/pro-domestic-5.png",
-                  alt: "pro-5",
-                },
-                title: "Line Interactive UPS",
-                description:
-                  "The line-interactive UPS from Hykon comes with a multi-tap variable...",
-              },
-              {
-                id: 6,
-                media: {
-                  path: "/images/pro-domestic-6.png",
-                  alt: "pro-6",
-                },
-                title: "Tubular Battery",
-                description:
-                  "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
-              },
-            ],
+          },
+        ],
+        productsItems: [
+          {
+            id: 1,
+            media: {
+              path: "/images/pro-domestic-1.png",
+              alt: "pro-1",
+            },
+            title: "Halo Home UPS",
+            slug: "/products/halo-home-ups",
+            description:
+              "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
+          },
+          {
+            id: 2,
+            media: {
+              path: "/images/pro-domestic-2.png",
+              alt: "pro-2",
+            },
+            title: "Power Inverter",
+            slug: "/products/power-inverter",
+            description:
+              "Hykon power inverter is an advanced DSP based intelligent control ...",
+          },
+          {
+            id: 3,
+            media: {
+              path: "/images/pro-domestic-3.png",
+              alt: "pro-3",
+            },
+            title: "Online UPS",
+            slug: "/products/online-ups",
+            description:
+              "Hykon Online UPS supplies power irrespective of whether the mains...",
+          },
+          {
+            id: 4,
+            media: {
+              path: "/images/pro-domestic-4.png",
+              alt: "pro-4",
+            },
+            title: "Inline UPS",
+            slug: "/products/inline-ups",
+            description:
+              "Green Inline UPS with advanced battery charging technology ensures...",
+          },
+          {
+            id: 5,
+            media: {
+              path: "/images/pro-domestic-5.png",
+              alt: "pro-5",
+            },
+            title: "Line Interactive UPS",
+            slug: "/products/line-interactive-ups",
+            description:
+              "The line-interactive UPS from Hykon comes with a multi-tap variable...",
+          },
+          {
+            id: 6,
+            media: {
+              path: "/images/pro-domestic-6.png",
+              alt: "pro-6",
+            },
+            title: "Tubular Battery",
+            slug: "/products/tubular-battery",
+            description:
+              "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
           },
         ],
       },
