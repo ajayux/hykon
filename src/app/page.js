@@ -84,7 +84,6 @@ export default async function HomePage() {
       {newsSection && <HomeNews data={newsSection} />}
       {promotionsSection && <HomePromotions data={promotionsSection} />}
       {blogsSection && <HomeBlogs data={blogsSection} />}
-      {questionsSection && <HomeQuestions data={questionsSection} />}
     </>
   );
 }

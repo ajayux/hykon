@@ -1,14 +1,4 @@
 "use client";
-// import {
-//   Breadcrumb,
-//   BreadcrumbItem,
-//   BreadcrumbLink,
-//   BreadcrumbList,
-//   BreadcrumbPage,
-//   BreadcrumbSeparator,
-// } from "@/components/ui/breadcrumb";
-// import parse from "html-react-parser";
-
 import Image from "next/image";
 import { Heading } from "@/components/utils/typography";
 import {
@@ -70,21 +60,6 @@ export default function InnerHero({ data }) {
               >
                 {data?.title}
               </Heading>
-              {/* <Breadcrumb className="mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5">
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>/</BreadcrumbSeparator>
-                  {slug && (
-                    <BreadcrumbItem>
-                      <BreadcrumbPage className={"capitalize"}>
-                        {slug}
-                      </BreadcrumbPage>
-                    </BreadcrumbItem>
-                  )}
-                </BreadcrumbList>
-              </Breadcrumb> */}
             </div>
           </div>
         </section>

@@ -2,95 +2,84 @@ import { Heading, Text } from "@/components/utils/typography";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import parse from "html-react-parser";
 
 export default function AboutPresence({ data }) {
-  if (!data) return null;
-
   return (
-    <div className="w-full">
-      {/* Presence Section */}
-      <section className="w-full py-16 sm:py-24 bg-[#008dd2] relative overflow-hidden">
-        <div className="container relative z-10">
-          <div className="flex flex-wrap items-center -mx-4">
-            <div className="w-full lg:w-1/2 px-4 mb-10 lg:mb-0">
-              <Heading as="h2" size="h2" className="text-white font-bold mb-4">
-                {data.title}
-              </Heading>
-              <Text
-                as="p"
-                size="p1"
-                className="text-white/80 mb-8 max-w-[500px]"
-              >
-                With a robust network across the country, Hykon ensures support
-                and service are always within reach.
-              </Text>
-
-              <div className="flex flex-wrap gap-4">
+    <section className="w-full block py-10 xl:py-[75px_85px] 2xl:py-[90px_100px] 3xl:py-[110px_130px] bg-[#181818]">
+      <div className="container">
+        <div className="w-full bg-[#008dd2] rounded-[10px] lg:rounded-[14px] 2xl:rounded-[6px] 3xl:rounded-[20px] px-12 lg:px-19 2xl:px-22.5 3xl:px-28 flex items-center overflow-hidden relative z-0">
+          <Image
+            src={data.media?.path || "/images/about-presence-bg.png"}
+            alt={data.media?.alt || "Presence Across India"}
+            width={1100}
+            height={530}
+            className="w-full max-w-[576px] xl:max-w-[720px] 2xl:max-w-[870px] 3xl:max-w-[1100px] object-contain absolute -z-1 bottom-0 right-0 hover:scale-105 transition duration-300"
+          />
+          <div className="py-10 xl:py-[100px] 2xl:py-[120px] 3xl:py-[150px]">
+            <Heading
+              as="h2"
+              size="h1"
+              className="text-white mb-1 xl:mb-2 2xl:mb-2.5 3xl:mb-3"
+            >
+              {data?.title}
+            </Heading>
+            <Text
+              as="div"
+              size="p1"
+              className="text-white mb-6 xl:mb-8 2xl:mb-10 3xl:mb-12"
+            >
+              {parse(data?.description)}
+            </Text>
+            <div className="flex flex-wrap gap-x-2 xl:gap-x-3.5 2xl:gap-x-4.5 3xl:gap-x-5">
+              {data?.button_one && (
                 <Button
+                  size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-[#008dd2]"
+                  className="text-white min-w-[160px] xl:min-w-[180px] 2xl:min-w-[220px] 3xl:min-w-[270px] pl-4"
+                  asChild
                 >
-                  Explore Our Network
+                  <Link href={data?.button_one?.link}>
+                    {data?.button_one?.text || "Explore Our Products"}
+                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-blue.svg"}
+                        alt={"icon-arrow-right-blue"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </div>
+                  </Link>
                 </Button>
+              )}
+              {data?.button_two && (
                 <Button
+                  size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-[#008dd2]"
+                  className="text-white min-w-[160px] xl:min-w-[180px] 2xl:min-w-[220px] 3xl:min-w-[270px] pl-4"
+                  asChild
                 >
-                  Contact Sales Team
+                  <Link href={data?.button_two?.link}>
+                    {data?.button_two?.text || "Contact Our Team"}
+                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-blue.svg"}
+                        alt={"icon-arrow-right-blue"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </div>
+                  </Link>
                 </Button>
-              </div>
-            </div>
-
-            <div className="w-full lg:w-1/2 px-4">
-              <div className="relative aspect-video w-full">
-                {/* Normally an interactive map would go here, using a placeholder image for now */}
-                <Image
-                  src={data.media?.path || "/images/home-footer-loc.svg"}
-                  alt="Presence Across India"
-                  fill
-                  className="object-contain brightness-0 invert"
-                />
-              </div>
+              )}
             </div>
           </div>
         </div>
-
-        {/* Decorative Background circles */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -ml-64" />
-      </section>
-
-      {/* CTA Section */}
-      <section className="w-full py-16 sm:py-24 bg-[#f8f9fa]">
-        <div className="container">
-          <div className="bg-white rounded-[40px] p-8 sm:p-16 lg:p-24 shadow-2xl relative overflow-hidden group">
-            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-              <div className="text-center lg:text-left">
-                <Heading
-                  as="h2"
-                  size="h2"
-                  className="font-bold text-gray-900 mb-4"
-                >
-                  Have Any Questions?
-                </Heading>
-                <Text as="p" size="p1" className="text-gray-600 max-w-[500px]">
-                  Our expert team is here to help you find the perfect power
-                  solution for your needs.
-                </Text>
-              </div>
-
-              <Button
-                size="lg"
-                className="bg-[#008dd2] hover:bg-[#007bbd] text-white px-12 py-8 text-xl rounded-full transition-transform hover:scale-105 active:scale-95"
-              >
-                Get in Touch
-              </Button>
-            </div>
-
-            {/* Background design elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#008dd2]/5 rounded-bl-full -mr-20 -mt-20 group-hover:bg-[#008dd2]/10 transition-colors" />
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

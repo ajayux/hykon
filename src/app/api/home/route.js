@@ -679,20 +679,6 @@ export async function GET(request) {
         },
       ],
     },
-
-    questionsSection: {
-      media: {
-        path: "/images/home-questions-1.png",
-        alt: "home-questions-1",
-      },
-      title: "Have Any Questions?",
-      description:
-        "Get in touch with our team for product details, support, or expert assistance.",
-      button: {
-        label: "Get In Touch",
-        link: "/contact",
-      },
-    },
   };
 
   return NextResponse.json(

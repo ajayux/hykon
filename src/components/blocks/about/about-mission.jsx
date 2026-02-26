@@ -8,7 +8,9 @@ export default function AboutMission({ data }) {
       <div className="container">
         <div className="flex flex-wrap items-center justify-between gap-x-10 lg:gap-x-[65px] 2xl:gap-x-[74px] 3xl:gap-x-[94px]">
           {mission && <MissionCard data={mission} />}
+          <div className="w-[1px] h-[140px] xl:h-[210px] 2xl:h-[250px] 3xl:h-[310px] bg-linear-to-b from-transparent via-white to-transparent opacity-50" />
           {vision && <MissionCard data={vision} />}
+          <div className="w-[1px] h-[140px] xl:h-[210px] 2xl:h-[250px] 3xl:h-[310px] bg-linear-to-b from-transparent via-white to-transparent opacity-50" />
           {values && <MissionCard data={values} />}
         </div>
       </div>
@@ -38,11 +40,7 @@ function MissionCard({ data }) {
       >
         {data?.title}
       </Heading>
-      <Text
-        as="div"
-        size="p1"
-        className="text-center text-white max-w-[300px] mx-auto"
-      >
+      <Text as="div" size="p1" className="text-center text-white">
         {data?.description}
       </Text>
     </div>

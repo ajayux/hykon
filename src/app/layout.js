@@ -5,6 +5,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 import FloatNavigation from "@/components/common/float-navigation";
+import HomeQuestions from "@/components/blocks/home/home-questions";
 
 export const metadata = {
   title: {
@@ -71,21 +72,27 @@ export default async function RootLayout({ children }) {
   }
 
   // Fallback data if API fails
-  const fallbackData = {
-    headerData: {
-      name: "HYKON",
-      logoUrl: "/images/logo.svg",
-      logoWhiteUrl: "/images/logo-white.svg",
-    },
-    navigationData: [],
-    footerData: {
-      name: "HYKON",
-      logoUrl: "/images/logo.svg",
-    },
-    socialLinkData: [],
-  };
+  // const fallbackData = {
+  //   headerData: {
+  //     name: "HYKON",
+  //     logoUrl: "/images/logo.svg",
+  //     logoWhiteUrl: "/images/logo-white.svg",
+  //   },
+  //   navigationData: [],
+  //   footerData: {
+  //     name: "HYKON",
+  //     logoUrl: "/images/logo.svg",
+  //   },
+  //   socialLinkData: [],
+  // };
 
-  const data = globalData || fallbackData;
+  const {
+    headerData,
+    navigationData,
+    footerData,
+    socialLinkData,
+    questionsSection,
+  } = globalData;
 
   const fontVariable = getFontVariable();
   const fontClassName = getFontClassName();
@@ -109,14 +116,12 @@ export default async function RootLayout({ children }) {
       <body className={cn("antialiased", fontClassName, fontVariable)}>
         <FloatNavigation />
 
-        <Header data={data?.headerData} navigationData={data?.navigationData} />
+        <Header data={headerData} navigationData={navigationData} />
 
         <main className="min-h-screen">{children}</main>
 
-        <Footer
-          footerData={data.footerData}
-          socialLinkData={data.socialLinkData}
-        />
+        {questionsSection && <HomeQuestions data={questionsSection} />}
+        <Footer footerData={footerData} socialLinkData={socialLinkData} />
       </body>
     </html>
   );

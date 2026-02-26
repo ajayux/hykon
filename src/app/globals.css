@@ -189,7 +189,7 @@
     p,
     &,
     li {
-      @apply text-[14px] xl:text-[16px] 2xl:text-[17px] 3xl:text-[18px] leading-normal font-normal text-(--text-color);
+      @apply text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[18px] leading-normal font-normal text-(--text-color);
     }
 
     h1 {
