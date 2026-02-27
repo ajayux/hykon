@@ -3,42 +3,64 @@ import { Text } from "@/components/utils/typography";
 import Image from "next/image";
 import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { cn } from "@/lib/utils";
+
 export default function HomeHero({ data }) {
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: false,
+      align: "start",
+      slidesToScroll: 1,
+      containScroll: "trimSnaps",
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
+  );
   return (
     <ParallaxProvider>
       <section className="w-full h-auto lg:h-screen min-h-[576px] sm:min-h-[768px] lg:min-h-[520px] 2xl:min-h-[620px] 3xl:min-h-[768px] bg-black overflow-hidden relative z-0">
         <Parallax
           speed={-20}
-          className="absolute z-0 inset-0 w-full h-full bg-white "
+          className="w-full h-full bg-white "
           style={{ height: "120%" }}
         >
-          {data?.mainImage?.type === "video" ? (
-            <video
-              src={data?.mainImage?.desktopPath}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover pointer-events-none max-sm:-translate-y-[35px]"
-            />
-          ) : (
-            <picture className="w-full h-full block">
-              <source
-                srcSet={data?.mainImage?.desktopPath}
-                media="(min-width: 640px)"
-              />
-              <Image
-                src={
-                  data?.mainImage?.mobilePath || data?.mainImage?.desktopPath
-                }
-                alt={data?.mainImage?.alt || "Hero background"}
-                fill
-                sizes="100vw"
-                className="object-cover max-sm:-translate-y-[35px]"
-                priority
-              />
-            </picture>
-          )}
+          <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
+            <div className="flex touch-pan-y touch-pinch-zoom">
+              {data?.sliders?.map((item) => (
+                <div
+                  key={item?.id}
+                  className={cn("flex-[0_0_100%] min-w-0 select-none")}
+                >
+                  {item?.mediaType === "video" ? (
+                    <video
+                      src={item?.media?.video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover pointer-events-none max-sm:-translate-y-[35px]"
+                    />
+                  ) : (
+                    <picture className="w-full h-full block">
+                      <source
+                        srcSet={item?.media?.image}
+                        media="(min-width: 640px)"
+                      />
+                      <Image
+                        src={item?.media?.mobilePath || item?.media?.image}
+                        alt={item?.media?.alt || "Hero background"}
+                        fill
+                        sizes="100vw"
+                        className="object-cover max-sm:-translate-y-[35px]"
+                        priority
+                      />
+                    </picture>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </Parallax>
 
         <div className="absolute z-1 inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />

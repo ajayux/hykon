@@ -9,7 +9,6 @@ import HomePowerVendor from "@/components/blocks/home/home-power-vendor";
 import HomeNews from "@/components/blocks/home/home-news";
 import HomePromotions from "@/components/blocks/home/home-promotions";
 import HomeBlogs from "@/components/blocks/home/home-blogs";
-import HomeQuestions from "@/components/blocks/home/home-questions";
 import HomeProducts from "@/components/blocks/home/home-products";
 
 // Lazy load below-the-fold components for better performance
@@ -42,7 +41,8 @@ export default async function HomePage() {
   let homeData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    // const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const res = await fetch(`${baseUrl}/api/home`, {
       next: { revalidate: 60 }, // Cache for 60 seconds
     });
@@ -70,16 +70,318 @@ export default async function HomePage() {
     newsSection,
     promotionsSection,
     blogsSection,
-    questionsSection,
   } = homeData;
+
+  const localData = {
+    categoriesSection: [
+      {
+        id: 1,
+        iconPath: "/images/product-cat-1.svg",
+        iconWhitePath: "/images/product-cat-white-1.png",
+        name: "Solar Water Heater",
+        slug: "/solar-water-heater",
+      },
+      {
+        id: 2,
+        iconPath: "/images/product-cat-2.svg",
+        iconWhitePath: "/images/product-cat-white-2.png",
+        name: "SST",
+        slug: "/sst",
+      },
+      {
+        id: 3,
+        iconPath: "/images/product-cat-3.svg",
+        iconWhitePath: "/images/product-cat-white-3.png",
+        name: "Inverter Battery",
+        slug: "security",
+      },
+      {
+        id: 4,
+        iconPath: "/images/product-cat-4.svg",
+        iconWhitePath: "/images/product-cat-white-4.png",
+        name: "Lithium Battery",
+        slug: "/climate",
+      },
+      {
+        id: 5,
+        iconPath: "/images/product-cat-5.svg",
+        iconWhitePath: "/images/product-cat-white-5.png",
+        name: "Electric Vehicle",
+        slug: "/electric-vehicle",
+      },
+      {
+        id: 6,
+        iconPath: "/images/product-cat-6.svg",
+        iconWhitePath: "/images/product-cat-white-6.png",
+        name: "E-Generator",
+        slug: "/e-generator",
+      },
+      {
+        id: 7,
+        iconPath: "/images/product-cat-7.svg",
+        iconWhitePath: "/images/product-cat-white-7.png",
+        name: "BESS",
+        slug: "/bess",
+      },
+      {
+        id: 8,
+        iconPath: "/images/product-cat-8.svg",
+        iconWhitePath: "/images/product-cat-white-8.png",
+        name: "UPS",
+        slug: "/ups",
+      },
+      {
+        id: 9,
+        iconPath: "/images/product-cat-9.svg",
+        iconWhitePath: "/images/product-cat-white-9.png",
+        name: "Solar Systems",
+        slug: "/solar-systems",
+      },
+      {
+        id: 10,
+        iconPath: "/images/product-cat-10.svg",
+        iconWhitePath: "/images/product-cat-white-10.png",
+        name: "Heat Pump",
+        slug: "/heat-pump",
+      },
+    ],
+
+    productsSection: {
+      title: "Categories",
+      corporateItems: {
+        id: "01",
+        title: "Corporate",
+        items: [
+          {
+            id: 1,
+            title: "Solar Light",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 2,
+            title: "Solar power packs",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 3,
+            title: "Lithium Battery",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 4,
+            title: "Electric Vehicle",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 5,
+            title: "Heat Pump",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 6,
+            title: "E-Generator",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+          {
+            id: 7,
+            title: "BESS",
+            description:
+              "HykonIndia is a brand synonymous with high-quality electrical products, We brought in a range of solar-powered lighting solutions. HykonIndia provides the Best Solar light to provide the best lighting for various purposes.",
+          },
+        ],
+        productsItems: [
+          {
+            id: 1,
+            media: {
+              path: "/images/pro-1.png",
+              alt: "pro-1",
+            },
+            title: "Flash torch light",
+            slug: "flash-torch-light",
+            description:
+              "Hykon Solar flash torch light is a torch that can be charged using solar power",
+          },
+          {
+            id: 2,
+            media: {
+              path: "/images/pro-2.png",
+              alt: "pro-2",
+            },
+            title: "Wallite series",
+            slug: "wallite-series",
+            description:
+              "Hykon wallite series solar light is meant for lighting walls in pathway or stairs.",
+          },
+          {
+            id: 3,
+            media: {
+              path: "/images/pro-3.png",
+              alt: "pro-3",
+            },
+            title: "Aurora series",
+            slug: "aurora-series",
+            description:
+              "Hykon Aurora series is of solar lantern lights that can lit up your....",
+          },
+          {
+            id: 4,
+            media: {
+              path: "/images/pro-4.png",
+              alt: "pro-4",
+            },
+            title: "Billite series",
+            slug: "billite-series",
+            description:
+              "Hykon Billite series solar light is solar hoarding light with inbuilt lithium...",
+          },
+          {
+            id: 5,
+            media: {
+              path: "/images/pro-5.png",
+              alt: "pro-5",
+            },
+            title: "Solo R series",
+            slug: "solo-r-series",
+            description:
+              "Hykon Solo R series is a solar street light which includes higher....",
+          },
+          {
+            id: 6,
+            media: {
+              path: "/images/pro-6.png",
+              alt: "pro-6",
+            },
+            title: "Solo R series",
+            slug: "solo-r-series-2",
+            description:
+              "Hykon Solo R series is a solar street light which includes higher....",
+          },
+        ],
+      },
+      domesticItems: {
+        id: "02",
+        title: "Domestic",
+        items: [
+          {
+            id: 1,
+            title: "UPS & Inverters",
+            description:
+              "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
+          },
+          {
+            id: 2,
+            title: "E-Power Tools",
+            description:
+              "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
+          },
+          {
+            id: 3,
+            title: "Solar Water Heater",
+            description:
+              "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
+          },
+          {
+            id: 4,
+            title: "Solar Hybrid Inverter",
+            description:
+              "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
+          },
+          {
+            id: 5,
+            title: "Stainless steel water tank",
+            description:
+              "Hykon UPS is the best solution for power issues ensuring high-quality power for critical loads. Hykon provides Online UPS & Live Interactive Inverter India with a variety of products. A UPS can provide protection against power issues so that you don't have to worry about power outages. Expensive appliances need protection from power surges, spikes or dips, irregularities, and fluctuations in power which may have an adverse effect on your appliance.",
+          },
+        ],
+        productsItems: [
+          {
+            id: 1,
+            media: {
+              path: "/images/pro-domestic-1.png",
+              alt: "pro-1",
+            },
+            title: "Halo Home UPS",
+            slug: "/products/halo-home-ups",
+            description:
+              "Hykon Halo Inverter, with its inbuilt Lithium Ferro-Phosphate...",
+          },
+          {
+            id: 2,
+            media: {
+              path: "/images/pro-domestic-2.png",
+              alt: "pro-2",
+            },
+            title: "Power Inverter",
+            slug: "/products/power-inverter",
+            description:
+              "Hykon power inverter is an advanced DSP based intelligent control ...",
+          },
+          {
+            id: 3,
+            media: {
+              path: "/images/pro-domestic-3.png",
+              alt: "pro-3",
+            },
+            title: "Online UPS",
+            slug: "/products/online-ups",
+            description:
+              "Hykon Online UPS supplies power irrespective of whether the mains...",
+          },
+          {
+            id: 4,
+            media: {
+              path: "/images/pro-domestic-4.png",
+              alt: "pro-4",
+            },
+            title: "Inline UPS",
+            slug: "/products/inline-ups",
+            description:
+              "Green Inline UPS with advanced battery charging technology ensures...",
+          },
+          {
+            id: 5,
+            media: {
+              path: "/images/pro-domestic-5.png",
+              alt: "pro-5",
+            },
+            title: "Line Interactive UPS",
+            slug: "/products/line-interactive-ups",
+            description:
+              "The line-interactive UPS from Hykon comes with a multi-tap variable...",
+          },
+          {
+            id: 6,
+            media: {
+              path: "/images/pro-domestic-6.png",
+              alt: "pro-6",
+            },
+            title: "Tubular Battery",
+            slug: "/products/tubular-battery",
+            description:
+              "Hykon Bedtype Batteries for inverter and UPS applications & Hykon Tall...",
+          },
+        ],
+      },
+    },
+  };
 
   return (
     <>
       {heroSection && <HomeHero data={heroSection} />}
-      {categoriesSection && <HomeCategories data={categoriesSection} />}
+      {localData.categoriesSection && (
+        <HomeCategories data={localData.categoriesSection} />
+      )}
       {aboutSection && <HomeAbout data={aboutSection} />}
       {businessSection && <HomeBusiness data={businessSection} />}
-      {productsSection && <HomeProducts data={productsSection} />}
+      {localData.productsSection && (
+        <HomeProducts data={localData.productsSection} />
+      )}
       <HomePowerVendor powerData={powerSection} vendorData={vendorSection} />
       {newsSection && <HomeNews data={newsSection} />}
       {promotionsSection && <HomePromotions data={promotionsSection} />}

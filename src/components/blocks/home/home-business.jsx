@@ -35,7 +35,7 @@ export default function HomeBusiness({ data }) {
                 size="h6"
                 className="tracking-1 font-normal uppercase text-white mb-1 xl:mb-2.5 2xl:mb-4"
               >
-                {data?.subTitle}
+                {data?.title}
               </Heading>
               <Heading
                 as="h2"

@@ -12,19 +12,15 @@ import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import NewsCard from "@/components/common/news-card";
 
-const FILTER_MAP = {
-  Upcoming: "upcoming",
-  Featured: "featured",
-  Archives: "archives",
-};
-
 export default function HomeNews({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filters?.[0]?.slug ?? "upcoming",
+    data?.filterItems?.[0]?.slug?.toLowerCase() ?? "upcoming",
   );
 
   const filteredItems =
-    data?.items?.filter((item) => item?.category === activeFilter) ?? [];
+    data?.items?.filter(
+      (item) => item?.category?.toLowerCase() === activeFilter?.toLowerCase(),
+    ) ?? [];
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -69,7 +65,7 @@ export default function HomeNews({ data }) {
             </div>
             <FilterItems
               className="hidden lg:flex"
-              items={data?.filters}
+              items={data?.filterItems}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
             />
@@ -98,7 +94,7 @@ export default function HomeNews({ data }) {
           </div>
           <div className="w-full lg:hidden">
             <FilterItems
-              items={data?.filters}
+              items={data?.filterItems}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
             />
