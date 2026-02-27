@@ -57,7 +57,7 @@ export default function AboutAwards({ awardData, certificationData }) {
       <div className="container">
         <div className="flex flex-wrap items-center justify-between gap-x-10 lg:gap-x-[65px] 2xl:gap-x-[74px] 3xl:gap-x-[100px]">
           {awardData && (
-            <div className="w-full lg:flex-1">
+            <div className="w-full lg:flex-1 max-lg:mb-5">
               <div className="w-full">
                 <Heading
                   as="h2"
@@ -107,7 +107,7 @@ export default function AboutAwards({ awardData, certificationData }) {
           )}
 
           {certificationData && (
-            <div className="w-full lg:w-[476px] xl:w-[556px] 2xl:w-[667px] 3xl:w-[834px] py-8 px-10 lg:py-10 lg:px-12.5 2xl:py-12.5 2xl:px-15 3xl:py-15 3xl:px-19 bg-[#262626] rounded-[30px] lg:rounded-[46px] 2xl:rounded-[56px] 3xl:rounded-[70px]">
+            <div className="w-full lg:w-[476px] xl:w-[556px] 2xl:w-[667px] 3xl:w-[834px] py-8 px-6 sm:py-8 sm:px-10 lg:py-10 lg:px-12.5 2xl:py-12.5 2xl:px-15 3xl:py-15 3xl:px-19 bg-[#262626] rounded-[30px] lg:rounded-[46px] 2xl:rounded-[56px] 3xl:rounded-[70px]">
               <Heading
                 as="h2"
                 size="h1"
@@ -115,7 +115,7 @@ export default function AboutAwards({ awardData, certificationData }) {
               >
                 {certificationData?.title}
               </Heading>
-              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:ml-5  [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-5 [&_li]:list-image-[url('/images/li-check.svg')] [&_li]:marker:size-2 [&_li]:marker:vertical-align-middle ">
+              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:ml-5  [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-5 [&_li]:list-image-[url('/images/li-check.svg')]  [&_li]:marker:size-1.5 3xl:[&_li]:marker:size-2">
                 {parse(certificationData?.description)}
               </div>
             </div>

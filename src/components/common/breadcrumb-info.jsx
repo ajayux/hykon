@@ -9,10 +9,10 @@ import {
 
 export default function BreadcrumbInfo({ slug }) {
   return (
-    <section className="w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#121212]">
+    <section className="w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#181818]">
       <div className="container">
         <Breadcrumb className="mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5">
-          <BreadcrumbList>
+          <BreadcrumbList className={"sm:gap-x-3"}>
             <BreadcrumbItem>
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>

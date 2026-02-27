@@ -21,33 +21,32 @@ export default function AboutMilestones({ data }) {
     <section className="w-full h-auto block bg-[#181818]">
       <div className="container xl:max-w-[1250px] 2xl:max-w-[1500px] 3xl:max-w-[1870px]">
         <div className="w-full bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_20%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-4 sm:px-6 xl:px-10 2xl:px-12.5 3xl:px-[60px] py-5 sm:py-10 xl:py-13 2xl:py-20 3xl:py-[100px] relative z-0 overflow-hidden">
-          <div className="text-[80px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none text-center text-transparent select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
+          <div className="text-[40px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none text-center text-transparent select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
             {parse(data?.title)}
           </div>
           <Heading
             as="h2"
             size="h1"
-            className="text-center text-white mb-8 xl:mb-20 2xl:mb-23 3xl:mb-25"
+            className="font-medium text-center text-white mb-2 sm:mb-8 xl:mb-20 2xl:mb-23 3xl:mb-25"
           >
             {parse(data?.title)}
           </Heading>
 
-          <div
-            ref={emblaRef}
-            className="w-full max-w-full overflow-hidden relative"
-          >
+          <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
             <div className="flex touch-pan-y touch-pinch-zoom">
               {data.items?.map((item, i) => (
                 <div
                   key={item?.id}
                   className={cn(
-                    "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_300px] 2xl:flex-[0_0_320px] 3xl:flex-[0_0_350px] min-w-0 select-none",
+                    "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_200px] xl:flex-[0_0_227px] 2xl:flex-[0_0_273px] 3xl:flex-[0_0_342px] min-w-0 select-none",
                   )}
                 >
                   <div
                     className={cn(
-                      "group w-full h-[340px] xl:h-[340px] 2xl:h-[340px] 3xl:h-[340px] relative z-0 flex justify-center px-1 xl:px-2 ",
-                      i % 2 === 0 ? "items-end" : "items-start",
+                      "group w-full h-[140px] sm:h-[240px] lg:h-[240px] xl:h-[276px] 2xl:h-[300px] 3xl:h-[340px] relative z-0 flex justify-center px-1 xl:px-2 ",
+                      i % 2 === 0
+                        ? "items-end sm:items-end"
+                        : "items-end sm:items-start",
                     )}
                   >
                     {i === 0 && (
@@ -62,10 +61,10 @@ export default function AboutMilestones({ data }) {
 
                     <div
                       className={cn(
-                        "w-[5px] h-auto absolute z-1 inset-x-0 m-auto  group-hover:animate-bounce",
+                        "w-0.5 sm:w-[3px] lg:w-[5px] h-auto absolute z-1 inset-x-0 m-auto  group-hover:animate-bounce",
                         i % 2 === 0
                           ? "top-6/10 rotate-0"
-                          : "bottom-6/10 rotate-180",
+                          : "top-6/10 rotate-0 sm:bottom-6/10 sm:rotate-180",
                       )}
                     >
                       <Image
@@ -79,8 +78,8 @@ export default function AboutMilestones({ data }) {
 
                     <div
                       className={cn(
-                        "flex flex-col h-8/10 justify-between",
-                        i % 2 === 0 ? "flex-col" : "flex-col-reverse",
+                        "flex flex-col h-9/10 sm:h-7/10 sm:h-8/10 justify-between",
+                        i % 2 === 0 ? "sm:flex-col" : "sm:flex-col-reverse",
                       )}
                     >
                       <Heading
@@ -93,7 +92,7 @@ export default function AboutMilestones({ data }) {
                       <Text
                         as="div"
                         size="p0"
-                        className="line-clamp-2 text-center  text-white"
+                        className="line-clamp-2 text-center font-normal text-white mx-auto max-sm:text-[12px]"
                       >
                         {item.title}
                       </Text>

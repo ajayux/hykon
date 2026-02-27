@@ -27,7 +27,7 @@ export default function HomeQuestions({ data }) {
             <Text
               as="div"
               size="p0"
-              className="text-white mb-4 xl:mb-8 2xl:mb-10 3xl:mb-13"
+              className="text-white mb-4 xl:mb-8 2xl:mb-10 3xl:mb-13 max-lg:max-w-3/4"
             >
               {parse(data?.description)}
             </Text>
@@ -52,8 +52,8 @@ export default function HomeQuestions({ data }) {
               </Link>
             </Button>
           </div>
-          <div className="w-full lg:w-[440px] 2xl:w-[540px] 3xl:w-[680px]">
-            <div className="w-full h-auto aspect-72/34 block xl:scale-120 xl:translate-y-2">
+          <div className="w-full sm:w-[320px] lg:w-[440px] 2xl:w-[540px] 3xl:w-[680px] ml-auto">
+            <div className="w-full h-auto aspect-72/34 block xl:scale-120 lg:translate-y-2 max-lg:-mt-10">
               <Image
                 src={data?.media?.path}
                 alt={data?.media?.alt}

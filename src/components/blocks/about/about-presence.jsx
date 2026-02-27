@@ -8,15 +8,15 @@ export default function AboutPresence({ data }) {
   return (
     <section className="w-full block py-10 xl:py-[75px_85px] 2xl:py-[90px_100px] 3xl:py-[110px_130px] bg-[#181818]">
       <div className="container">
-        <div className="w-full bg-[#008dd2] rounded-[10px] lg:rounded-[14px] 2xl:rounded-[6px] 3xl:rounded-[20px] px-12 lg:px-19 2xl:px-22.5 3xl:px-28 flex items-center overflow-hidden relative z-0">
+        <div className="w-full bg-[#008dd2] rounded-[10px] lg:rounded-[14px] 2xl:rounded-[6px] 3xl:rounded-[20px] px-6 sm:px-12 lg:px-19 2xl:px-22.5 3xl:px-28 flex items-center overflow-hidden relative z-0">
           <Image
             src={data.media?.path || "/images/about-presence-bg.png"}
             alt={data.media?.alt || "Presence Across India"}
             width={1100}
             height={530}
-            className="w-full max-w-[576px] xl:max-w-[720px] 2xl:max-w-[870px] 3xl:max-w-[1100px] object-contain absolute -z-1 bottom-0 right-0 hover:scale-105 transition duration-300"
+            className="w-full max-w-[220px] sm:max-w-[468px] lg:max-w-[560px] xl:max-w-[720px] 2xl:max-w-[870px] 3xl:max-w-[1100px] object-contain absolute -z-1 bottom-0 right-0 hover:scale-105 transition duration-300 max-lg:opacity-80"
           />
-          <div className="py-10 xl:py-[100px] 2xl:py-[120px] 3xl:py-[150px]">
+          <div className="py-6 sm:py-10 xl:py-[100px] 2xl:py-[120px] 3xl:py-[150px]">
             <Heading
               as="h2"
               size="h1"
@@ -31,7 +31,7 @@ export default function AboutPresence({ data }) {
             >
               {parse(data?.description)}
             </Text>
-            <div className="flex flex-wrap gap-x-2 xl:gap-x-3.5 2xl:gap-x-4.5 3xl:gap-x-5">
+            <div className="flex flex-wrap gap-3 sm:gap-x-2 xl:gap-x-3.5 2xl:gap-x-4.5 3xl:gap-x-5">
               {data?.button_one && (
                 <Button
                   size="lg"
