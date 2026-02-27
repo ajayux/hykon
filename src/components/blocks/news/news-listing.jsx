@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import NewsCard from "@/components/common/news-card";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 export default function NewsListing({ data }) {
   const [activeFilter, setActiveFilter] = useState(
