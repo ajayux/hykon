@@ -10,6 +10,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 import { cn } from "@/lib/utils";
+import NewsCard from "@/components/common/news-card";
 
 const FILTER_MAP = {
   Upcoming: "upcoming",
@@ -19,13 +20,11 @@ const FILTER_MAP = {
 
 export default function HomeNews({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filterItems?.[0] ?? "Upcoming",
+    data?.filters?.[0]?.slug ?? "upcoming",
   );
 
   const filteredItems =
-    data?.items?.filter(
-      (item) => item?.category === FILTER_MAP[activeFilter],
-    ) ?? [];
+    data?.items?.filter((item) => item?.category === activeFilter) ?? [];
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -70,7 +69,7 @@ export default function HomeNews({ data }) {
             </div>
             <FilterItems
               className="hidden lg:flex"
-              items={data?.filterItems}
+              items={data?.filters}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
             />
@@ -99,7 +98,7 @@ export default function HomeNews({ data }) {
           </div>
           <div className="w-full lg:hidden">
             <FilterItems
-              items={data?.filterItems}
+              items={data?.filters}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
             />
@@ -117,7 +116,14 @@ export default function HomeNews({ data }) {
           <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
             <div className="flex touch-pan-y touch-pinch-zoom -mx-1 sm:-mx-2 lg:-mx-2.5">
               {filteredItems.map((item) => (
-                <NewsCard key={item?.id} item={item} />
+                <div
+                  key={item?.id}
+                  className={cn(
+                    "flex-[0_0_268px] sm:flex-[0_0_320px] lg:flex-[0_0_420px] 2xl:flex-[0_0_500px] 3xl:flex-[0_0_650px] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
+                  )}
+                >
+                  <NewsCard item={item} />
+                </div>
               ))}
             </div>
           </div>
@@ -133,84 +139,6 @@ export default function HomeNews({ data }) {
   );
 }
 
-function NewsCard({ item }) {
-  return (
-    <div
-      className={cn(
-        "flex-[0_0_268px] sm:flex-[0_0_320px] lg:flex-[0_0_420px] 2xl:flex-[0_0_500px] 3xl:flex-[0_0_650px] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
-      )}
-    >
-      <div className="group w-full h-full flex flex-col relative z-0">
-        <div className="w-full mb-6 xl:mb-9 2xl:mb-11 3xl:mb-14 relative z-0">
-          <div className="w-full aspect-63/33 rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] overflow-hidden">
-            <Image
-              src={item?.media?.path}
-              alt={item?.media?.alt}
-              width={630}
-              height={330}
-              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-            />
-          </div>
-          <div className="absolute z-1 bottom-0 left-4 translate-y-1/3 3xl:translate-y-1/4">
-            <div
-              className={cn(
-                "w-full min-w-[80px] lg:min-w-[100px] 2xl:min-w-[120px] 3xl:min-w-[147px] bg-[#262626] rounded-[14px] 3xl:rounded-[20px] py-2 xl:py-3 2xl:py-4 3xl:py-5 px-2 xl:px-3 2xl:px-3.5 3xl:px-3.5 transition-all duration-300",
-                "group-hover:bg-[#008dd2]",
-              )}
-            >
-              <div className="text-[20px] sm:text-[24px] lg:text-[28px] xl:text-[35px] 2xl:text-[42px] 3xl:text-[53px] leading-none font-normal text-center text-white mb-1 xl:mb-2">
-                {item?.publishDay}
-              </div>
-              <div className="text-[10px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] 3xl:text-[22px] leading-none font-normal text-center text-white">
-                {item?.publishMonthYear}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 flex flex-col justify-between w-full p-2 xl:p-3.5 2xl:p-4.5 3xl:p-5.5">
-          <div>
-            <Heading
-              as="h3"
-              size="h4"
-              className="font-medium line-clamp-2 text-white mb-3 lg:mb-5 3xl:mb-6"
-            >
-              {item?.title}
-            </Heading>
-            <Text
-              as="div"
-              size="p2"
-              className="line-clamp-3 font-normal text-white mb-1 xl:mb-2 3xl:mb-3"
-            >
-              {parse(item?.description)}
-            </Text>
-          </div>
-          <div>
-            <Button
-              size="lg"
-              variant="none"
-              className="text-white px-0"
-              asChild
-            >
-              <Link href={item?.slug}>
-                Read More
-                <Image
-                  src={"/images/icon-news-right.svg"}
-                  alt={"icon-news-right"}
-                  width={6}
-                  height={10}
-                  className="w-1 3xl:w-1.5 block mt-0.5"
-                  unoptimized
-                />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function FilterItems({ items, activeFilter, onFilterChange, className }) {
   return (
     <div
@@ -220,12 +148,12 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
       )}
     >
       {items?.map((item) => {
-        const isActive = activeFilter === item;
+        const isActive = activeFilter === item?.slug;
         return (
           <Button
-            key={item}
+            key={item?.id}
             type="button"
-            onClick={() => onFilterChange(item)}
+            onClick={() => onFilterChange(item?.slug)}
             size="lg"
             variant="none"
             className={cn(
@@ -233,7 +161,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
               isActive ? "text-white" : "text-white/50",
             )}
           >
-            {item}
+            {item?.title}
             <span
               className={cn(
                 "absolute z-0 bottom-0 inset-x-0 w-full h-0.5 bg-white",

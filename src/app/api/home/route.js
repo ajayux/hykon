@@ -490,7 +490,23 @@ export async function GET(request) {
       title: "News",
       description:
         "Expert perspectives on sustainable energy, industry trends, and technical innovations",
-      filterItems: ["Upcoming", "Featured", "Archives"],
+      filters: [
+        {
+          id: 1,
+          title: "Upcoming",
+          slug: "upcoming",
+        },
+        {
+          id: 2,
+          title: "Featured",
+          slug: "featured",
+        },
+        {
+          id: 3,
+          title: "Archive",
+          slug: "archive",
+        },
+      ],
       button: {
         label: "View All",
         link: "/news",
