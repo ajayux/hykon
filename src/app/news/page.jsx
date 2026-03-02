@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import NewsListing from "@/components/blocks/news/news-listing";

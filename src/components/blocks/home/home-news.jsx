@@ -14,13 +14,38 @@ import NewsCard from "@/components/common/news-card";
 
 export default function HomeNews({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filterItems?.[0]?.slug?.toLowerCase() ?? "upcoming",
+    data?.filterItems?.[0]?.slug ?? "upcoming",
   );
+  const [items, setItems] = useState(data?.items ?? []);
+  const [loading, setLoading] = useState(false);
 
-  const filteredItems =
-    data?.items?.filter(
-      (item) => item?.category?.toLowerCase() === activeFilter?.toLowerCase(),
-    ) ?? [];
+  useEffect(() => {
+    const fetchNews = async () => {
+      if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
+        setItems(data.items);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/news?category=${activeFilter}`);
+        if (res.ok) {
+          const response = await res.json();
+          // The API structure seems to be { success: true, data: [...] } or just [...]
+          // based on the user's provided sample data format.
+          // Let's handle both.
+          const newData = response.data || response;
+          setItems(Array.isArray(newData) ? newData : newData.items || []);
+        }
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [activeFilter, data?.filterItems, data?.items]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -37,7 +62,7 @@ export default function HomeNews({ data }) {
       emblaApi.reInit();
       emblaApi.scrollTo(0, true);
     }
-  }, [emblaApi, filteredItems]);
+  }, [emblaApi, items]);
 
   return (
     <section className="w-full h-auto block bg-[#212121] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
@@ -106,12 +131,13 @@ export default function HomeNews({ data }) {
         className={cn(
           "w-full sm:max-w-[calc(var(--breakpoint-sm)/2+50%)] md:max-w-[calc(var(--breakpoint-md)/2+50%)] lg:max-w-[calc(var(--breakpoint-lg)/2+50%)] xl:max-w-[calc(var(--breakpoint-xl)/2+50%)] 2xl:max-w-[calc(var(--breakpoint-2xl)/2+50%)] 3xl:max-w-[calc(var(--breakpoint-3xl)/2+50%)]",
           "pl-4 ml-auto [mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)]",
+          loading && "opacity-50 pointer-events-none transition-opacity",
         )}
       >
-        {filteredItems.length > 0 ? (
+        {items.length > 0 ? (
           <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
             <div className="flex touch-pan-y touch-pinch-zoom -mx-1 sm:-mx-2 lg:-mx-2.5">
-              {filteredItems.map((item) => (
+              {items.map((item) => (
                 <div
                   key={item?.id}
                   className={cn(
@@ -126,7 +152,9 @@ export default function HomeNews({ data }) {
         ) : (
           <div className="flex items-center justify-center py-20 px-4">
             <Text as="p" size="p1" className="text-white/50">
-              No {activeFilter.toLowerCase()} news available.
+              {loading
+                ? "Loading news..."
+                : `No ${activeFilter.toLowerCase()} news available.`}
             </Text>
           </div>
         )}
@@ -170,3 +198,57 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
     </div>
   );
 }
+
+// "newsSection": {
+//             "title": "News",
+//             "description": "Expert perspectives on sustainable energy, industry trends, and technical innovations",
+//             "filterItems": [
+//                 {
+//                     "id": 1,
+//                     "title": "Upcoming",
+//                     "slug": "upcoming"
+//                 },
+//                 {
+//                     "id": 2,
+//                     "title": "Featured",
+//                     "slug": "featured"
+//                 },
+//                 {
+//                     "id": 3,
+//                     "title": "Archive",
+//                     "slug": "archive"
+//                 }
+//             ],
+//             "button": {
+//                 "label": "View All",
+//                 "link": "https://beta.hykon.dev14.intersmarthosting.in/news"
+//             },
+//             "items": [
+//                 {
+//                     "id": 3,
+//                     "category": "Upcoming",
+//                     "media": {
+//                         "path": "https://beta.hykon.dev14.intersmarthosting.in/storage/183/conversions/news-2_optimized_300-converted.webp",
+//                         "alt": "Empowering a Greener Tomorrow!"
+//                     },
+//                     "slug": "empowering-a-greener-tomorrow",
+//                     "publishDay": "27",
+//                     "publishMonthYear": "Feb 2026",
+//                     "title": "Empowering a Greener Tomorrow!",
+//                     "description": "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha"
+//                 },
+//                 {
+//                     "id": 1,
+//                     "category": "Upcoming",
+//                     "media": {
+//                         "path": "https://beta.hykon.dev14.intersmarthosting.in/storage/178/news-3-converted.webp",
+//                         "alt": "Two E-Autos Gifted on Gandhi Jayanti!"
+//                     },
+//                     "slug": "two-e-autos-gifted-on-gandhi-jayanti",
+//                     "publishDay": "25",
+//                     "publishMonthYear": "Feb 2026",
+//                     "title": "Two E-Autos Gifted on Gandhi Jayanti!",
+//                     "description": "Two E-Autos Gifted on Gandhi Jayanti!"
+//                 }
+//             ]
+//         },

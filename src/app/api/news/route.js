@@ -7,7 +7,11 @@ export async function GET(request) {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const apiUrl = `${baseUrl}/api/news?category=${category}&page=${page}`;
+    let apiUrl = `${baseUrl}/api/news?category=${category}&page=${page}`;
+
+    if (category && category !== "upcoming") {
+      apiUrl = `${baseUrl}/api/get-news-by-category?categorySlug=${category}&page=${page}`;
+    }
 
     const res = await fetch(apiUrl, {
       headers: {
