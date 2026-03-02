@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
+import FactoryInfo from "@/components/blocks/factory/factory-info";
+import FactoryListing from "@/components/blocks/factory/factory-listing";
+import FactoryQualityControl from "@/components/blocks/factory/factory-qaulity-control";
 
 export const metadata = {
   title: "Factory | HYKON",
@@ -9,20 +12,8 @@ export const metadata = {
     "Learn more about Hykon India, our mission, vision, and our journey in sustainable energy.",
 };
 
-const localData = {
-  heroSection: {
-    title: "Factory",
-    media: {
-      type: "image",
-      mobilePath: "/images/factory-hero-1.jpg",
-      desktopPath: "/images/factory-hero-1.jpg",
-      alt: "Factory",
-    },
-  },
-};
-
 export default async function FactoryPage() {
-  let aboutData = null;
+  let factoryData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -32,34 +23,26 @@ export default async function FactoryPage() {
 
     if (res.ok) {
       const response = await res.json();
-      aboutData = response.data;
+      factoryData = response.data;
     }
   } catch (error) {
-    console.error("Error fetching about data:", error);
+    console.error("Error fetching factory data:", error);
   }
 
-  if (!aboutData) {
+  if (!factoryData) {
     notFound();
   }
 
-  const {
-    aboutSection,
-    missionSection,
-    chairmanSection,
-    milestoneSection,
-    whyHykonSection,
-    manufacturingSection,
-    awardSection,
-    certificationSection,
-    aboutFooter,
-  } = aboutData;
-
-  const { heroSection } = localData;
+  const { heroSection, innovationSection, factorySection, qualitySection } =
+    factoryData;
 
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
       <BreadcrumbInfo slug={"factory"} />
+      {innovationSection && <FactoryInfo data={innovationSection} />}
+      {factorySection && <FactoryListing data={factorySection} />}
+      {qualitySection && <FactoryQualityControl data={qualitySection} />}
     </>
   );
 }

@@ -1,19 +1,10 @@
-"use client";
 import Image from "next/image";
 import { Heading } from "@/components/utils/typography";
-import {
-  Parallax,
-  ParallaxBanner,
-  ParallaxBannerLayer,
-  ParallaxProvider,
-} from "react-scroll-parallax";
+
 export default function InnerHero({ data }) {
   return (
-    // <ParallaxProvider>
-    //   <ParallaxBanner>
     <section className="w-full h-[320px] sm:h-[376px] lg:h-[400px] 2xl:h-[480px] 3xl:h-[600px] bg-black overflow-hidden flex items-end relative z-0">
-      <div className="w-full h-full bg-gradient-to-b from-black via-black/0 to-black absolute -z-1 inset-0 opacity-10" />
-      {/* <ParallaxBannerLayer speed={20} className="absolute -z-2 inset-0"> */}
+      <div className="w-full h-full bg-gradient-to-r from-black via-black/0 to-transparent absolute -z-1 inset-0 opacity-30" />
       {data?.media?.media_type === "video" ? (
         <>
           <video
@@ -37,9 +28,12 @@ export default function InnerHero({ data }) {
         </>
       ) : (
         <picture className="absolute -z-2 inset-0">
-          <source media="(max-width: 640px)" srcSet={data?.media?.mobilePath} />
+          <source
+            media="(max-width: 640px)"
+            srcSet={data?.media?.mobilePath || data?.media?.path}
+          />
           <Image
-            src={data?.media?.desktopPath}
+            src={data?.media?.desktopPath || data?.media?.path}
             alt={data?.media?.alt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
@@ -47,7 +41,6 @@ export default function InnerHero({ data }) {
           />
         </picture>
       )}
-      {/* </ParallaxBannerLayer> */}
       <div className="container">
         <div className="w-full py-[20px] sm:py-[40px] lg:py-[60px] xl:py-[75px] 2xl:py-[90px] 3xl:py-[110px]">
           <Heading
@@ -60,7 +53,5 @@ export default function InnerHero({ data }) {
         </div>
       </div>
     </section>
-    //   </ParallaxBanner>
-    // </ParallaxProvider>
   );
 }

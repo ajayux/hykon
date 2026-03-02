@@ -189,7 +189,7 @@
     p,
     &,
     li {
-      @apply text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[18px] leading-normal font-normal text-(--text-color);
+      @apply text-[14px] lg:text-[11px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-(--text-color);
     }
 
     h1 {
@@ -228,11 +228,11 @@
 
     ul>li,
     ol>li {
-      @apply my-1 lg:my-1.5;
+      @apply my-1.5 lg:my-2;
     }
 
     ul>li {
-      @apply list-disc;
+      @apply ml-5 pl-2 list-image-[url('/images/li-check.svg')]  marker:size-1.5 3xl:marker:size-1.5;
     }
   }
 }

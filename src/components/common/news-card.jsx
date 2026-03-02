@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 
-export default function NewsCard({ item }) {
+export default function NewsCard({ item, isLoading }) {
+  if (isLoading) return <NewsCardSkelton />;
   return (
     <Suspense fallback={<NewsCardSkelton />}>
       <div className="group w-full h-full flex flex-col relative z-0">

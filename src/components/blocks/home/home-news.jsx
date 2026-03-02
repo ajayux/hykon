@@ -16,34 +16,34 @@ export default function HomeNews({ data }) {
   const [activeFilter, setActiveFilter] = useState(
     data?.filterItems?.[0]?.slug ?? "upcoming",
   );
-  const [items, setItems] = useState(data?.items ?? []);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchNews = async () => {
+    if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
+      setItems(data.items);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/news?category=${activeFilter}`);
+      if (res.ok) {
+        const response = await res.json();
+        // The API structure seems to be { success: true, data: [...] } or just [...]
+        // based on the user's provided sample data format.
+        // Let's handle both.
+        const newData = response.data || response;
+        setItems(Array.isArray(newData) ? newData : newData.items || []);
+      }
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchNews = async () => {
-      if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
-        setItems(data.items);
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/news?category=${activeFilter}`);
-        if (res.ok) {
-          const response = await res.json();
-          // The API structure seems to be { success: true, data: [...] } or just [...]
-          // based on the user's provided sample data format.
-          // Let's handle both.
-          const newData = response.data || response;
-          setItems(Array.isArray(newData) ? newData : newData.items || []);
-        }
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchNews();
   }, [activeFilter, data?.filterItems, data?.items]);
 
@@ -144,7 +144,7 @@ export default function HomeNews({ data }) {
                     "flex-[0_0_268px] sm:flex-[0_0_320px] lg:flex-[0_0_420px] 2xl:flex-[0_0_500px] 3xl:flex-[0_0_650px] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
                   )}
                 >
-                  <NewsCard item={item} />
+                  <NewsCard isLoading={loading} item={item} />
                 </div>
               ))}
             </div>

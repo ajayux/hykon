@@ -1,0 +1,39 @@
+import { Heading } from "@/components/utils/typography";
+import Image from "next/image";
+import parse from "html-react-parser";
+
+export default function FactoryDetailSection({ data }) {
+  return (
+    <section className="w-full h-auto block py-10 xl:py-15 2xl:py-17 3xl:py-22 bg-[#181818] overflow-hidden">
+      <div className="container">
+        <div className="w-full block mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
+          <div className="w-full sm:w-[320px] lg:w-[420px] xl:w-[510px] 2xl:w-[605px] 3xl:w-[740px] max-lg:mb-5 lg:float-left mr-5 sm:mr-10 lg:mr-[50px] xl:mr-[55px] 2xl:mr-[66px] 3xl:mr-[80px] mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
+            <div className="w-full aspect-74/50 overflow-hidden rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px]">
+              <Image
+                src={"/images/placeholder.jpg"}
+                alt={data?.media?.alt}
+                width={740}
+                height={500}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          </div>
+          <Heading
+            as="h2"
+            size="h1"
+            className="leading-tight text-white mb-5 xl:mb-7 2xl:mb-9 3xl:mb-10"
+          >
+            {parse(data.title)}
+          </Heading>
+          <div className="typography [--text-color:#fff]">
+            {parse(data?.description)}
+          </div>
+          <div className="clear-both" />
+        </div>
+        <div className="w-full typography [--text-color:#fff]">
+          {parse(data?.technology_used)}
+        </div>
+      </div>
+    </section>
+  );
+}
