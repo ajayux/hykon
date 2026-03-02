@@ -1,50 +1,32 @@
-import React from 'react'
-
-export default function FactoryPage() {
-  return (
-    <div>FactoryPage</div>
-  )
-}
-
-
 import { notFound } from "next/navigation";
 
 import InnerHero from "@/components/common/inner-hero";
-import AboutStory from "@/components/blocks/about/about-story";
-
-import AboutMission from "@/components/blocks/about/about-mission";
-import AboutLeadership from "@/components/blocks/about/about-leadership";
-import AboutMilestones from "@/components/blocks/about/about-milestones";
-import AboutWhyHykon from "@/components/blocks/about/about-why-hykon";
-import AboutManufacturing from "@/components/blocks/about/about-manufacturing";
-import AboutAwards from "@/components/blocks/about/about-awards";
-import AboutPresence from "@/components/blocks/about/about-presence";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 
 export const metadata = {
-  title: "About Us | HYKON",
+  title: "Factory | HYKON",
   description:
     "Learn more about Hykon India, our mission, vision, and our journey in sustainable energy.",
 };
 
 const localData = {
   heroSection: {
-    title: "About Us",
+    title: "Factory",
     media: {
       type: "image",
-      mobilePath: "/images/about-hero-1.jpg",
-      desktopPath: "/images/about-hero-1.jpg",
-      alt: "Modern Smart Building",
+      mobilePath: "/images/factory-hero-1.jpg",
+      desktopPath: "/images/factory-hero-1.jpg",
+      alt: "Factory",
     },
   },
 };
 
-export default async function AboutPage() {
+export default async function FactoryPage() {
   let aboutData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/about`, {
+    const res = await fetch(`${baseUrl}/api/factory`, {
       next: { revalidate: 60 },
     });
 
@@ -77,26 +59,10 @@ export default async function AboutPage() {
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
-      <BreadcrumbInfo slug={"about"} />
-      {aboutSection && <AboutStory data={aboutSection} />}
-      {missionSection && <AboutMission data={missionSection} />}
-      {chairmanSection && <AboutLeadership data={chairmanSection} />}
-      {milestoneSection && <AboutMilestones data={milestoneSection} />}
-      {whyHykonSection && <AboutWhyHykon data={whyHykonSection} />}
-      {manufacturingSection && (
-        <AboutManufacturing data={manufacturingSection} />
-      )}
-      {(awardSection || certificationSection) && (
-        <AboutAwards
-          awardData={awardSection}
-          certificationData={certificationSection}
-        />
-      )}
-      {aboutFooter && <AboutPresence data={aboutFooter} />}
+      <BreadcrumbInfo slug={"factory"} />
     </>
   );
 }
-
 
 // {
 //     "success": true,
