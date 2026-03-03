@@ -18,18 +18,6 @@ export const metadata = {
     "Learn more about Hykon India, our mission, vision, and our journey in sustainable energy.",
 };
 
-const localData = {
-  heroSection: {
-    title: "About Us",
-    media: {
-      type: "image",
-      mobilePath: "/images/about-hero-1.jpg",
-      desktopPath: "/images/about-hero-1.jpg",
-      alt: "Modern Smart Building",
-    },
-  },
-};
-
 export default async function AboutPage() {
   let aboutData = null;
 
@@ -52,6 +40,7 @@ export default async function AboutPage() {
   }
 
   const {
+    heroSection,
     aboutSection,
     missionSection,
     chairmanSection,
@@ -62,8 +51,6 @@ export default async function AboutPage() {
     certificationSection,
     aboutFooter,
   } = aboutData;
-
-  const { heroSection } = localData;
 
   return (
     <>

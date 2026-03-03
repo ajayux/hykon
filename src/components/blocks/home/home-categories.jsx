@@ -32,7 +32,7 @@ export default function HomeCategories({ data }) {
           data-cursor="carousel"
         >
           <div className="flex touch-pan-y touch-pinch-zoom -mx-1 3xl:-mx-2 [&>*]:p-1 3xl:[&>*]:p-2">
-            {data?.map((item) => (
+            {data?.categories?.map((item) => (
               <div
                 key={item?.id}
                 className={cn(

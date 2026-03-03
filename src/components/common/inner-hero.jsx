@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Heading } from "@/components/utils/typography";
+import parse from "html-react-parser";
 
 export default function InnerHero({ data }) {
   return (
@@ -28,13 +29,10 @@ export default function InnerHero({ data }) {
         </>
       ) : (
         <picture className="absolute -z-2 inset-0">
-          <source
-            media="(max-width: 640px)"
-            srcSet={data?.media?.mobilePath || data?.media?.path}
-          />
+          <source media="(max-width: 640px)" srcSet={data?.media?.mobilePath} />
           <Image
-            src={data?.media?.desktopPath || data?.media?.path}
-            alt={data?.media?.alt}
+            src={data?.media?.desktopPath}
+            alt={data?.media?.alt || data?.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="-z-2 object-cover"
@@ -42,13 +40,13 @@ export default function InnerHero({ data }) {
         </picture>
       )}
       <div className="container">
-        <div className="w-full py-[20px] sm:py-[40px] lg:py-[60px] xl:py-[75px] 2xl:py-[90px] 3xl:py-[110px]">
+        <div className="w-full py-[20px] sm:py-[30px] lg:py-[40px] xl:py-[50px] 2xl:py-[80px] 3xl:py-[100px]">
           <Heading
             as="h1"
             size="h1"
-            className="leading-none font-normal text-white"
+            className="leading-tight font-normal text-white"
           >
-            {data?.title}
+            {parse(data?.title)}
           </Heading>
         </div>
       </div>

@@ -7,41 +7,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 
-const achievementData = [
-  {
-    id: 1,
-    media: {
-      type: "image",
-      path: "/images/achievements-1.png",
-      alt: "achievements-1",
-    },
-  },
-  {
-    id: 2,
-    media: {
-      type: "image",
-      path: "/images/achievements-2.png",
-      alt: "achievements-2",
-    },
-  },
-  {
-    id: 3,
-    media: {
-      type: "image",
-      path: "/images/achievements-3.png",
-      alt: "achievements-3",
-    },
-  },
-  {
-    id: 4,
-    media: {
-      type: "image",
-      path: "/images/achievements-4.png",
-      alt: "achievements-4",
-    },
-  },
-];
-
 export default function AboutAwards({ awardData, certificationData }) {
   const [emblaRef] = useEmblaCarousel(
     {
@@ -80,7 +45,7 @@ export default function AboutAwards({ awardData, certificationData }) {
                       className="w-full max-w-full overflow-hidden"
                     >
                       <div className="flex touch-pan-y touch-pinch-zoom -mx-2 lg:-mx-6 [&>*]:p-2 lg:[&>*]:p-6">
-                        {achievementData?.map((item) => (
+                        {awardData?.items?.map((item) => (
                           <div
                             key={item?.id}
                             className={cn(

@@ -10,7 +10,7 @@ export default function AboutManufacturing({ data }) {
           <div className="w-full sm:w-[320px] lg:w-[420px] xl:w-[500px] 2xl:w-[600px] 3xl:w-[760px] max-lg:mb-5">
             <div className="w-full aspect-76/53 overflow-hidden rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] shadow-2xl">
               <Image
-                src={data?.media?.path || "/images/about-manu-1.jpg"}
+                src={data?.media?.path}
                 alt={data?.title}
                 width={760}
                 height={530}
@@ -40,7 +40,7 @@ export default function AboutManufacturing({ data }) {
                   key={item.id}
                   className="w-full py-2 sm:py-3 xl:py-4.5 2xl:py-5 3xl:py-6"
                 >
-                  <div className="group w-full flex flex-wrap gap-2 sm:gap-x-3 lg:gap-x-5 2xl:gap-x-6 3xl:gap-x-8">
+                  <div className="group w-full flex flex-wrap items-center gap-2 sm:gap-x-3 lg:gap-x-5 2xl:gap-x-6 3xl:gap-x-8">
                     <div className="w-16 2xl:w-19 3xl:w-24 aspect-square rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[14px] bg-[#2b2b2b] flex justify-center items-center transition-colors duration-300 group-hover:bg-[#3b3b3b]">
                       <Image
                         src={item?.media?.path}
@@ -61,7 +61,7 @@ export default function AboutManufacturing({ data }) {
                       <Text as="div" size="p1" className="text-white">
                         {parse(
                           item?.description ||
-                            "State-of-the-art facilities equipped with modern machinery and automation to ensure precision and quality in every product.",
+                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
                         )}
                       </Text>
                     </div>
