@@ -9,10 +9,6 @@ export async function GET(request) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     let apiUrl = `${baseUrl}/api/news?category=${category}&page=${page}`;
 
-    if (category && category !== "upcoming") {
-      apiUrl = `${baseUrl}/api/get-news-by-category?categorySlug=${category}&page=${page}`;
-    }
-
     const res = await fetch(apiUrl, {
       headers: {
         "Content-Type": "application/json",

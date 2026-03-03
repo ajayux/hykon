@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 import NewsCard from "@/components/common/news-card";
 import { useState, useCallback } from "react";
 
-export default function NewsListing({ data }) {
+export default function NewsListing({ data, activeCategory }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filters?.[0]?.slug ?? "upcoming",
+    activeCategory || data?.filters?.[0]?.slug || "upcoming",
   );
   const [items, setItems] = useState(data?.items ?? []);
   const [pagination, setPagination] = useState(data?.pagination ?? {});
@@ -97,7 +97,7 @@ export default function NewsListing({ data }) {
                 key={item?.id}
                 className="w-full lg:w-1/3 p-1 xl:p-[5px] 2xl:p-1.5 3xl:p-2"
               >
-                <NewsCard item={item} />
+                <NewsCard isLoading={loading} item={item} />
               </div>
             ))
           ) : (
