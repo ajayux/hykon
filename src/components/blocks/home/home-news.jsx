@@ -27,7 +27,8 @@ export default function HomeNews({ data }) {
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/news?category=${activeFilter}`);
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/news?category=${activeFilter}`);
       if (res.ok) {
         const response = await res.json();
         // The API structure seems to be { success: true, data: [...] } or just [...]

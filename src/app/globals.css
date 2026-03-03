@@ -189,15 +189,11 @@
     p,
     &,
     li {
-      @apply text-[14px] lg:text-[11px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-(--text-color);
+      @apply text-[14px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-(--text-color);
     }
 
-    h1 {
-      @apply text-[20px] sm:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[40px] 3xl:text-[50px] leading-tight font-normal text-(--text-color);
-    }
-
-    h2 {
-      @apply text-[22px] sm:text-[32px] lg:text-[40px] 2xl:text-[48px] 3xl:text-[58px] leading-tight font-medium text-(--text-color);
+    h1, h2 {
+      @apply text-[24px] sm:text-[32px] lg:text-[40px] 2xl:text-[44px] 3xl:text-[54px] leading-tight font-medium text-(--text-color);
     }
 
     h3 {

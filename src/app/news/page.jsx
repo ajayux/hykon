@@ -39,8 +39,9 @@ async function getNewsData(category = "upcoming", page = 1) {
 }
 
 export default async function NewsPage({ searchParams }) {
-  const category = searchParams?.category || "upcoming";
-  const page = searchParams?.page || 1;
+  const params = await searchParams;
+  const category = params?.category || "upcoming";
+  const page = params?.page || 1;
 
   const newsData = await getNewsData(category, page);
 
