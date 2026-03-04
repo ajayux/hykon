@@ -6,6 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { Text } from "@/components/utils/typography";
+import Link from "next/link";
 
 export default function HomeCategories({ data }) {
   const [emblaRef] = useEmblaCarousel(
@@ -32,7 +33,7 @@ export default function HomeCategories({ data }) {
           data-cursor="carousel"
         >
           <div className="flex touch-pan-y touch-pinch-zoom -mx-1 3xl:-mx-2 [&>*]:p-1 3xl:[&>*]:p-2">
-            {data?.categories?.map((item) => (
+            {data?.map((item) => (
               <div
                 key={item?.id}
                 className={cn(
@@ -65,8 +66,11 @@ export default function HomeCategories({ data }) {
                   >
                     {item?.name}
                   </Text>
-                  <div className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">
+                  <Link
+                    href={`/products/${item?.slug}`}
+                    className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
+                  >
+                    <span className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}
                         alt={"icon-arrow-right-blue"}
@@ -75,11 +79,11 @@ export default function HomeCategories({ data }) {
                         className="w-3"
                         unoptimized
                       />
-                    </div>
-                    <div className="text-[10px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal text-white">
+                    </span>
+                    <span className="text-[10px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal text-white">
                       View Details
-                    </div>
-                  </div>
+                    </span>
+                  </Link>
                 </div>
               </div>
             ))}

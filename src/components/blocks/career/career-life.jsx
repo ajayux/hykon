@@ -30,8 +30,8 @@ export default function CareerLife({ data }) {
             </div>
           </div>
           <div className="w-full lg:w-[576px] xl:w-[600px] 2xl:w-[720px] 3xl:w-[880px]">
-            <div className="aspect-[88/53] flex flex-wrap -mx-2 [&>div>div]:p-2 lg:[&>div>div]:p-2 2xl:[&>div>div]:p-2 3xl:[&>div>div]:p-2">
-              <div className="w-full sm:w-4/10 flex flex-col">
+            <div className="aspect-[88/53] flex flex-wrap -mx-1 lg:-mx-2 2xl:-mx-2.5 3xl:-mx-3 [&>div>div]:p-1 lg:[&>div>div]:p-2 2xl:[&>div>div]:p-2.5 3xl:[&>div>div]:p-3">
+              <div className="w-4/10 flex flex-col">
                 <div className="w-full h-1/2 rounded-[10px] overflow-hidden">
                   <div className="w-full h-full rounded-[10px] overflow-hidden relative">
                     <Image
@@ -53,7 +53,7 @@ export default function CareerLife({ data }) {
                   </div>
                 </div>
               </div>
-              <div className="w-full sm:w-6/10 flex flex-col">
+              <div className="w-6/10 flex flex-col">
                 <div className="w-full flex-1">
                   <div className="w-full h-full rounded-[10px] overflow-hidden relative">
                     <Image

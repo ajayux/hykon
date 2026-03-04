@@ -37,7 +37,7 @@ export default async function NewsPage({ searchParams }) {
 
   return (
     <>
-      <InnerHero data={heroSection} />
+      {/* <InnerHero data={heroSection} /> */}
       <BreadcrumbInfo slug={"news"} />
       <NewsListing data={newsData} activeCategory={category} />
     </>

@@ -103,8 +103,8 @@ export default function HomeNews({ data }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-7"
               asChild
             >
-              <Link href={data?.button?.link}>
-                {data?.button?.label}
+              <Link href={"/news"}>
+                View All
                 <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -182,7 +182,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "text-white p-0 relative z-0",
+              "capitalize text-white p-0 relative z-0",
               isActive ? "text-white" : "text-white/50",
             )}
           >
