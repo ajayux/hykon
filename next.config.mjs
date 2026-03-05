@@ -19,11 +19,11 @@ const nextConfig = {
     // minimumCacheTTL: 60,
   },
   // Compress responses
-  compress: true,
+  // compress: true,
   // Enable React strict mode
-  reactStrictMode: true,
+  // reactStrictMode: true,
   // Power optimization
-  poweredByHeader: false,
+  // poweredByHeader: false,
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],

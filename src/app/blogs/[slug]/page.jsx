@@ -85,34 +85,13 @@ const localData = {
 };
 
 export default async function BlogDetailPage({ data = localData }) {
-  // const { slug } = await params;
-  // let blogDetailData = null;
-
-  // try {
-  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //   const res = await fetch(`${baseUrl}/api/blog/${slug}`, {
-  //     next: { revalidate: 60 },
-  //   });
-
-  //   if (res.ok) {
-  //     const response = await res.json();
-  //     blogDetailData = response.data;
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching blog detail data:", error);
-  // }
-
-  // if (!blogDetailData) {
-  //   notFound();
-  // }
-
-  const { heroSection, news } = data;
+   const { heroSection, news } = data;
 
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
       <BreadcrumbInfo slug={`News/${news?.title}`} />
-      {/* {news && <BlogDetailSection data={news} />} */}
+      {news && <BlogDetailSection data={news} />}
     </>
   );
 }
