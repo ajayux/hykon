@@ -27,6 +27,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Heading, Text } from "../utils/typography";
+import Link from "next/link";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -46,6 +48,8 @@ const errorClass =
 
 export function CareerApplicationForm({ jobTitle, onOpenChange }) {
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -75,15 +79,43 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
     form.setValue("cv", null);
   };
 
-  function onSubmit(data) {
-    toast.success("Application Submitted!", {
-      description: `Thank you for applying for the ${jobTitle} position.`,
-      position: "bottom-right",
-    });
-    console.log("Form Data:", data);
-    form.reset();
-    setUploadedFile(null);
-    if (onOpenChange) onOpenChange(false);
+  async function onSubmit(data) {
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("fullName", data.fullName);
+      formData.append("phone", data.phone);
+      formData.append("email", data.email);
+      formData.append("state", data.state);
+      formData.append("place", data.place);
+      formData.append("experience", data.experience);
+      formData.append("cv", data.cv);
+      formData.append("coverLetter", data.coverLetter || "");
+      formData.append("jobTitle", jobTitle || "");
+
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/career-enquiry`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit application");
+      }
+
+      setIsSuccess(true);
+      form.reset();
+      setUploadedFile(null);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  if (isSuccess) {
+    return <FormSubmittedSuccess />;
   }
 
   return (
@@ -102,7 +134,12 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
               <FieldLabel htmlFor="name" className="sr-only">
                 Name*
               </FieldLabel>
-              <Input {...field} placeholder="Name*" className={inputClasses} />
+              <Input
+                {...field}
+                placeholder="Name*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}
@@ -119,7 +156,12 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="sr-only">Phone*</FieldLabel>
-              <Input {...field} placeholder="Phone*" className={inputClasses} />
+              <Input
+                {...field}
+                placeholder="Phone*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}
@@ -141,6 +183,7 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
                 type="email"
                 placeholder="Email*"
                 className={inputClasses}
+                disabled={isSubmitting}
               />
               {fieldState.invalid && (
                 <FieldError
@@ -158,7 +201,12 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="sr-only">State*</FieldLabel>
-              <Input {...field} placeholder="State*" className={inputClasses} />
+              <Input
+                {...field}
+                placeholder="State*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}
@@ -175,7 +223,12 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="sr-only">Place*</FieldLabel>
-              <Input {...field} placeholder="Place*" className={inputClasses} />
+              <Input
+                {...field}
+                placeholder="Place*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}
@@ -196,6 +249,7 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 className={inputClasses}
+                disabled={isSubmitting}
               >
                 <SelectTrigger
                   className={cn(
@@ -244,6 +298,7 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
               className="hidden"
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
+              disabled={isSubmitting}
             />
           </label>
         ) : (
@@ -255,6 +310,7 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
               type="button"
               onClick={handleFileRemove}
               className="text-red-500 hover:text-red-400"
+              disabled={isSubmitting}
             >
               <X className="size-4 xl:size-5" />
             </button>
@@ -279,6 +335,7 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
                 inputClasses,
                 "min-h-[60px] xl:min-h-[76px] 2xl:min-h-[90px] 3xl:min-h-[110px]",
               )}
+              disabled={isSubmitting}
             />
           </Field>
         )}
@@ -287,11 +344,13 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
       {/* Submit Button */}
       <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">
         <Button
+          type="submit"
           size="lg"
           variant="outline"
           className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
           <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
             <Image
               src={"/images/icon-arrow-right-white.svg"}
@@ -304,6 +363,57 @@ export function CareerApplicationForm({ jobTitle, onOpenChange }) {
           </span>
         </Button>
       </div>
+      <FormSubmittedSuccess />
     </form>
+  );
+}
+
+function FormSubmittedSuccess() {
+  return (
+    <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto">
+      <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
+        <Image
+          src={"/images/form-submitted-success.svg"}
+          alt={"form-submitted-success"}
+          width={120}
+          height={120}
+          className="w-full h-full object-contain"
+          unoptimized
+        />
+      </div>
+      <Heading
+        as="h2"
+        size="h3"
+        className="text-center text-white mb-2 2xl:mb-3 3xl:mb-4"
+      >
+        Your Application is Submitted
+      </Heading>
+      <Text as="div" size="p1" className="font-normal text-center text-white">
+        Thank you for applying. Our team will get in touch with you if your
+        profile matches our requirements.
+      </Text>
+      <div className="w-full flex justify-center mt-4 xl:mt-6">
+        <Button
+          size="lg"
+          variant="outline"
+          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-4"
+          asChild
+        >
+          <Link href={"/careers"}>
+            Go Back
+            <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <Image
+                src={"/images/icon-arrow-right-white.svg"}
+                alt={"icon-arrow-right-white"}
+                width={18}
+                height={13}
+                className="w-1/2"
+                unoptimized
+              />
+            </span>
+          </Link>
+        </Button>
+      </div>
+    </div>
   );
 }

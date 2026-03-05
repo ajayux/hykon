@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import HeaderNavigation from "./header-navigation";
 import HeaderHamburger from "./header-hamburger";
 
-export default function Header({ data, navigationData, locale }) {
+export default function Header({ data, navigationData }) {
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
@@ -35,7 +35,7 @@ export default function Header({ data, navigationData, locale }) {
       <div className="container">
         <div className="flex justify-between items-center gap-x-3 lg:gap-x-8 relative z-0">
           <div className="w-[140px] xl:w-[152px] 2xl:w-[182px] 3xl:w-[228px]">
-            <Link href={`/${locale}${data?.slug}`}>
+            <Link href={data?.slug}>
               <Image
                 src={data?.logoUrl}
                 alt={data?.name}
@@ -78,7 +78,6 @@ export default function Header({ data, navigationData, locale }) {
             </Button>
 
             <HeaderHamburger
-              locale={locale}
               setIsOpen={setToggle}
               menuItems={navigationData}
               data={data}

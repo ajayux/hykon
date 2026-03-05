@@ -68,7 +68,6 @@ const hoverVariants = {
 };
 
 export default function HeaderHamburger({
-  locale,
   setIsOpen,
   menuItems,
   pathname,
@@ -120,7 +119,7 @@ export default function HeaderHamburger({
                       className="flex flex-col items-center gap-6 xl:gap-6 2xl:gap-10"
                     >
                       {menuItems?.map((item) => {
-                        const isActive = pathname === `/${locale}${item?.slug}`;
+                        const isActive = pathname === item?.slug;
 
                         return (
                           <motion.li
@@ -150,7 +149,7 @@ export default function HeaderHamburger({
                                 )}
                                 asChild
                               >
-                                <Link href={`/${locale}${item?.slug}`}>
+                                <Link href={item?.slug}>
                                   <motion.span
                                     variants={{
                                       initial: { y: 0 },
@@ -162,9 +161,7 @@ export default function HeaderHamburger({
                                     }}
                                     className="block"
                                   >
-                                    {locale === "ar"
-                                      ? item?.name_ar
-                                      : item?.name}
+                                    {item?.name}
                                   </motion.span>
                                   <motion.span
                                     variants={{
@@ -177,9 +174,7 @@ export default function HeaderHamburger({
                                     }}
                                     className="absolute inset-0 block text-white"
                                   >
-                                    {locale === "ar"
-                                      ? item?.name_ar
-                                      : item?.name}
+                                    {item?.name}
                                   </motion.span>
                                 </Link>
                               </Button>
@@ -194,7 +189,7 @@ export default function HeaderHamburger({
                 <div className="w-full h-(--header-y) flex items-center absolute top-0 left-0 right-0">
                   <div className="container flex justify-between items-center">
                     <div className="w-[60px] 2xl:w-[80px] 3xl:w-[100px]">
-                      <Link href={`/${locale}${headerData?.slug}`}>
+                      <Link href={headerData?.slug}>
                         <Image
                           src={headerData?.logoWhiteUrl}
                           alt={headerData?.name}
