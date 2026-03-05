@@ -93,7 +93,7 @@ export default function NewsListing({ data, activeCategory }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap -mx-1 xl:-mx-[5px] 2xl:-mx-1.5 3xl:-mx-2 min-h-[400px]">
+        <div className="flex flex-wrap -mx-1 xl:-mx-[5px] 2xl:-mx-1.5 3xl:-mx-2">
           {items.length > 0 ? (
             items.map((item) => (
               <div
