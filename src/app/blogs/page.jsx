@@ -9,7 +9,7 @@ const localData = {
     title: "Blogs",
     media: {
       type: "image",
-      path: "/images/blog-hero-1.jpg",
+      path: "/images/blogs-hero-1.jpg",
       alt: "Blogs",
     },
   },

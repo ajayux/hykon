@@ -23,49 +23,49 @@ export default function BlogsListing({ data }) {
             <div className="container">
                 <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-10 3xl:mb-12">
 
-  {/* Left Content */}
-  <div className="w-full sm:w-[50%]">
-    <Heading
-      as="h2"
-      size="h1"
-      className="text-medium text-white mb-1 xl:mb-1.5 3xl:mb-2"
-    >
-      {parse(data?.title)}
-    </Heading>
+                  {/* Left Content */}
+                  <div className="w-full sm:w-[50%]">
+                    <Heading
+                      as="h2"
+                      size="h1"
+                      className="text-medium text-white mb-1 xl:mb-1.5 3xl:mb-2"
+                    >
+                      {parse(data?.title)}
+                    </Heading>
 
-    <Text
-      as="p"
-      size="p1"
-      className="text-medium text-white mb-1 xl:mb-2 3xl:mb-3"
-    >
-      {parse(data?.description)}
-    </Text>
-  </div>
+                    <Text
+                      as="p"
+                      size="p1"
+                      className="text-medium text-white mb-1 xl:mb-2 3xl:mb-3"
+                    >
+                      {parse(data?.description)}
+                    </Text>
+                  </div>
 
-  {/* Right Select */}
-  <div className="w-full sm:w-auto sm:ml-auto flex justify-end">
-    <Select>
-      <SelectTrigger className="w-[180px] border-0 border-b-[2.7px] border-b-[#008DD2] rounded-none bg-transparent text-white [&>span]:text-white [&>svg]:!text-white">
-        <SelectValue placeholder="Theme" />
-      </SelectTrigger>
+                  {/* Right Select */}
+                  <div className="w-full sm:w-auto sm:ml-auto flex justify-end">
+                    <Select>
+                      <SelectTrigger className="w-[180px] border-0 border-b-[2.7px] border-b-[#008DD2] rounded-none bg-transparent text-white [&>span]:text-white [&>svg]:!text-white cursor-pointer">
+                        <SelectValue placeholder="Category" />
+                      </SelectTrigger>
 
-      <SelectContent className="bg-white text-black border border-gray-200">
-        <SelectGroup>
-          <SelectItem value="light" className="focus:bg-gray-100">
-            Category
-          </SelectItem>
-          <SelectItem value="dark" className="focus:bg-gray-100">
-            Category - 1
-          </SelectItem>
-          <SelectItem value="system" className="focus:bg-gray-100">
-            Category - 2
-          </SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  </div>
+                      <SelectContent className="bg-white text-black border border-gray-200">
+                        <SelectGroup>
+                          <SelectItem value="light" className="focus:bg-gray-100">
+                            Category
+                          </SelectItem>
+                          <SelectItem value="dark" className="focus:bg-gray-100">
+                            Category - 1
+                          </SelectItem>
+                          <SelectItem value="system" className="focus:bg-gray-100">
+                            Category - 2
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-</div>
+                </div>
 
                 <div className="flex flex-wrap -mx-1 xl:-mx-[5px] 2xl:-mx-1.5 3xl:-mx-2 min-h-[400px]">
                     {data?.items?.length > 0 ? (
