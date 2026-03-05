@@ -8,89 +8,33 @@ export const metadata = {
     "Stay updated with the latest news, events, and announcements from Hykon.",
 };
 
-async function getNewsData(category = "upcoming", page = 1) {
+export default async function NewsPage() {
+  let newsData = null;
+
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(
-      `${baseUrl}/api/news?category=${category}&page=${page}`,
-      {
-        next: { revalidate: 60 },
-      },
-    );
+    const res = await fetch(`${baseUrl}/api/news`, {
+      next: { revalidate: 60 },
+    });
 
     if (res.ok) {
       const response = await res.json();
-      return response.data;
+      newsData = response.data;
     }
   } catch (error) {
-    console.error("Error fetching news data:", error);
+    console.error("Error fetching factory detail data:", error);
   }
-  return null;
-}
+  if (!newsData) {
+    notFound();
+  }
 
-export default async function NewsPage({ searchParams }) {
-  const params = await searchParams;
-  const category = params?.category || "upcoming";
-  const page = params?.page || 1;
-
-  const newsData = await getNewsData(category, page);
+  const { heroSection, newsSection } = newsData;
 
   return (
     <>
-      {/* <InnerHero data={heroSection} /> */}
+      <InnerHero data={heroSection} />
       <BreadcrumbInfo slug={"news"} />
-      <NewsListing data={newsData} activeCategory={category} />
+      <NewsListing data={newsSection} />
     </>
   );
 }
-
-// {
-//     "success": true,
-//     "message": "News retrieved successfully.",
-//     "data": {
-//         "title": "News",
-//         "description": "News listing page",
-//         "filters": [
-//             {
-//                 "id": 1,
-//                 "title": "Upcoming",
-//                 "slug": "upcoming"
-//             },
-//             {
-//                 "id": 2,
-//                 "title": "Featured",
-//                 "slug": "featured"
-//             },
-//             {
-//                 "id": 3,
-//                 "title": "Archive",
-//                 "slug": "archive"
-//             }
-//         ],
-//         "items": [
-//             {
-//                 "id": 1,
-//                 "title": "Electric Auto Unit Inauguration",
-//                 "slug": "electric-auto-unit-inauguration",
-//                 "publishDay": "25",
-//                 "publishMonthYear": "February 2026",
-//                 "media": {
-//                     "path": "https://beta.hykon.dev14.intersmarthosting.in/storage/58/news-3-converted.webp",
-//                     "alt": "Electric Auto Unit Inauguration"
-//                 },
-//                 "button": {
-//                     "text": "Read More",
-//                     "link": "https://beta.hykon.dev14.intersmarthosting.in/api/news/electric-auto-unit-inauguration"
-//                 }
-//             }
-//         ],
-//         "pagination": {
-//             "current_page": 1,
-//             "last_page": 1,
-//             "per_page": 12,
-//             "total": 1,
-//             "has_more": false
-//         }
-//     },
-//     "code": 200
-// }

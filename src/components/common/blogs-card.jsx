@@ -7,7 +7,7 @@ import { Text } from "@/components/utils/typography";
 export default function BlogsCard({ item }) {
   return (
     <Link
-      href={item?.slug}
+      href={`/blogs/${item?.slug}`}
       className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] block relative z-0"
     >
       <div className="w-full h-full visible group-hover:invisible scale-100 group-hover:scale-90 transition-all duration-300">
@@ -31,7 +31,7 @@ export default function BlogsCard({ item }) {
             <Text
               as="div"
               size="p0"
-              className="max-lg:text-[13px] line-clamp-3 font-medium text-[#3c3c3c]"
+              className="max-lg:text-[12px] line-clamp-3 font-medium text-[#3c3c3c]"
             >
               {parse(item?.title)}
             </Text>
@@ -61,7 +61,7 @@ export default function BlogsCard({ item }) {
             <Text
               as="div"
               size="p0"
-              className="max-lg:text-[13px] line-clamp-3 font-medium text-white"
+              className="max-lg:text-[12px] line-clamp-3 font-medium text-white"
             >
               {parse(item?.title)}
             </Text>
@@ -69,6 +69,5 @@ export default function BlogsCard({ item }) {
         </div>
       </div>
     </Link>
-    
   );
 }
