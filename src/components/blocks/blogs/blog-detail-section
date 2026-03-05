@@ -2,7 +2,7 @@ import { Heading } from "@/components/utils/typography";
 import Image from "next/image";
 import parse from "html-react-parser";
 
-export default function blogDetailSection({ data }) {
+export default function BlogDetailSection({ data }) {
   return (
     <section className="w-full h-auto block py-10 xl:py-15 2xl:py-17 3xl:py-22 bg-[#181818] overflow-hidden">
       <div className="container">

@@ -184,13 +184,13 @@ const localData = {
       },
     },
   ],
-  pagination: {
-    current_page: 1,
-    last_page: 1,
-    per_page: 12,
-    total: 2,
-    has_more: false,
-  },
+  // pagination: {
+  //   current_page: 1,
+  //   last_page: 1,
+  //   per_page: 12,
+  //   total: 2,
+  //   has_more: false,
+  // },
   metaTag: {
     id: 6,
     meta_title: "Blogs",
