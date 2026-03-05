@@ -9,7 +9,8 @@ const localData = {
     title: "Blogs",
     media: {
       type: "image",
-      path: "/images/blogs-hero-1.jpg",
+      mobilePath: "/images/blogs-hero-1.jpg",
+      desktopPath: "/images/blogs-hero-1.jpg",
       alt: "Blogs",
     },
   },
@@ -50,8 +51,7 @@ const localData = {
 
     {
       id: 3,
-      title:
-        "Heat Pump vs Geyser: Which one saves you more in the long run?",
+      title: "Heat Pump vs Geyser: Which one saves you more in the long run?",
       slug: "heat pump vs geyser: Which one saves you more in the long run?",
       media: {
         path: "/images/blog-3.jpg",
@@ -92,8 +92,7 @@ const localData = {
 
     {
       id: 6,
-      title:
-        "Heat Pump vs Geyser: Which one saves you more in the long run?",
+      title: "Heat Pump vs Geyser: Which one saves you more in the long run?",
       slug: "heat pump vs geyser: Which one saves you more in the long run?",
       media: {
         path: "/images/blog-6.jpg",
@@ -106,8 +105,7 @@ const localData = {
 
     {
       id: 7,
-      title:
-        "Heat Pump vs Geyser: Which one saves you more in the long run?",
+      title: "Heat Pump vs Geyser: Which one saves you more in the long run?",
       slug: "heat pump vs geyser: Which one saves you more in the long run?",
       media: {
         path: "/images/blog-3.jpg",
@@ -162,8 +160,7 @@ const localData = {
 
     {
       id: 11,
-      title:
-        "Heat Pump vs Geyser: Which one saves you more in the long run?",
+      title: "Heat Pump vs Geyser: Which one saves you more in the long run?",
       slug: "heat pump vs geyser: Which one saves you more in the long run?",
       media: {
         path: "/images/blog-6.jpg",
@@ -176,8 +173,7 @@ const localData = {
 
     {
       id: 12,
-      title:
-        "Heat Pump vs Geyser: Which one saves you more in the long run?",
+      title: "Heat Pump vs Geyser: Which one saves you more in the long run?",
       slug: "heat pump vs geyser: Which one saves you more in the long run?",
       media: {
         path: "/images/blog-3.jpg",
@@ -187,7 +183,6 @@ const localData = {
         link: "https://beta.hykon.dev14.intersmarthosting.in/api/blog/ev-vs-home-energy-storage-different-applications-of-lithium-technology",
       },
     },
-
   ],
   pagination: {
     current_page: 1,
@@ -204,7 +199,6 @@ const localData = {
     other_meta_tags: null,
   },
 };
-
 
 export default function BlogsPage({ data = localData }) {
   const { heroSection } = data;

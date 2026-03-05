@@ -112,7 +112,7 @@ export default async function BlogDetailPage({ data = localData }) {
     <>
       {heroSection && <InnerHero data={heroSection} />}
       <BreadcrumbInfo slug={`News/${news?.title}`} />
-      {news && <BlogDetailSection data={news} />}
+      {/* {news && <BlogDetailSection data={news} />} */}
     </>
   );
 }
