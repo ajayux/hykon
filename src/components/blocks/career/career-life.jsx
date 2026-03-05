@@ -16,7 +16,7 @@ export default function CareerLife({ data }) {
               size="h1"
               className="text-white mb-2 xl:mb-3 2xl:mb-4 3xl:mb-5 flex items-center gap-3 xl:gap-4.5 2xl:gap-5 3xl:gap-6"
             >
-              {parse(data.title)}
+              {parse(data?.title)}
               <Image
                 src={data?.iconPath}
                 alt={data?.title}
@@ -26,7 +26,7 @@ export default function CareerLife({ data }) {
               />
             </Heading>
             <div className="typography [--text-color:#fff]">
-              {parse(data.description)}
+              {parse(data?.description)}
             </div>
           </div>
           <div className="w-full lg:w-[576px] xl:w-[600px] 2xl:w-[720px] 3xl:w-[880px]">
