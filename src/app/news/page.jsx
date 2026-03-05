@@ -8,16 +8,6 @@ export const metadata = {
     "Stay updated with the latest news, events, and announcements from Hykon.",
 };
 
-const heroSection = {
-  title: "News",
-  media: {
-    type: "image",
-    mobilePath: "/images/news-hero-1.jpg",
-    desktopPath: "/images/news-hero-1.jpg",
-    alt: "Hykon News",
-  },
-};
-
 async function getNewsData(category = "upcoming", page = 1) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -47,7 +37,7 @@ export default async function NewsPage({ searchParams }) {
 
   return (
     <>
-      <InnerHero data={heroSection} />
+      {/* <InnerHero data={heroSection} /> */}
       <BreadcrumbInfo slug={"news"} />
       <NewsListing data={newsData} activeCategory={category} />
     </>

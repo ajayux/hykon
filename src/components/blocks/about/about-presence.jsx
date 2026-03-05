@@ -10,8 +10,8 @@ export default function AboutPresence({ data }) {
       <div className="container">
         <div className="w-full bg-[#008dd2] rounded-[10px] lg:rounded-[14px] 2xl:rounded-[6px] 3xl:rounded-[20px] px-6 sm:px-12 lg:px-19 2xl:px-22.5 3xl:px-28 flex items-center overflow-hidden relative z-0">
           <Image
-            src={data.media?.path || "/images/about-presence-bg.png"}
-            alt={data.media?.alt || "Presence Across India"}
+            src={data.media?.path}
+            alt={data.media?.alt}
             width={1100}
             height={530}
             className="w-full max-w-[220px] sm:max-w-[468px] lg:max-w-[560px] xl:max-w-[720px] 2xl:max-w-[870px] 3xl:max-w-[1100px] object-contain absolute -z-1 bottom-0 right-0 hover:scale-105 transition duration-300 max-lg:opacity-80"
@@ -40,7 +40,7 @@ export default function AboutPresence({ data }) {
                   asChild
                 >
                   <Link href={data?.button_one?.link}>
-                    {data?.button_one?.text || "Explore Our Products"}
+                    {data?.button_one?.text}
                     <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}
@@ -62,7 +62,7 @@ export default function AboutPresence({ data }) {
                   asChild
                 >
                   <Link href={data?.button_two?.link}>
-                    {data?.button_two?.text || "Contact Our Team"}
+                    {data?.button_two?.text}
                     <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}

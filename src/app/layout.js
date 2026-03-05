@@ -114,7 +114,7 @@ export default async function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={cn("antialiased", fontClassName, fontVariable)}>
-        <FloatNavigation />
+        {/* <FloatNavigation /> */}
 
         <Header data={headerData} navigationData={navigationData} />
 

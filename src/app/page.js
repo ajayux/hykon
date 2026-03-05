@@ -41,7 +41,6 @@ export default async function HomePage() {
   let homeData = null;
 
   try {
-    // const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const res = await fetch(`${baseUrl}/api/home`, {
       next: { revalidate: 60 }, // Cache for 60 seconds
@@ -73,79 +72,6 @@ export default async function HomePage() {
   } = homeData;
 
   const localData = {
-    categoriesSection: [
-      {
-        id: 1,
-        iconPath: "/images/product-cat-1.svg",
-        iconWhitePath: "/images/product-cat-white-1.png",
-        name: "Solar Water Heater",
-        slug: "/solar-water-heater",
-      },
-      {
-        id: 2,
-        iconPath: "/images/product-cat-2.svg",
-        iconWhitePath: "/images/product-cat-white-2.png",
-        name: "SST",
-        slug: "/sst",
-      },
-      {
-        id: 3,
-        iconPath: "/images/product-cat-3.svg",
-        iconWhitePath: "/images/product-cat-white-3.png",
-        name: "Inverter Battery",
-        slug: "security",
-      },
-      {
-        id: 4,
-        iconPath: "/images/product-cat-4.svg",
-        iconWhitePath: "/images/product-cat-white-4.png",
-        name: "Lithium Battery",
-        slug: "/climate",
-      },
-      {
-        id: 5,
-        iconPath: "/images/product-cat-5.svg",
-        iconWhitePath: "/images/product-cat-white-5.png",
-        name: "Electric Vehicle",
-        slug: "/electric-vehicle",
-      },
-      {
-        id: 6,
-        iconPath: "/images/product-cat-6.svg",
-        iconWhitePath: "/images/product-cat-white-6.png",
-        name: "E-Generator",
-        slug: "/e-generator",
-      },
-      {
-        id: 7,
-        iconPath: "/images/product-cat-7.svg",
-        iconWhitePath: "/images/product-cat-white-7.png",
-        name: "BESS",
-        slug: "/bess",
-      },
-      {
-        id: 8,
-        iconPath: "/images/product-cat-8.svg",
-        iconWhitePath: "/images/product-cat-white-8.png",
-        name: "UPS",
-        slug: "/ups",
-      },
-      {
-        id: 9,
-        iconPath: "/images/product-cat-9.svg",
-        iconWhitePath: "/images/product-cat-white-9.png",
-        name: "Solar Systems",
-        slug: "/solar-systems",
-      },
-      {
-        id: 10,
-        iconPath: "/images/product-cat-10.svg",
-        iconWhitePath: "/images/product-cat-white-10.png",
-        name: "Heat Pump",
-        slug: "/heat-pump",
-      },
-    ],
-
     productsSection: {
       title: "Categories",
       corporateItems: {
@@ -374,9 +300,7 @@ export default async function HomePage() {
   return (
     <>
       {heroSection && <HomeHero data={heroSection} />}
-      {localData.categoriesSection && (
-        <HomeCategories data={localData.categoriesSection} />
-      )}
+      {categoriesSection && <HomeCategories data={categoriesSection} />}
       {aboutSection && <HomeAbout data={aboutSection} />}
       {businessSection && <HomeBusiness data={businessSection} />}
       {localData.productsSection && (
