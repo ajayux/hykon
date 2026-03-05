@@ -3,8 +3,7 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import BlogsListing from "@/components/blocks/blogs/blogs-listing";
 
 const localData = {
-  title: "Blog",
-  description: "Blog Listing Page",
+  title: "Blogs",
   heroSection: {
     title: "Blogs",
     media: {

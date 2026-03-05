@@ -12,45 +12,34 @@ import BlogDetailSection from "@/components/blocks/blogs/blog-detail-section";
 // }
 
 const localData = {
+  title: "Media Center",
+  // description: "Blog Listing Page",
   heroSection: {
-    title: "Empowering a Greener Tomorrow!",
+    title: "Media Center",
     media: {
       type: "image",
-      mobilePath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/185/conversions/news-2_optimized_300-converted.webp",
-      desktopPath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/184/conversions/news-2_optimized_300-converted.webp",
-      alt: "Empowering a Greener Tomorrow!",
+      mobilePath: "/images/blogs-hero-1.jpg",
+      desktopPath: "/images/blogs-hero-1.jpg",
+      alt: "Blogs",
     },
   },
   news: {
-    title: "Empowering a Greener Tomorrow!",
+    title: "Electric Auto Unit Inauguration",
     date: "27 February 2026",
-    author: null,
+    author: "#Author",
     media: {
-      path: "https://beta.hykon.dev14.intersmarthosting.in/storage/183/conversions/news-2_optimized_300-converted.webp",
+      path: "/images/blog-detail-1.jpg",
       alt: "Empowering a Greener Tomorrow!",
     },
-    content:
-      "<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha<br></span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span></div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>",
-    galleries: [
-      {
-        id: 186,
-        media: {
-          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/186/news-2_optimized_300.png",
-          alt: "Empowering a Greener Tomorrow!",
-        },
-      },
-      {
-        id: 187,
-        media: {
-          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/187/news-1.jpg",
-          alt: "Empowering a Greener Tomorrow!",
-        },
-      },
-    ],
     description:
-      "<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span>\r\n<div>\r\n<div><span>On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha</span></div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>",
+      `<p>Hykon India ltd, manufacturing unit 5 , for making electric auto-rickshaw was inaugurated by Sri EP Jayarajan , Minister of Sports, industry and Youth affairs of Kerala. Ribbon cutting and unveiling of plaque, also was done by EP Jayarajan. The function was preceded by Sri Denny Varghese, Grama Panchayat President, Kodashery.</p>
+      <p>Key note address was given by Sri Christo George, Chairman and managing director of Hykon India Company. Special address was delivered by Sri Santhosh Koshy Thomas, Managing Director of KINFRA and Dr VM Xavier, President of Thrissur Management Association. Felication was delivered by Smt Leena Davis Vice President, block Panchayat Chalakudy; Sri Jenish P Jose, District Panchayat Member, Athirapilly division Deepa Poly, Ward member of Kodashery Panchayat; Sri Adv. Lijo John, Block Panchayat Member Chalakudy</p>
+      <p>The function was well attended by people from all walks of life. It was conducted in accordance with full vivid protocol. Welcome speech was given by Sri George Christo, Director of Hykon India ltd. and vote of thanks was delivered by Sri R Harikumar, Chief Operating Officer at Hykon India ltd.</P>`,
+    newsec:
+      `<h3>How EVs Harness Lithium-Ion Technology</h3>
+      <p>Electric vehicles need a power source that is light and compact. They also need to deliver quick bursts of power when needed. Lithium-ion batteries fit this role well. Here’s why they work so well in EVs:</p>
+      <p>The function was well attended by people from all walks of life. It was conducted in accordance with full vivid protocol. Welcome speech was given by Sri George Christo, Director of Hykon India ltd. and vote of thanks was delivered by Sri R Harikumar, Chief Operating Officer at Hykon India ltd.</P>`
+    
   },
   keyBenifits: {
     title: "Key Benifits",
@@ -90,7 +79,7 @@ export default async function BlogDetailPage({ data = localData }) {
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
-      <BreadcrumbInfo slug={`News/${news?.title}`} />
+      <BreadcrumbInfo slug={`${news?.title}`} />
       {news && <BlogDetailSection data={news} />}
     </>
   );
