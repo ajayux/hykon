@@ -1,237 +1,429 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import * as React from "react";
 import { useState } from "react";
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import * as z from "zod";
+import { X } from "lucide-react";
+import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-// ✅ Validation schema
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Heading, Text } from "../utils/typography";
+import Link from "next/link";
+
 const formSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, "Full name must be at least 2 characters")
-    .max(50, "Full name cannot exceed 50 characters"),
+  fullName: z.string().min(2, "Name is required"),
+  phone: z.string().min(10, "Valid phone number is required"),
   email: z.string().email("Invalid email address"),
-  phone: z
-    .string()
-    .min(10, "Phone number is required")
-    .max(20, "Phone number is too long"),
-  additionalDetails: z
-    .string()
-    .optional()
-    .refine((val) => !val || val.trim().length >= 2, "Message too short"),
+  productCategory: z.string().min(1, "Product category is required"),
+  requirement: z.string().min(1, "Requirement is required"),
+  attachment: z.any().optional(),
+  message: z.string().optional(),
 });
 
-// ✅ Shared styles
-const labelStyle = cn(
-  "text-[12px] lg:text-[14px] 2xl:text-[15px] 3xl:text-[18px] leading-none font-normal tracking-widest text-[#1e1e1e] mb-1",
-);
+const inputClasses =
+  "text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white w-full h-[35px] xl:h-[40px] 2xl:h-[45px] 3xl:h-[55px] bg-[#252525] border-[#676767] rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none";
+const errorClass =
+  "text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-const inputStyle = `
-  text-[10px] sm:text-[10px] xl:text-[12px] 2xl:text-[12px] 3xl:text-[16px] leading-none font-normal text-black placeholder:text-[#1e1e1e] w-full !h-[40px] xl:!h-[50px] 2xl:!h-[60px] 3xl:!h-[75px] bg-white border-[#c09c86] px-[20px]
-  focus:outline-none focus:ring-0 focus-visible:ring-1 focus-visible:border-transparent
-  selection:bg-primary-800 appearance-none
-`
-  .replace(/\s+/g, " ")
-  .trim();
+export function ContactEnquiryForm() {
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-const textareaStyle = `
-  ${inputStyle} min-h-[75px] resize-none
-`
-  .replace(/\s+/g, " ")
-  .trim();
-
-const iconStyle = "w-3 xl:w-3.5 2xl:w-4 3xl:w-5 aspect-square object-contain";
-
-export default function ContactEnquiryForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
-      email: "",
       phone: "",
-      additionalDetails: "",
+      email: "",
+      productCategory: "",
+      requirement: "",
+      attachment: null,
+      message: "",
     },
   });
-  useState();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(null);
 
-  // 2. Define a submit handler.
-  // async function onSubmit(values) {
-  //   setLoading(true);
-  //   setSuccess(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+      form.setValue("attachment", file);
+      form.clearErrors("attachment");
+    }
+  };
 
-  //   try {
-  //     const res = await fetch(`${STRAPI_URL}/api/contacts`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ data: values }),
-  //     });
+  const handleFileRemove = () => {
+    setUploadedFile(null);
+    form.setValue("attachment", null);
+  };
 
-  //     if (res.ok) {
-  //       setSuccess("Message sent successfully!");
-  //       form.reset(); // ✅ Reset the form properly
-  //     } else {
-  //       setSuccess("Failed to send message.");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     setSuccess("Error occurred.");
-  //   }
+  async function onSubmit(data) {
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("fullName", data.fullName);
+      formData.append("phone", data.phone);
+      formData.append("email", data.email);
+      formData.append("productCategory", data.productCategory || "");
+      formData.append("requirement", data.requirement || "");
+      formData.append("attachment", data.attachment);
+      formData.append("message", data.message || "");
 
-  //   setLoading(false);
-  // }
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/contact-enquiry`, {
+        method: "POST",
+        body: formData,
+      });
 
-  function onSubmit(values) {
-    console.log(values);
+      if (!res.ok) {
+        throw new Error("Failed to submit enquiry");
+      }
+
+      setIsSuccess(true);
+      form.reset();
+      setUploadedFile(null);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  if (isSuccess) {
+    return <FormSubmittedSuccess />;
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-wrap items-start -mx-3 [&>*]:p-3"
-      >
-        {/* Full Name */}
-        <FormField
-          control={form.control}
+    <form
+      id="contact-enquiry-form"
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-4"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Name */}
+        <Controller
           name="fullName"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className={labelStyle}>
-                <Image
-                  src="/images/form-username.svg"
-                  alt="form-username"
-                  width={14}
-                  height={14}
-                  className={iconStyle}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="name" className="sr-only">
+                Name*
+              </FieldLabel>
+              <Input
+                {...field}
+                placeholder="Name*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
+              {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
                 />
-                NAME
-              </FormLabel>
-              <FormControl>
-                <Input className={inputStyle} placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              )}
+            </Field>
           )}
         />
-
         {/* Phone */}
-        <FormField
-          control={form.control}
+        <Controller
           name="phone"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className={labelStyle}>
-                <Image
-                  src="/images/form-phone.svg"
-                  alt="form-phone"
-                  width={14}
-                  height={14}
-                  className={iconStyle}
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel className="sr-only">Phone*</FieldLabel>
+              <Input
+                {...field}
+                placeholder="Phone*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
+              {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
                 />
-                PHONE
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className={inputStyle}
-                  type="tel"
-                  placeholder=""
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              )}
+            </Field>
           )}
         />
-
         {/* Email */}
-        <FormField
-          control={form.control}
+        <Controller
           name="email"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className={labelStyle}>
-                <Image
-                  src="/images/form-email.svg"
-                  alt="form-email"
-                  width={14}
-                  height={14}
-                  className={iconStyle}
-                />
-                EMAIL
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className={inputStyle}
-                  type="email"
-                  placeholder=""
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Additional Details */}
-        <FormField
           control={form.control}
-          name="additionalDetails"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel className={labelStyle}>
-                <Image
-                  src="/images/form-message.svg"
-                  alt="form-message"
-                  width={14}
-                  height={14}
-                  className={iconStyle}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel className="sr-only">Email*</FieldLabel>
+              <Input
+                {...field}
+                type="email"
+                placeholder="Email*"
+                className={inputClasses}
+                disabled={isSubmitting}
+              />
+              {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
                 />
-                MESSAGE
-              </FormLabel>
-              <FormControl>
-                <Textarea className={textareaStyle} placeholder="" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              )}
+            </Field>
           )}
         />
-
-        {/* Submit Button */}
-        <div className="w-full mt-[5px] lg:mt-[8px] xl:mt-[10px] 2xl:mt-[20px] 3xl:mt-[25px]">
-          <Button
-            type="submit"
-            variant="outline"
-            disabled={loading}
-            className={
-              "min-w-[120px] lg:min-w-[160px] xl:min-w-[196px] 2xl:min-w-[260px] 3xl:min-w-[320px] lg:h-9 xl:h-10 2xl:h-12 3xl:h-14"
-            }
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </Button>
+        {/* Product Category */}
+        <Controller
+          name="productCategory"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel className="sr-only">Product Category*</FieldLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isSubmitting}
+              >
+                <SelectTrigger
+                  className={cn(
+                    inputClasses,
+                    "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                  )}
+                >
+                  <SelectValue placeholder="Product Category*" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    <SelectItem value="Solar Water Heater">
+                      Solar Water Heater
+                    </SelectItem>
+                    <SelectItem value="SST">SST</SelectItem>
+                    <SelectItem value="Inverter Battery">
+                      Inverter Battery
+                    </SelectItem>
+                    <SelectItem value="Lithium Battery">
+                      Lithium Battery
+                    </SelectItem>
+                    <SelectItem value="Electric Vehicle">
+                      Electric Vehicle
+                    </SelectItem>
+                    <SelectItem value="E-Generator">E-Generator</SelectItem>
+                    <SelectItem value="BESS">BESS</SelectItem>
+                    <SelectItem value="UPS">UPS</SelectItem>
+                    <SelectItem value="Solar Systems">Solar Systems</SelectItem>
+                    <SelectItem value="Heat Pump">Heat Pump</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
+                />
+              )}
+            </Field>
+          )}
+        />
+        {/* Requirement */}
+        <div className="md:col-span-2">
+          <Controller
+            name="requirement"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel className="sr-only">Requirement*</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      inputClasses,
+                      "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                    )}
+                  >
+                    <SelectValue placeholder="Requirement*" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectGroup>
+                      <SelectItem value="Sales">Sales</SelectItem>
+                      <SelectItem value="Service">Service</SelectItem>
+                      <SelectItem value="Technical Support">
+                        Technical Support
+                      </SelectItem>
+                      <SelectItem value="Partnership">Partnership</SelectItem>
+                      <SelectItem value="Maintenance">Maintenance</SelectItem>
+                      <SelectItem value="Others">Others</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {fieldState.invalid && (
+                  <FieldError
+                    errors={[fieldState.error]}
+                    className={errorClass}
+                  />
+                )}
+              </Field>
+            )}
+          />
         </div>
-        {success && (
-          <p className="w-full text-center text-green-500 mt-3">{success}</p>
+      </div>
+
+      {/* File Upload */}
+      <div className="relative flex flex-col gap-3">
+        {!uploadedFile ? (
+          <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors">
+            <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white flex items-center gap-3">
+              <Image
+                src="/images/icon-upload.svg"
+                alt="Upload"
+                width={20}
+                height={20}
+                className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
+              />
+              <span>Upload Your File (PDF, DOC, DOCX, JPG, PNG)</span>
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              onChange={handleFileChange}
+              disabled={isSubmitting}
+            />
+          </label>
+        ) : (
+          <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border-1 border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
+            <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
+              {uploadedFile.name}
+            </div>
+            <button
+              type="button"
+              onClick={handleFileRemove}
+              className="text-red-500 hover:text-red-400"
+              disabled={isSubmitting}
+            >
+              <X className="size-4 xl:size-5" />
+            </button>
+          </div>
         )}
-      </form>
-    </Form>
+        {form.formState.errors.attachment && (
+          <div className={errorClass}>
+            {form.formState.errors.attachment.message}
+          </div>
+        )}
+      </div>
+
+      {/* Message */}
+      <Controller
+        name="message"
+        control={form.control}
+        render={({ field }) => (
+          <Field>
+            <FieldLabel className="sr-only">Message</FieldLabel>
+            <Textarea
+              {...field}
+              placeholder="Message"
+              className={cn(
+                inputClasses,
+                "min-h-[60px] xl:min-h-[76px] 2xl:min-h-[90px] 3xl:min-h-[110px]",
+              )}
+              disabled={isSubmitting}
+            />
+          </Field>
+        )}
+      />
+
+      {/* Submit Button */}
+      <div className="flex justify-end mt-4 xl:mt-8 2xl:mt-10 3xl:mt-12">
+        <Button
+          type="submit"
+          size="lg"
+          variant="outline"
+          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
+          <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+            <Image
+              src={"/images/icon-arrow-right-white.svg"}
+              alt={"icon-arrow-right-white"}
+              width={18}
+              height={13}
+              className="w-1/2"
+              unoptimized
+            />
+          </span>
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+function FormSubmittedSuccess() {
+  return (
+    <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto pt-10">
+      <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
+        <Image
+          src={"/images/form-submitted-success.svg"}
+          alt={"form-submitted-success"}
+          width={120}
+          height={120}
+          className="w-full h-full object-contain"
+          unoptimized
+        />
+      </div>
+      <Heading
+        as="h2"
+        size="h3"
+        className="text-center text-white mb-2 2xl:mb-3 3xl:mb-4"
+      >
+        Your Enquiry is Submitted
+      </Heading>
+      <Text as="div" size="p1" className="font-normal text-center text-white">
+        Thank you for your interest. Our team will get in touch with you
+        shortly.
+      </Text>
+      <div className="w-full flex justify-center mt-4 xl:mt-6">
+        <Button
+          size="lg"
+          variant="outline"
+          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-4"
+          asChild
+        >
+          <Link href={"/"}>
+            Go Back to Home
+            <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <Image
+                src={"/images/icon-arrow-right-white.svg"}
+                alt={"icon-arrow-right-white"}
+                width={18}
+                height={13}
+                className="w-1/2"
+                unoptimized
+              />
+            </span>
+          </Link>
+        </Button>
+      </div>
+    </div>
   );
 }
