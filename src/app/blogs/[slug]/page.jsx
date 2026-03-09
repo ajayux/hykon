@@ -3,6 +3,7 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import BlogDetailSection from "@/components/blocks/blogs/blog-detail-section";
 import BlogKeyBenefits from "@/components/blocks/blogs/blog-key-benefits";
+import BlogRelatedBlogs from "@/components/blocks/blogs/related-blogs";
 
 // export async function generateMetadata({ params }) {
 //   const { slug } = await params;
@@ -88,12 +89,74 @@ const localData = {
   { icon: "/images/blogdetails-benefits-4.png", title: "Diverse Clients" },
   ],
   },
-  relatedNews: [
+  relatedBlogs: [
     {
       id: 1,
       title:
+        "Empowering a Greener Tomorrow!",
+      slug: "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
+      publishDay: "12",
+      publishMonthYear: "June 2025",
+      media: {
+        path: "/images/related-1.jpg",
+        alt: "Empowering a Greener Tomorrow",
+      },
+      button: {
+        link: "https://beta.hykon.dev14.intersmarthosting.in/api/blog/still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      },
+    },
+    {
+      id: 2,
+      title:
+        "Solar Division to Partner with State Government ..",
+      slug: "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric",
+      publishDay: "25",
+      publishMonthYear: "June 2025",
+      media: {
+        path: "/images/related-2.jpg",
+        alt: "Solar Division to Partner with State Government",
+      },
+      button: {
+        link: "https://beta.hykon.dev14.intersmarthosting.in/api/blog/still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      },
+    },
+    {
+      id: 3,
+      title:
+        "Solar Division to Partner with State Government ..",
+      slug: "still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      publishDay: "25",
+      publishMonthYear: "June 2025",
+      media: {
+        path: "/images/related-2.jpg",
+        alt: "Solar Division to Partner with State Government",
+      },
+      button: {
+        link: "https://beta.hykon.dev14.intersmarthosting.in/api/blog/still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      },
+    },
+    {
+      id: 4,
+      title:
         "Still Using a Tubular Battery? Make the Switch to Lithium for Better Efficiency",
       slug: "still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      publishDay: "27",
+      publishMonthYear: "Feb 2026",
+      media: {
+        path: "https://beta.hykon.dev14.intersmarthosting.in/storage/213/blog-1_300-(1)-converted.webp",
+        alt: "Still Using a Tubular Battery? Make the Switch to Lithium for Better Efficiency",
+      },
+      button: {
+        link: "https://beta.hykon.dev14.intersmarthosting.in/api/blog/still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      },
+    },
+    {
+      id: 5,
+      title:
+        "Still Using a Tubular Battery? Make the Switch to Lithium for Better Efficiency",
+      slug: "still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
+      publishDay: "27",
+      publishMonthYear: "Feb 2026",
       media: {
         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/213/blog-1_300-(1)-converted.webp",
         alt: "Still Using a Tubular Battery? Make the Switch to Lithium for Better Efficiency",
@@ -113,7 +176,7 @@ const localData = {
 
 
 export default async function BlogDetailPage({ data = localData }) {
-  const { heroSection, news, keyBenifits } = data;
+  const { heroSection, news, keyBenifits, relatedBlogs } = data;
 
   return (
     <>
@@ -121,6 +184,15 @@ export default async function BlogDetailPage({ data = localData }) {
       <BreadcrumbInfo slug={`${news?.title}`} />
       {news && <BlogDetailSection data={news} />}
       {keyBenifits && <BlogKeyBenefits data={keyBenifits} />}
+      {relatedBlogs && (
+  <BlogRelatedBlogs
+    data={{
+      title: "Related Blogs",
+      description: "",
+      items: relatedBlogs,
+    }}
+  />
+)}
     </>
   );
 }
