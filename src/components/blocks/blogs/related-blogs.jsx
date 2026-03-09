@@ -28,6 +28,9 @@ export default function BlogRelatedBlogs({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
 
+  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  const scrollNext = () => emblaApi && emblaApi.scrollNext();
+
   useEffect(() => {
     if (emblaApi) {
       emblaApi.reInit();
@@ -80,39 +83,68 @@ export default function BlogRelatedBlogs({ data }) {
             </Button>
           </div>
         </div>
-      </div>
+      
 
-      <div
-        className={cn(
-          "w-full sm:max-w-[calc(var(--breakpoint-sm)/2+50%)] md:max-w-[calc(var(--breakpoint-md)/2+50%)] lg:max-w-[calc(var(--breakpoint-lg)/2+50%)] xl:max-w-[calc(var(--breakpoint-xl)/2+50%)] 2xl:max-w-[calc(var(--breakpoint-2xl)/2+50%)] 3xl:max-w-[calc(var(--breakpoint-3xl)/2+50%)]",
-          "pl-4 ml-auto [mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)]",
-          loading && "opacity-50 pointer-events-none transition-opacity",
-        )}
-      >
-        {items.length > 0 ? (
-          <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
-            <div className="flex touch-pan-y touch-pinch-zoom -mx-1 sm:-mx-2 lg:-mx-2.5">
-              {items.map((item) => (
-                <div
-                  key={item?.id}
-                  className={cn(
-                    "flex-[0_0_268px] sm:flex-[0_0_320px] lg:flex-[0_0_420px] 2xl:flex-[0_0_500px] 3xl:flex-[0_0_650px] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
-                  )}
-                >
-                  <NewsCard isLoading={loading} item={item} />
-                </div>
-              ))}
+        <div
+          className={cn(
+            "w-full",
+            "mx-auto",
+            loading && "opacity-50 pointer-events-none transition-opacity",
+          )}
+        >
+          {items.length > 0 ? (
+            <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
+              <div className="flex touch-pan-y touch-pinch-zoom -mx-1 sm:-mx-2 lg:-mx-2.5">
+                {items.map((item) => (
+                  <div
+                    key={item?.id}
+                    className={cn(
+                      "flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
+                    )}
+                  >
+                    <NewsCard isLoading={loading} item={item} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center py-20 px-4">
-            <Text as="p" size="p1" className="text-white/50">
-              {loading
-                ? "Loading news..."
-                : `No ${activeFilter.toLowerCase()} news available.`}
-            </Text>
-          </div>
-        )}
+          ) : (
+            <div className="flex items-center justify-center py-20 px-4">
+              <Text as="p" size="p1" className="text-white/50">
+                {loading
+                  ? "Loading news..."
+                  : `No ${activeFilter.toLowerCase()} news available.`}
+              </Text>
+            </div>
+          )}
+        </div>
+
+        <div className="flex justify-center gap-4 xl:gap-6 2xl:gap-6 3xl:gap-7 mt-8 lg:mt-10 2xl:mt-15 3xl:mt-20">
+          <button
+            onClick={scrollPrev}
+            className="w-10 h-10 3xl:w-[65px] 3xl:h-[65px] flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white -scale-x-100 transition cursor-pointer"
+          >
+            <Image
+              src="/images/icon-arrow-right-white.svg"
+              alt="Previous"
+              width={28}
+              height={20}
+              className="object-contain"
+            />
+          </button>
+
+          <button
+            onClick={scrollNext}
+            className="w-10 h-10 3xl:w-[65px] 3xl:h-[65px]  flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white transition cursor-pointer"
+          >
+            <Image
+              src="/images/icon-arrow-right-white.svg"
+              alt="Next"
+              width={28}
+              height={20}
+              className="object-contain"
+            />
+          </button>
+        </div>
       </div>
     </section>
   );
