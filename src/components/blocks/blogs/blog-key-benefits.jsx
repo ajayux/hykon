@@ -23,7 +23,7 @@ export default function BlogKeyBenefits({ data }) {
               <Heading
                 as="h2"
                 size="h2"
-                className="leading-tight text-white normal text-[16px] sm:text-[20px] xl:text-[28px] 2xl:text-[36px] 3xl:text-[45px] mb-2 xl:mb-2.4 2xl:mb-2.5 3xl:mb-3"
+                className="leading-tight text-white font-normal text-[16px] sm:text-[20px] xl:text-[28px] 2xl:text-[36px] 3xl:text-[45px] mb-2 sm:mb-4 xl:mb-6 2xl:mb-7.5 3xl:mb-10"
               >
                 {parse(data.title)}
               </Heading>
@@ -31,7 +31,7 @@ export default function BlogKeyBenefits({ data }) {
                 {data?.items?.map((item, index) => (
                   <li
                     key={index}
-                    className="flex items-center gap-4 xl:gap-6 2xl:gap-8 border border-white/50 rounded-[4px] sm:rounded-[6px] xl:rounded-[8px] 2xl:rounded-[10px] 3xl:rounded-[12px] p-4 xl:p-5 2xl:p-6"
+                    className="flex items-center gap-4 xl:gap-6 2xl:gap-[30px] border border-white/50 rounded-[4px] sm:rounded-[6px] xl:rounded-[8px] 2xl:rounded-[10px] 3xl:rounded-[12px] p-4 xl:p-5 2xl:p-6"
                   >
                     <div className="aspect-[45/45] w-[45px] mb-3">
                       <Image
@@ -42,14 +42,14 @@ export default function BlogKeyBenefits({ data }) {
                         className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
                       />
                     </div>
-
-                    <Heading
-                      as="h3"
-                      size="h3"
+                    
+                    <Text
+                      as="div"
+                      size="p0"
                       className="text-[12px] xl:text-[14px] 2xl:text-[18px] 3xl:text-[22px] leading-tight text-white"
                     >
-                      {parse(item.title)}
-                    </Heading>
+                      {parse(item?.title)}
+                    </Text>
                   </li>
                 ))}
               </ul>
