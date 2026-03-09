@@ -184,9 +184,7 @@ export default async function BlogDetailPage({ data = localData }) {
       <BreadcrumbInfo slug={`${news?.title}`} />
       {news && <BlogDetailSection data={news} />}
       {keyBenifits && <BlogKeyBenefits data={keyBenifits} />}
-      {relatedBlogs && (
-  <BlogRelatedBlogs
-    data={{
+      {relatedBlogs && (<BlogRelatedBlogs data={{
       title: "Related Blogs",
       description: "",
       items: relatedBlogs,

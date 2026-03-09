@@ -39,7 +39,7 @@ export default function BlogRelatedBlogs({ data }) {
   }, [emblaApi, items]);
 
   return (
-    <section className="w-full h-auto block bg-[#1E1E1E] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
       <div className="container">
         <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-11 3xl:mb-15">
           <div className="w-full sm:flex-1 flex justify-between items-end">
