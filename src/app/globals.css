@@ -145,8 +145,8 @@
   }
 
   ::selection {
-    background-color: var(--color-foreground);
-    color: var(--color-background);
+    background-color: #008dd2;
+    color: white;
   }
 
   /* Enhanced link and button hover effects */
@@ -193,7 +193,8 @@
       @apply text-[14px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-(--text-color);
     }
 
-    h1, h2 {
+    h1,
+    h2 {
       @apply text-[24px] sm:text-[32px] lg:text-[40px] 2xl:text-[44px] 3xl:text-[54px] leading-tight font-medium text-(--text-color);
     }
 
@@ -223,12 +224,12 @@
       @apply pr-4 sm:pr-4;
     }
 
-    ul>li,
-    ol>li {
+    ul > li,
+    ol > li {
       @apply my-1.5 lg:my-2;
     }
 
-    ul>li {
+    ul > li {
       @apply ml-5 pl-2 list-image-[url('/images/li-check.svg')]  marker:size-1.5 3xl:marker:size-1.5;
     }
   }

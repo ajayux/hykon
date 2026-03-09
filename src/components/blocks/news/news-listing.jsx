@@ -6,17 +6,19 @@ import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import NewsCard from "@/components/common/news-card";
 import { useState, useCallback } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function NewsListing({ data, activeCategory }) {
+export default function NewsListing({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    activeCategory || data?.filters?.[0]?.slug || "upcoming",
+    data?.filters?.[0]?.slug || "upcoming",
   );
   const [items, setItems] = useState(data?.items ?? []);
   const [pagination, setPagination] = useState(data?.pagination ?? {});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchNews = useCallback(async (category, page, isAppend = false) => {
-    setLoading(true);
+    setIsLoading(true);
+    if (!isAppend) setItems([]);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(
@@ -24,7 +26,8 @@ export default function NewsListing({ data, activeCategory }) {
       );
       if (res.ok) {
         const response = await res.json();
-        const newData = response.data;
+        const result = response.data?.newsSection || response.data;
+        const newData = result;
         if (isAppend) {
           setItems((prev) => [...prev, ...(newData.items || [])]);
         } else {
@@ -35,7 +38,7 @@ export default function NewsListing({ data, activeCategory }) {
     } catch (error) {
       console.error("Error fetching news:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
@@ -47,23 +50,21 @@ export default function NewsListing({ data, activeCategory }) {
   const handleLoadMore = () => {
     if (pagination.has_more) {
       fetchNews(activeFilter, pagination.current_page + 1, true);
-    } else if (items.length > 12) {
-      // Show Less functionality
-      setItems(items.slice(0, 12));
+    } else if (items.length > 6) {
+      // Show Less functionality: simply slice to initial 6 items locally
+      setItems(items.slice(0, 6));
       setPagination({
         ...pagination,
         current_page: 1,
-        has_more: true, // Assuming there's more after shrinking
+        has_more: true,
       });
-      // Better way to handle Show Less: just reset to first page
-      handleFilterChange(activeFilter);
     }
   };
 
   return (
     <section className="w-full h-auto block bg-[#181818] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
       <div className="text-[80px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-transparent select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
-        {parse(data?.title || "News")}
+        {parse(data?.title || "")}
       </div>
       <div className="container">
         <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-10 3xl:mb-12">
@@ -73,14 +74,14 @@ export default function NewsListing({ data, activeCategory }) {
               size="h1"
               className="text-medium text-white mb-1 xl:mb-1.5 3xl:mb-2"
             >
-              {parse(data?.title || "News")}
+              {parse(data?.title || "")}
             </Heading>
             <Text
               as="p"
               size="p1"
               className="text-medium text-white mb-1 xl:mb-2 3xl:mb-3"
             >
-              {parse(data?.description || "News listing page")}
+              {parse(data?.description || "")}
             </Text>
           </div>
           <div className="w-full sm:w-auto flex">
@@ -94,35 +95,43 @@ export default function NewsListing({ data, activeCategory }) {
         </div>
 
         <div className="flex flex-wrap -mx-1 xl:-mx-[5px] 2xl:-mx-1.5 3xl:-mx-2">
-          {items.length > 0 ? (
+          {isLoading && items.length === 0 ? (
+            <>
+              <NewsCardSkeleton />
+              <NewsCardSkeleton />
+              <NewsCardSkeleton />
+            </>
+          ) : items.length > 0 ? (
             items.map((item) => (
               <div
                 key={item?.id}
                 className="w-full lg:w-1/3 p-1 xl:p-[5px] 2xl:p-1.5 3xl:p-2"
               >
-                <NewsCard isLoading={loading} item={item} />
+                <NewsCard item={item} />
               </div>
             ))
           ) : (
             <div className="w-full flex items-center justify-center py-20">
               <Text as="p" size="p1" className="text-center text-white/50">
-                {loading
-                  ? "Loading news..."
-                  : `No ${activeFilter.toLowerCase()} news available.`}
+                No {activeFilter.toLowerCase()} news available.
               </Text>
             </div>
           )}
 
-          {(pagination.has_more || items.length > 12) && (
+          {(pagination.has_more || items.length > 6) && (
             <div className="w-full flex justify-center mt-10 xl:mt-22.5 2xl:mt-25 3xl:mt-30">
               <Button
                 size="lg"
                 variant="none"
                 className="text-white px-0 hover:text-[#008dd2] transition-colors"
                 onClick={handleLoadMore}
-                disabled={loading}
+                disabled={isLoading}
               >
-                {pagination.has_more ? "Load More" : "Show Less"}
+                {isLoading
+                  ? "Loading..."
+                  : pagination.has_more
+                    ? "Load More"
+                    : "Show Less"}
                 <Image
                   src={"/images/icon-news-right.svg"}
                   alt={"icon-news-right"}
@@ -161,7 +170,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "text-white p-0 relative z-0 transition-colors",
+              "capitalize text-white p-0 relative z-0 transition-colors",
               isActive ? "text-white" : "text-white/50 hover:text-white",
             )}
           >
@@ -177,6 +186,26 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
           </Button>
         );
       })}
+    </div>
+  );
+}
+
+function NewsCardSkeleton() {
+  return (
+    <div className="w-full lg:w-1/3 p-1 xl:p-[5px] 2xl:p-1.5 3xl:p-2">
+      <div className="group w-full h-full flex flex-col">
+        <Skeleton className="w-full aspect-63/33 rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] bg-[#1c1c1c] mb-1 xl:mb-2 2xl:mb-4 3xl:mb-6 " />
+
+        <Skeleton className="flex-1 flex flex-col justify-between w-full p-2 xl:p-3.5 2xl:p-4.5 3xl:p-5.5">
+          <div>
+            <Skeleton className="w-full h-5 bg-white/10 mb-3 lg:mb-5 3xl:mb-6" />
+            <Skeleton className="w-full h-4 bg-white/10 mb-1 xl:mb-2 3xl:mb-3" />
+          </div>
+          <div>
+            <Skeleton className="w-full max-w-[80px] lg:max-w-[100px] 2xl:max-w-[120px] 3xl:max-w-[147px] h-10 bg-white/10" />
+          </div>
+        </Skeleton>
+      </div>
     </div>
   );
 }
