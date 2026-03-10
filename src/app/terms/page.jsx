@@ -1,12 +1,5 @@
-import InnerHero from "@/components/common/inner-hero";
-import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import { notFound } from "next/navigation";
 import TermsAndConditions from "@/components/blocks/terms/terms-conditions";
-
-export const metadata = {
-    title: "Terms | HYKON",
-    description: "Stay updated with the latest blogs and articles from Hykon.",
-};
 
 export default async function TermsPage() {
     let termsData = null;
@@ -28,12 +21,8 @@ export default async function TermsPage() {
         notFound();
     }
 
-    const { heroSection } = termsData;
-
     return (
         <>
-            <InnerHero data={heroSection} />
-            <BreadcrumbInfo slug={"terms"} />
             <TermsAndConditions />
         </>
     );

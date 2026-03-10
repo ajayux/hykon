@@ -46,8 +46,8 @@ const defaultData = {
 };
 
 export default function TermsAndConditions({ data = defaultData }) {
-    return (
-        <section className="w-full h-auto block py-3 sm:py-4 xl:py-4.75 2xl:py-6 3xl:py-7.5 bg-[#181818] overflow-hidden">
+    return ( 
+        <section className="w-full h-auto block py-[var(--header-y)] bg-[linear-gradient(0deg,_rgba(24,24,24,1)_0%,_rgba(24,24,24,1)_58%,_rgba(19,51,68,1)_100%)] overflow-hidden">
             <div className="container">
                 <div className="typography w-full block mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
                     <Heading
