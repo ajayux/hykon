@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
+import FormSubmitResponse from "../common/form-submitted-success";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -150,7 +151,14 @@ export function WarrantyRegistrationForm() {
   }
 
   if (isSuccess) {
-    return <FormSubmittedSuccess />;
+    return (
+      <FormSubmitResponse
+        imagePath="/images/form-submitted-success.svg"
+        title="Registration Successful"
+        discription="Thank you for registering your product warranty. Our team will verify
+        the details and update your warranty status shortly."
+      />
+    );
   }
 
   return (
@@ -538,33 +546,5 @@ export function WarrantyRegistrationForm() {
         </Button>
       </div>
     </form>
-  );
-}
-
-function FormSubmittedSuccess() {
-  return (
-    <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto py-20">
-      <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
-        <Image
-          src={"/images/form-submitted-success.svg"}
-          alt={"form-submitted-success"}
-          width={120}
-          height={120}
-          className="w-full h-full object-contain"
-          unoptimized
-        />
-      </div>
-      <Heading
-        as="h2"
-        size="h3"
-        className="text-center text-white mb-2 2xl:mb-3 3xl:mb-4"
-      >
-        Registration Successful
-      </Heading>
-      <Text as="div" size="p1" className="font-normal text-center text-white">
-        Thank you for registering your product warranty. Our team will verify
-        the details and update your warranty status shortly.
-      </Text>
-    </div>
   );
 }
