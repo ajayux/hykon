@@ -29,16 +29,17 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
+import { commonValidations } from "@/lib/validtions";
 
 const formSchema = z.object({
-  fullName: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Invalid email address"),
-  state: z.string().min(1, "State is required"),
-  place: z.string().min(1, "Place is required"),
-  experience: z.string().min(1, "Experience is required"),
-  cv: z.any().refine((file) => file !== null, "CV is required"),
-  coverLetter: z.string().optional(),
+  fullName: commonValidations.name,
+  phone: commonValidations.phone,
+  email: commonValidations.email,
+  state: commonValidations.textBox("state"),
+  place: commonValidations.textBox("place"),
+  experience: commonValidations.dropDown("Experience"),
+  cv: commonValidations.file("cv"),
+  coverLetter: commonValidations.optionalString,
 });
 
 const inputClasses =
@@ -46,7 +47,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ jobTitle }) {
+export function CareerApplicationForm({ slug, onClose }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -83,15 +84,15 @@ export function CareerApplicationForm({ jobTitle }) {
     setIsSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append("fullName", data.fullName);
+      formData.append("name", data.fullName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
       formData.append("state", data.state);
       formData.append("place", data.place);
       formData.append("experience", data.experience);
-      formData.append("cv", data.cv);
-      formData.append("coverLetter", data.coverLetter || "");
-      formData.append("jobTitle", jobTitle || "");
+      formData.append("resume", data.cv);
+      formData.append("cover_letter", data.coverLetter || "");
+      formData.append("career_slug", slug)
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {
@@ -115,7 +116,7 @@ export function CareerApplicationForm({ jobTitle }) {
   }
 
   if (isSuccess) {
-    return <FormSubmittedSuccess />;
+    return <FormSubmittedSuccess onClose={onClose} />;
   }
 
   return (
@@ -363,12 +364,11 @@ export function CareerApplicationForm({ jobTitle }) {
           </span>
         </Button>
       </div>
-      <FormSubmittedSuccess />
     </form>
   );
 }
 
-function FormSubmittedSuccess() {
+function FormSubmittedSuccess({ onClose }) {
   return (
     <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto">
       <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
@@ -397,21 +397,19 @@ function FormSubmittedSuccess() {
           size="lg"
           variant="outline"
           className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-4"
-          asChild
+          onClick={onClose}
         >
-          <Link href={"/careers"}>
-            Go Back
-            <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-              <Image
-                src={"/images/icon-arrow-right-white.svg"}
-                alt={"icon-arrow-right-white"}
-                width={18}
-                height={13}
-                className="w-1/2"
-                unoptimized
-              />
-            </span>
-          </Link>
+          Go Back
+          <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+            <Image
+              src={"/images/icon-arrow-right-white.svg"}
+              alt={"icon-arrow-right-white"}
+              width={18}
+              height={13}
+              className="w-1/2"
+              unoptimized
+            />
+          </span>
         </Button>
       </div>
     </div>

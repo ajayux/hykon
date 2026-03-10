@@ -142,6 +142,8 @@ export default async function CareersPage() {
     notFound();
   }
 
+
+
   // const careerData = localData;
 
   const { heroSection, careerInfoSection, careerSection } = careerData;

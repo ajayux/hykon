@@ -182,7 +182,7 @@ function CareerCard({ item }) {
         </div>
 
         <div className="w-full lg:w-2/12 flex flex-wrap lg:flex-col items-center lg:items-end gap-3 mt-4 lg:mt-0">
-          <CareerDialog jobTitle={item?.title}>
+          <CareerDialog slug={item?.slug} jobTitle={item?.title}>
             <Button
               size="lg"
               variant="outline"
