@@ -3,7 +3,6 @@
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Download } from "lucide-react";
 import parse from "html-react-parser";
 
 import { Button } from "@/components/ui/button";
@@ -90,14 +89,14 @@ export default function InvestorReports({ data }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:gap-5.5 2xl:gap-7 3xl:gap-8">
             {isLoading ? (
-              <>
-                <div>loading</div>
-                <div>loading</div>
-                <div>loading</div>
-              </>
+              Array.from({ length: 4 }).map((_, index) => (
+                <ReportCardSkelton key={"skeleton" + index} />
+              ))
             ) : items?.length > 0 ? (
               items.map((item, index) => (
-                <ReportCard key={"report" + index} item={item} />
+                <>
+                  <ReportCard key={"report" + index} item={item} />
+                </>
               ))
             ) : (
               <div className="w-full text-center py-10 xl:py-15 2xl:py-20 bg-[#1c1c1c] rounded-[20px]">
@@ -151,7 +150,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "capitalize text-white py-0 px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-colors",
+              "capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-colors",
               isActive ? "text-white" : "text-white/50 hover:text-white",
             )}
           >
@@ -197,27 +196,14 @@ function ReportCard({ item }) {
 }
 function ReportCardSkelton() {
   return (
-    <Skeleton className="w-full border border-white/30 rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] p-4 xl:p-5.5 2xl:p-6.5 3xl:p-8 flex flex-wrap items-center justify-between gap-2 hover:border-white/60 transition-colors group">
+    <div className="w-full border border-white/10 rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] p-4 xl:p-5.5 2xl:p-6.5 3xl:p-8 flex items-center justify-between gap-2">
       <div className="flex-1">
-        <div className="text-[14px] lg:text-[14px] 2xl:text-[17px] 3xl:text-[21px] leading-none font-medium text-white">
-          {item.title}
-        </div>
+        <Skeleton className="h-[14px] 2xl:h-[17px] 3xl:h-[21px] w-[60%] bg-white/10" />
       </div>
-      <Link
-        href={item.file}
-        target="_blank"
-        className="text-[12px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[17px] leading-none font-normal text-white inline-flex items-center gap-2 hover:text-[#008dd2] px-1 xl:px-2 group/link"
-      >
-        <Image
-          src="/images/icon-pdf.svg"
-          alt="pdf"
-          width={35}
-          height={37}
-          className="w-5 2xl:w-6.5 3xl:w-8"
-          unoptimized
-        />
-        <span>View PDF</span>
-      </Link>
-    </Skeleton>
+      <div className="flex items-center gap-2">
+        <Skeleton className="w-5 2xl:w-6.5 3xl:w-8 h-5 2xl:h-6.5 3xl:h-8 bg-white/10 rounded-sm" />
+        <Skeleton className="h-[12px] 2xl:h-[14px] 3xl:h-[17px] w-20 bg-white/10" />
+      </div>
+    </div>
   );
 }
