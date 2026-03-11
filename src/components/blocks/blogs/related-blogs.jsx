@@ -49,7 +49,7 @@ export default function BlogRelatedBlogs({ data }) {
                 size="h1"
                 className="text-[24px] sm:text-[30px] lg:text-[38px] 2xl:text-[48px] 3xl:text-[60px] leading-tight text-medium text-white"
               >
-                {parse(data?.title)}
+                {parse(data?.title || "")}
               </Heading>
             </div>
           </div>
@@ -103,9 +103,7 @@ export default function BlogRelatedBlogs({ data }) {
           ) : (
             <div className="flex items-center justify-center py-20 px-4">
               <Text as="p" size="p1" className="text-white/50">
-                {loading
-                  ? "Loading news..."
-                  : `No ${activeFilter.toLowerCase()} news available.`}
+                {loading ? "Loading news..." : "No news available."}
               </Text>
             </div>
           )}
