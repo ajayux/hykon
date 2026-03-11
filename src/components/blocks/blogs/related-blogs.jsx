@@ -10,7 +10,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 import { cn } from "@/lib/utils";
-import NewsCard from "@/components/common/news-card";
+import BlogsCard from "@/components/common/blogs-card";
 
 export default function BlogRelatedBlogs({ data }) {
 
@@ -95,7 +95,7 @@ export default function BlogRelatedBlogs({ data }) {
                       "flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
                     )}
                   >
-                    <NewsCard isLoading={loading} item={item} />
+                    <BlogsCard isLoading={loading} item={item} />
                   </div>
                 ))}
               </div>
@@ -103,7 +103,7 @@ export default function BlogRelatedBlogs({ data }) {
           ) : (
             <div className="flex items-center justify-center py-20 px-4">
               <Text as="p" size="p1" className="text-white/50">
-                {loading ? "Loading news..." : "No news available."}
+                {loading ? "Loading blogs..." : "No blogs available."}
               </Text>
             </div>
           )}
