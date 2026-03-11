@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
+import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 
 const formSchema = z.object({
@@ -43,9 +44,9 @@ const formSchema = z.object({
 });
 
 const inputClasses =
-  "text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white w-full h-[35px] xl:h-[40px] 2xl:h-[45px] 3xl:h-[55px] bg-[#252525] border-[#676767] rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none";
+  "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white w-full h-[35px] xl:h-[40px] 2xl:h-[45px] 3xl:h-[55px] bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none";
 const errorClass =
-  "text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
+  "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
 export function CareerApplicationForm({ slug, onClose }) {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -116,7 +117,14 @@ export function CareerApplicationForm({ slug, onClose }) {
   }
 
   if (isSuccess) {
-    return <FormSubmittedSuccess onClose={onClose} />;
+    return (
+      <FormSubmitResponse
+        imagePath="/images/form-submitted-success.svg"
+        title="Your Application is Submitted"
+        discription="Thank you for applying. Our team will get in touch with you if your
+        profile matches our requirements."
+      />
+    );
   }
 
   return (
@@ -373,54 +381,14 @@ export function CareerApplicationForm({ slug, onClose }) {
           </span>
         </Button>
       </div>
-    </form>
-  );
-}
 
-function FormSubmittedSuccess({ onClose }) {
-  return (
-    <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto">
-      <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
-        <Image
-          src={"/images/form-submitted-success.svg"}
-          alt={"form-submitted-success"}
-          width={120}
-          height={120}
-          className="w-full h-full object-contain"
-          unoptimized
-        />
-      </div>
-      <Heading
-        as="h2"
-        size="h3"
-        className="text-center text-white mb-2 2xl:mb-3 3xl:mb-4"
-      >
-        Your Application is Submitted
-      </Heading>
-      <Text as="div" size="p1" className="font-normal text-center text-white">
-        Thank you for applying. Our team will get in touch with you if your
-        profile matches our requirements.
-      </Text>
-      <div className="w-full flex justify-center mt-4 xl:mt-6">
-        <Button
-          size="lg"
-          variant="outline"
-          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-4"
-          onClick={onClose}
-        >
-          Go Back
-          <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-            <Image
-              src={"/images/icon-arrow-right-white.svg"}
-              alt={"icon-arrow-right-white"}
-              width={18}
-              height={13}
-              className="w-1/2"
-              unoptimized
-            />
-          </span>
-        </Button>
-      </div>
-    </div>
+      {/* form success message */}
+      <FormSubmitResponse
+        imagePath="/images/form-submitted-success.svg"
+        title="Your Application is Submitted"
+        discription="Thank you for applying. Our team will get in touch with you if your
+        profile matches our requirements."
+      />
+    </form>
   );
 }

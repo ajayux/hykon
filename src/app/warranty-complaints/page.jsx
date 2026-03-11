@@ -11,17 +11,6 @@ export const metadata = {
 };
 
 const localData = {
-  heroSection: {
-    title: "Customer Care",
-    media: {
-      type: "image",
-      mobilePath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/318/banner-mobile.webp",
-      desktopPath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/317/banner.webp",
-      alt: "Customer Care",
-    },
-  },
   customerCare: {
     qrCode: "/images/qr-code.png",
     whatsappNumber: "96051 33333",
@@ -54,7 +43,7 @@ const localData = {
   },
 };
 
-export default async function CustomerCarePage() {
+export default async function WarrantyComplaintsPage() {
   // let pageData = null;
 
   // try {
@@ -76,14 +65,12 @@ export default async function CustomerCarePage() {
   // }
 
   const pageData = localData;
-  const { heroSection, customerCare, formSections } = pageData;
+  const { formSections } = pageData;
 
   return (
     <>
-      <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="customer-care" />
-      <CustomerCareDetails data={customerCare} />
-      <CustomerCareForm data={formSections} />
+      <BreadcrumbInfo slug="Warranty & Complaints" />
+      <WarrantyFormInfo data={formSections} />
     </>
   );
 }
