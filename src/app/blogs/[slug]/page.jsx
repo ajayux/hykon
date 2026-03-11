@@ -5,14 +5,6 @@ import BlogDetailSection from "@/components/blocks/blogs/blog-detail-section";
 import BlogKeyBenefits from "@/components/blocks/blogs/blog-key-benefits";
 import BlogRelatedBlogs from "@/components/blocks/blogs/related-blogs";
 
-// export async function generateMetadata({ params }) {
-//   const { slug } = await params;
-//   return {
-//     title: `${slug} | HYKON`,
-//     description: { slug },
-//   };
-// }
-
 const localData = {
   title: "Media Center",
   // description: "Blog Listing Page",
@@ -55,7 +47,7 @@ const localData = {
         <li><b>Faster charging  :</b>  Lithium batteries charge quicker. This makes EVs easier to use daily, even in busy cities.</li>
       </ul>
       <p>Clean and low-cost transport is becoming more important in India, especially for last-mile trips. Electric autos with lithium batteries are helping meet this need. They cut pollution and help drivers save on running costs.</p>
-      <p>Worldwide, more people are choosing EVs. Much of this is possible because of better lithium battery technology.</p>
+      <p>Worldwide, more people are choosing EVs. Much of this is possible because of better lithium battery technology.</p><br>
       <h3>The Growing Role of Lithium-Ion in Home Energy Storage</h3>
       <p>Lithium-ion batteries aren’t just changing the way we travel. They’re also changing how we power our homes. As more families choose solar panels and other clean energy options, the need for smarter storage is growing fast.</p>
       <p>Here’s why lithium batteries work so well for home use:</p>

@@ -39,25 +39,18 @@ export default function BlogRelatedBlogs({ data }) {
   }, [emblaApi, items]);
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#181818] py-[20px_45px] sm:py-[25px_60px] xl:py-[30px_60px] 2xl:py-[40px_76px] 3xl:py-[50px_95px] relative z-0">
       <div className="container">
-        <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-11 3xl:mb-15">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 sm:mb-10 xl:mb-12.5 2xl:mb-16 3xl:mb-20">
           <div className="w-full sm:flex-1 flex justify-between items-end">
             <div className="w-auto lg:w-auto">
               <Heading
                 as="h2"
                 size="h1"
-                className="text-[24px] sm:text-[30px] lg:text-[38px] 2xl:text-[48px] 3xl:text-[60px] text-medium text-white mb-1 xl:mb-1.5 3xl:mb-2"
+                className="text-[24px] sm:text-[30px] lg:text-[38px] 2xl:text-[48px] 3xl:text-[60px] leading-tight text-medium text-white"
               >
                 {parse(data?.title)}
               </Heading>
-              <Text
-                as="p"
-                size="p1"
-                className="text-medium text-white mb-1 xl:mb-2 3xl:mb-3"
-              >
-                {parse(data?.description)}
-              </Text>
             </div>
           </div>
           <div className="w-full sm:w-[100px] xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
@@ -121,27 +114,27 @@ export default function BlogRelatedBlogs({ data }) {
         <div className="flex justify-center gap-4 xl:gap-6 2xl:gap-6 3xl:gap-7 mt-8 lg:mt-10 2xl:mt-15 3xl:mt-20">
           <button
             onClick={scrollPrev}
-            className="w-10 h-10 3xl:w-[65px] 3xl:h-[65px] flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white -scale-x-100 transition cursor-pointer"
+            className="w-8 h-8 xl:w-10 xl:h-10 2xl:w-13.5 2xl:h-13.5 3xl:w-16.25 3xl:h-16.25 flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white -scale-x-100 transition cursor-pointer"
           >
             <Image
               src="/images/icon-arrow-right-white.svg"
               alt="Previous"
               width={28}
               height={20}
-              className="object-contain"
+              className="object-contain w-4 h-3 2xl:w-5.5 2xl:h-4 3xl:w-7 3xl:h-5"
             />
           </button>
 
           <button
             onClick={scrollNext}
-            className="w-10 h-10 3xl:w-[65px] 3xl:h-[65px]  flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white transition cursor-pointer"
+            className="w-8 h-8 xl:w-10 xl:h-10 2xl:w-13.5 2xl:h-13.5 3xl:w-16.25 3xl:h-16.25 flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white transition cursor-pointer"
           >
             <Image
               src="/images/icon-arrow-right-white.svg"
               alt="Next"
               width={28}
               height={20}
-              className="object-contain"
+              className="object-contain w-4 h-3 2xl:w-5.5 2xl:h-4 3xl:w-7 3xl:h-5"
             />
           </button>
         </div>
