@@ -2,25 +2,13 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import WarrantyFormInfo from "@/components/blocks/warranty-complaints/warranty-form-info";
 
 export const metadata = {
-  title: "Warranty and complaints | HYKON",
+  title: "Vendor Registration | HYKON",
   description: "",
 };
 
 const localData = {
   formSections: {
-    title: "Warranty",
-    filters: [
-      {
-        id: 1,
-        title: "Warranty",
-        slug: "warranty-registration",
-      },
-      {
-        id: 2,
-        title: "Complaints",
-        slug: "complaints-registration",
-      },
-    ],
+    title: "Vendor Registration",
   },
   metaTag: {
     id: 12,
@@ -31,7 +19,7 @@ const localData = {
   },
 };
 
-export default async function WarrantyComplaintsPage() {
+export default async function VendorRegistrationPage() {
   const pageData = localData;
   const { formSections } = pageData;
 

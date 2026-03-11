@@ -6,10 +6,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { cn } from "@/lib/utils";
 
-export default function BreadcrumbInfo({ slug }) {
+export default function BreadcrumbInfo({ slug, className }) {
   return (
-    <section className="w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#181818]">
+    <section
+      className={cn(
+        "w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#181818]",
+        className,
+      )}
+    >
       <div className="container">
         <Breadcrumb className="mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5">
           <BreadcrumbList className={"sm:gap-x-3"}>
