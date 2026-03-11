@@ -135,7 +135,7 @@ export function ContactEnquiryForm() {
       <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
         title="Registration Successful"
-        discription="Thank you for registering your product warranty. Our team will verify
+        description="Thank you for registering your product warranty. Our team will verify
             the details and update your warranty status shortly."
       />
     );

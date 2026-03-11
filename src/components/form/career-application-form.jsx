@@ -121,7 +121,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
         title="Your Application is Submitted"
-        discription="Thank you for applying. Our team will get in touch with you if your
+        description="Thank you for applying. Our team will get in touch with you if your
         profile matches our requirements."
       />
     );
@@ -386,7 +386,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
         title="Your Application is Submitted"
-        discription="Thank you for applying. Our team will get in touch with you if your
+        description="Thank you for applying. Our team will get in touch with you if your
         profile matches our requirements."
       />
     </form>
