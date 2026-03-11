@@ -3,6 +3,7 @@ import ContactDetails from "@/components/blocks/contact/contact-details";
 import ServiceNetwork from "@/components/blocks/contact/service-network";
 import MapSection from "@/components/blocks/contact/map-section";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Contact | HYKON",
@@ -30,7 +31,6 @@ export default async function ContactPage() {
   }
 
   // const contactData = localData;
-
   const { heroSection, addressSection, serviceNetworkSection, mapSection } =
     contactData;
 

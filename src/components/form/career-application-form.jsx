@@ -326,7 +326,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       <Controller
         name="coverLetter"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Field>
             <FieldLabel className="sr-only">Cover Letter</FieldLabel>
             <Textarea
@@ -338,9 +338,18 @@ export function CareerApplicationForm({ slug, onClose }) {
               )}
               disabled={isSubmitting}
             />
+
+             {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
+                />
+              )}
           </Field>
+            
         )}
       />
+
 
       {/* Submit Button */}
       <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">

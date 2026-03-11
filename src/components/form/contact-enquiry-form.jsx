@@ -29,15 +29,18 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
+import { commonValidations } from "@/lib/validtions";
+import { useEffect } from "react";
+import { apiClient } from "@/lib/api/client";
 
 const formSchema = z.object({
-  fullName: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Invalid email address"),
-  productCategory: z.string().min(1, "Product category is required"),
-  requirement: z.string().min(1, "Requirement is required"),
-  attachment: z.any().optional(),
-  message: z.string().optional(),
+  fullName: commonValidations.name,
+  phone: commonValidations.phone,
+  email: commonValidations.email,
+  productCategory: commonValidations.dropDown("Product Category"),
+  requirement: commonValidations.dropDown("Requirement"),
+  attachment: commonValidations.file("pdf"),
+  message: commonValidations.message,
 });
 
 const inputClasses =
@@ -49,6 +52,7 @@ export function ContactEnquiryForm() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [productCategory, setProductCategory] = useState();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -72,6 +76,21 @@ export function ContactEnquiryForm() {
     }
   };
 
+
+  useEffect(()=>{
+    fetchProductCategories()
+  },[])
+
+  const fetchProductCategories = async()=>{
+    try {
+
+     const {data} = await apiClient(`/get-product-category`)
+      setProductCategory(data)
+      } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleFileRemove = () => {
     setUploadedFile(null);
     form.setValue("attachment", null);
@@ -81,12 +100,12 @@ export function ContactEnquiryForm() {
     setIsSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append("fullName", data.fullName);
+      formData.append("name", data.fullName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
-      formData.append("productCategory", data.productCategory || "");
+      formData.append("product_category_id", data.productCategory || "");
       formData.append("requirement", data.requirement || "");
-      formData.append("attachment", data.attachment);
+      formData.append("file", data.attachment);
       formData.append("message", data.message || "");
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -212,24 +231,11 @@ export function ContactEnquiryForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-white">
                   <SelectGroup>
-                    <SelectItem value="Solar Water Heater">
-                      Solar Water Heater
-                    </SelectItem>
-                    <SelectItem value="SST">SST</SelectItem>
-                    <SelectItem value="Inverter Battery">
-                      Inverter Battery
-                    </SelectItem>
-                    <SelectItem value="Lithium Battery">
-                      Lithium Battery
-                    </SelectItem>
-                    <SelectItem value="Electric Vehicle">
-                      Electric Vehicle
-                    </SelectItem>
-                    <SelectItem value="E-Generator">E-Generator</SelectItem>
-                    <SelectItem value="BESS">BESS</SelectItem>
-                    <SelectItem value="UPS">UPS</SelectItem>
-                    <SelectItem value="Solar Systems">Solar Systems</SelectItem>
-                    <SelectItem value="Heat Pump">Heat Pump</SelectItem>
+                    {
+                      productCategory?.map(item =>(
+                        <SelectItem key={item?.slug} value={item?.slug}>{item?.title}</SelectItem>
+                      ))
+                    }
                   </SelectGroup>
                 </SelectContent>
               </Select>
