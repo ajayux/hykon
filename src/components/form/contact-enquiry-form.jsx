@@ -31,7 +31,7 @@ import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
 import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -56,7 +56,11 @@ export function ContactEnquiryForm() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [productCategory, setProductCategory] = useState();
+
+  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ["product-categories-contact"],
+    queryFn: () => apiClient("/get-product-category").then((r) => r.data),
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -79,21 +83,6 @@ export function ContactEnquiryForm() {
       form.clearErrors("attachment");
     }
   };
-
-
-  useEffect(()=>{
-    fetchProductCategories()
-  },[])
-
-  const fetchProductCategories = async()=>{
-    try {
-
-     const {data} = await apiClient(`/get-product-category`)
-      setProductCategory(data)
-      } catch (error) {
-      console.log(error)
-    }
-  }
 
   const handleFileRemove = () => {
     setUploadedFile(null);
@@ -239,7 +228,7 @@ export function ContactEnquiryForm() {
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                disabled={isSubmitting}
+                disabled={isSubmitting || categoriesLoading}
               >
                 <SelectTrigger
                   className={cn(

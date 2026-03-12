@@ -116,7 +116,6 @@ export function WarrantyRegistrationForm({activeTab}) {
   const [selectedInstallationState, setSelectedInstallationState] = useState(null);
 
 
-  console.log("state",setSelectedInstallationState )
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
