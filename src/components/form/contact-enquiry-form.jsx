@@ -34,6 +34,7 @@ import { commonValidations } from "@/lib/validtions";
 import { useEffect } from "react";
 import { apiClient } from "@/lib/api/client";
 import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
   fullName: commonValidations.name("Name"),
@@ -51,6 +52,7 @@ const errorClass =
   "text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
 export function ContactEnquiryForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -99,8 +101,13 @@ export function ContactEnquiryForm() {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const recaptchaToken = await executeRecaptcha("contact_enquiry");
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("phone", data.phone);
@@ -109,6 +116,7 @@ export function ContactEnquiryForm() {
       formData.append("requirement", data.requirement || "");
       formData.append("file", data.attachment);
       formData.append("message", data.message || "");
+      formData.append("recaptcha_token", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/contact-enquiry`, {

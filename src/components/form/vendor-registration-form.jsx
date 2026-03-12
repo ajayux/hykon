@@ -25,6 +25,8 @@ import {
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
+import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
   vendorName: commonValidations.name("Vendor Name"),
@@ -53,6 +55,7 @@ const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
 export function VendorRegistrationForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -113,9 +116,13 @@ export function VendorRegistrationForm() {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
-      // Simulate API call
+      const recaptchaToken = await executeRecaptcha("vendor_registration");
       const formData = new FormData();
       formData.append("name", data.vendorName);
       formData.append("contact_person_name", data.contactPerson);
@@ -137,6 +144,7 @@ export function VendorRegistrationForm() {
       if (data.companyProfile) {
         formData.append("file", data.companyProfile);
       }
+      formData.append("recaptcha_token", recaptchaToken);
       const res = await fetch(`${API_URL}/vendor-registration`, {
         method: "POST",
         body: formData,

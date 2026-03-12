@@ -33,6 +33,7 @@ import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
 import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z
   .object({
@@ -104,6 +105,7 @@ const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
 export function WarrantyRegistrationForm({activeTab}) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -227,8 +229,13 @@ export function WarrantyRegistrationForm({activeTab}) {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const recaptchaToken = await executeRecaptcha("warranty_registration");
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("email", data.email);
@@ -246,7 +253,7 @@ export function WarrantyRegistrationForm({activeTab}) {
       formData.append("billing_district_slug", data.billingAddressDistrict);
       formData.append("billing_pincode", data.billingAddressPincode);
 
-      formData.append("is_same_as_billing_address", data.sameAsBillingAddress ? "1" : "0");
+      formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
       
       formData.append("installation_apartment_name",data.sameAsBillingAddress? data.billingAddressBuilding : data.installationAddressBuilding || "");
       formData.append("installation_flat_number",data.sameAsBillingAddress? data.billingAddressBlock : data.installationAddressBlock || "");
@@ -262,6 +269,7 @@ export function WarrantyRegistrationForm({activeTab}) {
       if (data.images) {
         formData.append("images[]", data.images);
       }
+      formData.append("recaptcha_token", recaptchaToken);
 
       const res = await fetch(`${API_URL}/customer-care-enquiry`, {
         method: "POST",

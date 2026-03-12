@@ -32,6 +32,7 @@ import Link from "next/link";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
   fullName: commonValidations.name("Name"),
@@ -50,6 +51,7 @@ const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
 export function CareerApplicationForm({ slug }) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -83,8 +85,13 @@ export function CareerApplicationForm({ slug }) {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const recaptchaToken = await executeRecaptcha("career_application");
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("phone", data.phone);
@@ -95,6 +102,7 @@ export function CareerApplicationForm({ slug }) {
       formData.append("resume", data.cv);
       formData.append("cover_letter", data.coverLetter || "");
       formData.append("career_slug", slug);
+      formData.append("recaptcha_token", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {
