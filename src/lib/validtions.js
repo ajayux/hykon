@@ -355,24 +355,27 @@ export const commonValidations = {
     ),
 
   // ─── PDF Upload ──────────────────────────────────────────────────────────────
-  file: (file) =>
+  file: (fieldName) =>
     z
-      .instanceof(File)
-      .refine((file) => file !== null && file !== undefined, {
-        message: `Please upload ${file}`,
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
       })
-      .refine((file) => file.size > 0, {
+      .refine((file) => !(file instanceof File) || file.size > 0, {
         message:
           "The uploaded file appears to be empty. Please upload a valid file",
       })
       .refine(
-        (file) => VALIDATION_CONFIG.file.allowedTypes.includes(file.type),
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.file.allowedTypes.includes(file.type),
         {
           message: "Only PDF, DOC, DOCX, JPG, and PNG files are allowed",
         },
       )
       .refine(
         (file) =>
+          !(file instanceof File) ||
           VALIDATION_CONFIG.file.allowedExtensions.some((ext) =>
             file.name.toLowerCase().endsWith(ext),
           ),
@@ -382,7 +385,9 @@ export const commonValidations = {
         },
       )
       .refine(
-        (file) => file.size <= VALIDATION_CONFIG.file.maxSizeMB * 1024 * 1024,
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.file.maxSizeMB * 1024 * 1024,
         {
           message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.file.maxSizeMB}MB`,
         },
@@ -391,32 +396,37 @@ export const commonValidations = {
 
 
 
-pdfUpload: (file) =>
+pdfUpload: (fieldName) =>
   z
-    .instanceof(File)
-    .refine((file) => file !== null && file !== undefined, {
-      message: `Please upload ${file}`,
+    .any()
+    .refine((file) => file instanceof File, {
+      message: `Please upload a ${fieldName}`,
     })
-    .refine((file) => file.size > 0, {
+    .refine((file) => !(file instanceof File) || file.size > 0, {
       message: "The uploaded file appears to be empty. Please upload a valid file",
     })
     .refine(
-      (file) => VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
+      (file) =>
+        !(file instanceof File) ||
+        VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
       {
-        message: "Only PDF and DOC files are allowed",  // ← updated
+        message: "Only PDF and DOC files are allowed",
       },
     )
     .refine(
       (file) =>
+        !(file instanceof File) ||
         VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
           file.name.toLowerCase().endsWith(ext),
         ),
       {
-        message: "File must have a .pdf or .doc extension",  // ← updated
+        message: "File must have a .pdf or .doc extension",
       },
     )
     .refine(
-      (file) => file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
+      (file) =>
+        !(file instanceof File) ||
+        file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
       {
         message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
       },
@@ -592,10 +602,11 @@ pdfUpload: (file) =>
 
   postalCode: z
     .string()
-    .length(6, { message: "PIN code must be exactly 6 digits" })
+    .min(1, "Postal code is required")
     .regex(/^[1-9][0-9]{5}$/, {
       message: "Invalid PIN code: must be 6 digits and cannot start with 0",
-    }),
+    })
+    .length(6, { message: "PIN code must be exactly 6 digits" }),
 
 
     requiredString: (value)=> z

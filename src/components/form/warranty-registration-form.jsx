@@ -1,5 +1,8 @@
+"use client";
+
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -27,35 +30,69 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import FormSubmitResponse from "../common/form-submitted-success";
+import { commonValidations } from "@/lib/validtions";
+import { API_URL, apiClient } from "@/lib/api/client";
+import { toast } from "sonner";
 
-const formSchema = z.object({
-  fullName: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Invalid email address"),
-  category: z.string().min(1, "Category is required"),
-  product: z.string().min(1, "Product is required"),
-  productVariant: z.string().min(1, "Product variant is required"),
-  serialNumber: z.string().min(1, "Serial number is required"),
-  invoiceDate: z.string().min(1, "Invoice date is required"),
-  invoiceNumber: z.string().min(1, "Invoice number is required"),
-  dealerName: z.string().min(1, "Dealer name is required"),
-  // Billing Address
-  billingAddressBuilding: z.string().min(1, "Building name is required"),
-  billingAddressBlock: z.string().min(1, "Block/Flat No is required"),
-  billingAddressStreet: z.string().min(1, "Street name is required"),
-  billingAddressPincode: z.string().min(6, "Valid pincode is required"),
-  billingAddressState: z.string().min(1, "State is required"),
-  billingAddressDistrict: z.string().min(1, "District is required"),
-  // Installation Address
-  installationAddressBuilding: z.string().min(1, "Building name is required"),
-  installationAddressBlock: z.string().min(1, "Block/Flat No is required"),
-  installationAddressStreet: z.string().min(1, "Street name is required"),
-  installationAddressPincode: z.string().min(6, "Valid pincode is required"),
-  installationAddressState: z.string().min(1, "State is required"),
-  installationAddressDistrict: z.string().min(1, "District is required"),
-  sameAsBillingAddress: z.boolean().optional(),
-  images: z.any().refine((file) => file !== null, "Product image is required"),
-});
+const formSchema = z
+  .object({
+    fullName: commonValidations.name("Name"),
+    phone: commonValidations.phone("Phone Number"),
+    email: commonValidations.email,
+    category: commonValidations.dropDown("Category"),
+    product: commonValidations.dropDown("Product"),
+    productVariant: commonValidations.dropDown("Product Variant"),
+    serialNumber: commonValidations.requiredString("Serial Number"),
+    invoiceDate: z.string().min(1, "Invoice Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
+    invoiceNumber: commonValidations.requiredString("Invoice Number"),
+    dealerName: commonValidations.name("Dealer Name"),
+    // Billing Address
+    billingAddressBuilding: commonValidations.requiredString("Building/Apartment Name"),
+    billingAddressBlock: commonValidations.requiredString("Block/Flat No"),
+    billingAddressStreet: commonValidations.requiredString("Street/Road Name"),
+    billingAddressPincode: commonValidations.postalCode,
+    billingAddressState: commonValidations.requiredString("State"),
+    billingAddressDistrict: commonValidations.requiredString("District"),
+    // Installation Address — optional at schema level; conditionally required via superRefine
+    installationAddressBuilding: commonValidations.optionalString,
+    installationAddressBlock: commonValidations.optionalString,
+    installationAddressStreet: commonValidations.optionalString,
+    installationAddressPincode: commonValidations.optionalString,
+    installationAddressState: commonValidations.optionalString,
+    installationAddressDistrict: commonValidations.optionalString,
+    sameAsBillingAddress: z.boolean().optional(),
+    images: commonValidations.file("Product image")
+  })
+  .superRefine((data, ctx) => {
+    if (!data.sameAsBillingAddress) {
+      const installationFields = [
+        { key: "installationAddressBuilding", label: "Building/Apartment Name" },
+        { key: "installationAddressBlock", label: "Block/Flat No" },
+        { key: "installationAddressStreet", label: "Street/Road Name" },
+        { key: "installationAddressPincode", label: "Pincode" },
+        { key: "installationAddressState", label: "State" },
+        { key: "installationAddressDistrict", label: "District" },
+      ];
+      for (const { key, label } of installationFields) {
+        if (!data[key] || data[key].trim() === "") {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `${label} is required`,
+            path: [key],
+          });
+        } else if (
+          key === "installationAddressPincode" &&
+          !/^[1-9][0-9]{5}$/.test(data[key])
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Invalid PIN code: must be 6 digits and cannot start with 0",
+            path: [key],
+          });
+        }
+      }
+    }
+  });
 
 const labelClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white";
@@ -66,10 +103,53 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function WarrantyRegistrationForm() {
+export function WarrantyRegistrationForm({activeTab}) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedBillingState, setSelectedBillingState] = useState(null);
+  const [selectedInstallationState, setSelectedInstallationState] = useState(null);
+
+
+  console.log("state",setSelectedInstallationState )
+  const { data: categories = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ["product-categories"],
+    queryFn: () => apiClient("/get-categories").then((r) => r.data),
+  });
+
+  const { data: products = [], isLoading: productsLoading } = useQuery({
+    queryKey: ["products", selectedCategory],
+    queryFn: () => apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then((r) => r.data),
+    enabled: !!selectedCategory,
+  });
+
+  const { data: variants = [], isLoading: variantsLoading } = useQuery({
+    queryKey: ["variants", selectedProduct],
+    queryFn: () => apiClient(`/get-product-variants?slug=${selectedProduct}`).then((r) => r.data),
+    enabled: !!selectedProduct,
+  });
+
+  const { data: states = [], isLoading: statesLoading } = useQuery({
+    queryKey: ["states"],
+    queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
+    staleTime: 1000 * 60 * 60 * 24,
+    gcTime: 1000 * 60 * 60 * 24,
+  });
+
+  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } = useQuery({
+    queryKey: ["districts", selectedBillingState],
+    queryFn: () => apiClient(`/districts?state_slug=${selectedBillingState}`).then((r) => r.data),
+    enabled: !!selectedBillingState,
+  });
+
+  const { data: installationDistricts = [], isLoading: installationDistrictsLoading } = useQuery({
+    queryKey: ["districts", selectedInstallationState],
+    queryFn: () => apiClient(`/districts?state_slug=${selectedInstallationState}`).then((r) => r.data),
+    enabled: !!selectedInstallationState,
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -119,8 +199,18 @@ export function WarrantyRegistrationForm() {
       form.setValue("installationAddressPincode", billingValues[3]);
       form.setValue("installationAddressState", billingValues[4]);
       form.setValue("installationAddressDistrict", billingValues[5]);
+      setSelectedInstallationState(selectedBillingState);
+      form.clearErrors(["installationAddressBuilding", "installationAddressBlock", "installationAddressStreet", "installationAddressPincode", "installationAddressState", "installationAddressDistrict"]);
+    } else {
+      form.setValue("installationAddressBuilding", "");
+      form.setValue("installationAddressBlock", "");
+      form.setValue("installationAddressStreet", "");
+      form.setValue("installationAddressPincode", "");
+      form.setValue("installationAddressState", "");
+      form.setValue("installationAddressDistrict", "");
+      setSelectedInstallationState(null);
     }
-  }, [sameAsBilling, ...billingValues, form]);
+  }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -139,11 +229,62 @@ export function WarrantyRegistrationForm() {
   async function onSubmit(data) {
     setIsSubmitting(true);
     try {
-      // API submission logic
+      const formData = new FormData();
+      formData.append("name", data.fullName);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+     
+      formData.append("serial_number", data.serialNumber);
+      formData.append("invoice_date", data.invoiceDate);
+      formData.append("invoice_number", data.invoiceNumber);
+      formData.append("dealer_name", data.dealerName);
+
+      formData.append("billing_apartment_name", data.billingAddressBuilding);
+      formData.append("billing_flat_number", data.billingAddressBlock);
+      formData.append("billing_street_name", data.billingAddressStreet);
+      formData.append("billing_state_slug", data.billingAddressState);
+      formData.append("billing_district_slug", data.billingAddressDistrict);
+      formData.append("billing_pincode", data.billingAddressPincode);
+
+      formData.append("is_same_as_billing_address", data.sameAsBillingAddress ? "1" : "0");
+      
+      formData.append("installation_apartment_name",data.sameAsBillingAddress? data.billingAddressBuilding : data.installationAddressBuilding || "");
+      formData.append("installation_flat_number",data.sameAsBillingAddress? data.billingAddressBlock : data.installationAddressBlock || "");
+      formData.append("installation_street_name", data.sameAsBillingAddress? data.billingAddressStreet  : data.installationAddressStreet || "");
+      formData.append("installation_state_slug", data.sameAsBillingAddress? data.billingAddressState  : data.installationAddressState || "");
+      formData.append("installation_district_slug", data.sameAsBillingAddress? data.billingAddressDistrict  : data.installationAddressDistrict || "");
+      formData.append("installation_pincode", data.sameAsBillingAddress? data.billingAddressPincode  : data.installationAddressPincode || "");
+     
+      formData.append("form_slug", activeTab);
+      formData.append("product_category_slug", data.category);
+      formData.append("product_slug", data.product);
+      formData.append("product_variant_slug", data.productVariant);
+      if (data.images) {
+        formData.append("images[]", data.images);
+      }
+
+      const res = await fetch(`${API_URL}/customer-care-enquiry`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const error = await res.json().catch(() => ({ message: "Submission failed" }));
+        throw new Error(error.message || `HTTP ${res.status}`);
+        return;
+      }
+
       setIsSuccess(true);
       form.reset();
+      
       setUploadedFile(null);
+      setSelectedCategory(null);
+      setSelectedProduct(null);
+      setSelectedBillingState(null);
+      setSelectedInstallationState(null);
+      toast.success("Registration submitted successfully")
     } catch (error) {
+        toast.error("Failed to submit registration")
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);
@@ -168,95 +309,59 @@ export function WarrantyRegistrationForm() {
           { name: "fullName", placeholder: "Name*" },
           { name: "phone", placeholder: "Phone*" },
           { name: "email", placeholder: "Mail*", type: "email" },
-          { name: "category", placeholder: "Category*" },
+          {
+            name: "category",
+            placeholder: "Category*",
+            type: "select",
+            options: categories,
+            isLoading: categoriesLoading,
+            disabled: categoriesLoading,
+            onValueChange: (value, fieldOnChange) => {
+              fieldOnChange(value);
+              setSelectedCategory(value);
+              form.setValue("product", "");
+              form.setValue("productVariant", "");
+              setSelectedProduct(null);
+            },
+          },
           {
             name: "product",
             placeholder: "Product*",
             type: "select",
-            options: ["Product 1", "Product 2"],
+            options: products,
+            isLoading: productsLoading,
+            disabled: !selectedCategory || productsLoading,
+            onValueChange: (value, fieldOnChange) => {
+              fieldOnChange(value);
+              setSelectedProduct(value);
+              form.setValue("productVariant", "");
+            },
           },
           {
             name: "productVariant",
             placeholder: "Product variant*",
             type: "select",
-            options: ["Variant 1", "Variant 2"],
+            options: variants,
+            isLoading: variantsLoading,
+            disabled: !selectedProduct || variantsLoading,
           },
           { name: "serialNumber", placeholder: "Serial Number*" },
-          { name: "invoiceDate", placeholder: "Invoice Date*" },
+          { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
           { name: "invoiceNumber", placeholder: "Invoice Number*" },
         ].map((item) => (
-          <Controller
+          <FormBlock
             key={item.name}
-            name={item.name}
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid} className="w-full">
-                <FieldLabel className="sr-only">{item.placeholder}</FieldLabel>
-                {item.type === "select" ? (
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled={isSubmitting}
-                  >
-                    <SelectTrigger
-                      className={cn(
-                        inputClasses,
-                        "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
-                      )}
-                    >
-                      <SelectValue placeholder={item.placeholder} />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white">
-                      <SelectGroup>
-                        {item.options.map((opt) => (
-                          <SelectItem key={opt} value={opt}>
-                            {opt}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <Input
-                    {...field}
-                    type={item.type || "text"}
-                    placeholder={item.placeholder}
-                    className={inputClasses}
-                    disabled={isSubmitting}
-                  />
-                )}
-                {fieldState.invalid && (
-                  <FieldError
-                    errors={[fieldState.error]}
-                    className={errorClass}
-                  />
-                )}
-              </Field>
-            )}
+            item={item}
+            form={form}
+            isSubmitting={isSubmitting}
           />
         ))}
 
         <div className="sm:col-span-2 md:col-span-3">
-          <Controller
-            name="dealerName"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid} className="w-full">
-                <FieldLabel className="sr-only">Dealer Name*</FieldLabel>
-                <Input
-                  {...field}
-                  placeholder="Dealer Name*"
-                  className={inputClasses}
-                  disabled={isSubmitting}
-                />
-                {fieldState.invalid && (
-                  <FieldError
-                    errors={[fieldState.error]}
-                    className={errorClass}
-                  />
-                )}
-              </Field>
-            )}
+          <FormBlock
+            item={{ name: "dealerName", placeholder: "Dealer Name*" }}
+            form={form}
+            isSubmitting={isSubmitting}
           />
         </div>
         <div className="sm:col-span-2 md:col-span-3">
@@ -344,64 +449,28 @@ export function WarrantyRegistrationForm() {
               name: "billingAddressState",
               placeholder: "State*",
               type: "select",
-              options: ["Kerala", "Tamil Nadu", "Maharashtra"],
+              options: states,
+              isLoading: statesLoading,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedBillingState(value);
+                form.setValue("billingAddressDistrict", "");
+              },
             },
             {
               name: "billingAddressDistrict",
               placeholder: "District*",
               type: "select",
-              options: ["Thrissur", "Kochi", "Pune", "Coimbatore"],
+              options: billingDistricts,
+              isLoading: billingDistrictsLoading,
+              disabled: !selectedBillingState || billingDistrictsLoading,
             },
           ].map((item) => (
-            <Controller
+            <FormBlock
               key={item.name}
-              name={item.name}
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="w-full">
-                  <FieldLabel className="sr-only">
-                    {item.placeholder}
-                  </FieldLabel>
-                  {item.type === "select" ? (
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={isSubmitting}
-                    >
-                      <SelectTrigger
-                        className={cn(
-                          inputClasses,
-                          "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
-                        )}
-                      >
-                        <SelectValue placeholder={item.placeholder} />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white">
-                        <SelectGroup>
-                          {item.options.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Input
-                      {...field}
-                      placeholder={item.placeholder}
-                      className={inputClasses}
-                      disabled={isSubmitting}
-                    />
-                  )}
-                  {fieldState.invalid && (
-                    <FieldError
-                      errors={[fieldState.error]}
-                      className={errorClass}
-                    />
-                  )}
-                </Field>
-              )}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
             />
           ))}
         </div>
@@ -460,64 +529,30 @@ export function WarrantyRegistrationForm() {
               name: "installationAddressState",
               placeholder: "State*",
               type: "select",
-              options: ["Kerala", "Tamil Nadu", "Maharashtra"],
+              options: states,
+              isLoading: statesLoading,
+              disabled: sameAsBilling,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedInstallationState(value);
+                form.setValue("installationAddressDistrict", "");
+              },
             },
             {
               name: "installationAddressDistrict",
               placeholder: "District*",
               type: "select",
-              options: ["Thrissur", "Kochi", "Pune", "Coimbatore"],
+              options: installationDistricts,
+              isLoading: installationDistrictsLoading,
+              disabled: sameAsBilling || !selectedInstallationState || installationDistrictsLoading,
             },
           ].map((item) => (
-            <Controller
+            <FormBlock
               key={item.name}
-              name={item.name}
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="w-full">
-                  <FieldLabel className="sr-only">
-                    {item.placeholder}
-                  </FieldLabel>
-                  {item.type === "select" ? (
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={isSubmitting || sameAsBilling}
-                    >
-                      <SelectTrigger
-                        className={cn(
-                          inputClasses,
-                          "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
-                        )}
-                      >
-                        <SelectValue placeholder={item.placeholder} />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white">
-                        <SelectGroup>
-                          {item.options.map((opt) => (
-                            <SelectItem key={opt} value={opt}>
-                              {opt}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Input
-                      {...field}
-                      placeholder={item.placeholder}
-                      className={inputClasses}
-                      disabled={isSubmitting || sameAsBilling}
-                    />
-                  )}
-                  {fieldState.invalid && (
-                    <FieldError
-                      errors={[fieldState.error]}
-                      className={errorClass}
-                    />
-                  )}
-                </Field>
-              )}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+              extraDisabled={sameAsBilling}
             />
           ))}
         </div>
@@ -546,5 +581,70 @@ export function WarrantyRegistrationForm() {
         </Button>
       </div>
     </form>
+  );
+}
+
+function FormBlock({ item, form, isSubmitting, extraDisabled }) {
+  return (
+    <Controller
+      name={item.name}
+      control={form.control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid} className="w-full">
+          <FieldLabel className="sr-only">{item.placeholder}</FieldLabel>
+          {item.type === "select" ? (
+            <Select
+              onValueChange={(value) =>
+                item.onValueChange
+                  ? item.onValueChange(value, field.onChange)
+                  : field.onChange(value)
+              }
+              value={field.value}
+              disabled={isSubmitting || item.disabled || extraDisabled}
+            >
+              <SelectTrigger
+                className={cn(
+                  inputClasses,
+                  "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                )}
+              >
+                <SelectValue
+                  placeholder={item.placeholder}
+                  disabled={isSubmitting || item.isLoading}
+                />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectGroup>
+                  {item?.options?.map((opt) => (
+                    <SelectItem key={opt?.slug} value={opt?.slug}>
+                      {opt?.title || opt?.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          ) : item.type === "date" ? (
+            <Input
+              {...field}
+              type="date"
+              placeholder={item.placeholder}
+              className={cn(inputClasses, "date-input [color-scheme:dark]")}
+              disabled={isSubmitting || extraDisabled}
+            />
+          ) : (
+            <Input
+              {...field}
+              type={item.type || "text"}
+              placeholder={item.placeholder}
+              className={inputClasses}
+              disabled={isSubmitting || extraDisabled}
+            />
+          )}
+          {fieldState.invalid && (
+            <FieldError errors={[fieldState.error]} className={errorClass} />
+          )}
+        </Field>
+      )}
+    />
   );
 }

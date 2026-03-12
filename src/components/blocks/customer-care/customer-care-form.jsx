@@ -65,9 +65,9 @@ export default function CustomerCareForm({ data }) {
                 {activeTab.replace(/-/g, " ")}
               </Heading>
               {activeTab === "warranty-registration" ? (
-                <WarrantyRegistrationForm />
+                <WarrantyRegistrationForm activeTab={activeTab} />
               ) : (
-                <WarrantyRegistrationForm />
+                <WarrantyRegistrationForm activeTab={activeTab} />
               )}
             </div>
           </div>
