@@ -1,9 +1,8 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
-import CategoriesSection from "@/components/blocks/product-categories/categories-section";
-import FeaturedProducts from "@/components/blocks/product-categories/featured-products";
-import TryNow from "@/components/blocks/product-categories/try-now";
-import { notFound } from "next/navigation";
+import CategoriesSection from "@/components/blocks/categories/categories-section";
+import CategoriesFeaturedProducts from "@/components/blocks/categories/categories-featured-products";
+import CategoriesTryNow from "@/components/blocks/categories/categories-try-now";
 
 export const metadata = {
   title: "Product Categories | HYKON",
@@ -41,7 +40,7 @@ const localData = {
       {
         id: 1,
         iconPath:
-          "https://beta.hykon.dev14.intersmarthosting.in/storage/271/product-cat-white-9.png",
+          "/images/icon-categories-blue-1.svg",
         iconWhitePath:
           "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
         name: "Solar Light",
@@ -59,6 +58,105 @@ const localData = {
         slug: "solar-water-heater",
         description:
           "<p>Best Solar water heaters 2021, Hykon Solar Water Heaters</p>",
+      },
+      {
+        id: 3,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 4,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 5,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 6,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 7,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 8,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 9,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 10,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
+      },
+      {
+        id: 11,
+        iconPath:
+          "/images/icon-categories-blue-1.svg",
+        iconWhitePath:
+          "https://beta.hykon.dev14.intersmarthosting.in/storage/272/product-cat-white-9.png",
+        name: "Solar Light",
+        slug: "solar-light",
+        description:
+          "<p>Sustainable lighting solutions powered by solar energy</p>",
       },
     ],
   },
@@ -88,6 +186,72 @@ const localData = {
         description:
           "<p>The line-interactive UPS from Hykon comes with a multi-tap variable...</p>",
       },
+      {
+        id: 3,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+          alt: "Inline UPS",
+        },
+        title: "Inline UPS",
+        slug: "inline-ups",
+        description:
+          "<p>Green Inline UPS with advanced battery charging technology ensures...</p>",
+      },
+      {
+        id: 4,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/339/parent-category-banners-1919x671-water-heater5f683406902c0.webp",
+          alt: "Line Interactive UPS",
+        },
+        title: "Line Interactive UPS",
+        slug: "line-interactive-ups",
+        description:
+          "<p>The line-interactive UPS from Hykon comes with a multi-tap variable...</p>",
+      },
+      {
+        id: 6,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+          alt: "Inline UPS",
+        },
+        title: "Inline UPS",
+        slug: "inline-ups",
+        description:
+          "<p>Green Inline UPS with advanced battery charging technology ensures...</p>",
+      },
+      {
+        id: 7,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/339/parent-category-banners-1919x671-water-heater5f683406902c0.webp",
+          alt: "Line Interactive UPS",
+        },
+        title: "Line Interactive UPS",
+        slug: "line-interactive-ups",
+        description:
+          "<p>The line-interactive UPS from Hykon comes with a multi-tap variable...</p>",
+      },
+      {
+        id: 8,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+          alt: "Inline UPS",
+        },
+        title: "Inline UPS",
+        slug: "inline-ups",
+        description:
+          "<p>Green Inline UPS with advanced battery charging technology ensures...</p>",
+      },
+      {
+        id: 9,
+        media: {
+          path: "https://beta.hykon.dev14.intersmarthosting.in/storage/339/parent-category-banners-1919x671-water-heater5f683406902c0.webp",
+          alt: "Line Interactive UPS",
+        },
+        title: "Line Interactive UPS",
+        slug: "line-interactive-ups",
+        description:
+          "<p>The line-interactive UPS from Hykon comes with a multi-tap variable...</p>",
+      },
     ],
   },
   tryNowSection: {
@@ -97,9 +261,9 @@ const localData = {
     media: {
       type: "image",
       mobilePath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/296/blog-1_300-(1).jpg",
+        "/images/categories-need-bg.jpg",
       desktopPath:
-        "https://beta.hykon.dev14.intersmarthosting.in/storage/296/blog-1_300-(1).jpg",
+        "/images/categories-need-bg.jpg",
       alt: "Empowering a Greener Tomorrow!",
     },
   },
@@ -137,7 +301,6 @@ export default async function CategoriesPage() {
 
   const {
     heroSection,
-    filterItems,
     categoriesSection,
     featuresSection,
     tryNowSection,
@@ -147,12 +310,9 @@ export default async function CategoriesPage() {
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug="Product Category" />
-      <CategoriesSection
-        filterData={filterItems}
-        categoriesData={categoriesSection}
-      />
-      <FeaturedProducts data={featuresSection} />
-      <TryNow data={tryNowSection} />
+      {categoriesSection && <CategoriesSection data={categoriesSection} />}
+      {featuresSection && <CategoriesFeaturedProducts data={featuresSection} />}
+      {tryNowSection && <CategoriesTryNow data={tryNowSection} />}
     </>
   );
 }
