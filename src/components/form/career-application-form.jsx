@@ -31,10 +31,11 @@ import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  fullName: commonValidations.name,
-  phone: commonValidations.phone,
+  fullName: commonValidations.name("Name"),
+  phone: commonValidations.phone("Phone Number"),
   email: commonValidations.email,
   state: commonValidations.textBox("state"),
   place: commonValidations.textBox("place"),
@@ -93,7 +94,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       formData.append("experience", data.experience);
       formData.append("resume", data.cv);
       formData.append("cover_letter", data.coverLetter || "");
-      formData.append("career_slug", slug)
+      formData.append("career_slug", slug);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {
@@ -102,14 +103,17 @@ export function CareerApplicationForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
+        toast.error("Failed to submit application");
         throw new Error("Failed to submit application");
       }
 
+      toast.success("Application submitted successfully");
       setIsSuccess(true);
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
+      toast.error("Failed to submit application");
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
@@ -347,17 +351,12 @@ export function CareerApplicationForm({ slug, onClose }) {
               disabled={isSubmitting}
             />
 
-             {fieldState.invalid && (
-                <FieldError
-                  errors={[fieldState.error]}
-                  className={errorClass}
-                />
-              )}
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} className={errorClass} />
+            )}
           </Field>
-            
         )}
       />
-
 
       {/* Submit Button */}
       <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">

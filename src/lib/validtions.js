@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// ─── Dynamic Config Values ─────────────────────────────────────────────────────
+// ─── Dynamic Config values ─────────────────────────────────────────────────────
 const VALIDATION_CONFIG = {
   name: {
     minLength: 2,
@@ -44,124 +44,116 @@ const VALIDATION_CONFIG = {
 
 export const commonValidations = {
   // ─── Name ────────────────────────────────────────────────────────────────────
-  name: z
-    .string()
-    .transform((val) => val.trim())
-    .pipe(
-      z
-        .string()
-        .refine((val) => val.length > 0, {
-          message: "Please enter your name",
-        })
-        .refine((val) => !/^\s+$/.test(val), {
-          message: "Name cannot be just spaces. Please enter a valid name",
-        })
-        .refine((val) => !/[\t\n]/.test(val), {
-          message:
-            "Name cannot contain tabs or line breaks. Please enter a valid name",
-        })
-        .refine((val) => val.length >= VALIDATION_CONFIG.name.minLength, {
-          message: `Name is too short. Please enter at least ${VALIDATION_CONFIG.name.minLength} characters`,
-        })
-        .refine((val) => val.length <= VALIDATION_CONFIG.name.maxLength, {
-          message: `Name is too long. Please keep it under ${VALIDATION_CONFIG.name.maxLength} characters`,
-        })
-        .refine((val) => !/[0-9]/.test(val), {
-          message: "Name should not include numbers. Please enter letters only",
-        })
-        .refine((val) => !/[@#!$%^&*()_+=\[\]{};:",.<>?/\\|`~]/.test(val), {
-          message:
-            "Name should not include symbols like @, #, or $. Please enter a valid name",
-        })
-        .refine((val) => !/[<>]/.test(val) && !/<\s*script/i.test(val), {
-          message:
-            "Name contains invalid characters. Please enter a valid name",
-        })
-        .refine((val) => !/javascript:/i.test(val), {
-          message:
-            "Name contains invalid characters. Please enter a valid name",
-        })
-        .refine(
-          (val) =>
-            !/(\'|\"|;|--|\bOR\b|\bAND\b|\bSELECT\b|\bDROP\b)/i.test(val),
-          {
-            message:
-              "Name contains invalid characters. Please enter a valid name",
-          },
-        )
-        .refine((val) => /^[\p{L}\p{M} '\-]+$/u.test(val), {
-          message:
-            "Name can only contain letters, spaces, hyphens (-), and apostrophes (')",
-        }),
-    ),
+  name: (value) =>
+    z
+      .string()
+      .transform((val) => val.trim())
+      .pipe(
+        z
+          .string()
+          .refine((val) => val.length > 0, {
+            message: `${value} is required`,
+          })
+          .refine((val) => !/^\s+$/.test(val), {
+            message: `${value} cannot be just spaces. Please enter a valid ${value}`,
+          })
+          .refine((val) => !/[\t\n]/.test(val), {
+            message: `${value} cannot contain tabs or line breaks. Please enter a valid ${value}`,
+          })
+          .refine((val) => val.length >= VALIDATION_CONFIG.name.minLength, {
+            message: `${value} is too short. Please enter at least ${VALIDATION_CONFIG.name.minLength} characters`,
+          })
+          .refine((val) => val.length <= VALIDATION_CONFIG.name.maxLength, {
+            message: `${value} is too long. Please keep it under ${VALIDATION_CONFIG.name.maxLength} characters`,
+          })
+          .refine((val) => !/[0-9]/.test(val), {
+            message: `${value} should not include numbers. Please enter letters only`,
+          })
+          .refine((val) => !/[@#!$%^&*()_+=\[\]{};:",.<>?/\\|`~]/.test(val), {
+            message: `${value} should not include symbols like @, #, or $. Please enter a valid ${value}`,
+          })
+          .refine((val) => !/[<>]/.test(val) && !/<\s*script/i.test(val), {
+            message: `${value} contains invalid characters. Please enter a valid ${value}`,
+          })
+          .refine((val) => !/javascript:/i.test(val), {
+            message: `${value} contains invalid characters. Please enter a valid ${value}`,
+          })
+          .refine(
+            (val) =>
+              !/(\'|\"|;|--|\bOR\b|\bAND\b|\bSELECT\b|\bDROP\b)/i.test(val),
+            {
+              message: `${value} contains invalid characters. Please enter a valid ${value}`,
+            },
+          )
+          .refine((val) => /^[\p{L}\p{M} '\-]+$/u.test(val), {
+            message: `${value} can only contain letters, spaces, hyphens (-), and apostrophes (')`,
+          }),
+      ),
 
   // ─── Phone ───────────────────────────────────────────────────────────────────
-  phone: z
-    .string()
-    .transform((val) => val.trim())
-    .pipe(
-      z
-        .string()
-        .refine((val) => val.length > 0, {
-          message: "Please enter your phone number",
-        })
-        .refine((val) => !/^\s+$/.test(val), {
-          message:
-            "Phone number cannot be just spaces. Please enter a valid number",
-        })
-        .refine((val) => !/[a-zA-Z]/.test(val), {
-          message:
-            "Phone number should not contain letters. Please enter digits only",
-        })
-        .refine((val) => !/[@#!$%^&*_=\[\]{};:",.<>?/\\|`~]/.test(val), {
-          message:
-            "Phone number contains invalid characters. Please enter a valid number",
-        })
-        .refine(
-          (val) => !/<\s*script/i.test(val) && !/javascript:/i.test(val),
-          {
-            message:
-              "Phone number contains invalid characters. Please enter a valid number",
-          },
-        )
-        .refine(
-          (val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b|\bAND\b)/i.test(val),
-          {
-            message:
-              "Phone number contains invalid characters. Please enter a valid number",
-          },
-        )
-        .refine(
-          (val) =>
-            (val.match(/\+/g) || []).length <= 1 &&
-            (val.indexOf("+") === -1 || val.startsWith("+")),
-          {
-            message:
-              "Please enter the number in a valid format, e.g. +1 (555) 123-4567",
-          },
-        )
-        .refine(
-          (val) =>
-            val.replace(/\D/g, "").length >= VALIDATION_CONFIG.phone.minDigits,
-          {
-            message: `Phone number is too short. Please enter at least ${VALIDATION_CONFIG.phone.minDigits} digits`,
-          },
-        )
-        .refine(
-          (val) =>
-            val.replace(/\D/g, "").length <= VALIDATION_CONFIG.phone.maxDigits,
-          {
-            message: `Phone number is too long. Please enter no more than ${VALIDATION_CONFIG.phone.maxDigits} digits`,
-          },
-        )
-        .refine((val) => !/^0+$/.test(val.replace(/\D/g, "")), {
-          message: "Please enter a valid phone number",
-        })
-        .refine((val) => /^\+?[0-9\s\-\(\)]+$/.test(val), {
-          message:
-            "Phone number can only contain digits, spaces, and + - ( ) characters",
-        }),
-    ),
+  phone: (value) =>
+    z
+      .string()
+      .transform((val) => val.trim())
+      .pipe(
+        z
+          .string()
+          .refine((val) => val.length > 0, {
+            message: `${value} is required`,
+          })
+          .refine((val) => !/^\s+$/.test(val), {
+            message: `${value} cannot be just spaces. Please enter a valid number`,
+          })
+          .refine((val) => !/[a-zA-Z]/.test(val), {
+            message: `${value} should not contain letters. Please enter digits only`,
+          })
+          .refine((val) => !/[@#!$%^&*_=\[\]{};:",.<>?/\\|`~]/.test(val), {
+            message: `${value} contains invalid characters. Please enter a valid number`,
+          })
+          .refine(
+            (val) => !/<\s*script/i.test(val) && !/javascript:/i.test(val),
+            {
+              message: `${value} contains invalid characters. Please enter a valid number`,
+            },
+          )
+          .refine(
+            (val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b|\bAND\b)/i.test(val),
+            {
+              message: `${value} contains invalid characters. Please enter a valid number`,
+            },
+          )
+          .refine(
+            (val) =>
+              (val.match(/\+/g) || []).length <= 1 &&
+              (val.indexOf("+") === -1 || val.startsWith("+")),
+            {
+              message:
+                "Please enter the number in a valid format, e.g. +1 (555) 123-4567",
+            },
+          )
+          .refine(
+            (val) =>
+              val.replace(/\D/g, "").length >=
+              VALIDATION_CONFIG.phone.minDigits,
+            {
+              message: `${value} is too short. Please enter at least ${VALIDATION_CONFIG.phone.minDigits} digits`,
+            },
+          )
+          .refine(
+            (val) =>
+              val.replace(/\D/g, "").length <=
+              VALIDATION_CONFIG.phone.maxDigits,
+            {
+              message: `${value} is too long. Please enter no more than ${VALIDATION_CONFIG.phone.maxDigits} digits`,
+            },
+          )
+          .refine((val) => !/^0+$/.test(val.replace(/\D/g, "")), {
+            message: `Please enter a valid ${value}`,
+          })
+          .refine((val) => /^\+?[0-9\s\-\(\)]+$/.test(val), {
+            message: `${value} can only contain digits, spaces, and + - ( ) characters`,
+          }),
+      ),
 
   // ─── Email ───────────────────────────────────────────────────────────────────
   email: z
@@ -171,7 +163,7 @@ export const commonValidations = {
       z
         .string()
         .refine((val) => val.length > 0, {
-          message: "Please enter your email address",
+          message: "Email is required",
         })
         .refine((val) => !/^\s+$/.test(val), {
           message:
@@ -310,8 +302,7 @@ export const commonValidations = {
             },
           )
           .refine((val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b)/i.test(val), {
-            message:
-              "${value} contains invalid content. Please enter a valid ${value}",
+            message: `${value} contains invalid content. Please enter a valid ${value}`,
           })
           .refine((val) => /^[\p{L} '\-,\.]+$/u.test(val), {
             message: `${value} can only contain letters, spaces, hyphens, apostrophes, commas, and periods`,
@@ -556,4 +547,14 @@ export const commonValidations = {
             "Cover letter contains invalid characters. Please enter a valid message",
         }),
     ),
+
+  postalCode: z
+    .string()
+    .length(6, { message: "PIN code must be exactly 6 digits" })
+    .regex(/^[1-9][0-9]{5}$/, {
+      message: "Invalid PIN code: must be 6 digits and cannot start with 0",
+    }),
+
+
+  number: z.coerce.number( "Please enter a valid number"),
 };

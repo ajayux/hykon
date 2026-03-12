@@ -33,10 +33,11 @@ import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { useEffect } from "react";
 import { apiClient } from "@/lib/api/client";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  fullName: commonValidations.name,
-  phone: commonValidations.phone,
+  fullName: commonValidations.name("Name"),
+  phone: commonValidations.phone("Phone Number"),
   email: commonValidations.email,
   productCategory: commonValidations.dropDown("Product Category"),
   requirement: commonValidations.dropDown("Requirement"),
@@ -117,13 +118,16 @@ export function ContactEnquiryForm() {
 
       if (!res.ok) {
         throw new Error("Failed to submit enquiry");
+        toast.error("Failed to submit enquiry")
       }
 
       setIsSuccess(true);
+      toast.success("Enquiry submitted successfully")
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
+      toast.error("Failed to submit enquiry")
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);

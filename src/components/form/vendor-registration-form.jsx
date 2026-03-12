@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -22,27 +23,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import FormSubmitResponse from "../common/form-submitted-success";
+import { commonValidations } from "@/lib/validtions";
+import { API_URL, apiClient } from "@/lib/api/client";
 
 const formSchema = z.object({
-  vendorName: z.string().min(1, "Vendor Name is required"),
-  contactPerson: z.string().min(1, "Contact Person is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  mobileNumber: z.string().min(10, "Valid mobile number is required"),
-  emailAddress: z.string().email("Invalid email address"),
-  street: z.string().min(1, "Street is required"),
-  city: z.string().min(1, "City is required"),
-  country: z.string().min(1, "Country is required"),
-  state: z.string().min(1, "State is required"),
-  postalCode: z.string().min(1, "Postal code is required"),
-  website: z.string().optional(),
-  materialType: z.string().optional(),
-  gstin: z.string().optional(),
-  annualTurnover: z.string().min(1, "Annual turnover is required"),
-  companyProfile: z
-    .any()
-    .refine((file) => file !== null, "Company profile is required"),
-  additionalComments: z.string().optional(),
-  referredBy: z.string().optional(),
+  vendorName: commonValidations.name("Vendor Name"),
+  contactPerson: commonValidations.name("Contact Person"),
+  phone: commonValidations.phone("Phone Number"),
+  mobileNumber: commonValidations.phone("Mobile Number"),
+  emailAddress: commonValidations.email,
+  street: commonValidations.dropDown("Street"),
+  city: commonValidations.dropDown("City"),
+  country: commonValidations.dropDown("Country"),
+  state: commonValidations.dropDown("State"),
+  postalCode: commonValidations.postalCode,
+  website: commonValidations.optionalString,
+  materialType: commonValidations.optionalString,
+  gstin: commonValidations.optionalString,
+  annualTurnover: commonValidations.number,
+  companyProfile: commonValidations.file("Company Profile"),
+  additionalComments: commonValidations.optionalString,
+  referredBy: commonValidations.optionalString,
 });
 
 const inputClasses =
@@ -55,6 +56,25 @@ export function VendorRegistrationForm() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  
+  const { data: countries = [], isLoading: countriesLoading } = useQuery({
+    queryKey: ["countries"],
+    queryFn: () =>
+      apiClient("/country", { cache: "force-cache" }).then((res) => res.data),
+    staleTime: 1000 * 60 * 60 * 24 * 30, // 24 hours — countries rarely change
+    gcTime: 1000 * 60 * 60 * 24 * 30,
+  });
+
+  const { data: states = [], isLoading: statesLoading } = useQuery({
+    queryKey: ["states", selectedCountry],
+    queryFn: () =>
+      apiClient(`/states?slug=${selectedCountry}`).then((res) => {
+        return res.data;
+      }),
+    enabled: !!selectedCountry,
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -97,8 +117,36 @@ export function VendorRegistrationForm() {
     setIsSubmitting(true);
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Vendor Registration Data:", data);
+      const formData = new FormData();
+      formData.append("name", data.vendorName);
+      formData.append("contact_person_name", data.contactPerson);
+      formData.append("phone", data.phone);
+      formData.append("mobile", data.mobileNumber);
+      formData.append("email", data.emailAddress);
+      formData.append("street", data.street);
+      formData.append("city", data.city);
+      formData.append("country_id", data.country);
+      formData.append("state_id", data.state);
+      formData.append("pincode", data.postalCode);
+      formData.append("website", data.website);
+      formData.append("material_type", data.materialType);
+      formData.append("gst", data.gstin);
+      formData.append("annual_trun_over", data.annualTurnover);
+      formData.append("comments", data.additionalComments);
+      formData.append("referred_by", data.referredBy);
+
+      if (data.companyProfile) {
+        formData.append("company_profile", data.companyProfile);
+      }
+      const res = await fetch(`${API_URL}/vendor-registration`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit enquiry");
+      }
+
       setIsSuccess(true);
       form.reset();
       setUploadedFile(null);
@@ -120,7 +168,10 @@ export function VendorRegistrationForm() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="w-full"
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[
           { name: "vendorName", placeholder: "Vendor Name*" },
@@ -138,13 +189,21 @@ export function VendorRegistrationForm() {
             name: "country",
             placeholder: "Country*",
             type: "select",
-            options: ["India", "USA", "UK"],
+            options: countries,
+            isLoading: countriesLoading,
+            onValueChange: (value, fieldOnChange) => {
+              fieldOnChange(value);
+              setSelectedCountry(value);
+              form.setValue("state", "");
+            },
           },
           {
             name: "state",
             placeholder: "State/Provision/ Region*",
             type: "select",
-            options: ["Kerala", "Tamil Nadu", "Maharashtra"],
+            options: states,
+            isLoading: statesLoading,
+            disabled: !selectedCountry || statesLoading,
           },
         ].map((item) => (
           <FormBlock
@@ -290,9 +349,13 @@ function FormBlock({ item, form, isSubmitting }) {
           <FieldLabel className="sr-only">{item.placeholder}</FieldLabel>
           {item.type === "select" ? (
             <Select
-              onValueChange={field.onChange}
+              onValueChange={(value) =>
+                item.onValueChange
+                  ? item.onValueChange(value, field.onChange)
+                  : field.onChange(value)
+              }
               value={field.value}
-              disabled={isSubmitting}
+              disabled={isSubmitting || item.disabled}
             >
               <SelectTrigger
                 className={cn(
@@ -300,13 +363,16 @@ function FormBlock({ item, form, isSubmitting }) {
                   "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
                 )}
               >
-                <SelectValue placeholder={item.placeholder} />
+                <SelectValue
+                  placeholder={item.placeholder}
+                  disabled={isSubmitting || item.isLoading}
+                />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
                   {item.options.map((opt) => (
-                    <SelectItem key={opt} value={opt}>
-                      {opt}
+                    <SelectItem key={opt.slug} value={opt.slug}>
+                      {opt.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

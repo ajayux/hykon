@@ -1,11 +1,13 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 import { getFontVariable, getFontClassName } from "@/lib/fonts";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 import FloatNavigation from "@/components/common/float-navigation";
 import HomeQuestions from "@/components/blocks/home/home-questions";
+import Providers from "./providers";
 
 export const metadata = {
   title: {
@@ -118,9 +120,21 @@ export default async function RootLayout({ children }) {
 
         <Header data={headerData} navigationData={navigationData} />
 
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen">
+          <Providers>
+          {children}
+          </Providers>
+          </main>
 
         {questionsSection && <HomeQuestions data={questionsSection} />}
+
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          expand
+        />
+
         <Footer footerData={footerData} socialLinkData={socialLinkData} />
       </body>
     </html>
