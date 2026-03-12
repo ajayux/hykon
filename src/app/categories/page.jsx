@@ -301,7 +301,6 @@ export default async function CategoriesPage() {
 
   const {
     heroSection,
-    filterItems,
     categoriesSection,
     featuresSection,
     tryNowSection,
