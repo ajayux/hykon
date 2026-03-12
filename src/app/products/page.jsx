@@ -3,6 +3,7 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import CategoriesSection from "@/components/blocks/categories/categories-section";
 import CategoriesFeaturedProducts from "@/components/blocks/categories/categories-featured-products";
 import CategoriesTryNow from "@/components/blocks/categories/categories-try-now";
+import ProductsCategory from "@/components/blocks/products/products-category";
 
 export const metadata = {
   title: "Product | HYKON",
@@ -29,7 +30,7 @@ const localData = {
     },
     "specification": {
       "description": "<ul><li>Jupiter Series</li><li>Industrial- Solar Thermal System</li><li>Moon Series</li><li>Institutional- Jumbo Series</li><li>Pluto Series</li><li>Pressurised- Turbo Series</li></ul>",
-      "media": [
+      "specificationMedia": [
         {
           "id": 1,
           "path": "/images/pro-spec-1.png",
@@ -197,6 +198,7 @@ export default async function ProductsPage() {
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug="Product Category/ Product Listing1" />
+      <ProductsCategory data={categoryDetailSection} />
       {/* {categoryDetailSection && <CategoriesSection data={categoryDetailSection} />} */}
     </>
   );
