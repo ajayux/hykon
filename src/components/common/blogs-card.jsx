@@ -31,7 +31,7 @@ export default function BlogsCard({ item }) {
             <Text
               as="div"
               size="p0"
-              className="max-lg:text-[12px] line-clamp-3 font-medium text-[#3c3c3c]"
+              className="max-lg:text-[13px] line-clamp-3 font-medium text-[#3c3c3c]"
             >
               {parse(item?.title)}
             </Text>
@@ -61,7 +61,7 @@ export default function BlogsCard({ item }) {
             <Text
               as="div"
               size="p0"
-              className="max-lg:text-[12px] line-clamp-3 font-medium text-white"
+              className="max-lg:text-[13px] line-clamp-3 font-medium text-white"
             >
               {parse(item?.title)}
             </Text>
@@ -69,5 +69,6 @@ export default function BlogsCard({ item }) {
         </div>
       </div>
     </Link>
+    
   );
 }

@@ -3,10 +3,10 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import BlogsListing from "@/components/blocks/blogs/blogs-listing";
 import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: "Blogs | HYKON",
-  description: "Stay updated with the latest blogs and articles from Hykon.",
-};
+// export const metadata = {
+//   title: "Blogs | HYKON",
+//   description: "Stay updated with the latest blogs and articles from Hykon.",
+// };
 
 // const localData = {
 //   title: "Blog",
@@ -206,7 +206,21 @@ export const metadata = {
 //   },
 // };
 
-export default async function BlogsPage() {
+const localData = {
+  title: "Blog",
+  description: "Blog Listing Page",
+  heroSection: {
+    title: "Blogs",
+    media: {
+      type: "image",
+      mobilePath: "/images/blogs-hero-1.jpg",
+      desktopPath: "/images/blogs-hero-1.jpg",
+      alt: "Blogs",
+    },
+  },
+};
+
+export default async function BlogsPage({ data = localData }) {
   let blogsData = null;
 
   try {

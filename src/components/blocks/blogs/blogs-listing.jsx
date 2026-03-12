@@ -69,14 +69,14 @@ export default function BlogsListing({ data }) {
   };
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-[52px_42px] 2xl:py-[60px_50px] 3xl:py-[80px_60px] relative z-0">
       <div className="container">
-        <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-8 xl:mb-10 2xl:mb-10 3xl:mb-12">
+        <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-8 xl:mb-10 2xl:mb-12.5 3xl:mb-16.5">
           <div className="w-full flex-1">
             <Heading
               as="h2"
               size="h1"
-              className="font-medium text-white mb-1 sm:mb-0"
+              className="leading-tight font-medium text-white mb-1 sm:mb-0"
             >
               {parse(data?.title || "")}
             </Heading>
@@ -84,14 +84,14 @@ export default function BlogsListing({ data }) {
 
           <div className="w-[120px] sm:w-[140px] xl:w-[170px] 2xl:w-[200px] 3xl:w-[245px]">
             <Select value={activeFilter} onValueChange={handleFilterChange}>
-              <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-placeholder:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
-                <SelectValue placeholder="All Category" />
+              <SelectTrigger className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-placeholder:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+                <SelectValue placeholder="Categories" />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  <SelectItem value="all">All Category</SelectItem>
+                  <SelectItem value="all" className="block text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">Category</SelectItem>
                   {data?.filters?.map((item) => (
-                    <SelectItem key={item?.id} value={item?.slug}>
+                    <SelectItem key={item?.id} value={item?.slug} className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">
                       {item?.title}
                     </SelectItem>
                   ))}
@@ -112,7 +112,7 @@ export default function BlogsListing({ data }) {
             items.map((item) => (
               <div
                 key={item?.id}
-                className="w-full min-[376px]:w-1/2 lg:w-1/3 p-[7px_5px] xl:p-[8px_6px] 2xl:p-[11px_7px] 3xl:p-[16px_9px]"
+                className="w-full min-[376px]:w-1/2 lg:w-1/3 p-[7px_5px] xl:p-[9px_6px] 2xl:p-[11px_7px] 3xl:p-[14px_9px]"
               >
                 <BlogsCard item={item} />
               </div>
@@ -134,7 +134,7 @@ export default function BlogsListing({ data }) {
           <Button
             size="lg"
             variant="none"
-            className="flex text-white px-0 mt-[30px] xl:mt-[40px] 2xl:mt-[48px] 3xl:mt-[60px] mx-auto hover:text-[#008dd2] transition-colors"
+            className="flex text-white px-0 mt-[15px] sm:mt-[20px] xl:mt-[30px] 2xl:mt-[40px] 3xl:mt-[50px] mx-auto hover:text-[#008dd2] transition-colors"
             onClick={handleLoadMore}
             disabled={isLoading}
           >

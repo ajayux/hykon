@@ -206,11 +206,11 @@
       @apply text-[16px] sm:text-[18px] lg:text-[24px] 2xl:text-[30px] 3xl:text-[36px] leading-tight font-normal text-(--text-color);
     }
 
-    /* h5 {
+    h5 {
       @apply text-[12px] sm:text-[14px] lg:text-[16px] xl:text-[20px] 2xl:text-[24px] 3xl:text-[26px] leading-tight font-normal text-(--text-color);
     }
 
-    h6 {
+    /* h6 {
       @apply text-[12px] xl:text-[12px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-(--text-color);
     } */
 
