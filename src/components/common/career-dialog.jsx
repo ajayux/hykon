@@ -41,7 +41,6 @@ export default function CareerDialog({ children, jobTitle, slug }) {
           <CareerApplicationForm
             jobTitle={jobTitle}
             slug={slug}
-            onClose={() => setOpen(false)}
           />
         </div>
       </DialogContent>

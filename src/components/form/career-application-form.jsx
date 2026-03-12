@@ -49,7 +49,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ slug, onClose }) {
+export function CareerApplicationForm({ slug }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

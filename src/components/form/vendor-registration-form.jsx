@@ -39,9 +39,9 @@ const formSchema = z.object({
   postalCode: commonValidations.postalCode,
   website: commonValidations.optionalString,
   materialType: commonValidations.optionalString,
-  gstin: commonValidations.optionalString,
+  gstin: commonValidations.requiredString("GSTIN"),
   annualTurnover: commonValidations.number,
-  companyProfile: commonValidations.file("Company Profile"),
+  companyProfile: commonValidations.pdfUpload("Company Profile"),
   additionalComments: commonValidations.optionalString,
   referredBy: commonValidations.optionalString,
 });
@@ -58,7 +58,6 @@ export function VendorRegistrationForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
 
-  
   const { data: countries = [], isLoading: countriesLoading } = useQuery({
     queryKey: ["countries"],
     queryFn: () =>
@@ -136,7 +135,7 @@ export function VendorRegistrationForm() {
       formData.append("referred_by", data.referredBy);
 
       if (data.companyProfile) {
-        formData.append("company_profile", data.companyProfile);
+        formData.append("file", data.companyProfile);
       }
       const res = await fetch(`${API_URL}/vendor-registration`, {
         method: "POST",
@@ -150,6 +149,7 @@ export function VendorRegistrationForm() {
       setIsSuccess(true);
       form.reset();
       setUploadedFile(null);
+      setSelectedCountry(null);
     } catch (error) {
       console.error("Submission Error:", error);
     } finally {
@@ -168,10 +168,7 @@ export function VendorRegistrationForm() {
   }
 
   return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="w-full"
-    >
+    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[
           { name: "vendorName", placeholder: "Vendor Name*" },
@@ -266,7 +263,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept=".pdf,.doc,application/pdf,application/msword"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />
@@ -286,9 +283,9 @@ export function VendorRegistrationForm() {
                 </button>
               </div>
             )}
-            {form.formState.errors.images && (
+            {form.formState.errors.companyProfile && (
               <div className={errorClass}>
-                {form.formState.errors.images.message}
+                {form.formState.errors.companyProfile.message}
               </div>
             )}
           </div>

@@ -40,6 +40,14 @@ const VALIDATION_CONFIG = {
     allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
     maxSizeMB: 5, // adjust as needed
   },
+
+
+  // In your VALIDATION_CONFIG:
+pdfUpload: {
+  allowedTypes: ["application/pdf", "application/msword"],
+  allowedExtensions: [".pdf", ".doc"],
+  maxSizeMB: 10, // keep whatever value you have
+}
 };
 
 export const commonValidations = {
@@ -379,6 +387,40 @@ export const commonValidations = {
           message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.file.maxSizeMB}MB`,
         },
       ),
+
+
+
+
+pdfUpload: (file) =>
+  z
+    .instanceof(File)
+    .refine((file) => file !== null && file !== undefined, {
+      message: `Please upload ${file}`,
+    })
+    .refine((file) => file.size > 0, {
+      message: "The uploaded file appears to be empty. Please upload a valid file",
+    })
+    .refine(
+      (file) => VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
+      {
+        message: "Only PDF and DOC files are allowed",  // ← updated
+      },
+    )
+    .refine(
+      (file) =>
+        VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
+          file.name.toLowerCase().endsWith(ext),
+        ),
+      {
+        message: "File must have a .pdf or .doc extension",  // ← updated
+      },
+    )
+    .refine(
+      (file) => file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
+      {
+        message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
+      },
+    ),
   // ─── Optional PDF Upload ──────────────────────────────────────────────────────
   pdfUploadOptional: z
     .instanceof(File)
@@ -555,6 +597,10 @@ export const commonValidations = {
       message: "Invalid PIN code: must be 6 digits and cannot start with 0",
     }),
 
+
+    requiredString: (value)=> z
+    .string()
+    .min(1, { message: `${value} is required` }),
 
   number: z.coerce.number( "Please enter a valid number"),
 };
