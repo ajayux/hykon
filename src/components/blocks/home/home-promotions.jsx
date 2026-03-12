@@ -3,7 +3,7 @@
 // import Autoplay from "embla-carousel-autoplay";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 export default function HomePromotions({ data }) {
   // const [emblaRef] = useEmblaCarousel(
