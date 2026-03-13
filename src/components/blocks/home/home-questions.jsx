@@ -34,12 +34,12 @@ export default function HomeQuestions({ data }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px] pl-6"
+              className="text-white min-w-[120px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[180px] pl-4 xl:pl-5"
               asChild
             >
               <Link href={data?.button?.link}>
                 {data?.button?.label}
-                <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                   <Image
                     src={"/images/icon-arrow-right-blue.svg"}
                     alt={"icon-arrow-right-blue"}

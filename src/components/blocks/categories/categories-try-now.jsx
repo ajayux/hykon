@@ -9,7 +9,6 @@ export default function CategoriesTryNow({ data }) {
     <section className="w-full block py-10 xl:py-15 2xl:py-17.5 3xl:py-22 bg-[#181818]">
       <div className="container">
         <div className="w-full bg-[#008dd2] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] px-6 sm:px-7 lg:px-9 2xl:px-10 3xl:px-12.5 flex items-center overflow-hidden relative z-0">
-
           <picture className="w-full h-full block absolute -z-1 inset-0 max-lg:opacity-40">
             <source
               srcSet={data?.media?.desktopPath}
@@ -47,7 +46,7 @@ export default function CategoriesTryNow({ data }) {
             >
               <Link href="/">
                 Try Now
-                <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                   <Image
                     src={"/images/icon-arrow-right-blue.svg"}
                     alt={"icon-arrow-right-blue"}
