@@ -23,7 +23,9 @@ export default async function faqPage() {
     notFound();
   }
 
-  const { heroSection, filterItems, faqs } = faqData;
+  const { heroSection, faqSection } = faqData;
+
+  console.log(faqData)
 
   return (
     <>
@@ -32,9 +34,9 @@ export default async function faqPage() {
 
       <FaqListing
         data={{
-          title: "Frequently Asked Questions",
-          filterItems: filterItems,
-          faqs: faqs,
+          title: faqSection?.title,
+          filterItems: faqSection?.filterItems,
+          faqs: faqSection?.faqs,
         }}
       />
     </>
