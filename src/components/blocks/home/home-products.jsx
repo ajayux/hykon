@@ -9,6 +9,7 @@ import { useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import dynamic from "next/dynamic";
+import parse from "html-react-parser";
 import ProductCard from "@/components/common/product-card";
 
 const MediaQuery = dynamic(() => import("react-responsive"), {
@@ -20,12 +21,17 @@ export default function HomeProducts({ data }) {
 
   return (
     <section className="w-full h-auto block bg-black py-6 lg:py-8 xl:py-10 2xl:py-15 3xl:py-20 relative z-0">
+      {corporateItems?.items?.length>0 &&
       <ProductBlock sectionData={corporateItems} parentTitle={data?.title} />
+      }
+      {
+        domesticItems?.items?.length>0 &&
       <ProductBlock
-        sectionData={domesticItems}
+      sectionData={domesticItems}
         parentTitle={data?.title}
         reversed
-      />
+        />
+      }
     </section>
   );
 }
@@ -195,7 +201,7 @@ function CategoryItem({ item, activeItem, reversed }) {
                 : "lg:translate-y-full lg:opacity-50",
             )}
           >
-            {item?.description}
+            {parse(item?.description)}
           </Text>
         </div>
         <div

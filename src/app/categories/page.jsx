@@ -277,27 +277,26 @@ const localData = {
 };
 
 export default async function CategoriesPage() {
-  //   let categoriesData = null;
+    let categoriesData = null;
 
-  //   try {
-  //     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //     const res = await fetch(`${baseUrl}/api/categories`, {
-  //       next: { revalidate: 60 },
-  //     });
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/categories`, {
+        next: { revalidate: 60 },
+      });
 
-  //     if (res.ok) {
-  //       const response = await res.json();
-  //       categoriesData = response.data;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories data:", error);
-  //   }
+      if (res.ok) {
+        const response = await res.json();
+        categoriesData = response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching categories data:", error);
+    }
 
-  //   if (!categoriesData) {
-  //     notFound();
-  //   }
+    if (!categoriesData) {
+      notFound();
+    }
 
-  const categoriesData = localData;
 
   const {
     heroSection,

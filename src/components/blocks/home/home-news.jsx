@@ -22,7 +22,7 @@ export default function HomeNews({ data }) {
   const fetchNews = async () => {
     if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
       setItems(data.items);
-      return;
+    return;
     }
 
     setLoading(true);
