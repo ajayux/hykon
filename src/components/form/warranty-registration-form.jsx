@@ -104,7 +104,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function WarrantyRegistrationForm({activeTab}) {
+export function WarrantyRegistrationForm({activeTab, page}) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -235,6 +235,8 @@ export function WarrantyRegistrationForm({activeTab}) {
     setIsSubmitting(true);
     try {
       const recaptchaToken = await executeRecaptcha("warranty_registration");
+      const warrantyRecaptchaToken = await executeRecaptcha("warranty_registration");
+
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("email", data.email);
@@ -268,9 +270,9 @@ export function WarrantyRegistrationForm({activeTab}) {
       if (data.images) {
         formData.append("images[]", data.images);
       }
-      formData.append("recaptcha_token", recaptchaToken);
-
-      const res = await fetch(`${API_URL}/customer-care-enquiry`, {
+      formData.append("recaptcha_token", page === "warranty" ? warrantyRecaptchaToken : recaptchaToken);
+      const url = page === "warranty" ? `${API_URL}/client-warranty-complaint` : `${API_URL}/customer-care-enquiry`;
+      const res = await fetch(url, {
         method: "POST",
         body: formData,
       });
