@@ -533,7 +533,7 @@ export function WarrantyRegistrationForm() {
           disabled={isSubmitting}
         >
           {isSubmitting ? "Submitting..." : "Submit"}
-          <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+          <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
             <Image
               src={"/images/icon-arrow-right-white.svg"}
               alt={"icon-arrow-right-white"}

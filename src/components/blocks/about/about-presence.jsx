@@ -32,7 +32,39 @@ export default function AboutPresence({ data }) {
               {parse(data?.description)}
             </Text>
             <div className="flex flex-wrap gap-3 sm:gap-x-2 xl:gap-x-3.5 2xl:gap-x-4.5 3xl:gap-x-5">
-              {data?.button_one && (
+              {[
+                {
+                  label: data?.button_one?.text,
+                  url: data?.button_one?.link,
+                },
+                {
+                  label: data?.button_two?.text,
+                  url: data?.button_two?.link,
+                },
+              ].map((btn) => (
+                <Button
+                  key={btn?.label}
+                  size="lg"
+                  variant="outline"
+                  className="text-white min-w-[160px] xl:min-w-[166px] 2xl:min-w-[200px] 3xl:min-w-[245px] pl-2 xl:pl-3"
+                  asChild
+                >
+                  <Link href={btn?.url}>
+                    {btn?.label}
+                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-blue.svg"}
+                        alt={"icon-arrow-right-blue"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </div>
+                  </Link>
+                </Button>
+              ))}
+              {/* {data?.button_one && (
                 <Button
                   size="lg"
                   variant="outline"
@@ -41,7 +73,7 @@ export default function AboutPresence({ data }) {
                 >
                   <Link href={data?.button_one?.link}>
                     {data?.button_one?.text}
-                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}
                         alt={"icon-arrow-right-blue"}
@@ -63,7 +95,7 @@ export default function AboutPresence({ data }) {
                 >
                   <Link href={data?.button_two?.link}>
                     {data?.button_two?.text}
-                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}
                         alt={"icon-arrow-right-blue"}
@@ -75,7 +107,7 @@ export default function AboutPresence({ data }) {
                     </div>
                   </Link>
                 </Button>
-              )}
+              )} */}
             </div>
           </div>
         </div>

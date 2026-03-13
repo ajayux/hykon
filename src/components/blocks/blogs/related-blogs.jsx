@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import BlogsCard from "@/components/common/blogs-card";
 
 export default function BlogRelatedBlogs({ data }) {
-
   const items = data?.items || [];
   const [loading, setLoading] = useState(false);
   // const [activeFilter, setActiveFilter] = useState("All");
@@ -62,7 +61,7 @@ export default function BlogRelatedBlogs({ data }) {
             >
               <Link href={"/blogs"}>
                 View All
-                <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
                     alt={"icon-arrow-right-white"}
@@ -76,7 +75,6 @@ export default function BlogRelatedBlogs({ data }) {
             </Button>
           </div>
         </div>
-      
 
         <div
           className={cn(
@@ -140,5 +138,3 @@ export default function BlogRelatedBlogs({ data }) {
     </section>
   );
 }
-
-

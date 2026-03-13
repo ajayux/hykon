@@ -9,6 +9,11 @@ export const metadata = {
 const localData = {
   formSections: {
     title: "Power Calculator",
+    calculatorTitle: "Your approximate power need is",
+    calculatorDescription:
+      "to find out the best products that match your needs",
+    calculatorNote:
+      "<p>*The consumption data derived are based on approximate calculations. Please contact our customer care for more details.</p>",
   },
   metaTag: {
     id: 12,

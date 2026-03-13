@@ -33,13 +33,13 @@ export default function HomePower({ data }) {
         <Button
           size="lg"
           variant="white"
-          className="text-[#020205] min-w-[100px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[260px] pl-4 mx-auto"
+          className="text-[#020205] min-w-[120px] xl:min-w-[160px] 2xl:min-w-[190px] 3xl:min-w-[235px] pl-4 mx-auto"
           asChild
         >
           <Link href={data?.button?.link}>
             {data?.button?.label}
 
-            <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+            <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
               <Image
                 src={"/images/icon-arrow-right-white.svg"}
                 alt={"icon-arrow-right-white"}

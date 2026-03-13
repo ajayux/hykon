@@ -96,16 +96,16 @@ export default function HomeNews({ data }) {
               onFilterChange={setActiveFilter}
             />
           </div>
-          <div className="w-full sm:w-[100px] xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
+          <div className="w-full sm:w-[100px] xl:w-[115px] 2xl:w-[137px] 3xl:w-[167px]">
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-7"
+              className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-5"
               asChild
             >
               <Link href={"/news"}>
                 View All
-                <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
                     alt={"icon-arrow-right-white"}
