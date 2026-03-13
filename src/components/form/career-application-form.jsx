@@ -390,12 +390,12 @@ export function CareerApplicationForm({ slug }) {
       </div>
 
       {/* form success message */}
-      <FormSubmitResponse
+      {/* <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
         title="Your Application is Submitted"
         description="Thank you for applying. Our team will get in touch with you if your
         profile matches our requirements."
-      />
+      /> */}
     </form>
   );
 }
