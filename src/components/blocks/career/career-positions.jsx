@@ -189,7 +189,7 @@ function CareerCard({ item }) {
               className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px] pl-6"
             >
               Apply Now
-              <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                 <Image
                   src="/images/icon-arrow-right-white.svg"
                   alt="icon-arrow-right-white"
@@ -209,7 +209,7 @@ function CareerCard({ item }) {
               onClick={() => window.open(item?.button?.file, "_blank")}
             >
               {item?.button?.text || "Download"}
-              <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                 <Image
                   src="/images/icon-download.svg"
                   alt="icon-download"

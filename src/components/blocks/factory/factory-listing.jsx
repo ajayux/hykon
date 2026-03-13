@@ -46,7 +46,7 @@ export default function FactoryListing({ data }) {
                       asChild
                     >
                       <Link href={`/factory/${item?.slug}`}>
-                        <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                        <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                           <Image
                             src={"/images/icon-arrow-right-white.svg"}
                             alt={"icon-arrow-right-white"}

@@ -161,13 +161,13 @@ export default function HomeAbout({ data }) {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-center text-white min-w-[100px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[187px] pl-4"
+                  className="text-center text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[137px] 3xl:min-w-[167px] pl-4 xl:pl-5"
                   asChild
                 >
                   <Link href={data?.button?.link}>
                     {data?.button?.label}
 
-                    <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-white.svg"}
                         alt={"icon-arrow-right-white"}

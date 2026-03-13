@@ -80,7 +80,7 @@ export default function AboutAwards({ awardData, certificationData }) {
               >
                 {certificationData?.title}
               </Heading>
-              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:ml-5 [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-5 [&_li]:list-image-[url('/images/li-check.svg')]  [&_li]:marker:size-1.5 3xl:[&_li]:marker:size-2">
+              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-2 xl:[&_li]:my-3 2xl:[&_li]:my-4 [&_li]:list-image-[url('/images/li-check.svg')] [&_li]:marker:size-1.5 3xl:[&_li]:marker:size-2">
                 {parse(certificationData?.description)}
               </div>
             </div>

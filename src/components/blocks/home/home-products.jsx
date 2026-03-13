@@ -73,7 +73,7 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
                 )}
               >
                 <span className="text-[12px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[18px] leading-none font-normal text-white w-auto min-w-[100px] xl:min-w-[110px] 2xl:min-w-[125px] 3xl:min-w-[168px] h-auto border border-white rounded-[6px] flex items-center gap-2 p-1 mb-10 xl:mb-20 2xl:mb-[96px] 3xl:mb-[120px]">
-                  <span className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center p-1">
+                  <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center p-1">
                     {sectionData?.id}
                   </span>
                   {sectionData?.title}
