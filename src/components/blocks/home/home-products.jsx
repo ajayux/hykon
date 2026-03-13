@@ -4,7 +4,7 @@ import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -41,12 +41,49 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
     sectionData?.items?.[0]?.id || 1,
   );
 
+  const [fetchedProducts, setFetchedProducts] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+
+  const fetchProductsBySlug = useCallback(async (slug) => {
+    if (!slug) return;
+    setIsLoading(true);
+    setFetchError(null);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/home-category-wise-product?category_slug=${slug}`
+      );
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const json = await res.json();
+      setFetchedProducts(json?.success && Array.isArray(json?.data?.items) ? json.data.items : []);
+    } catch (err) {
+      setFetchError(err.message || "Something went wrong.");
+      setFetchedProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const activeItemSlug = sectionData?.items?.find(i => i.id === activeItem)?.slug;
+
+  useEffect(() => {
+    if (activeItemSlug) fetchProductsBySlug(activeItemSlug);
+  }, [activeItemSlug, fetchProductsBySlug]);
+
+  const displayedProducts = fetchedProducts !== null ? fetchedProducts : (sectionData?.productsItems ?? []);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     align: "start",
     slidesToScroll: 1,
     containScroll: "trimSnaps",
   });
+
+
+
+
+  
+
 
   return (
     <div className="w-full h-auto block py-8 sm:py-10 lg:py-5 xl:py-6 2xl:py-7 3xl:py-8">
@@ -141,12 +178,26 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
           </MediaQuery>
           <div className={cn("w-full lg:flex-1 max-sm:pr-4")}>
             <div className="w-full bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-12.5 2xl:py-15 3xl:py-[75px] ">
-              <div className="flex flex-wrap">
-                {sectionData?.productsItems?.map((item) => (
-                  <div key={item.id} className="w-1/2 sm:w-1/3">
-                    <ProductCard item={item} />
+              <div className="flex flex-wrap relative min-h-[200px]">
+                {isLoading ? (
+                  <div className="w-full flex items-center justify-center py-10">
+                    <span className="text-white text-sm animate-pulse">Loading...</span>
                   </div>
-                ))}
+                ) : fetchError ? (
+                  <div className="w-full flex items-center justify-center py-10">
+                    <span className="text-white/60 text-sm">{fetchError}</span>
+                  </div>
+                ) : displayedProducts.length === 0 ? (
+                  <div className="w-full flex items-center justify-center py-10">
+                    <span className="text-white/40 text-sm">No products available.</span>
+                  </div>
+                ) : (
+                  displayedProducts.map((item) => (
+                    <div key={item.id} className="w-1/2 sm:w-1/3">
+                      <ProductCard item={item} />
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>

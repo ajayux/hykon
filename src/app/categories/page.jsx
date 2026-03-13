@@ -300,6 +300,7 @@ export default async function CategoriesPage() {
 
   const {
     heroSection,
+    filterItems,
     categoriesSection,
     featuresSection,
     tryNowSection,
@@ -309,7 +310,7 @@ export default async function CategoriesPage() {
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug="Product Category" />
-      {categoriesSection && <CategoriesSection data={categoriesSection} />}
+      {categoriesSection && <CategoriesSection data={categoriesSection} filterData = {filterItems} />}
       {featuresSection && <CategoriesFeaturedProducts data={featuresSection} />}
       {tryNowSection && <CategoriesTryNow data={tryNowSection} />}
     </>

@@ -5,6 +5,10 @@ import Link from "next/link";
 import parse from "html-react-parser";
 
 export default function ProductCard({ item }) {
+
+
+    console.log("product items: ", item)
+
     return (
         <div className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-8 transition-all duration-500">
             <div className="w-full aspect-10/8 overflow-hidden mb-2 xl:mb-5 3xl:mb-6">
@@ -29,7 +33,7 @@ export default function ProductCard({ item }) {
                     size="none"
                     className="text-[10px] xl:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-tight line-clamp-4 font-normal text-white mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7"
                 >
-                    {parse(item?.description)}
+                    {parse(item?.description? item?.description : "test")}
                 </Text>
                 <div>
                     <Button

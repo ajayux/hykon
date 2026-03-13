@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { API_URL } from "@/lib/api/client";
 
 export default function BlogsListing({ data }) {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -27,9 +28,11 @@ export default function BlogsListing({ data }) {
     setIsLoading(true);
     if (!isAppend) setItems([]);
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const baseUrl = `${API_URL}/blogs`;
       const res = await fetch(
-        `${baseUrl}/api/blogs?category=${category}&page=${page}`,
+        activeFilter === "all"?
+        `${baseUrl}?page=${page}`:
+        `${baseUrl}?category=${category}&page=${page}`,
       );
       if (res.ok) {
         const response = await res.json();
@@ -89,7 +92,7 @@ export default function BlogsListing({ data }) {
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  <SelectItem value="all" className="block text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">Category</SelectItem>
+                  {/* <SelectItem value="all" className="block text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">Category</SelectItem> */}
                   {data?.filters?.map((item) => (
                     <SelectItem key={item?.id} value={item?.slug} className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">
                       {item?.title}
