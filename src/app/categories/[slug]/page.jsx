@@ -190,7 +190,7 @@ const localData = {
   },
   metaTags: {
     id: 13,
-    meta_title: "Category",
+    meta_title: "Category detail",
     meta_description: null,
     meta_keywords: null,
     other_meta_tags: null,
