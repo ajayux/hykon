@@ -52,7 +52,7 @@ export default function BlogRelatedBlogs({ data }) {
               </Heading>
             </div>
           </div>
-          <div className="w-full sm:w-[100px] xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
+          <div className="w-full lg:w-[100px] xl:w-[115px] 2xl:w-[137px] 3xl:w-[167px]">
             <Button
               size="lg"
               variant="outline"
