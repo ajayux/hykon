@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 
-export default function BreadcrumbInfo({ slug, className }) {
+export default function BreadcrumbInfo({ slug, className, page }) {
   return (
     <section
       className={cn(
@@ -25,6 +25,16 @@ export default function BreadcrumbInfo({ slug, className }) {
             <BreadcrumbSeparator>
               <div className="w-1 xl:w-1.5 aspect-square bg-[#008dd2] rounded-full" />
             </BreadcrumbSeparator>
+            {page && (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/${page?.link}`}>{page?.label}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <div className="w-1 xl:w-1.5 aspect-square bg-[#008dd2] rounded-full" />
+                </BreadcrumbSeparator>
+              </>
+            )}
             {slug && (
               <BreadcrumbItem>
                 <BreadcrumbPage className={"capitalize"}>{slug}</BreadcrumbPage>

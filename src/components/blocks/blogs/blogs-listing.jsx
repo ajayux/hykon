@@ -24,7 +24,7 @@ export default function BlogsListing({ data }) {
   const [pagination, setPagination] = useState(data?.pagination ?? {});
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchBlogs = useCallback(async (category, page, isAppend = false) => {
+  const fetchBlogs = useCallback(async (activeFilter, page, isAppend = false) => {
     setIsLoading(true);
     if (!isAppend) setItems([]);
     try {
@@ -32,7 +32,7 @@ export default function BlogsListing({ data }) {
       const res = await fetch(
         activeFilter === "all"?
         `${baseUrl}?page=${page}`:
-        `${baseUrl}?category=${category}&page=${page}`,
+        `${baseUrl}?category=${activeFilter}&page=${page}`,
       );
       if (res.ok) {
         const response = await res.json();
@@ -50,7 +50,7 @@ export default function BlogsListing({ data }) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [activeFilter]);
 
   const handleFilterChange = (value) => {
     setActiveFilter(value);

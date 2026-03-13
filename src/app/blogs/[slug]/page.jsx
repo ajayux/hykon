@@ -27,16 +27,15 @@ const localData = {
       gallery: [
         {
           path: "/images/blog-detail-img-1.jpg",
-          alt: "Electric Auto Unit Inauguration"
+          alt: "Electric Auto Unit Inauguration",
         },
         {
           path: "/images/blog-detail-img-2.jpg",
-          alt: "Electric Auto Unit Inauguration"
-        }
-      ]
+          alt: "Electric Auto Unit Inauguration",
+        },
+      ],
     },
-    description:
-      `<p>Hykon India ltd, manufacturing unit 5 , for making electric auto-rickshaw was inaugurated by Sri EP Jayarajan , Minister of Sports, industry and Youth affairs of Kerala. Ribbon cutting and unveiling of plaque, also was done by EP Jayarajan. The function was preceded by Sri Denny Varghese, Grama Panchayat President, Kodashery.</p>
+    description: `<p>Hykon India ltd, manufacturing unit 5 , for making electric auto-rickshaw was inaugurated by Sri EP Jayarajan , Minister of Sports, industry and Youth affairs of Kerala. Ribbon cutting and unveiling of plaque, also was done by EP Jayarajan. The function was preceded by Sri Denny Varghese, Grama Panchayat President, Kodashery.</p>
       <p>Key note address was given by Sri Christo George, Chairman and managing director of Hykon India Company. Special address was delivered by Sri Santhosh Koshy Thomas, Managing Director of KINFRA and Dr VM Xavier, President of Thrissur Management Association. Felication was delivered by Smt Leena Davis Vice President, block Panchayat Chalakudy; Sri Jenish P Jose, District Panchayat Member, Athirapilly division Deepa Poly, Ward member of Kodashery Panchayat; Sri Adv. Lijo John, Block Panchayat Member Chalakudy</p>
       <p>The function was well attended by people from all walks of life. It was conducted in accordance with full vivid protocol. Welcome speech was given by Sri George Christo, Director of Hykon India ltd. and vote of thanks was delivered by Sri R Harikumar, Chief Operating Officer at Hykon India ltd.</P><br>
       <h3>How EVs Harness Lithium-Ion Technology</h3>
@@ -59,8 +58,7 @@ const localData = {
       </ul>
       <p>In places where power cuts happen often — or in modern homes where steady energy is a must — lithium-ion is becoming the clear choice. Looking for the best inverter in India with an inbuilt lithium-ion battery? Halo from Hykon will be the No. 1 choice for you.</p>
       `,
-    text:
-    `<p>Hykon India ltd, manufacturing unit 5 , for making electric auto-rickshaw was inaugurated by Sri EP Jayarajan , Minister of Sports, industry and Youth affairs of Kerala. Ribbon cutting and unveiling of plaque, also was done by EP Jayarajan. The function was preceded by Sri Denny Varghese, Grama Panchayat President, Kodashery.</p>
+    text: `<p>Hykon India ltd, manufacturing unit 5 , for making electric auto-rickshaw was inaugurated by Sri EP Jayarajan , Minister of Sports, industry and Youth affairs of Kerala. Ribbon cutting and unveiling of plaque, also was done by EP Jayarajan. The function was preceded by Sri Denny Varghese, Grama Panchayat President, Kodashery.</p>
       <p>Key note address was given by Sri Christo George, Chairman and managing director of Hykon India Company. Special address was delivered by Sri Santhosh Koshy Thomas, Managing Director of KINFRA and Dr VM Xavier, President of Thrissur Management Association. Felication was delivered by Smt Leena Davis Vice President, block Panchayat Chalakudy; Sri Jenish P Jose, District Panchayat Member, Athirapilly division Deepa Poly, Ward member of Kodashery Panchayat; Sri Adv. Lijo John, Block Panchayat Member Chalakudy</p>
       <p>The function was well attended by people from all walks of life. It was conducted in accordance with full vivid protocol. Welcome speech was given by Sri George Christo, Director of Hykon India ltd. and vote of thanks was delivered by Sri R Harikumar, Chief Operating Officer at Hykon India ltd.</p>
     `,
@@ -73,19 +71,21 @@ const localData = {
       alt: "Key Benefits",
       path: "/images/key-benefits.jpg",
     },
-    
+
     items: [
-  { icon: "/images/blogdetails-benefits-1.png", title: "Vast Experience" },
-  { icon: "/images/blogdetails-benefits-2.png", title: "Quality Solutions" },
-  { icon: "/images/blogdetails-benefits-3.png", title: "Reliable Service" },
-  { icon: "/images/blogdetails-benefits-4.png", title: "Diverse Clients" },
-  ],
+      { icon: "/images/blogdetails-benefits-1.png", title: "Vast Experience" },
+      {
+        icon: "/images/blogdetails-benefits-2.png",
+        title: "Quality Solutions",
+      },
+      { icon: "/images/blogdetails-benefits-3.png", title: "Reliable Service" },
+      { icon: "/images/blogdetails-benefits-4.png", title: "Diverse Clients" },
+    ],
   },
   relatedBlogs: [
     {
       id: 1,
-      title:
-        "Empowering a Greener Tomorrow!",
+      title: "Empowering a Greener Tomorrow!",
       slug: "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric auto-rickshaws to the Gandhi Smaraka Grama Seva Kendram located in S L Puram, Alappuzha",
       publishDay: "12",
       publishMonthYear: "June 2025",
@@ -99,8 +99,7 @@ const localData = {
     },
     {
       id: 2,
-      title:
-        "Solar Division to Partner with State Government ..",
+      title: "Solar Division to Partner with State Government ..",
       slug: "On the auspicious occasion of Gandhi Jayanti, Hykon India Ltd. proudly donated 2 brand new electric",
       publishDay: "25",
       publishMonthYear: "June 2025",
@@ -114,8 +113,7 @@ const localData = {
     },
     {
       id: 3,
-      title:
-        "Solar Division to Partner with State Government ..",
+      title: "Solar Division to Partner with State Government ..",
       slug: "still-using-a-tubular-battery-make-the-switch-to-lithium-for-better-efficiency",
       publishDay: "25",
       publishMonthYear: "June 2025",
@@ -166,23 +164,53 @@ const localData = {
   },
 };
 
+export default async function BlogDetailPage({ params }) {
+  const { slug } = await params;
 
-export default async function BlogDetailPage({ data = localData }) {
-  const { heroSection, news, keyBenifits, relatedBlogs } = data;
+  let data = null;
+
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const res = await fetch(`${baseUrl}/api/blog/${slug}`, {
+      next: { revalidate: 60 }, // Cache for 60 seconds
+    });
+
+    if (res.ok) {
+      const response = await res.json();
+      data = response.data;
+    }
+
+  } catch (error) {
+    console.error("Error fetching home data:", error);
+  }
+
+  if (!data) {
+    notFound();
+  }
+
+  const { heroSection, blog, keyBenifits, relatedBlogs } = data;
+
+
+  const page = {
+    link: "blogs",
+    label: "Blog",
+  }
 
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
-      <BreadcrumbInfo slug={`${news?.title}`} />
-      {news && <BlogDetailSection data={news} />}
+      <BreadcrumbInfo page={page} slug={`${blog?.title}`} />
+      {blog && <BlogDetailSection data={blog} />}
       {keyBenifits && <BlogKeyBenefits data={keyBenifits} />}
-      {relatedBlogs && (<BlogRelatedBlogs data={{
-      title: "Related Blogs",
-      description: "",
-      items: relatedBlogs,
-    }}
-  />
-)}
+      {relatedBlogs && (
+        <BlogRelatedBlogs
+          data={{
+            title: "Related Blogs",
+            description: "",
+            items: relatedBlogs,
+          }}
+        />
+      )}
     </>
   );
 }
