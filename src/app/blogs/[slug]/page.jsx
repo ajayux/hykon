@@ -171,9 +171,7 @@ export default async function BlogDetailPage({ params }) {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/blog/${slug}`, {
-      next: { revalidate: 60 }, // Cache for 60 seconds
-    });
+    const res = await fetch(`${baseUrl}/api/blog/${slug}`);
 
     if (res.ok) {
       const response = await res.json();
