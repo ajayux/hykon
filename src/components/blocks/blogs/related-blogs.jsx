@@ -60,7 +60,7 @@ export default function BlogRelatedBlogs({ data }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between font-medium pl-4 xl:pl-7"
               asChild
             >
-              <Link href={"/news"}>
+              <Link href={"/blogs"}>
                 View All
                 <div className="w-5 xl:w-6 2xl:w-7 3xl:w-9 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
