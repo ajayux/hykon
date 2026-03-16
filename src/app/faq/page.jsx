@@ -2,6 +2,12 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import FaqListing from "@/components/blocks/faq/faq-listing";
 import { notFound } from "next/navigation";
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("faq");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function faqPage() {
   let faqData = null;

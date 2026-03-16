@@ -10,6 +10,8 @@ import HomeNews from "@/components/blocks/home/home-news";
 import HomePromotions from "@/components/blocks/home/home-promotions";
 import HomeBlogs from "@/components/blocks/home/home-blogs";
 import HomeProducts from "@/components/blocks/home/home-products";
+import { apiClient } from "@/lib/api/client";
+import { getMetaData } from "@/lib/api/metaApi";
 
 // Lazy load below-the-fold components for better performance
 // const HomePortfolio = dynamic(
@@ -31,23 +33,29 @@ import HomeProducts from "@/components/blocks/home/home-products";
 //   },
 // );
 
-export const metadata = {
-  title: "HYKON - Home",
-  description:
-    "HYKON - Modern Next.js boilerplate with animations and UI components",
-};
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("home");
+
+  return {
+    title,
+    description,
+    keywords,
+    twitter,
+    openGraph,
+    alternates,
+    other,
+  };
+}
+
 
 export default async function HomePage() {
   let homeData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/home`);
-
-    if (res.ok) {
-      const response = await res.json();
-      homeData = response.data;
-    }
+    const response = await apiClient("/home");
+    homeData = response.data;
   } catch (error) {
     console.error("Error fetching home data:", error);
   }
@@ -61,7 +69,7 @@ export default async function HomePage() {
     categoriesSection,
     aboutSection,
     businessSection,
-    productSection,
+    productsSection: productSection,
     powerSection,
     vendorSection,
     newsSection,
@@ -301,13 +309,10 @@ export default async function HomePage() {
       {categoriesSection && <HomeCategories data={categoriesSection} />}
       {aboutSection && <HomeAbout data={aboutSection} />}
       {businessSection && <HomeBusiness data={businessSection} />}
-      {productSection && (
-        <HomeProducts data={productSection} />
+      {productSection && <HomeProducts data={productSection} />}
+      {powerSection && vendorSection && (
+        <HomePowerVendor powerData={powerSection} vendorData={vendorSection} />
       )}
-      {
-        powerSection && vendorSection &&
-      <HomePowerVendor powerData={powerSection} vendorData={vendorSection} />
-      }
       {newsSection && <HomeNews data={newsSection} />}
       {promotionsSection && <HomePromotions data={promotionsSection} />}
       {blogsSection && <HomeBlogs data={blogsSection} />}

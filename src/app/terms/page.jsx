@@ -1,5 +1,12 @@
 import { notFound } from "next/navigation";
 import TermsAndConditions from "@/components/blocks/terms/terms-conditions";
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("terms");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function TermsPage() {
   let termsData = null;

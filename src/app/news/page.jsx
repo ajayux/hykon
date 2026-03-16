@@ -1,12 +1,13 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import NewsListing from "@/components/blocks/news/news-listing";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "News | HYKON",
-  description:
-    "Stay updated with the latest news, events, and announcements from Hykon.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("news");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function NewsPage() {
   let newsData = null;

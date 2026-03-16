@@ -2,12 +2,13 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import InvestorReports from "@/components/blocks/investor/investor-reports";
 import { notFound } from "next/navigation";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Investor Relations | HYKON",
-  description:
-    "Stay updated with Hykon's financial reports and investor relations.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("investor-relations");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function InvestorRelationsPage() {
   let investorData = null;

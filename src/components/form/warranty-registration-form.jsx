@@ -42,7 +42,7 @@ const formSchema = z
     email: commonValidations.email,
     category: commonValidations.dropDown("Category"),
     product: commonValidations.dropDown("Product"),
-    productVariant: commonValidations.dropDown("Product Variant"),
+    productVariant: commonValidations.optionalDropdown,
     serialNumber: commonValidations.requiredString("Serial Number"),
     invoiceDate: z.string().min(1, "Invoice Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
     invoiceNumber: commonValidations.requiredString("Invoice Number"),

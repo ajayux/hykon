@@ -12,11 +12,12 @@ import AboutAwards from "@/components/blocks/about/about-awards";
 import AboutPresence from "@/components/blocks/about/about-presence";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 
-export const metadata = {
-  title: "About Us | HYKON",
-  description:
-    "Learn more about Hykon India, our mission, vision, and our journey in sustainable energy.",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("about");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function AboutPage() {
   let aboutData = null;

@@ -458,7 +458,7 @@ pdfUpload: (fieldName) =>
     ),
 
   dropDown: (val) => z.string().min(1, `${val} is required`),
-
+  optionalDropdown: z.string().optional(),
   coverLetter: z
     .string()
     .optional()

@@ -12,7 +12,7 @@ import Providers from "./providers";
 export const metadata = {
   title: {
     default: "HYKON",
-    template: "%s | HYKON",
+    template: "%s",
   },
   description: "Modern Next.js boilerplate with animations and UI components.",
   keywords: ["nextjs", "react", "tailwind", "boilerplate", "framer-motion"],

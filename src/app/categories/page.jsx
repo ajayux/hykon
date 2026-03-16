@@ -3,12 +3,13 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import CategoriesSection from "@/components/blocks/categories/categories-section";
 import CategoriesFeaturedProducts from "@/components/blocks/categories/categories-featured-products";
 import CategoriesTryNow from "@/components/blocks/categories/categories-try-now";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Product Categories | HYKON",
-  description:
-    "Browse our wide range of power solutions for homes, industries, and EV ecosystems.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("category");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   heroSection: {

@@ -4,11 +4,13 @@ import ServiceNetwork from "@/components/blocks/contact/service-network";
 import MapSection from "@/components/blocks/contact/map-section";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import { notFound } from "next/navigation";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Contact | HYKON",
-  description: "Join our team and build your future with Hykon.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("contact");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function ContactPage() {
   let contactData = null;
