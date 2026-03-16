@@ -11,6 +11,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import dynamic from "next/dynamic";
 import parse from "html-react-parser";
 import ProductCard from "@/components/common/product-card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MediaQuery = dynamic(() => import("react-responsive"), {
   ssr: false,
@@ -180,9 +181,13 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
             <div className="w-full bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-12.5 2xl:py-15 3xl:py-[75px] ">
               <div className="flex flex-wrap relative min-h-[200px]">
                 {isLoading ? (
-                  <div className="w-full flex items-center justify-center py-10">
-                    <span className="text-white text-sm animate-pulse">Loading...</span>
-                  </div>
+                  <>
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="w-1/2 sm:w-1/3">
+                        <ProductCardSkeleton />
+                      </div>
+                    ))}
+                  </>
                 ) : fetchError ? (
                   <div className="w-full flex items-center justify-center py-10">
                     <span className="text-white/60 text-sm">{fetchError}</span>
@@ -203,6 +208,19 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ProductCardSkeleton() {
+  return (
+    <div className="w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-8 animate-pulse">
+      <Skeleton className="w-full aspect-10/8 bg-white/10 mb-2 xl:mb-5 3xl:mb-6" />
+      <Skeleton className="w-3/4 h-5 bg-white/10 mb-2 xl:mb-3 2xl:mb-5 3xl:mb-6" />
+      <Skeleton className="w-full h-3 bg-white/5 mb-1" />
+      <Skeleton className="w-full h-3 bg-white/5 mb-1" />
+      <Skeleton className="w-2/3 h-3 bg-white/5 mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7" />
+      <Skeleton className="w-24 h-4 bg-white/10 rounded-full" />
     </div>
   );
 }

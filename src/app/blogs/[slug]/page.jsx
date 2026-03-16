@@ -199,7 +199,7 @@ export default async function BlogDetailPage({ params }) {
       {heroSection && <InnerHero data={heroSection} />}
       <BreadcrumbInfo page={page} slug={`${blog?.title}`} />
       {blog && <BlogDetailSection data={blog} />}
-      {keyBenifits && <BlogKeyBenefits data={keyBenifits} />}
+      {keyBenifits?.items?.length>0 && <BlogKeyBenefits data={keyBenifits} />}
       {relatedBlogs && (
         <BlogRelatedBlogs
           data={{

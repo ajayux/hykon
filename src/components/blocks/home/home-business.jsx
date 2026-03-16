@@ -42,7 +42,7 @@ export default function HomeBusiness({ data }) {
                 size="h3"
                 className="text-medium text-white mb-2 xl:mb-8 3xl:mb-12"
               >
-                {parse(data?.title)}
+                {parse(data?.description)}
               </Heading>
               <Button
                 size="lg"
