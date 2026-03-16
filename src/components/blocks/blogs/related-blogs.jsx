@@ -52,14 +52,14 @@ export default function BlogRelatedBlogs({ data }) {
               </Heading>
             </div>
           </div>
-          <div className="w-full sm:w-[100px] xl:w-[124px] 2xl:w-[150px] 3xl:w-[187px]">
+          <div className="w-full lg:w-[100px] xl:w-[115px] 2xl:w-[137px] 3xl:w-[167px]">
             <Button
               size="lg"
               variant="outline"
               className="text-white min-w-[100px] lg:min-w-full justify-between font-medium pl-4 xl:pl-7"
               asChild
             >
-              <Link href={"/news"}>
+              <Link href={"/blogs"}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image

@@ -197,7 +197,7 @@ const localData = {
   },
 };
 
-export default async function categoriesDetailsPage() {
+export default async function categoriesDetailPage() {
   //   let productsData = null;
 
   //   try {
