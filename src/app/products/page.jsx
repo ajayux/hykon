@@ -1,5 +1,6 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
+import ProductListing from "@/components/blocks/products/product-listing";
 
 export const metadata = {
   title: "Product Categories | HYKON",
@@ -131,8 +132,8 @@ export default async function ProductsPage() {
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="Product Category" />
-      {/* {productsData && <ProductsSection data={productSection} />} */}
+      <BreadcrumbInfo slug="Product Category/Solar Water Heater/ Jupiter Series" />
+      {productsData && <ProductListing data={productSection} />}
     </>
   );
 }
