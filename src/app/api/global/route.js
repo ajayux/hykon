@@ -112,7 +112,7 @@ export async function GET(request) {
         id: 6,
         hasSubmenu: false,
         name: "Career",
-        slug: "/career",
+        slug: "/careers",
       },
       {
         id: 7,
@@ -229,7 +229,7 @@ export async function GET(request) {
           {
             id: 9,
             label: "Career",
-            slug: "/career",
+            slug: "/careers",
           },
           {
             id: 10,
