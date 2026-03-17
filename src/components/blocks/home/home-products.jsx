@@ -134,7 +134,7 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
             </div>
           </MediaQuery>
           <div className={cn("w-full lg:flex-1 max-sm:pr-4")}>
-            <div className="w-full bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-12.5 2xl:py-15 3xl:py-[75px] ">
+            <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-12.5 2xl:py-15 3xl:py-[75px] ">
               <div className="flex flex-wrap">
                 {sectionData?.productsItems?.map((item) => (
                   <div key={item.id} className="w-1/2 sm:w-1/3">

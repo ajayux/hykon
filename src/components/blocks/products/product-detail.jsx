@@ -327,20 +327,20 @@ export default function ProductDetail({ data }) {
                   {data?.variants?.items?.map((variant) => (
                     <div
                       key={variant?.id}
-                      className="w-1/3 min-[420px]:w-1/4 lg:w-1/5"
+                      className="w-[100px] sm:w-[140px] lg:w-1/5"
                     >
                       <Button
                         size="none"
                         variant="none"
                         className={cn(
-                          "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                          "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
                           !variant?.isAvailable &&
                             "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                           data?.slug === variant?.slug &&
                             "border-white/60 text-white pointer-events-none",
                         )}
                       >
-                        {variant?.name}
+                        <span className="truncate">{variant?.name}</span>
                       </Button>
                     </div>
                   ))}
