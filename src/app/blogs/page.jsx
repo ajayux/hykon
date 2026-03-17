@@ -23,14 +23,12 @@ const localData = {
   },
 };
 
-export default async function BlogsPage({ data = localData }) {
+export default async function BlogsPage() {
   let blogsData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/blogs`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/blogs`);
 
     if (res.ok) {
       const response = await res.json();

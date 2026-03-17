@@ -77,7 +77,7 @@ export default async function HomePage() {
     categoriesSection,
     aboutSection,
     businessSection,
-    productsSection: productSection,
+    productSection,
     powerSection,
     vendorSection,
     newsSection,
@@ -93,7 +93,9 @@ export default async function HomePage() {
       {categoriesSection && <HomeCategories data={categoriesSection} />}
       {aboutSection && <HomeAbout data={aboutSection} />}
       {businessSection && <HomeBusiness data={businessSection} />}
-      {productSection && <HomeProducts data={productSection} />}
+      {productSection &&
+      <HomeProducts data={productSection} />
+       }
       {powerSection && vendorSection && (
         <HomePowerVendor powerData={powerSection} vendorData={vendorSection} />
       )}
