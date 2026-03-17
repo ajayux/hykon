@@ -12,10 +12,10 @@ export default function MapSection({ data }) {
         >
           {data?.title}
         </Heading>
-        {data?.map_iframe && (
+        {data?.mapIframe && (
           <div className="w-full aspect-9/7 lg:aspect-[154/46] bg-black rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] overflow-hidden">
             <div className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full border-none">
-              {parse(data?.map_iframe || "")}
+              {parse(data?.mapIframe || "")}
             </div>
           </div>
         )}
