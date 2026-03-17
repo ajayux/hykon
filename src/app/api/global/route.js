@@ -93,8 +93,8 @@ export async function GET(request) {
       {
         id: 3,
         hasSubmenu: true,
-        name: "Projects",
-        slug: "/projects",
+        name: "Contact",
+        slug: "/contact",
       },
       {
         id: 4,

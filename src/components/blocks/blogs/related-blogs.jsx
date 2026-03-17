@@ -12,7 +12,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import BlogsCard from "@/components/common/blogs-card";
 
-export default function BlogRelatedBlogs({ data }) {
+export default function BlogRelatedBlogs({ data, variant="blogs" }) {
   const items = data?.items || [];
   const [loading, setLoading] = useState(false);
   // const [activeFilter, setActiveFilter] = useState("All");
@@ -59,7 +59,7 @@ export default function BlogRelatedBlogs({ data }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between font-medium pl-4 xl:pl-7"
               asChild
             >
-              <Link href={"/blogs"}>
+              <Link href={ variant === "blogs" ? '/blogs' : "/news"}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
@@ -93,7 +93,7 @@ export default function BlogRelatedBlogs({ data }) {
                       "flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
                     )}
                   >
-                    <BlogsCard isLoading={loading} item={item} />
+                    <BlogsCard isLoading={loading} item={item} variant = {variant} />
                   </div>
                 ))}
               </div>
@@ -107,7 +107,9 @@ export default function BlogRelatedBlogs({ data }) {
           )}
         </div>
 
-        <div className="flex justify-center gap-4 xl:gap-6 2xl:gap-6 3xl:gap-7 mt-8 lg:mt-10 2xl:mt-15 3xl:mt-20">
+{
+  items.length > 3 && (
+    <div className="flex justify-center gap-4 xl:gap-6 2xl:gap-6 3xl:gap-7 mt-8 lg:mt-10 2xl:mt-15 3xl:mt-20">
           <button
             onClick={scrollPrev}
             className="w-8 h-8 xl:w-10 xl:h-10 2xl:w-13.5 2xl:h-13.5 3xl:w-16.25 3xl:h-16.25 flex items-center justify-center rounded-full bg-[#008dd2] hover:border hover:border-white text-white -scale-x-100 transition cursor-pointer"
@@ -134,6 +136,8 @@ export default function BlogRelatedBlogs({ data }) {
             />
           </button>
         </div>
+    )}
+      
       </div>
     </section>
   );
