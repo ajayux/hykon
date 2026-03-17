@@ -10,7 +10,10 @@ import dynamic from "next/dynamic";
 
 const YouTube = dynamic(() => import("react-youtube"), { ssr: false });
 import { useCallback, useEffect, useState } from "react";
-import Fancybox from "@/components/common/fancybox";
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"));
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Video from "yet-another-react-lightbox/plugins/video";
+import "yet-another-react-lightbox/styles.css";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Fade from "embla-carousel-fade";
@@ -57,6 +60,9 @@ export default function ProductDetail({ data }) {
     [emblaMainApi, emblaThumbsApi],
   );
 
+  const [openProduct, setOpenProduct] = useState(false);
+  const [indexProduct, setIndexProduct] = useState(0);
+
   const onSelect = useCallback(() => {
     if (!emblaMainApi || !emblaThumbsApi) return;
     setSelectedIndex(emblaMainApi.selectedScrollSnap());
@@ -73,7 +79,7 @@ export default function ProductDetail({ data }) {
     <section className="w-full h-auto block bg-[#212121] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap items-center gap-x-10 sm:gap-x-15 xl:gap-x-[72px] 2xl:gap-x-[86px] 3xl:gap-x-[105px] mb-6 sm:mb-10 xl:mb-15 2xl:mb-18 3xl:mb-22">
-          <div className="w-full lg:w-[468px] xl:w-[510px] 2xl:w-[620px] 3xl:w-[700px] max-lg:mb-6">
+          <div className="w-full lg:w-[468px] xl:w-[510px] 2xl:w-[620px] 3xl:w-[700px] max-lg:max-w-[420px] max-lg:mb-6">
             <div
               className={cn(
                 "w-full flex flex-wrap max-lg:flex-direction-row-reverse",
@@ -121,27 +127,24 @@ export default function ProductDetail({ data }) {
                 )}
               >
                 <div className="overflow-hidden" ref={emblaMainRef}>
-                  <Fancybox
+                  <div
                     className={cn(
                       "flex touch-pan-y touch-pinch-zoom",
                       GALLERY_STYLES,
                     )}
-                    options={{
-                      Carousel: {
-                        infinite: false,
-                      },
-                    }}
                   >
-                    {data?.media?.map((item) => (
+                    {data?.media?.map((item, index) => (
                       <div
                         key={item?.id}
                         className="flex-[0_0_100%] min-w-0 p-1 xl:p-2.5 2xl:p-3 3xl:p-3.5 block"
+                        onClick={() => {
+                          setIndexProduct(index);
+                          setOpenProduct(true);
+                        }}
                       >
-                        <a
-                          data-fancybox="gallery"
-                          href={item?.url}
+                        <div
                           className={cn(
-                            "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none",
+                            "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none cursor-pointer",
                           )}
                         >
                           {item?.type === "video" ? (
@@ -163,10 +166,41 @@ export default function ProductDetail({ data }) {
                               className="w-full h-full object-cover"
                             />
                           )}
-                        </a>
+                        </div>
                       </div>
                     ))}
-                  </Fancybox>
+
+                    <Lightbox
+                      open={openProduct}
+                      close={() => setOpenProduct(false)}
+                      index={indexProduct}
+                      slides={data?.media?.map((item) =>
+                        item.type === "video"
+                          ? {
+                              type: "video",
+                              width: 1280,
+                              height: 720,
+                              poster: item?.thumbnailUrl,
+                              autoPlay: true,
+                              sources: [
+                                {
+                                  src: item?.url,
+                                  type: "video/mp4",
+                                },
+                              ],
+                            }
+                          : {
+                              src: item?.url,
+                            },
+                      )}
+                      animation={{ fade: 10 }}
+                      controller={{
+                        closeOnPullDown: true,
+                        closeOnBackdropClick: true,
+                      }}
+                      plugins={[Video, Zoom]}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -331,7 +365,7 @@ export default function ProductDetail({ data }) {
                   value={tab?.id}
                   className={cn(
                     "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white dark:data-[state=active]:border-[#008dd2]",
-                    "after:bg-white data-[state=active]:after:bg-[#008dd2] after:opacity-100",
+                    "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] after:opacity-100",
                   )}
                 >
                   {tab?.label}
