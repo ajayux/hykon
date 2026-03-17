@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 
-export default function BreadcrumbInfo({ slug, className, page }) {
+export default function BreadcrumbInfo({ slug, className, variant, page }) {
   return (
     <section
       className={cn(
@@ -16,7 +16,12 @@ export default function BreadcrumbInfo({ slug, className, page }) {
         className,
       )}
     >
-      <div className="container">
+      <div
+        className={cn(
+          "container",
+          variant === "extra-gap" && "lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10",
+        )}
+      >
         <Breadcrumb className="mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5">
           <BreadcrumbList className={"sm:gap-x-3"}>
             <BreadcrumbItem>
