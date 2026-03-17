@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -60,55 +60,63 @@ export default function ServiceNetwork({ data }) {
         <hr className="border-dashed border-white/20 mb-4 lg:mb-6 2xl:mb-8 3xl:mb-10" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 2xl:gap-3.5 3xl:gap-4">
-          {loading
-            ? Array.from({ length: 4 }).map((_, i) => (
-                <div key={i}>
-                  <ServiceSkeleton />
-                </div>
-              ))
-            : items.map((item) => (
-                <div
-                  key={item.id}
-                  className="w-full bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] transition-all hover:bg-[#27333a]"
-                >
-                  <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4 border-b border-white/10">
-                    <Text as="div" size="p0" className="text-white mt-1">
-                      {item.title}
-                    </Text>
+          <Suspense
+            fallback={Array.from({ length: 4 }).map((_, i) => (
+              <div key={i}>
+                <ServiceSkeleton />
+              </div>
+            ))}
+          >
+            {loading
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i}>
+                    <ServiceSkeleton />
                   </div>
-                  <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4">
-                    <Text
-                      as="div"
-                      size="p1"
-                      className="text-white flex gap-3 xl:gap-4 my-2 xl:my-2.5 2xl:my-3 3xl:my-3.5 hover:text-[#008dd2]"
-                    >
-                      <Image
-                        src="/images/icon-contact-call.svg"
-                        alt={item.title || "address"}
-                        width={20}
-                        height={20}
-                        className="w-3 2xl:w-3.5 3xl:w-4 aspect-square object-contain"
-                      />
-                      <a href={`tel:${item?.phone}`}>{item?.phone}</a>
-                    </Text>
+                ))
+              : items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="w-full bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] transition-all hover:bg-[#27333a]"
+                  >
+                    <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4 border-b border-white/10">
+                      <Text as="div" size="p0" className="text-white mt-1">
+                        {item.title}
+                      </Text>
+                    </div>
+                    <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4">
+                      <Text
+                        as="div"
+                        size="p1"
+                        className="text-white flex gap-3 xl:gap-4 my-2 xl:my-2.5 2xl:my-3 3xl:my-3.5 hover:text-[#008dd2]"
+                      >
+                        <Image
+                          src="/images/icon-contact-call.svg"
+                          alt={item.title || "address"}
+                          width={20}
+                          height={20}
+                          className="w-3 2xl:w-3.5 3xl:w-4 aspect-square object-contain"
+                        />
+                        <a href={`tel:${item?.phone}`}>{item?.phone}</a>
+                      </Text>
 
-                    <Text
-                      as="div"
-                      size="p1"
-                      className="text-white flex gap-3 xl:gap-4 my-2 xl:my-2.5 2xl:my-3 3xl:my-3.5 hover:text-[#008dd2]"
-                    >
-                      <Image
-                        src="/images/icon-contact-mail.svg"
-                        alt={item.title || "address"}
-                        width={20}
-                        height={20}
-                        className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
-                      />
-                      <a href={`mailto:${item?.email}`}>{item?.email}</a>
-                    </Text>
+                      <Text
+                        as="div"
+                        size="p1"
+                        className="text-white flex gap-3 xl:gap-4 my-2 xl:my-2.5 2xl:my-3 3xl:my-3.5 hover:text-[#008dd2]"
+                      >
+                        <Image
+                          src="/images/icon-contact-mail.svg"
+                          alt={item.title || "address"}
+                          width={20}
+                          height={20}
+                          className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
+                        />
+                        <a href={`mailto:${item?.email}`}>{item?.email}</a>
+                      </Text>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+          </Suspense>
         </div>
       </div>
     </section>
