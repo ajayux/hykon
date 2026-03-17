@@ -1,6 +1,7 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import CategoriesDetail from "@/components/blocks/categories/categories-detail";
+import ProductDetail from "@/components/blocks/products/product-detail";
 
 export const metadata = {
   title: "Product details | HYKON",
@@ -74,27 +75,43 @@ const localData = {
       stockLabel: "In Stock",
     },
     variants: {
-      isAvailable: true,
       items: [
         {
           id: 1,
           name: "Jupiter 130",
           slug: "jupiter-130",
+          isAvailable: true,
         },
         {
           id: 2,
           name: "Jupiter 200",
           slug: "jupiter-200",
+          isAvailable: true,
+          isAvailable: true,
         },
         {
           id: 3,
           name: "Jupiter 260",
           slug: "jupiter-260",
+          isAvailable: true,
         },
         {
           id: 4,
           name: "Jupiter 340",
           slug: "jupiter-340",
+          isAvailable: true,
+        },
+        {
+          id: 5,
+          name: "Jupiter 340",
+          slug: "jupiter-340",
+          isAvailable: false,
+        },
+        {
+          id: 6,
+          name: "Jupiter 340",
+          slug: "jupiter-340",
+          isAvailable: true,
         },
       ],
     },
@@ -111,7 +128,7 @@ const localData = {
         label: "Specification",
         isDefault: false,
         description:
-          "<h3>General Specification</h3><table><tr><td>Capacity</td><td>200 Litres</td></tr><tr><td>Inner Tank</td><td>Single moulded CFT</td></tr><tr><td>Outer Tank</td><td>Mirror Finish SS430</td></tr><tr><td>Stand</td><td>Aluminium Stand Parts</td></tr><tr><td>Glass Tubes</td><td>58x2100 Evacuated Glass Tubes</td></tr><tr><td>Water Quality</td><td>Suitable for water quality up to 2000PPM</td></tr></table>",
+          "<h5>General Specification</h5><table><tbody><tr><td>Capacity</td><td>200 Litres</td></tr><tr><td>Inner Tank</td><td>Single moulded CFT</td></tr><tr><td>Outer Tank</td><td>Mirror Finish SS430</td></tr><tr><td>Stand</td><td>Aluminium Stand Parts</td></tr><tr><td>Glass Tubes</td><td>58x2100 Evacuated Glass Tubes</td></tr><tr><td>Water Quality</td><td>Suitable for water quality up to 2000PPM</td></tr></tbody></table>",
       },
     ],
     specificationVideo: {
@@ -246,15 +263,13 @@ export default async function productDetailPage() {
 
   const productsData = localData;
 
-  const { heroSection, categoryDetailSection } = productsData;
+  const { heroSection, productDetailSection } = productsData;
 
   return (
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug="Product Category/ Product Listing1" />
-      {categoryDetailSection && (
-        <CategoriesDetail data={categoryDetailSection} />
-      )}
+      {productDetailSection && <ProductDetail data={productDetailSection} />}
     </>
   );
 }

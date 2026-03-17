@@ -93,6 +93,39 @@ const localData = {
             alt: "Inline UPS",
           },
         },
+        {
+          id: 4,
+          title: "Jupiter 250",
+          slug: "jupiter-250",
+          mrp: "56600",
+          price: "50000",
+          media: {
+            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+            alt: "Inline UPS",
+          },
+        },
+        {
+          id: 5,
+          title: "Jupiter 250",
+          slug: "jupiter-250",
+          mrp: "56600",
+          price: "50000",
+          media: {
+            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+            alt: "Inline UPS",
+          },
+        },
+        {
+          id: 6,
+          title: "Jupiter 250",
+          slug: "jupiter-250",
+          mrp: "56600",
+          price: "50000",
+          media: {
+            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+            alt: "Inline UPS",
+          },
+        },
       ],
       pagination: {
         current_page: 1,
