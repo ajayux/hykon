@@ -26,7 +26,7 @@ export default function HeaderSheet({
   const [open, setOpen] = useState(false);
   return (
     <Sheet value={open} onValueChange={setOpen}>
-      <SheetTrigger>
+      <SheetTrigger asChild>
         <Button
           variant="none"
           size="none"

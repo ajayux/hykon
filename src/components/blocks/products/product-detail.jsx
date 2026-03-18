@@ -17,6 +17,7 @@ import "yet-another-react-lightbox/styles.css";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Fade from "embla-carousel-fade";
+import RequestAQuoteDialog from "@/components/common/request-a-quote-dialog";
 
 const opts = {
   width: "320",
@@ -301,23 +302,25 @@ export default function ProductDetail({ data }) {
                   </div>
                 </Button>
 
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5"
-                >
-                  Request a Quote
-                  <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-                    <Image
-                      src={"/images/icon-arrow-right-white.svg"}
-                      alt={"icon-arrow-right-white"}
-                      width={18}
-                      height={13}
-                      className="w-1/2"
-                      unoptimized
-                    />
-                  </span>
-                </Button>
+                <RequestAQuoteDialog>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5"
+                  >
+                    Request a Quote
+                    <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-white.svg"}
+                        alt={"icon-arrow-right-white"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </span>
+                  </Button>
+                </RequestAQuoteDialog>
               </div>
               <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
                 <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">

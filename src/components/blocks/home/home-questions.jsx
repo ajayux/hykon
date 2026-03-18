@@ -3,6 +3,7 @@ import { Heading, Text } from "@/components/utils/typography";
 import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
+import GetInTouchDialog from "@/components/common/get-in-touch-dialog";
 
 export default function HomeQuestions({ data }) {
   return (
@@ -31,15 +32,14 @@ export default function HomeQuestions({ data }) {
             >
               {parse(data?.description)}
             </Text>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-white min-w-[120px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[180px] pl-4 xl:pl-5"
-              asChild
-            >
-              <Link href={data?.button?.link}>
+            <GetInTouchDialog>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-white min-w-[120px] xl:min-w-[125px] 2xl:min-w-[150px] 3xl:min-w-[180px] pl-4 xl:pl-5"
+              >
                 {data?.button?.label}
-                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                   <Image
                     src={"/images/icon-arrow-right-blue.svg"}
                     alt={"icon-arrow-right-blue"}
@@ -48,11 +48,11 @@ export default function HomeQuestions({ data }) {
                     className="w-1/2"
                     unoptimized
                   />
-                </div>
-              </Link>
-            </Button>
+                </span>
+              </Button>
+            </GetInTouchDialog>
           </div>
-          <div className="w-full sm:w-[320px] lg:w-[440px] 2xl:w-[540px] 3xl:w-[680px] ml-auto">
+          <div className="w-full sm:w-[320px] lg:w-[440px] 2xl:w-[540px] 3xl:w-[680px] ml-auto pointer-events-none">
             <div className="w-full h-auto aspect-72/34 block xl:scale-120 lg:translate-y-2 max-lg:-mt-10">
               <Image
                 src={data?.media?.path}
