@@ -129,9 +129,7 @@ export default async function CareersPage() {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/careers`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/careers`);
 
     if (res.ok) {
       const response = await res.json();
