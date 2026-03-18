@@ -87,9 +87,7 @@ export default async function HykonnectPage() {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/hykonnect`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/hykonnect`);
 
     if (res.ok) {
       const response = await res.json();
@@ -99,7 +97,6 @@ export default async function HykonnectPage() {
     console.error("Error fetching factory detail data:", error);
   }
 
-  //   const hykonnectData = localData;
   if (!hykonnectData) {
     notFound();
   }
