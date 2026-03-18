@@ -8,8 +8,14 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import HeaderNavigation from "./header-navigation";
 import HeaderHamburger from "./header-hamburger";
+import HeaderSheet from "./header-sheet";
 
-export default function Header({ data, navigationData }) {
+export default function Header({
+  data,
+  navigationData,
+  socialLinkData,
+  mobileMenuData,
+}) {
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
@@ -29,7 +35,7 @@ export default function Header({ data, navigationData }) {
       animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        "w-full h-(--header-y) z-10 top-0 inset-x-0 flex items-center bg-linear-to-b from-black/20 to-transparent transition-background duration-300 absolute",
+        "w-full h-(--header-y) z-10 top-0 inset-x-0 flex items-center bg-linear-to-b from-black/60 lg:from-black/20 to-transparent transition-background duration-300 absolute",
       )}
     >
       <div className="container">
@@ -48,7 +54,7 @@ export default function Header({ data, navigationData }) {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end lg:justify-end transition gap-x-3 sm:gap-x-4 lg:gap-x-7.5 2xl:gap-x-10 bg-transparent sm:bg-white/75 sm:backdrop-blur-[30px] rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
+          <div className="flex items-center justify-end lg:justify-end transition gap-x-6 lg:gap-x-7.5 2xl:gap-x-10 bg-transparent lg:bg-white/75 lg:backdrop-blur-[30px] lg:rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
             <HeaderNavigation
               className="max-lg:hidden"
               navigationData={navigationData}
@@ -77,10 +83,17 @@ export default function Header({ data, navigationData }) {
               />
             </Button>
 
-            <HeaderHamburger
+            {/* <HeaderHamburger
               setIsOpen={setToggle}
               menuItems={navigationData}
               data={data}
+            /> */}
+
+            <HeaderSheet
+              data={data}
+              socialLinkData={socialLinkData}
+              mobileMenuData={mobileMenuData}
+              navigationData={navigationData}
             />
           </div>
         </div>

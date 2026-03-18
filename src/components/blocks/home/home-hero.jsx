@@ -24,7 +24,7 @@ export default function HomeHero({ data }) {
             <div
               key={item?.id}
               className={cn(
-                "flex-[0_0_100%] min-w-0 lg:h-screen min-h-[576px] sm:min-h-[768px] lg:min-h-[520px] 2xl:min-h-[620px] 3xl:min-h-[768px] select-none",
+                "flex-[0_0_100%] min-w-0 lg:h-screen min-h-[468px] sm:min-h-[576px] lg:min-h-[520px] 2xl:min-h-[620px] 3xl:min-h-[768px] select-none",
               )}
             >
               {item?.mediaType === "video" ? (
@@ -67,21 +67,20 @@ export default function HomeHero({ data }) {
               {data?.contactInfo?.title}
               <br />
               <span className="text-[110%] sm:text-[125%] font-medium">
-                  {data?.contactInfo?.phone}
+                {data?.contactInfo?.phone}
               </span>
             </Text>
           </div>
           <div className="w-6.5 h-6.5 2xl:w-7 2xl:h-7 3xl:w-11 3xl:h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
-                <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
-
-            <Image
-              src={"/images/icon-arrow-right.svg"}
-              alt={"icon-arrow-right"}
-              width={18}
-              height={13}
-              className="w-4"
-              unoptimized
-            />
+            <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
+              <Image
+                src={"/images/icon-arrow-right.svg"}
+                alt={"icon-arrow-right"}
+                width={18}
+                height={13}
+                className="w-4"
+                unoptimized
+              />
             </a>
           </div>
         </div>

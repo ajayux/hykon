@@ -25,6 +25,33 @@ export async function GET(request) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
+
+    mobileMenuData: {
+      locations: [
+        {
+          id: 1,
+          city: "Kochi",
+          slug: "/kochi",
+        },
+        {
+          id: 2,
+          city: "Pune",
+          slug: "/pune",
+        },
+        {
+          id: 3,
+          city: "Thrissur",
+          slug: "/thrissur",
+        },
+        {
+          id: 4,
+          city: "Coimbatore",
+          slug: "/coimbatore",
+        },
+      ],
+      phoneNumber: "+91 123 456 7890",
+      email: "info@company.com",
+    },
     navigationData: [
       {
         id: 1,
@@ -406,31 +433,7 @@ export async function GET(request) {
         link: "/contact",
       },
     },
-    mobile_menu_data: {
-      locations: [
-        {
-          id: "01",
-          city: "Kochi",
-        },
-        {
-          id: "02",
-          city: "Pune",
-        },
-        {
-          id: "03",
-          city: "Thrissur",
-        },
-        {
-          id: "04",
-          city: "Coimbatore",
-        },
-      ],
-      contact_info: {
-        phone: "+91 123 456 7890",
-        email: "info@company.com",
-      },
-    },
-    seo_data: {
+    seoData: {
       siteName: "Hykon",
       siteUrl: "https://hykon.in/",
       defaultTitle: "Hykon - Powering the Nation",

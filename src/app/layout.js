@@ -94,6 +94,7 @@ export default async function RootLayout({ children }) {
     footerData,
     socialLinkData,
     questionsSection,
+    mobileMenuData,
   } = globalData;
 
   const fontVariable = getFontVariable();
@@ -118,22 +119,20 @@ export default async function RootLayout({ children }) {
       <body className={cn("antialiased", fontClassName, fontVariable)}>
         {/* <FloatNavigation /> */}
 
-        <Header data={headerData} navigationData={navigationData} />
+        <Header
+          data={headerData}
+          navigationData={navigationData}
+          socialLinkData={socialLinkData}
+          mobileMenuData={mobileMenuData}
+        />
 
         <main className="min-h-screen">
-          <Providers>
-          {children}
-          </Providers>
-          </main>
+          <Providers>{children}</Providers>
+        </main>
 
         {questionsSection && <HomeQuestions data={questionsSection} />}
 
-        <Toaster
-          position="top-right"
-          richColors
-          closeButton
-          expand
-        />
+        <Toaster position="top-right" richColors closeButton expand />
 
         <Footer footerData={footerData} socialLinkData={socialLinkData} />
       </body>

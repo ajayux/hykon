@@ -143,7 +143,11 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
               <MediaQuery minWidth={1024}>
                 <div className="flex flex-wrap gap-y-4 xl:gap-y-6 2xl:gap-y-7 3xl:gap-y-9">
                   {sectionData?.items?.map((item) => (
-                    <div key={item.id} onClick={() => setActiveItem(item.id)}>
+                    <div
+                      key={item.id}
+                      onClick={() => setActiveItem(item.id)}
+                      className="w-full"
+                    >
                       <CategoryItem
                         item={item}
                         activeItem={activeItem}
@@ -271,7 +275,7 @@ function CategoryItem({ item, activeItem, reversed }) {
               : "opacity-50 lg:opacity-90 group-hover:text-[#008dd2] group-hover:opacity-100",
           )}
         >
-          {item?.title}
+          {parse(item?.title)}
         </Heading>
         <div
           className={cn(
