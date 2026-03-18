@@ -1,4 +1,5 @@
 import { parseOtherMeta } from "../helper";
+import { API_URL } from "./client";
 import { API_BASE_URL, defaultMeta, DefaultOgImage } from "./constants";
 
 const fallback = {
@@ -15,21 +16,23 @@ export async function getMetaData(pageKey) {
   const metaKeywords = pageMeta.keywords;
 
   try {
-    const response = await fetch(`${API_BASE_URL}meta-tags?page=${pageKey}`, {
+    const response = await fetch(`${API_URL}/meta-tags?page=${pageKey}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
 
+    console.log("response", response)
+
     const result = await response.json();
     const meta = result.data;
 
-    console.log("meta dataL ", meta)
+    console.log("meta dataL ", result)
 
-    if (result.status) {
+    if (result.ok) {
       const other = parseOtherMeta(meta?.other_meta_tags || "");
 
       return {
-        title: meta?.meta_title || metaTitle,
+        title: meta?.meta_title,
         description: meta?.meta_description || metaDescription,
         keywords: meta?.meta_keywords || metaKeywords,
         openGraph: {

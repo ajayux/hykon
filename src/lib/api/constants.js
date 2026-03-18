@@ -162,4 +162,4 @@ export const defaultMeta = {
 export const DefaultOgImage = "/images/logo.png";
 
 export const API_BASE_URL =
-  `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/`
+  `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`

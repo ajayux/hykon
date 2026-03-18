@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export default function HomeHero({ data }) {
   const [emblaRef] = useEmblaCarousel(
     {
-      loop: false,
+      loop: true,
       align: "start",
       slidesToScroll: 1,
       containScroll: "trimSnaps",

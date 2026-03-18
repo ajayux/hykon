@@ -30,9 +30,9 @@ export default function ProductQuestions({ data }) {
             <AccordionItem
               key={item?.id}
               value={`item-${item?.id}`}
-              className="rounded-[4px] xl:rounded-[8px] 2xl:rounded-[11px] 3xl:rounded-[14px] bg-[#212121] p-[10px_15px] sm:p-[15px_20px] xl:p-[20px_25px] 2xl:p-[25px_32px] 3xl:p-[32px_40px] mb-[18px] shadow-none border-none"
+              className="rounded-[4px] xl:rounded-[8px] 2xl:rounded-[11px] 3xl:rounded-[14px] bg-[#212121] hover:bg-[#292929] p-[10px_15px] sm:p-[15px_20px] xl:p-[20px_25px] 2xl:p-[25px_32px] 3xl:p-[32px_40px] mb-[18px] shadow-none border-none"
             >
-              <AccordionTrigger className="[&>svg]:hidden group flex items-center justify-between text-[12px] xl:text-[15px] 2xl:text-[19px] 3xl:text-[24px] py-0 font-normal text-white cursor-pointer">
+              <AccordionTrigger className="[&>svg]:hidden group flex items-center justify-between text-[12px] xl:text-[15px] 2xl:text-[19px] 3xl:text-[24px] py-0 font-normal text-white cursor-pointer hover:no-underline">
                 <span>
                   {item?.id}. {item?.question}
                 </span>
