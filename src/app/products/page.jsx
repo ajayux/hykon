@@ -1,12 +1,13 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Product Categories | HYKON",
-  description:
-    "Browse our wide range of power solutions for homes, industries, and EV ecosystems.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("products");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   heroSection: {

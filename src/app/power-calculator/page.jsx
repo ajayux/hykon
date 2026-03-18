@@ -1,10 +1,12 @@
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import PowerCalculation from "@/components/blocks/power-calculator/power-calculation";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Power Calculator | HYKON",
-  description: "",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("power-calculator");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   formSections: {

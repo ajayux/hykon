@@ -1,10 +1,12 @@
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import WarrantyFormInfo from "@/components/blocks/warranty-complaints/warranty-form-info";
 
-export const metadata = {
-  title: "Warranty and complaints | HYKON",
-  description: "",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("warranty-policy");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   formSections: {

@@ -75,10 +75,12 @@ const localData = {
   },
 };
 
-export const metadata = {
-  title: "HyConnect | HYKON",
-  description: "Your Digital Connection to Hykon",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("Hyconnect");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function HykonnectPage() {
   let hykonnectData = null;

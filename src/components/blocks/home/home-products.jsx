@@ -4,12 +4,17 @@ import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 
 import useEmblaCarousel from "embla-carousel-react";
 
 import dynamic from "next/dynamic";
-import ProductCard from "@/components/common/product-card";
+import parse from "html-react-parser";
+const ProductCard = dynamic(() => import("@/components/common/product-card"), {
+  ssr: false,
+  loading: () => <ProductCardSkeleton />,
+});
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MediaQuery = dynamic(() => import("react-responsive"), {
   ssr: false,
@@ -20,12 +25,16 @@ export default function HomeProducts({ data }) {
 
   return (
     <section className="w-full h-auto block bg-black py-6 lg:py-8 xl:py-10 2xl:py-15 3xl:py-20 relative z-0">
-      <ProductBlock sectionData={corporateItems} parentTitle={data?.title} />
-      <ProductBlock
-        sectionData={domesticItems}
-        parentTitle={data?.title}
-        reversed
-      />
+      {corporateItems?.items?.length > 0 && (
+        <ProductBlock sectionData={corporateItems} parentTitle={data?.title} />
+      )}
+      {domesticItems?.items?.length > 0 && (
+        <ProductBlock
+          sectionData={domesticItems}
+          parentTitle={data?.title}
+          reversed
+        />
+      )}
     </section>
   );
 }
@@ -34,6 +43,46 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
   const [activeItem, setActiveItem] = useState(
     sectionData?.items?.[0]?.id || 1,
   );
+
+  const [fetchedProducts, setFetchedProducts] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+
+  const fetchProductsBySlug = useCallback(async (slug) => {
+    if (!slug) return;
+    setIsLoading(true);
+    setFetchError(null);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/home-category-wise-product?category_slug=${slug}`,
+      );
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const json = await res.json();
+      setFetchedProducts(
+        json?.success && Array.isArray(json?.data?.items)
+          ? json.data.items
+          : [],
+      );
+    } catch (err) {
+      setFetchError(err.message || "Something went wrong.");
+      setFetchedProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const activeItemSlug = sectionData?.items?.find(
+    (i) => i.id === activeItem,
+  )?.slug;
+
+  useEffect(() => {
+    if (activeItemSlug) fetchProductsBySlug(activeItemSlug);
+  }, [activeItemSlug, fetchProductsBySlug]);
+
+  const displayedProducts =
+    fetchedProducts !== null
+      ? fetchedProducts
+      : (sectionData?.productsItems ?? []);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
@@ -135,17 +184,64 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
           </MediaQuery>
           <div className={cn("w-full lg:flex-1 max-sm:pr-4")}>
             <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-12.5 2xl:py-15 3xl:py-[75px] ">
-              <div className="flex flex-wrap">
-                {sectionData?.productsItems?.map((item) => (
-                  <div key={item.id} className="w-1/2 sm:w-1/3">
-                    <ProductCard item={item} />
-                  </div>
-                ))}
+              <div className="flex flex-wrap relative min-h-[200px]">
+                <Suspense
+                  fallback={
+                    <>
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <div key={i} className="w-1/2 sm:w-1/3">
+                          <ProductCardSkeleton />
+                        </div>
+                      ))}
+                    </>
+                  }
+                >
+                  {isLoading ? (
+                    <>
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <div key={i} className="w-1/2 sm:w-1/3">
+                          <ProductCardSkeleton />
+                        </div>
+                      ))}
+                    </>
+                  ) : fetchError ? (
+                    <div className="w-full flex items-center justify-center py-10">
+                      <span className="text-white/60 text-sm">
+                        {fetchError}
+                      </span>
+                    </div>
+                  ) : displayedProducts.length === 0 ? (
+                    <div className="w-full flex items-center justify-center py-10">
+                      <span className="text-white/40 text-sm">
+                        No products available.
+                      </span>
+                    </div>
+                  ) : (
+                    displayedProducts.map((item) => (
+                      <div key={item.id} className="w-1/2 sm:w-1/3">
+                        <ProductCard item={item} />
+                      </div>
+                    ))
+                  )}
+                </Suspense>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ProductCardSkeleton() {
+  return (
+    <div className="w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-8 animate-pulse">
+      <Skeleton className="w-full aspect-10/8 bg-white/10 mb-2 xl:mb-5 3xl:mb-6" />
+      <Skeleton className="w-3/4 h-5 bg-white/10 mb-2 xl:mb-3 2xl:mb-5 3xl:mb-6" />
+      <Skeleton className="w-full h-3 bg-white/5 mb-1" />
+      <Skeleton className="w-full h-3 bg-white/5 mb-1" />
+      <Skeleton className="w-2/3 h-3 bg-white/5 mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7" />
+      <Skeleton className="w-24 h-4 bg-white/10 rounded-full" />
     </div>
   );
 }
@@ -195,7 +291,7 @@ function CategoryItem({ item, activeItem, reversed }) {
                 : "lg:translate-y-full lg:opacity-50",
             )}
           >
-            {item?.description}
+            {parse(item?.description)}
           </Text>
         </div>
         <div

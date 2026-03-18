@@ -2,6 +2,12 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import BlogsListing from "@/components/blocks/blogs/blogs-listing";
 import { notFound } from "next/navigation";
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("blogs");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   title: "Blog",
@@ -17,14 +23,12 @@ const localData = {
   },
 };
 
-export default async function BlogsPage({ data = localData }) {
+export default async function BlogsPage() {
   let blogsData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/blogs`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/blogs`);
 
     if (res.ok) {
       const response = await res.json();

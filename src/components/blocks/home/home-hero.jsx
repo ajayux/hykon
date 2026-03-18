@@ -33,6 +33,7 @@ export default function HomeHero({ data }) {
                   autoPlay
                   muted
                   loop
+                  poster={item?.media?.poster ?? "/images/placeholder.jpg"}
                   playsInline
                   className="w-full h-full object-cover pointer-events-none"
                 />
@@ -66,13 +67,13 @@ export default function HomeHero({ data }) {
               {data?.contactInfo?.title}
               <br />
               <span className="text-[110%] sm:text-[125%] font-medium">
-                <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
                   {data?.contactInfo?.phone}
-                </a>
               </span>
             </Text>
           </div>
           <div className="w-6.5 h-6.5 2xl:w-7 2xl:h-7 3xl:w-11 3xl:h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
+                <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
+
             <Image
               src={"/images/icon-arrow-right.svg"}
               alt={"icon-arrow-right"}
@@ -81,6 +82,7 @@ export default function HomeHero({ data }) {
               className="w-4"
               unoptimized
             />
+            </a>
           </div>
         </div>
       </div>

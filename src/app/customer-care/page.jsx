@@ -4,11 +4,12 @@ import CustomerCareDetails from "@/components/blocks/customer-care/customer-care
 import CustomerCareForm from "@/components/blocks/customer-care/customer-care-form";
 import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: "Customer Care | HYKON",
-  description:
-    "Stay updated with Hykon's financial reports and investor relations.",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("Customer-Care");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   heroSection: {

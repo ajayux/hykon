@@ -14,7 +14,7 @@ import BlogRelatedBlogs from "@/components/blocks/blogs/related-blogs";
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const { slug, lang } = resolvedParams;
-  const { data, error } = await getMetaData(`blog-details?slug=${slug}`, lang);
+  const { data, error } = await getMetaData(`news-details?slug=${slug}`, lang);
 
   if (!data || error) {
     return {
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }) {
     },
 
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${lang}/blog/${slug}`,
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${lang}/news/${slug}`,
     },
   };
 }
@@ -76,12 +76,14 @@ export default async function BlogDetailPage({ params }) {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/blog/${slug}`);
+    const res = await fetch(`${baseUrl}/api/news/${slug}`);
 
     if (res.ok) {
       const response = await res.json();
       data = response.data;
     }
+
+    console.log("newsData : ",data)
 
   } catch (error) {
     console.error("Error fetching home data:", error);
@@ -91,27 +93,28 @@ export default async function BlogDetailPage({ params }) {
     notFound();
   }
 
-  const { heroSection, blog, keyBenifits, relatedBlogs } = data;
+  const { heroSection, news, keyBenifits, relatedNews } = data;
 
 
   const page = {
-    link: "blogs",
-    label: "Blogs",
+    link: "news",
+    label: "News",
   }
 
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
-      <BreadcrumbInfo page={page} slug={`${blog?.title}`} />
-      {blog && <BlogDetailSection data={blog} />}
+      <BreadcrumbInfo page={page} slug={`${news?.title}`} />
+      {news && <BlogDetailSection data={news} />}
       {keyBenifits?.items?.length>0 && <BlogKeyBenefits data={keyBenifits} />}
-      {relatedBlogs && (
+      {relatedNews && (
         <BlogRelatedBlogs
           data={{
-            title: "Related Blogs",
+            title: "Related News",
             description: "",
-            items: relatedBlogs,
+            items: relatedNews,
           }}
+          variant = "news"
         />
       )}
     </>

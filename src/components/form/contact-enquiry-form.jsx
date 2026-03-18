@@ -30,15 +30,20 @@ import {
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
 import FormSubmitResponse from "../common/form-submitted-success";
+import { commonValidations } from "@/lib/validtions";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api/client";
+import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
-  fullName: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Invalid email address"),
-  productCategory: z.string().min(1, "Product category is required"),
-  requirement: z.string().min(1, "Requirement is required"),
-  attachment: z.any().optional(),
-  message: z.string().optional(),
+  fullName: commonValidations.name("Name"),
+  phone: commonValidations.phone("Phone Number"),
+  email: commonValidations.email,
+  productCategory: commonValidations.dropDown("Product Category"),
+  requirement: commonValidations.dropDown("Requirement"),
+  attachment: commonValidations.file("pdf"),
+  message: commonValidations.message,
 });
 
 const inputClasses =
@@ -47,9 +52,15 @@ const errorClass =
   "text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
 export function ContactEnquiryForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ["product-categories-contact"],
+    queryFn: () => apiClient("/get-product-category").then((r) => r.data),
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -79,16 +90,22 @@ export function ContactEnquiryForm() {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const recaptchaToken = await executeRecaptcha("contact_enquiry");
       const formData = new FormData();
-      formData.append("fullName", data.fullName);
+      formData.append("name", data.fullName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
-      formData.append("productCategory", data.productCategory || "");
+      formData.append("product_category_id", data.productCategory || "");
       formData.append("requirement", data.requirement || "");
-      formData.append("attachment", data.attachment);
+      formData.append("file", data.attachment);
       formData.append("message", data.message || "");
+      formData.append("recaptcha_token", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/contact-enquiry`, {
@@ -98,13 +115,16 @@ export function ContactEnquiryForm() {
 
       if (!res.ok) {
         throw new Error("Failed to submit enquiry");
+        toast.error("Failed to submit enquiry")
       }
 
       setIsSuccess(true);
+      toast.success("Enquiry submitted successfully")
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
+      toast.error("Failed to submit enquiry")
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
@@ -208,7 +228,7 @@ export function ContactEnquiryForm() {
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                disabled={isSubmitting}
+                disabled={isSubmitting || categoriesLoading}
               >
                 <SelectTrigger
                   className={cn(
@@ -220,24 +240,11 @@ export function ContactEnquiryForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-white">
                   <SelectGroup>
-                    <SelectItem value="Solar Water Heater">
-                      Solar Water Heater
-                    </SelectItem>
-                    <SelectItem value="SST">SST</SelectItem>
-                    <SelectItem value="Inverter Battery">
-                      Inverter Battery
-                    </SelectItem>
-                    <SelectItem value="Lithium Battery">
-                      Lithium Battery
-                    </SelectItem>
-                    <SelectItem value="Electric Vehicle">
-                      Electric Vehicle
-                    </SelectItem>
-                    <SelectItem value="E-Generator">E-Generator</SelectItem>
-                    <SelectItem value="BESS">BESS</SelectItem>
-                    <SelectItem value="UPS">UPS</SelectItem>
-                    <SelectItem value="Solar Systems">Solar Systems</SelectItem>
-                    <SelectItem value="Heat Pump">Heat Pump</SelectItem>
+                    {
+                      productCategory?.map(item =>(
+                        <SelectItem key={item?.slug} value={item?.slug}>{item?.title}</SelectItem>
+                      ))
+                    }
                   </SelectGroup>
                 </SelectContent>
               </Select>

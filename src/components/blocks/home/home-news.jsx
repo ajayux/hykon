@@ -22,7 +22,7 @@ export default function HomeNews({ data }) {
   const fetchNews = async () => {
     if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
       setItems(data.items);
-      return;
+    return;
     }
 
     setLoading(true);
@@ -31,11 +31,14 @@ export default function HomeNews({ data }) {
       const res = await fetch(`${baseUrl}/api/news?category=${activeFilter}`);
       if (res.ok) {
         const response = await res.json();
-        // The API structure seems to be { success: true, data: [...] } or just [...]
-        // based on the user's provided sample data format.
-        // Let's handle both.
-        const newData = response.data || response;
-        setItems(Array.isArray(newData) ? newData : newData.items || []);
+        
+    const items =
+      response?.data?.newsSection?.items ??
+      response?.data?.items ??
+      response?.items ??
+      [];
+
+        setItems(items);
       }
     } catch (error) {
       console.error("Error fetching news:", error);

@@ -93,8 +93,8 @@ export async function GET(request) {
       {
         id: 3,
         hasSubmenu: true,
-        name: "Projects",
-        slug: "/projects",
+        name: "Contact",
+        slug: "/contact",
       },
       {
         id: 4,
@@ -112,7 +112,7 @@ export async function GET(request) {
         id: 6,
         hasSubmenu: false,
         name: "Career",
-        slug: "/career",
+        slug: "/careers",
       },
       {
         id: 7,
@@ -187,39 +187,59 @@ export async function GET(request) {
         title: "Quick Links",
         items: [
           {
+            id: 0,
+            label: "About",
+            slug: "/about",
+          },
+          {
             id: 1,
-            label: "Warranty Registration",
-            slug: "/customer-care/warranty-registration",
+            label: "FAQ",
+            slug: "/faq",
           },
           {
             id: 2,
-            label: "Register Complaints",
-            slug: "/customer-care/register-complaints",
+            label: "Customer Care",
+            slug: "/customer-care",
           },
           {
+            id: 1,
+            label: "Warranty Registration",
+            slug: "/warranty-complaints",
+          },
+          // {
+          //   id: 2,
+          //   label: "Register Complaints",
+          //   slug: "/customer-care/register-complaints",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Privacy Policy",
+          //   slug: "/customer-care/privacy-policy",
+          // },
+          {
             id: 3,
-            label: "Privacy Policy",
-            slug: "/customer-care/privacy-policy",
+            label: "Hykonnect",
+            slug: "/hykonnect",
           },
           {
             id: 4,
             label: "Terms & Conditions",
-            slug: "/customer-care/terms-conditions",
+            slug: "/terms",
           },
-          {
-            id: 5,
-            label: "Return Policy",
-            slug: "/customer-care/return-policy",
-          },
-          {
-            id: 6,
-            label: "Shipping Policy",
-            slug: "/customer-care/shipping-policy",
-          },
+          // {
+          //   id: 5,
+          //   label: "Return Policy",
+          //   slug: "/customer-care/return-policy",
+          // },
+          // {
+          //   id: 6,
+          //   label: "Shipping Policy",
+          //   slug: "/customer-care/shipping-policy",
+          // },
           {
             id: 7,
             label: "Investor Relations",
-            slug: "/customer-care/investor-relations",
+            slug: "/investor-relations",
           },
           {
             id: 8,
@@ -229,18 +249,18 @@ export async function GET(request) {
           {
             id: 9,
             label: "Career",
-            slug: "/career",
+            slug: "/careers",
           },
-          {
-            id: 10,
-            label: "Services",
-            slug: "/services",
-          },
-          {
-            id: 11,
-            label: "Projects",
-            slug: "/projects",
-          },
+          // {
+          //   id: 10,
+          //   label: "Services",
+          //   slug: "/services",
+          // },
+          // {
+          //   id: 11,
+          //   label: "Projects",
+          //   slug: "/projects",
+          // },
           {
             id: 12,
             label: "News",

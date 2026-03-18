@@ -4,10 +4,12 @@ import CareerLife from "@/components/blocks/career/career-life";
 import CareerPositions from "@/components/blocks/career/career-positions";
 import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: "Careers | HYKON",
-  description: "Join our team and build your future with Hykon.",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("careers");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 // const localData = {
 //   heroSection: {
@@ -141,6 +143,8 @@ export default async function CareersPage() {
   if (!careerData) {
     notFound();
   }
+
+
 
   // const careerData = localData;
 
