@@ -23,6 +23,8 @@ export async function getMetaData(pageKey) {
     const result = await response.json();
     const meta = result.data;
 
+    console.log("meta dataL ", meta)
+
     if (result.status) {
       const other = parseOtherMeta(meta?.other_meta_tags || "");
 

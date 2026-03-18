@@ -34,8 +34,7 @@ import { getMetaData } from "@/lib/api/metaApi";
 // );
 
 
-export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
+export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("home");
 
   return {
