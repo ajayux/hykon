@@ -1,4 +1,3 @@
-import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -6,6 +5,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "beta.hykon.dev14.intersmarthosting.in",
         pathname: "/**",
       },
       {
@@ -30,5 +34,4 @@ const nextConfig = {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],
   },
 };
-
-export default withNextVideo(nextConfig);
+export default nextConfig;
