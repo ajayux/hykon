@@ -1,7 +1,9 @@
+import { notFound } from "next/navigation";
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
+import { API_BASE_URL } from "@/lib/api/constants";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
@@ -56,113 +58,122 @@ const localData = {
         },
       ],
     },
-    productInfo: {
-      title: "Jupiter Series",
-      slug: "jupiter-series",
-      productItems: [
-        {
-          id: 1,
-          title: "Jupiter 130",
-          slug: "jupiter-130",
-          mrp: "27570",
-          price: "25000",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-        {
-          id: 2,
-          title: "Jupiter 200",
-          slug: "jupiter-200",
-          mrp: "43700",
-          price: "39018",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-        {
-          id: 3,
-          title: "Jupiter 250",
-          slug: "jupiter-250",
-          mrp: "56600",
-          price: "50000",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-        {
-          id: 4,
-          title: "Jupiter 250",
-          slug: "jupiter-250",
-          mrp: "56600",
-          price: "50000",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-        {
-          id: 5,
-          title: "Jupiter 250",
-          slug: "jupiter-250",
-          mrp: "56600",
-          price: "50000",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-        {
-          id: 6,
-          title: "Jupiter 250",
-          slug: "jupiter-250",
-          mrp: "56600",
-          price: "50000",
-          media: {
-            path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
-            alt: "Inline UPS",
-          },
-        },
-      ],
-      pagination: {
-        current_page: 1,
-        last_page: 1,
-        per_page: 8,
-        total: 8,
-        has_more: false,
-      },
-    },
+    // productInfo: {
+    //   title: "Jupiter Series",
+    //   slug: "jupiter-series",
+    //   productItems: [
+    //     {
+    //       id: 1,
+    //       title: "Jupiter 130",
+    //       slug: "jupiter-130",
+    //       mrp: "27570",
+    //       price: "25000",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Jupiter 200",
+    //       slug: "jupiter-200",
+    //       mrp: "43700",
+    //       price: "39018",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //     {
+    //       id: 3,
+    //       title: "Jupiter 250",
+    //       slug: "jupiter-250",
+    //       mrp: "56600",
+    //       price: "50000",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //     {
+    //       id: 4,
+    //       title: "Jupiter 250",
+    //       slug: "jupiter-250",
+    //       mrp: "56600",
+    //       price: "50000",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //     {
+    //       id: 5,
+    //       title: "Jupiter 250",
+    //       slug: "jupiter-250",
+    //       mrp: "56600",
+    //       price: "50000",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //     {
+    //       id: 6,
+    //       title: "Jupiter 250",
+    //       slug: "jupiter-250",
+    //       mrp: "56600",
+    //       price: "50000",
+    //       media: {
+    //         path: "https://beta.hykon.dev14.intersmarthosting.in/storage/321/pro-1-converted.webp",
+    //         alt: "Inline UPS",
+    //       },
+    //     },
+    //   ],
+    //   pagination: {
+    //     current_page: 1,
+    //     last_page: 1,
+    //     per_page: 8,
+    //     total: 8,
+    //     has_more: false,
+    //   },
+    // },
   },
 };
 
-export default async function ProductsPage() {
-  //   let productsData = null;
+export default async function ProductsPage({ searchParams }) {
+  const resolvedSearchParams = await searchParams;  
+  const product_slug = resolvedSearchParams?.product_slug || null;
+    const page = resolvedSearchParams?.page || "1";
 
-  //   try {
-  //     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //     const res = await fetch(`${baseUrl}/api/categories`, {
-  //       next: { revalidate: 60 },
-  //     });
+    let productsData = null;
 
-  //     if (res.ok) {
-  //       const response = await res.json();
-  //       productsData = response.data;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories data:", error);
-  //   }
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const params = new URLSearchParams();
+      if (product_slug) params.set("product_slug", product_slug);
+      params.set("page", page);
 
-  //   if (!productsData) {
-  //     notFound();
-  //   }
+      const res = await fetch(`${baseUrl}/api/products?${params}`, {
+        next: { revalidate: 60 },
+      });
 
-  const productsData = localData;
+      if (res.ok) {
+        const response = await res.json();
+        productsData = response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching products data:", error);
+    }
+
+    if (!productsData) {
+      notFound();
+    }
+
 
   const { heroSection, productSection } = productsData;
 
+
+  console.log(productSection?.productInfo)
   return (
     <>
       <InnerHero data={heroSection} />
