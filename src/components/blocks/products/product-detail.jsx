@@ -423,7 +423,7 @@ export default function ProductDetail({ data }) {
                 className="text-white min-w-[130px] xl:min-w-[150px] 2xl:min-w-[180px] 3xl:min-w-[215px] pl-4 xl:pl-5"
                 asChild
               >
-                <Link href={item?.url} target="_blank">
+                <Link href={item?.url ?? ""} target="_blank">
                   {item?.label}
                   <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                     <Image

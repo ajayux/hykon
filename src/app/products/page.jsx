@@ -142,7 +142,8 @@ const localData = {
 
 export default async function ProductsPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;  
-  const product_slug = resolvedSearchParams?.product_slug || null;
+  const rawSlugs = resolvedSearchParams?.["product_slug[]"];
+  const product_slugs = Array.isArray(rawSlugs) ? rawSlugs : rawSlugs ? [rawSlugs] : [];
     const page = resolvedSearchParams?.page || "1";
 
     let productsData = null;
@@ -150,12 +151,10 @@ export default async function ProductsPage({ searchParams }) {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const params = new URLSearchParams();
-      if (product_slug) params.set("product_slug", product_slug);
+      product_slugs.forEach((s) => params.append("product_slug[]", s));
       params.set("page", page);
 
-      const res = await fetch(`${baseUrl}/api/products?${params}`, {
-        next: { revalidate: 60 },
-      });
+      const res = await fetch(`${baseUrl}/api/products?${params}`);
 
       if (res.ok) {
         const response = await res.json();
@@ -177,7 +176,7 @@ export default async function ProductsPage({ searchParams }) {
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="Product Category/Solar Water Heater/ Jupiter Series" />
+      <BreadcrumbInfo slug="Products" />
       {productsData && <ProductListing data={productSection} />}
     </>
   );

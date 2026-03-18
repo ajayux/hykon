@@ -9,12 +9,12 @@ import { API_BASE_URL } from "@/lib/api/constants";
  */
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const product_slug = searchParams.get("product_slug");
+  const product_slugs = searchParams.getAll("product_slug[]");
   const page = searchParams.get("page") || "1";
 
   try {
     const url = new URL(`${API_BASE_URL}/products`);
-    if (product_slug) url.searchParams.set("product_slug", product_slug);
+    product_slugs.forEach((s) => url.searchParams.append("product_slug[]", s));
     url.searchParams.set("page", page);
 
     const res = await fetch(url.toString(), { next: { revalidate: 60 } });

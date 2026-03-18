@@ -12,23 +12,23 @@ import { Label } from "@/components/ui/label";
 export default function FilterCard({ data }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const serverCategory = searchParams.get("product_slug");
+  const serverCategory = searchParams.getAll("product_slug[]");
   const [optimisticCategory, setOptimisticCategory] = useState(undefined);
 
-  const currentCategory = optimisticCategory !== undefined ? optimisticCategory : serverCategory;
+  const currentSlugs = optimisticCategory !== undefined ? optimisticCategory : serverCategory;
 
   function handleCheck(slug) {
-    const next = currentCategory === slug ? null : slug;
+    const next = currentSlugs.includes(slug)
+      ? currentSlugs.filter((s) => s !== slug)
+      : [...currentSlugs, slug];
     setOptimisticCategory(next);
-    if (next) {
-      router.replace(`/products?product_slug=${next}`, { scroll: false });
-    } else {
-      router.replace("/products", { scroll: false });
-    }
+    const params = new URLSearchParams();
+    next.forEach((s) => params.append("product_slug[]", s));
+    router.replace(next.length ? `/products?${params}` : "/products", { scroll: false });
   }
 
   function handleClearAll() {
-    setOptimisticCategory(null);
+    setOptimisticCategory([]);
     router.replace("/products", { scroll: false });
   }
 
@@ -68,7 +68,7 @@ export default function FilterCard({ data }) {
                 <Checkbox
                   id={item.slug}
                   name={item.slug}
-                  checked={currentCategory === item.slug}
+                  checked={currentSlugs.includes(item.slug)}
                   onCheckedChange={() => handleCheck(item.slug)}
                   className="dark:bg-white border-[#c7c7c7] data-[state=checked]:border-[#008dd2] data-[state=checked]:bg-[#008dd2] dark:data-[state=checked]:bg-[#008dd2] data-[state=checked]:text-white"
                 />

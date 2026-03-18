@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useCallback, useEffect } from "react";
+import { Suspense, useState, useCallback, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/utils/typography";
@@ -63,23 +63,35 @@ export function ProductListingSkeleton() {
 
 function ProductGrid({ data }) {
   const searchParams = useSearchParams();
-  const product_slug = searchParams.get("product_slug");
+  const product_slugs = searchParams.getAll("product_slug[]");
 
   const [items, setItems] = useState(data?.productInfo?.productItems ?? []);
   const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
   const [isLoading, setIsLoading] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
+  const prevSlugsRef = useRef(product_slugs.join(","));
 
-  // Reset items when filter (product_slug) changes from server
+  // Show skeletons when filter slugs change (before server responds)
+  useEffect(() => {
+    const current = product_slugs.join(",");
+    if (prevSlugsRef.current !== current) {
+      prevSlugsRef.current = current;
+      setIsFiltering(true);
+    }
+  }, [product_slugs.join(",")]);
+
+  // Reset items when server responds with new filtered data
   useEffect(() => {
     setItems(data?.productInfo?.productItems ?? []);
     setPagination(data?.productInfo?.pagination ?? {});
+    setIsFiltering(false);
   }, [data]);
 
   const fetchMore = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
-      if (product_slug) params.set("product_slug", product_slug);
+      product_slugs.forEach((s) => params.append("product_slug[]", s));
       params.set("page", String(pagination.current_page + 1));
 
       const res = await fetch(`${API_URL}/products?${params}`);
@@ -94,7 +106,7 @@ function ProductGrid({ data }) {
     } finally {
       setIsLoading(false);
     }
-  }, [product_slug, pagination.current_page]);
+  }, [product_slugs.join(","), pagination.current_page]);
 
   return (
     <div className="w-full lg:flex-1">
@@ -106,7 +118,13 @@ function ProductGrid({ data }) {
         {data?.productInfo?.title}
       </Heading>
       <div className="flex flex-wrap -mx-1 sm:-mx-2.5 xl:-mx-3.5 2xl:-mx-4.5 3xl:-mx-5.5 [&>div]:py-2 sm:[&>div]:py-2.5 xl:[&>div]:py-3 2xl:[&>div]:py-3.5 3xl:[&>div]:py-5 [&>div]:px-1 sm:[&>div]:px-2.5 xl:[&>div]:px-3.5 2xl:[&>div]:px-4.5 3xl:[&>div]:px-5.5">
-        {items.length > 0 ? (
+        {isFiltering ? (
+          [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={`sk-filter-${i}`} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
+              <ProductCardSkeleton />
+            </div>
+          ))
+        ) : items.length > 0 ? (
           <>
             {items.map((item) => (
               <div key={item.id} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
