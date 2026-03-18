@@ -21,14 +21,12 @@ export async function getMetaData(pageKey) {
       headers: { "Content-Type": "application/json" },
     });
 
-    console.log("response", response)
 
     const result = await response.json();
     const meta = result.data;
 
-    console.log("meta dataL ", result)
 
-    if (result.ok) {
+    if (result?.success) {
       const other = parseOtherMeta(meta?.other_meta_tags || "");
 
       return {

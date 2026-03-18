@@ -7,29 +7,29 @@ export const defaultMeta = {
       "Hykon India, Hykon India Ltd, solar energy India, solar power system, solar water heater, solar street light, lithium battery India, lithium ion battery manufacturer",
   },
 
-  about: {
-    title: "About Us | Hykon India Ltd",
-    description:
-      "Learn about Hykon India Ltd — a trusted Indian manufacturer of solar energy systems, lithium batteries, EVs & power electronics since 1991.",
-    keywords:
-      "about Hykon India, Hykon India Ltd history, power electronics company India, solar manufacturer Kerala",
-  },
+  // about: {
+  //   title: "About Us | Hykon India Ltd",
+  //   description:
+  //     "Learn about Hykon India Ltd — a trusted Indian manufacturer of solar energy systems, lithium batteries, EVs & power electronics since 1991.",
+  //   keywords:
+  //     "about Hykon India, Hykon India Ltd history, power electronics company India, solar manufacturer Kerala",
+  // },
 
-  blogs: {
-    title: "Insights | Hykon India Ltd",
-    description:
-      "Explore insights, updates, and industry perspectives from Hykon India Ltd on solar energy, power electronics, and green energy solutions.",
-    keywords:
-      "Hykon India blog, solar energy insights, power electronics news, green energy India",
-  },
+  // blogs: {
+  //   title: "Insights | Hykon India Ltd",
+  //   description:
+  //     "Explore insights, updates, and industry perspectives from Hykon India Ltd on solar energy, power electronics, and green energy solutions.",
+  //   keywords:
+  //     "Hykon India blog, solar energy insights, power electronics news, green energy India",
+  // },
 
-  news: {
-    title: "News | Hykon India Ltd",
-    description:
-      "Stay updated with the latest news, events, and announcements from Hykon India Ltd — India's leader in power electronics and green energy.",
-    keywords:
-      "Hykon India news, solar energy news India, power electronics updates",
-  },
+  // news: {
+  //   title: "News | Hykon India Ltd",
+  //   description:
+  //     "Stay updated with the latest news, events, and announcements from Hykon India Ltd — India's leader in power electronics and green energy.",
+  //   keywords:
+  //     "Hykon India news, solar energy news India, power electronics updates",
+  // },
 
   careers: {
     title: "Careers | Hykon India Ltd",
@@ -47,13 +47,13 @@ export const defaultMeta = {
       "Hykon factory, Hykon manufacturing, solar product manufacturing India, power electronics factory Kerala",
   },
 
-  contact: {
-    title: "Contact Us | Hykon India Ltd",
-    description:
-      "Contact Hykon India Ltd for business inquiries, product support, partnerships, or to reach our service network across India.",
-    keywords:
-      "contact Hykon India, Hykon customer support, Hykon service network, power electronics company contact",
-  },
+  // contact: {
+  //   title: "Contact Us | Hykon India Ltd",
+  //   description:
+  //     "Contact Hykon India Ltd for business inquiries, product support, partnerships, or to reach our service network across India.",
+  //   keywords:
+  //     "contact Hykon India, Hykon customer support, Hykon service network, power electronics company contact",
+  // },
 
   faq: {
     title: "FAQs | Hykon India Ltd",

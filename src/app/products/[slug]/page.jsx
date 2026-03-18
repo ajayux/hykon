@@ -1,9 +1,9 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
-import CategoriesDetail from "@/components/blocks/categories/categories-detail";
 import ProductDetail from "@/components/blocks/products/product-detail";
 import ProductSimilar from "@/components/blocks/products/product-similar";
 import ProductQuestions from "@/components/blocks/products/product-questions";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Product details | HYKON",
@@ -315,28 +315,33 @@ const localData = {
   },
 };
 
-export default async function productDetailPage() {
-  //   let productsData = null;
+export default async function productDetailPage({params}) {
+    let productsData = null;
 
-  //   try {
-  //     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //     const res = await fetch(`${baseUrl}/api/solar-water-heater`, {
-  //       next: { revalidate: 60 },
-  //     });
+    const { slug } = await params;
 
-  //     if (res.ok) {
-  //       const response = await res.json();
-  //       productsData = response.data;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories data:", error);
-  //   }
+    console.log(slug)
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/variant/${slug}`);
 
-  //   if (!productsData) {
-  //     notFound();
-  //   }
+      
+      console.log(res)
 
-  const productsData = localData;
+      if (res.ok) {
+        const response = await res.json();
+        productsData = response.data;
+
+        console.log("response: ",response)
+      }
+    } catch (error) {
+      console.error("Error fetching categories data:", error);
+    }
+
+    if (!productsData) {
+      notFound();
+    }
+
 
   const {
     heroSection,

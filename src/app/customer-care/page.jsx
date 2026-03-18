@@ -56,27 +56,24 @@ const localData = {
 };
 
 export default async function CustomerCarePage() {
-  // let pageData = null;
+  let pageData = null;
 
-  // try {
-  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //   const res = await fetch(`${baseUrl}/api/customer-care`, {
-  //     next: { revalidate: 60 },
-  //   });
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const res = await fetch(`${baseUrl}/api/customer-care`);
 
-  //   if (res.ok) {
-  //     const response = await res.json();
-  //     pageData = response.data;
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching customer care data:", error);
-  // }
+    if (res.ok) {
+      const response = await res.json();
+      pageData = response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching customer care data:", error);
+  }
 
-  // if (!pageData) {
-  //   notFound();
-  // }
+  if (!pageData) {
+    notFound();
+  }
 
-  const pageData = localData;
   const { heroSection, customerCare, formSections } = pageData;
 
   return (
