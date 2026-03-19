@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function BusinessHero({ data }) {
   return (
-    <section className="w-full h-auto py-[100px] block relative z-0">
+    <section className="w-full h-auto py-[110px_40px] block relative z-0">
       <div className="w-full h-full absolute -z-1 inset-0">
         {data?.media?.type === "video" ? (
           <video
@@ -32,7 +32,7 @@ export default function BusinessHero({ data }) {
         )}
       </div>
       <div className="container">
-        <div className="w-full h-auto gap-[40px] flex flex-col">
+        <div className="w-full h-auto space-y-[40px]">
           <div className="w-full h-auto flex items-center">
             <div className="w-[60%]">
               <Heading
@@ -122,7 +122,7 @@ export default function BusinessHero({ data }) {
               </Link>
             ))}
           </div>
-          <div className="w-full h-auto gap-[15px] flex flex-col">
+          <div className="w-full h-auto space-y-[15px]">
             {[
               {
                 url: null,
