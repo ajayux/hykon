@@ -5,6 +5,12 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 
+const getProductUrl = (slug) => {
+  const params = new URLSearchParams();
+  params.append("product_slug[]", slug);
+  return `/products?${params.toString()}`;
+};
+
 export default function CategoriesDetail({ data }) {
   return (
     <section className="w-full h-auto block bg-[#181818] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
@@ -25,26 +31,29 @@ export default function CategoriesDetail({ data }) {
             >
               {parse(data?.description)}
             </Text>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[140px] 3xl:min-w-[170px] pl-4"
-              asChild
-            >
-              <Link href={data?.button?.url} target="_blank">
-                Download Brochure
-                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-                  <Image
-                    src={"/images/icon-arrow-right-white.svg"}
-                    alt={"icon-arrow-right-white"}
-                    width={18}
-                    height={13}
-                    className="w-1/2"
-                    unoptimized
-                  />
-                </div>
-              </Link>
-            </Button>
+
+            {data?.button?.url && (
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[140px] 3xl:min-w-[170px] pl-4"
+                asChild
+              >
+                <a href={data?.button?.url ?? ""} target="_blank">
+                  Download Brochure
+                  <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                    <Image
+                      src={"/images/icon-arrow-right-white.svg"}
+                      alt={"icon-arrow-right-white"}
+                      width={18}
+                      height={13}
+                      className="w-1/2"
+                      unoptimized
+                    />
+                  </div>
+                </a>
+              </Button>
+            )}
           </div>
 
           <div className="w-full lg:w-[420px] xl:w-[495px] 2xl:w-[595px] 3xl:w-[740px]">
@@ -103,7 +112,7 @@ export default function CategoriesDetail({ data }) {
                     {[
                       {
                         label: "View Products",
-                        url: item?.slug,
+                        url: getProductUrl(item?.slug),
                       },
                       {
                         label: item?.button?.label,
@@ -117,7 +126,7 @@ export default function CategoriesDetail({ data }) {
                         className="text-white min-w-[110px] xl:min-w-[130px] 2xl:min-w-[155px] 3xl:min-w-[190px] pl-4"
                         asChild
                       >
-                        <Link href={btn?.url} target="_blank">
+                        <Link href={btn?.url}>
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                             <Image
@@ -134,56 +143,58 @@ export default function CategoriesDetail({ data }) {
                     ))}
                   </div>
                 </div>
-                <div className="w-full mt-8 xl:mt-12 2xl:mt-14 3xl:mt-18">
-                  <Text
-                    as="div"
-                    size="p0"
-                    className="text-white mb-1.5 xl:mb-2 2xl:mb-3 3xl:mb-4"
-                  >
-                    Available options {"("}
-                    <Link
-                      href={item?.slug}
-                      target="_blank"
-                      className="underline hover:text-[#008dd2]"
+
+                {item?.variants?.items?.length > 0 && (
+                  <div className="w-full mt-8 xl:mt-12 2xl:mt-14 3xl:mt-18">
+                    <Text
+                      as="div"
+                      size="p0"
+                      className="text-white mb-1.5 xl:mb-2 2xl:mb-3 3xl:mb-4"
                     >
-                      {item?.variants?.title}
-                    </Link>
-                    {")"}
-                  </Text>
-                  <div className="flex flex-wrap -mx-1 xl:-mx-1.5 2xl:-mx-2 3xl:-mx-2.5 [&>*]:p-1 xl:[&>*]:p-1.5 2xl:[&>*]:p-2 3xl:[&>*]:p-2.5">
-                    {item?.variants?.items?.map((variant) => (
-                      <div
-                        key={variant?.id}
-                        className={cn(
-                          "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/8",
-                        )}
+                      Available options {"("}
+                      <Link
+                        href={getProductUrl(item?.slug)}
+                        className="underline hover:text-[#008dd2]"
                       >
-                        <div className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]">
-                          <div>
-                            <Text
-                              as="div"
-                              size="p1"
-                              className="text-white mb-3 xl:mb-4 2xl:mb-5 2xl:mb-6 3xl:mb-7"
-                            >
-                              {parse(variant?.title)}
-                            </Text>
-                          </div>
-                          <div>
-                            <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-white/90 line-through mb-0.5">
-                              {"MRP-"}
-                              {variant?.mrp}
-                              {"/-"}
+                        {item?.variants?.title}
+                      </Link>
+                      {")"}
+                    </Text>
+                    <div className="flex flex-wrap -mx-1 xl:-mx-1.5 2xl:-mx-2 3xl:-mx-2.5 [&>*]:p-1 xl:[&>*]:p-1.5 2xl:[&>*]:p-2 3xl:[&>*]:p-2.5">
+                      {item?.variants?.items?.map((variant) => (
+                        <div
+                          key={variant?.id}
+                          className={cn(
+                            "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/8",
+                          )}
+                        >
+                          <div className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]">
+                            <div>
+                              <Text
+                                as="div"
+                                size="p1"
+                                className="text-white mb-3 xl:mb-4 2xl:mb-5 2xl:mb-6 3xl:mb-7"
+                              >
+                                {parse(variant?.title)}
+                              </Text>
                             </div>
-                            <div className="text-[14px] sm:text-[12px] lg:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-tight font-semibold text-[#008dd2]">
-                              {variant?.price}
-                              {"/-"}
+                            <div>
+                              <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-white/90 line-through mb-0.5">
+                                {"MRP-"}
+                                {variant?.mrp}
+                                {"/-"}
+                              </div>
+                              <div className="text-[14px] sm:text-[12px] lg:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-tight font-semibold text-[#008dd2]">
+                                {variant?.price}
+                                {"/-"}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

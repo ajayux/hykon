@@ -15,7 +15,7 @@ export default function CategoriesTryNow({ data }) {
               media="(min-width: 640px)"
             />
             <Image
-              src={data?.media?.mobilePath || data?.media?.desktopPath}
+              src={data?.media?.path || data?.media?.desktopPath}
               alt={data?.media?.alt || "Hero background"}
               fill
               sizes="100vw"

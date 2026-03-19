@@ -114,10 +114,10 @@ export default function CategoriesSection({ data, filterData }) {
                   size="p1"
                   className="max-sm:text-[12px] leading-normal font-normal text-center line-clamp-3 text-white group-hover:translate-y-[-20px] 2xl:group-hover:translate-y-[-25px] 3xl:group-hover:translate-y-[-30px] transition-all duration-300"
                 >
-                  {/* {parse(item?.description)} */}
+                  {parse(item?.description)}
                 </Text>
                 <Link
-                  href={`/products/${item?.slug}`}
+                  href={`/categories/${item?.slug}`}
                   className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 lg:opacity-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-300"
                 >
                   <span className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">

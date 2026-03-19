@@ -194,6 +194,11 @@ export async function GET(request) {
             name: "Investor Relations",
             slug: "/customer-care/investor-relations",
           },
+          {
+            id: "9-8",
+            name: "Categories",
+            slug: "/categories",
+          }
         ],
       },
     ],

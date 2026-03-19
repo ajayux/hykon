@@ -6,9 +6,24 @@ import { getMetaData } from "@/lib/api/metaApi";
 import { API_BASE_URL } from "@/lib/api/constants";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("products");
-  return { title, description, keywords, twitter, openGraph, alternates, other };
+  const {
+    title,
+    description,
+    keywords,
+    twitter,
+    openGraph,
+    alternates,
+    other,
+  } = await getMetaData("products");
+  return {
+    title,
+    description,
+    keywords,
+    twitter,
+    openGraph,
+    alternates,
+    other,
+  };
 }
 
 const localData = {
@@ -141,38 +156,52 @@ const localData = {
 };
 
 export default async function ProductsPage({ searchParams }) {
-  const resolvedSearchParams = await searchParams;  
+  const resolvedSearchParams = await searchParams;
   const rawSlugs = resolvedSearchParams?.["product_slug[]"];
-  const product_slugs = Array.isArray(rawSlugs) ? rawSlugs : rawSlugs ? [rawSlugs] : [];
-    const page = resolvedSearchParams?.page || "1";
+  const product_slugs = Array.isArray(rawSlugs)
+    ? rawSlugs
+    : rawSlugs
+      ? [rawSlugs]
+      : [];
 
-    let productsData = null;
+  const backup_capacity = resolvedSearchParams?.backup_capacity || null;
 
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const params = new URLSearchParams();
-      product_slugs.forEach((s) => params.append("product_slug[]", s));
-      params.set("page", page);
+  const page = resolvedSearchParams?.page || "1";
 
-      const res = await fetch(`${baseUrl}/api/products?${params}`);
+  let productsData = null;
 
-      if (res.ok) {
-        const response = await res.json();
-        productsData = response.data;
-      }
-    } catch (error) {
-      console.error("Error fetching products data:", error);
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const params = new URLSearchParams();
+    product_slugs.forEach((s) => params.append("product_slug[]", s));
+
+   if(backup_capacity){
+    // set to body not in params
+    
+
+   }
+
+    params.set("page", page);
+
+    const res = await fetch(`${baseUrl}/api/products?${params}`,{
+      backup_capacity
+    });
+
+    if (res.ok) {
+      const response = await res.json();
+      productsData = response.data;
     }
+  } catch (error) {
+    console.error("Error fetching products data:", error);
+  }
 
-    if (!productsData) {
-      notFound();
-    }
-
+  if (!productsData) {
+    notFound();
+  }
 
   const { heroSection, productSection } = productsData;
 
-
-  console.log(productSection?.productInfo)
+  console.log(productSection?.productInfo);
   return (
     <>
       <InnerHero data={heroSection} />

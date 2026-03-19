@@ -197,35 +197,39 @@ const localData = {
   },
 };
 
-export default async function categoriesDetailPage() {
-  //   let productsData = null;
+export default async function categoriesDetailPage({params}) {
+  
+  const { slug } = await params;
+  
+  let productsData = null;
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/${slug}`);
 
-  //   try {
-  //     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //     const res = await fetch(`${baseUrl}/api/solar-water-heater`, {
-  //       next: { revalidate: 60 },
-  //     });
+      if (res.ok) {
+        const response = await res.json();
+        productsData = response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching categories data:", error);
+    }
 
-  //     if (res.ok) {
-  //       const response = await res.json();
-  //       productsData = response.data;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories data:", error);
-  //   }
+    if (!productsData) {
+      notFound();
+    }
 
-  //   if (!productsData) {
-  //     notFound();
-  //   }
 
-  const productsData = localData;
+  const page = {
+    label: "Product Category",
+    link: "categories",
+  }
 
   const { heroSection, categoryDetailSection } = productsData;
 
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="Product Category/ Product Listing1" />
+      <BreadcrumbInfo page={page} slug={`${slug}`} />
       {categoryDetailSection && (
         <CategoriesDetail data={categoryDetailSection} />
       )}
