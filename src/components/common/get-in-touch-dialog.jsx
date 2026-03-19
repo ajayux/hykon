@@ -36,7 +36,7 @@ export default function GetInTouchDialog({ children }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
-          <GetInTouchForm />
+          <GetInTouchForm onClose={() => setOpen(false)} />
         </div>
       </DialogContent>
     </Dialog>

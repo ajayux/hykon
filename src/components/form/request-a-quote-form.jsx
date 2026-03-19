@@ -113,7 +113,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function RequestAQuoteForm({ activeTab, page }) {
+export function RequestAQuoteForm({ activeTab, page, onClose }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -389,6 +389,7 @@ export function RequestAQuoteForm({ activeTab, page }) {
         title="Registration Successful"
         description="Thank you for registering your product warranty. Our team will verify
         the details and update your warranty status shortly."
+        onClose={onClose}
       />
     );
   }

@@ -3,7 +3,7 @@ import { Heading, Text } from "../utils/typography";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-export default function FormSubmitResponse({ imagePath, title, description }) {
+export default function FormSubmitResponse({ imagePath, title, description, onClose }) {
   return (
     <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto py-20">
       <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
@@ -32,6 +32,7 @@ export default function FormSubmitResponse({ imagePath, title, description }) {
           variant="outline"
           className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-4"
           asChild
+          onClick={onClose}
         >
           <Link href={"/"}>
             Go Back to Home
