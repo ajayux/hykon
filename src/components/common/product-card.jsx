@@ -11,7 +11,7 @@ export default function ProductCard({ item, variant = "default" }) {
 
       <div className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-7.5 bg-[#212121] border border-[#212121] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] transition-all duration-500 hover:border-[#008dd2]">
       
-      <Link                   href={`/categories/${item?.slug}`}>
+      <Link href={`/products/${item?.slug}`}>
         <div className="w-full aspect-145/75 overflow-hidden mb-2 xl:mb-5 3xl:mb-6 mt-1 xl:mt-2 3xl:mt-4">
           <Image
             src={item?.media?.path}
