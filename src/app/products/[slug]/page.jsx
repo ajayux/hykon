@@ -315,42 +315,52 @@ const localData = {
   },
 };
 
-export default async function productDetailPage() {
-  //   let productsData = null;
+export default async function productDetailPage({params}) {
+    let productsData = null;
+    const {slug} = await params;
 
-  //   try {
-  //     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //     const res = await fetch(`${baseUrl}/api/solar-water-heater`, {
-  //       next: { revalidate: 60 },
-  //     });
+    console.log(slug)
 
-  //     if (res.ok) {
-  //       const response = await res.json();
-  //       productsData = response.data;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching categories data:", error);
-  //   }
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/variant/${slug}`, {
+        next: { revalidate: 60 },
+      });
 
-  //   if (!productsData) {
-  //     notFound();
-  //   }
+      if (res.ok) {
+        const response = await res.json();
+        productsData = response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching categories data:", error);
+    }
 
-  const productsData = localData;
+    if (!productsData) {
+      notFound();
+    }
+
 
   const {
     heroSection,
     productDetailSection,
     similarProductSection,
     faqSection,
-  } = productsData;
+  } = localData;
+
+
+
+  const page = {
+    label: "Product Category",
+    link: "categories",
+  }
 
   return (
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo
         variant="extra-gap"
-        slug="Product Category/ Product Listing1"
+      page={page}  
+        slug={slug}
       />
       {productDetailSection && <ProductDetail data={productDetailSection} />}
       {similarProductSection && <ProductSimilar data={similarProductSection} />}

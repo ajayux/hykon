@@ -79,6 +79,7 @@ export default function HomeBusiness({ data }) {
                         "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_25%] min-w-0 select-none max-lg:px-1",
                       )}
                     >
+                      <Link href={`/factory/${item?.slug}`}>
                       <div className="group w-full h-full block relative z-0">
                         <div className="w-full absolute z-0 inset-0 flex flex-col justify-center max-lg:hidden">
                           <div className="text-[52px] sm:text-[68px] xl:text-[83px] 2xl:text-[100px] 3xl:text-[125px] font-medium leading-none text-transparent bg-linear-to-b from-white to-transparent bg-clip-text select-none opacity-40 mb-2 xl:mb-5 2xl:mb-6 3xl:mb-7.5">
@@ -117,7 +118,7 @@ export default function HomeBusiness({ data }) {
                                 className="text-black min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
                                 asChild
                               >
-                                <Link href={`/factory/${item?.slug}`}>
+                                <div>
                                   <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                                     <Image
                                       src={"/images/icon-arrow-right-white.svg"}
@@ -129,12 +130,13 @@ export default function HomeBusiness({ data }) {
                                     />
                                   </div>
                                   {data?.button?.label}
-                                </Link>
+                                </div>
                               </Button>
                             </div>
                           </div>
                         </div>
                       </div>
+                      </Link>
                     </div>
                   ))}
                 </div>

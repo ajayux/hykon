@@ -33,7 +33,7 @@ export default function HomeHero({ data }) {
                   autoPlay
                   muted
                   loop
-                  poster={item?.media?.poster ?? "/images/placeholder.jpg"}
+                  poster={item?.media?.image ?? "/images/placeholder.jpg"}
                   playsInline
                   className="w-full h-full object-cover pointer-events-none"
                 />

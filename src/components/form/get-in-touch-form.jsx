@@ -17,11 +17,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useQuery } from "@tanstack/react-query";
+import { API_URL, apiClient } from "@/lib/api/client";
 
 const formSchema = z.object({
   fullName: commonValidations.name("Name"),
@@ -37,10 +47,17 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function GetInTouchForm({ slug }) {
+export function GetInTouchForm({ slug, onClose }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { data: states = [], isLoading: statesLoading } = useQuery({
+    queryKey: ["states"],
+    queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
+    staleTime: 1000 * 60 * 60 * 24,
+    gcTime: 1000 * 60 * 60 * 24,
+  });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -60,7 +77,7 @@ export function GetInTouchForm({ slug }) {
     }
     setIsSubmitting(true);
     try {
-      const recaptchaToken = await executeRecaptcha("career_application");
+      const recaptchaToken = await executeRecaptcha("get_in_touch");
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("phone", data.phone);
@@ -70,8 +87,7 @@ export function GetInTouchForm({ slug }) {
       formData.append("message", data.message || "");
       formData.append("recaptcha_token", recaptchaToken);
 
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const res = await fetch(`${baseUrl}/api/career-enquiry`, {
+      const res = await fetch(`${API_URL}/get-in-touch`, {
         method: "POST",
         body: formData,
       });
@@ -99,6 +115,7 @@ export function GetInTouchForm({ slug }) {
         imagePath="/images/form-submitted-success.svg"
         title="Thank you for your message"
         description="Our team will get back to you as soon as possible."
+        onClose={onClose}
       />
     );
   }
@@ -186,12 +203,29 @@ export function GetInTouchForm({ slug }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="sr-only">State*</FieldLabel>
-              <Input
-                {...field}
-                placeholder="State*"
-                className={inputClasses}
-                disabled={isSubmitting}
-              />
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                disabled={isSubmitting || statesLoading}
+              >
+                <SelectTrigger
+                  className={cn(
+                    inputClasses,
+                    "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                  )}
+                >
+                  <SelectValue placeholder="State*" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {states?.map((opt) => (
+                      <SelectItem key={opt?.slug} value={opt?.slug}>
+                        {opt?.title || opt?.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}

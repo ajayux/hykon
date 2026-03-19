@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useState, useImperativeHandle, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
@@ -9,27 +9,47 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 
-export default function FilterCard({ data }) {
+const FilterCard = forwardRef(function FilterCard({ data, deferred = false }, ref) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const serverCategory = searchParams.getAll("product_slug[]");
+  const rawSlug = searchParams.get("product_slug");
+  const serverCategory = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
   const [optimisticCategory, setOptimisticCategory] = useState(undefined);
 
   const currentSlugs = optimisticCategory !== undefined ? optimisticCategory : serverCategory;
+
+  // Reset optimistic state whenever the URL changes externally (e.g. mobile Apply updates URL,
+  // desktop instance must re-sync its checkboxes from the new URL)
+  useEffect(() => {
+    setOptimisticCategory(undefined);
+  }, [rawSlug]);
+
+  useImperativeHandle(ref, () => ({
+    apply() {
+      const param = currentSlugs.join(",");
+      router.replace(currentSlugs.length ? `/products?product_slug=${param}` : "/products", { scroll: false });
+    },
+    reset() {
+      setOptimisticCategory(undefined);
+    },
+  }));
 
   function handleCheck(slug) {
     const next = currentSlugs.includes(slug)
       ? currentSlugs.filter((s) => s !== slug)
       : [...currentSlugs, slug];
     setOptimisticCategory(next);
-    const params = new URLSearchParams();
-    next.forEach((s) => params.append("product_slug[]", s));
-    router.replace(next.length ? `/products?${params}` : "/products", { scroll: false });
+    if (!deferred) {
+      const param = next.join(",");
+      router.replace(next.length ? `/products?product_slug=${param}` : "/products", { scroll: false });
+    }
   }
 
   function handleClearAll() {
     setOptimisticCategory([]);
-    router.replace("/products", { scroll: false });
+    if (!deferred) {
+      router.replace("/products", { scroll: false });
+    }
   }
 
   return (
@@ -84,4 +104,6 @@ export default function FilterCard({ data }) {
       </div>
     </>
   );
-}
+});
+
+export default FilterCard;

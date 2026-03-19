@@ -39,7 +39,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
-          <CareerApplicationForm jobTitle={jobTitle} slug={slug} />
+          <CareerApplicationForm jobTitle={jobTitle} slug={slug} onClose={() => setOpen(false)} />
         </div>
       </DialogContent>
     </Dialog>

@@ -15,7 +15,7 @@ export default function CategoriesTryNow({ data }) {
               media="(min-width: 640px)"
             />
             <Image
-              src={data?.media?.mobilePath || data?.media?.desktopPath}
+              src={data?.media?.path || data?.media?.desktopPath}
               alt={data?.media?.alt || "Hero background"}
               fill
               sizes="100vw"
@@ -44,7 +44,7 @@ export default function CategoriesTryNow({ data }) {
               className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[140px] 3xl:min-w-[170px] pl-4"
               asChild
             >
-              <Link href="/">
+              <Link href="/power-calculator">
                 Try Now
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
                   <Image

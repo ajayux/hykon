@@ -127,10 +127,11 @@ export default async function RootLayout({ children }) {
         />
 
         <main className="min-h-screen">
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+            {questionsSection && <HomeQuestions data={questionsSection} />}
+          </Providers>
         </main>
-
-        {questionsSection && <HomeQuestions data={questionsSection} />}
 
         <Toaster position="top-right" richColors closeButton expand />
 

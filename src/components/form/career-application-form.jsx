@@ -48,7 +48,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ slug }) {
+export function CareerApplicationForm({ slug, onClose }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -133,6 +133,7 @@ export function CareerApplicationForm({ slug }) {
         title="Your Application is Submitted"
         description="Thank you for applying. Our team will get in touch with you if your
         profile matches our requirements."
+        onClose={onClose}
       />
     );
   }

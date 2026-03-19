@@ -66,7 +66,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function RequestAQuoteForm({ activeTab, page }) {
+export function RequestAQuoteForm({ activeTab, page, onClose }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -215,6 +215,7 @@ export function RequestAQuoteForm({ activeTab, page }) {
         imagePath="/images/form-submitted-success.svg"
         title="Request Submitted"
         description="Thank you for requesting a quote. Our team will verify the details and get back to you with the right solution shortly."
+        onClose={onClose}
       />
     );
   }
