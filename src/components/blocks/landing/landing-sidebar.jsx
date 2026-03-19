@@ -1,5 +1,5 @@
 "use client";
-import LandingForm from "./LandingForm";
+import LandingForm from "./landing-form";
 
 export default function LandingSidebar({ isOpen, onToggle }) {
   return (

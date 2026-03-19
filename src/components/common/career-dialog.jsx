@@ -19,7 +19,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className={
-          "xl:max-w-[600px] 2xl:max-w-[720px] 3xl:max-w-[880px] bg-[#212121] py-8 sm:py-10 xl:py-14 2xl:py-16 3xl:py-20 px-6 sm:px-7 xl:px-8.5 2xl:px-10 3xl:px-12.5 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
+          "xl:max-w-[600px] 2xl:max-w-[720px] 3xl:max-w-[880px] bg-[#212121] py-6 sm:py-8 xl:py-10 2xl:py-12 3xl:py-16 px-6 sm:px-7 xl:px-8.5 2xl:px-10 3xl:px-12.5 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
         }
         closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >

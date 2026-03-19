@@ -1,15 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import LandingHero from "@/components/blocks/landing/LandingHero";
-import LandingPower from "@/components/blocks/landing/LandingPower";
-import LandingHomes from "@/components/blocks/landing/LandingHomes";
-import LandingHeader from "@/components/blocks/landing/LandingHeader";
-import LandingFooter from "@/components/blocks/landing/LandingFooter";
-import LandingSidebar from "@/components/blocks/landing/LandingSidebar";
-import LandingTrusted from "@/components/blocks/landing/LandingTrusted";
-import LandingFeatures from "@/components/blocks/landing/LandingFeatures";
-import LandingPerformance from "@/components/blocks/landing/LandingPerformance";
+import LandingHero from "@/components/blocks/landing/landing-hero";
+import LandingPower from "@/components/blocks/landing/landing-power";
+import LandingHomes from "@/components/blocks/landing/laning-homes";
+import LandingHeader from "@/components/blocks/landing/landing-header";
+import LandingFooter from "@/components/blocks/landing/landing-footer";
+import LandingSidebar from "@/components/blocks/landing/landing-sidebar";
+import LandingTrusted from "@/components/blocks/landing/landing-trusted";
+import LandingFeatures from "@/components/blocks/landing/landing-feature";
+import LandingPerformance from "@/components/blocks/landing/landing-performance";
 
 const local_data = {
   landingHero: {
@@ -75,7 +75,7 @@ const local_data = {
       "Discover how the HiLIFE 24V 100Ah LiFePO4 Battery delivers consistent, safe, and efficient power for everyday and critical energy needs.",
     media: {
       thumbnail_path: "/images/landing-power-banner.webp",
-      video_path: "/videos/about-hero.mp4",
+      video_path: "/videos/dummy-video.mp4",
       alt: "power",
     },
   },

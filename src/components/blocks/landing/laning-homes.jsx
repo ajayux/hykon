@@ -39,7 +39,7 @@ export default function LandingHomes({ data, isSidebarOpen }) {
               {data?.feature_list?.map((item, index) => (
                 <div key={item?.id} className="contents">
                   {index > 0 && index % 2 === 0 && (
-                    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+                    <div className="w-full h-[1px] bg-linear-to-r from-transparent via-white/70 to-transparent" />
                   )}
                   <div className="w-1/2 h-auto p-[15px] sm:p-[30px] 2xl:p-[40px_50px] 3xl:p-[45px_60px] relative z-0">
                     <div className="[--icon-size:35px] sm:[--icon-size:40px] 2xl:[--icon-size:50px] 3xl:[--icon-size:60px] w-full h-full flex flex-col sm:flex-row items-center">
