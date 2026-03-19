@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
-import { Heading, Text } from "../utils/typography";
+import { Heading, Text } from "../../utils/typography";
 
 export default function LandingFeatures({ data, isSidebarOpen }) {
   return (

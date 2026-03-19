@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
-import { Button } from "../ui/button";
+import { Button } from "../ui/button"; 
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";

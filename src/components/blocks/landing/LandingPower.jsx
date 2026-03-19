@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
-import { Heading, Text } from "../utils/typography";
+import { Heading, Text } from "../../utils/typography";
 
 export default function LandingPower({ data, isSidebarOpen }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,7 +32,6 @@ export default function LandingPower({ data, isSidebarOpen }) {
             <video
               src={data?.media?.video_path}
               autoPlay
-              controls
               className="w-full h-full object-cover"
               onEnded={() => setIsPlaying(false)}
               onPause={() => setIsPlaying(false)}

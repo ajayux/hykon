@@ -1,13 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import LandingHero from "@/components/landing/LandingHero";
-import LandingPower from "@/components/landing/LandingPower";
-import LandingHeader from "@/components/landing/LandingHeader";
-import LandingFooter from "@/components/landing/LandingFooter";
-import LandingSidebar from "@/components/landing/LandingSidebar";
-import LandingFeatures from "@/components/landing/LandingFeatures";
-import LandingPerformance from "@/components/landing/LandingPerformance";
+import LandingHero from "@/components/blocks/landing/LandingHero";
+import LandingPower from "@/components/blocks/landing/LandingPower";
+import LandingHomes from "@/components/blocks/landing/LandingHomes";
+import LandingHeader from "@/components/blocks/landing/LandingHeader";
+import LandingFooter from "@/components/blocks/landing/LandingFooter";
+import LandingSidebar from "@/components/blocks/landing/LandingSidebar";
+import LandingTrusted from "@/components/blocks/landing/LandingTrusted";
+import LandingFeatures from "@/components/blocks/landing/LandingFeatures";
+import LandingPerformance from "@/components/blocks/landing/LandingPerformance";
 
 const local_data = {
   landingHero: {
@@ -87,62 +89,253 @@ const local_data = {
         title: "Advanced LiFePO4 Technology",
         description:
           "Stable chemistry ensures higher safety and longer cycle life.",
-        icon: {
-          path: "/images/feature-1.svg",
-          alt: "feature-1",
-        },
+        iconPath: "/images/feature-1.svg",
       },
       {
         id: 2,
         title: "Built-in Battery Management System (BMS)",
         description:
           "Protects against over-charging, over-discharging, overheating, and short circuits.",
-        icon: {
-          path: "/images/feature-2.svg",
-          alt: "feature-2",
-        },
+        iconPath: "/images/feature-2.svg",
       },
       {
         id: 3,
         title: "Maintenance-Free Operation",
-        description:
-          "No water topping, no corrosion, no periodic servicing.",
-        icon: {
-          path: "/images/feature-3.svg",
-          alt: "feature-3",
-        },
+        description: "No water topping, no corrosion, no periodic servicing.",
+        iconPath: "/images/feature-3.svg",
       },
       {
         id: 4,
         title: "Compact & Lightweight",
         description:
           "Easy installation with significantly reduced space and weight.",
-        icon: {
-          path: "/images/feature-4.svg",
-          alt: "feature-4",
-        },
+        iconPath: "/images/feature-4.svg",
       },
       {
         id: 5,
         title: "Eco-Friendly & Sustainable",
         description:
           "Cleaner energy storage with reduced environmental impact.",
-        icon: {
-          path: "/images/feature-5.svg",
-          alt: "feature-",
+        iconPath: "/images/feature-5.svg",
+      },
+    ],
+    specifications_list: [
+      {
+        id: 1,
+        label: "Battery Type",
+        value: "LiFePO4",
+      },
+      {
+        id: 2,
+        label: "Nominal Voltage",
+        value: "25.6 V",
+      },
+      {
+        id: 3,
+        label: "Capacity",
+        value: "100 Ah",
+      },
+      {
+        id: 4,
+        label: "Charging Voltage",
+        value: "28.8 V",
+      },
+      {
+        id: 5,
+        label: "Standard Charging Current",
+        value: "50 A (0.5C)",
+      },
+      {
+        id: 6,
+        label: "Max Discharge Current",
+        value: "100 A",
+      },
+      {
+        id: 7,
+        label: "Dimensions (L×W×H)",
+        value: "370 × 150 × 360 mm",
+      },
+      {
+        id: 8,
+        label: "Weight",
+        value: "Approx. 24 kg",
+      },
+      {
+        id: 9,
+        label: "Compatibility",
+        value: "All inverter & solar systems",
+      },
+      {
+        id: 10,
+        label: "Warranty",
+        value: "5 Years",
+      },
+    ],
+  },
+  landingTrusted: {
+    title: "Trusted by Thousands of Indian Homes",
+    description:
+      "Chosen by families across India for quality, comfort, and reliability.",
+    trusted_list: [
+      {
+        id: 1,
+        description:
+          "After switching to Hykon’s LiFePO4 battery, our backup time improved drastically, and maintenance is zero. Highly recommended.",
+        name: "Homeowner",
+        location: "Kerala",
+        media: {
+          path: "/images/trusted-1.jpg",
+          alt: "trusted-1",
         },
+      },
+      {
+        id: 2,
+        description:
+          "Compact, lightweight and reliable. Perfect for our solar installation projects.",
+        name: "Solar Installer Partner",
+        location: "Kerala",
+        media: {
+          path: "/images/trusted-2.jpg",
+          alt: "trusted-1",
+        },
+      },
+      {
+        id: 3,
+        description:
+          "Hykon has always been dependable. This battery is a solid upgrade from traditional systems.",
+        name: "Commercial User",
+        location: "Kerala",
+        media: {
+          path: "/images/trusted-3.jpg",
+          alt: "trusted-1",
+        },
+      },
+      {
+        id: 4,
+        description:
+          "Compact, lightweight and reliable. Perfect for our solar installation projects.Compact, lightweight and reliable. Perfect for our solar installation projects.Compact, lightweight and reliable. Perfect for our solar installation projects.",
+        name: "Solar Installer Partner",
+        location: "Kerala",
+        media: {
+          path: "/images/trusted-2.jpg",
+          alt: "trusted-1",
+        },
+      },
+    ],
+  },
+  landingHomes: {
+    countNumber: 50000,
+    suffix: "+",
+    title: "Happy Homes Powered Since 1991",
+    description:
+      "With over three decades of expertise in power and energy solutions, Hykon is a name trusted across India for innovation, quality, and reliability.",
+    feature_list: [
+      {
+        id: 1,
+        iconPath: "/images/landing-home-icon-1.svg",
+        title: "30+ Years of Industry Experience",
+      },
+      {
+        id: 2,
+        iconPath: "/images/landing-home-icon-2.svg",
+        title: "5 Year Product Warranty",
+      },
+      {
+        id: 3,
+        iconPath: "/images/landing-home-icon-3.svg",
+        title: "Made for Indian Power Conditions",
+      },
+      {
+        id: 4,
+        iconPath: "/images/landing-home-icon-4.svg",
+        title: "Nationwide Dealer & Service Network",
+      },
+    ],
+  },
+  landingFooter: {
+    logoUrl: "/images/footer-logo.svg",
+    logoName: "Hykon",
+    description:
+      "Hykon India has successfully evolved its expertise from power electronics into a leader in sustainable energy.",
+    contactInfo: {
+      phone: "+91 123 456 7890",
+      email: "info@company.com",
+      isExternal: true,
+    },
+    locations: [
+      {
+        id: 1,
+        email: "info@company.com",
+        title: "Thrissur",
+        isExternal: true,
+      },
+      {
+        id: 2,
+        email: "info@company.com",
+        title: "Coimbatore",
+        isExternal: true,
+      },
+      {
+        id: 3,
+        email: "info@company.com",
+        title: "Kochi",
+        isExternal: true,
+      },
+      {
+        id: 4,
+        email: "info@company.com",
+        title: "Pune",
+        isExternal: true,
+      },
+    ],
+    copyright: "© 2026 HYKON. All rights reserved.",
+    socialLinkData: [
+      {
+        link: "/",
+        icon: "/images/facebook.svg",
+        name: "Facebook",
+      },
+      {
+        link: "/",
+        icon: "/images/youtube.svg",
+        name: "youtube",
+      },
+      {
+        link: "/",
+        icon: "/images/instagram.svg",
+        name: "instagram",
+      },
+      {
+        link: "/",
+        icon: "/images/linkedin.svg",
+        name: "linkedin",
+      },
+      {
+        link: "/",
+        icon: "/images/x.svg",
+        name: "x",
       },
     ],
   },
 };
 
 export default function LandingPage() {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  React.useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      setSidebarOpen(true);
+    }
+  }, []);
+
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
   return (
     <div
-      className={cn("bg-[#181818] flex", !isSidebarOpen && "overflow-hidden")}
+      className={cn(
+        "w-full h-auto bg-[#181818] flex",
+        !isSidebarOpen && "overflow-hidden",
+      )}
     >
       <div
         className={cn(
@@ -152,7 +345,7 @@ export default function LandingPage() {
             : "w-full",
         )}
       >
-        <LandingHeader />
+        <LandingHeader isSidebarOpen={isSidebarOpen} />
         <LandingHero
           isSidebarOpen={isSidebarOpen}
           data={local_data?.landingHero}
@@ -169,7 +362,18 @@ export default function LandingPage() {
           isSidebarOpen={isSidebarOpen}
           data={local_data?.landingPerformance}
         />
-        <LandingFooter />
+        <LandingTrusted
+          isSidebarOpen={isSidebarOpen}
+          data={local_data?.landingTrusted}
+        />
+        <LandingHomes
+          isSidebarOpen={isSidebarOpen}
+          data={local_data?.landingHomes}
+        />
+        <LandingFooter
+          isSidebarOpen={isSidebarOpen}
+          data={local_data?.landingFooter}
+        />
       </div>
       <LandingSidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
     </div>

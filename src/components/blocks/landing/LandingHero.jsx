@@ -3,10 +3,10 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
 import Fade from "embla-carousel-fade";
-import { Heading } from "../utils/typography";
+import { Heading } from "../../utils/typography";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { DotButton, useDotButton } from "../utils/embla-carousel-dot-button";
+import { DotButton, useDotButton } from "../../utils/embla-carousel-dot-button";
 
 export default function LandingHero({ data, isSidebarOpen }) {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -27,7 +27,7 @@ export default function LandingHero({ data, isSidebarOpen }) {
     <section className="w-full h-auto block">
       <div ref={emblaRef} className="w-full h-full max-w-full overflow-hidden">
         <div className="flex h-full touch-pan-y touch-pinch-zoom">
-          {data?.sliders?.map((item, index) => (
+          {data?.sliders?.map((item) => (
             <div
               key={item?.id}
               className={cn(
