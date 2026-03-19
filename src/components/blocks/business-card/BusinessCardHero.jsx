@@ -1,11 +1,12 @@
+import Link from "next/link";
 import Image from "next/image";
 import parse from "html-react-parser";
-import { Heading } from "@/components/utils/typography";
-import { Link } from "lucide-react";
+import { Heading, Text } from "@/components/utils/typography";
+import { Button } from "@/components/ui/button";
 
 export default function BusinessCardHero({ data }) {
   return (
-    <section className="w-full h-auto py-[50px] block relative z-0">
+    <section className="w-full h-auto py-[100px] block relative z-0">
       <div className="w-full h-full absolute -z-1 inset-0">
         {data?.media?.type === "video" ? (
           <video
@@ -31,54 +32,81 @@ export default function BusinessCardHero({ data }) {
         )}
       </div>
       <div className="container">
-        <div className="w-full h-auto flex items-center">
-          <div className="w-[60%]">
-            <Heading
-              as="h2"
-              size="h1"
-              className="font-semibold text-white mb-[5px]"
-            >
-              {parse(data?.title)}
-            </Heading>
-            <div className="text-[16px] leading-normal font-normal text-white">
-              {data?.designation}
-            </div>
-          </div>
-          <div className="w-[40%]">
-            <div className="w-full h-auto flex gap-[10px] [&>*]:w-[50px] [&>*]:h-auto [&>*]:aspect-square [&>*]:overflow-hidden [&>*]:block">
-              <div>
-                <Image
-                  src={"/images/business-card-account.svg"}
-                  alt="Account"
-                  width={50}
-                  height={50}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div>
-                <Image
-                  src={"/images/business-card-share.svg"}
-                  alt="Share"
-                  width={50}
-                  height={50}
-                  className="w-full h-full object-contain"
-                />
+        <div className="w-full h-auto gap-[40px] flex flex-col">
+          <div className="w-full h-auto flex items-center">
+            <div className="w-[60%]">
+              <Heading
+                as="h2"
+                size="h1"
+                className="font-semibold text-white mb-[5px]"
+              >
+                {parse(data?.name)}
+              </Heading>
+              <div className="text-[16px] leading-normal font-normal text-white">
+                {data?.designation}
               </div>
             </div>
+            <div className="w-[40%]">
+              <div className="w-full h-auto flex justify-end gap-[10px] [&>*]:w-[50px] [&>*]:h-auto [&>*]:aspect-square [&>*]:overflow-hidden [&>*]:block">
+                <div>
+                  <Image
+                    src={"/images/business-card-account.svg"}
+                    alt="Account"
+                    width={50}
+                    height={50}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div>
+                  <Image
+                    src={"/images/business-card-share.svg"}
+                    alt="Share"
+                    width={50}
+                    height={50}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-wrap gap-[10px]">
-          {data?.quickLinks?.map((item) => (
-            <div key={item?.id} className="w-auto h-auto block">
+          <div className="flex flex-wrap gap-[10px]">
+            {[
+              {
+                label: "Call",
+                icon: "/images/call-icon.svg",
+                url: data?.call_link,
+              },
+              {
+                label: "Whatsapp",
+                icon: "/images/whatsapp-icon.svg",
+                url: data?.whatsapp_link,
+              },
+              {
+                label: "Direction",
+                icon: "/images/direction-icon.svg",
+                url: data?.direction_link,
+              },
+              {
+                label: "Mail",
+                icon: "/images/Mail-icon-card.svg",
+                url: data?.mail_link,
+              },
+              {
+                label: "Website",
+                icon: "/images/website-icon.svg",
+                url: data?.website_link,
+              },
+            ].map((item) => (
               <Link
-                href={item?.link}
-                target={item?.isExternal ? "_blank" : "_self"}
-                className="w-full h-full flex items-center"
+                key={item?.label}
+                href={item?.url}
+                target="_blank"
+                className="w-auto h-full p-[10px_20px] rounded-[30px] border-1 border-white transition-all duration-300 flex items-center hover-bg-[#008DD2]"
               >
                 <span className="w-[15px] h-auto aspect-square overflow-hidden block">
                   <Image
-                    src={item?.iconPath}
-                    alt={item?.title}
+                    src={item?.icon}
+                    alt={item?.label}
                     width={15}
                     height={15}
                     className="w-full h-full object-contain"
@@ -89,14 +117,104 @@ export default function BusinessCardHero({ data }) {
                   size="p1"
                   className="text-white w-[calc(100%-15px)] pl-[10px]"
                 >
-                  {item?.title}
+                  {item?.label}
                 </Text>
               </Link>
-            </div>
-          ))}
-        </div>
-        <div className="w-full h-auto block">
-
+            ))}
+          </div>
+          <div className="w-full h-auto block">
+            {[
+              {
+                url: null,
+                label: data?.address_label,
+                icon: "/images/card-business-icon.svg",
+              },
+              {
+                type: "call",
+                url: data?.company_call_link,
+                label: data?.company_call_link,
+                icon: "/images/card-call-icon.svg",
+              },
+              {
+                type: "mail",
+                url: data?.company_Mail_link,
+                label: data?.company_Mail_link,
+                icon: "/images/card-mail-icon.svg",
+              },
+            ].map((item) =>
+              item.url ? (
+                <Link
+                  key={item?.label}
+                  href={
+                    item.type === "call"
+                      ? `tel:${item?.url}`
+                      : item.type === "mail"
+                        ? `mailto:${item?.url}`
+                        : item?.url
+                  }
+                  target="_blank"
+                  className="w-full h-full flex items-center"
+                >
+                  <div className="w-[35px] h-auto aspect-square overflow-hidden block">
+                    <Image
+                      src={item?.icon}
+                      alt={item?.label}
+                      width={35}
+                      height={35}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <Text
+                    as="div"
+                    size="p0"
+                    className="font-medium text-white w-[calc(100%-35px)] pl-[20px]"
+                  >
+                    {item?.label}
+                  </Text>
+                </Link>
+              ) : (
+                <div
+                  key={item?.label}
+                  className="w-full h-full flex items-center"
+                >
+                  <div className="w-[35px] h-auto aspect-square overflow-hidden block">
+                    <Image
+                      src={"images/adress-icon.svg"}
+                      alt="Address"
+                      width={35}
+                      height={35}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <Text
+                    as="div"
+                    size="p0"
+                    className="font-medium text-white w-[calc(100%-35px)] pl-[20px]"
+                  >
+                    {item?.label}
+                  </Text>
+                </div>
+              ),
+            )}
+          </div>
+          <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
+            {data?.social_links?.map((item, index) => (
+              <div key={"social_link" + index}>
+                <Button variant="link" size="none" asChild>
+                  <a href={item?.link} target="_blank" className="block">
+                    <Image
+                      src={item?.icon}
+                      alt={item?.name}
+                      width={18}
+                      height={18}
+                      className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                      unoptimized
+                    />
+                  </a>
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
