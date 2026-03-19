@@ -12,7 +12,7 @@ import { Heading, Text } from "../utils/typography";
 import { RequestAQuoteForm } from "../form/request-a-quote-form";
 
 export default function RequestAQuoteDialog({ children }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

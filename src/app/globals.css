@@ -241,5 +241,14 @@
     table td {
       @apply py-2 sm:py-3;
     }
+    .spec__row {
+      @apply flex gap-4 m-0;
+    }
+    .spec__name {
+      @apply w-[100px] sm:w-[120px] xl:w-[200px] text-[#888];
+    }
+    .spec__value {
+      @apply flex-1
+    }
   }
 }

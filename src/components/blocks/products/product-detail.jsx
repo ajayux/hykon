@@ -114,7 +114,7 @@ export default function ProductDetail({ data }) {
                             alt={item?.alt || "thumb"}
                             width={512}
                             height={512}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                           />
                         </button>
                       </div>
@@ -154,7 +154,7 @@ export default function ProductDetail({ data }) {
                               loop
                               muted
                               playsInline
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             >
                               <source src={item?.url} type="video/mp4" />
                             </video>
@@ -164,7 +164,7 @@ export default function ProductDetail({ data }) {
                               alt={item?.alt || "main"}
                               width={1080}
                               height={1080}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           )}
                         </div>
@@ -322,33 +322,35 @@ export default function ProductDetail({ data }) {
                   </Button>
                 </RequestAQuoteDialog>
               </div>
-              <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
-                <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">
-                  Variants
-                </div>
-                <div className="flex flex-wrap items-center -mx-1 2xl:-mx-1.5 3xl:-mx-2 [&>div]:px-1 2xl:[&>div]:px-1.5 3xl:[&>div]:px-2 [&>div]:py-1 xl:[&>div]:py-1.5 2xl:[&>div]:py-2 3xl:[&>div]:py-2.5">
-                  {data?.variants?.items?.map((variant) => (
-                    <div
-                      key={variant?.id}
-                      className="w-[100px] sm:w-[140px] lg:w-1/5"
-                    >
-                      <Button
-                        size="none"
-                        variant="none"
-                        className={cn(
-                          "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
-                          !variant?.isAvailable &&
-                            "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
-                          data?.slug === variant?.slug &&
-                            "border-white/60 text-white pointer-events-none",
-                        )}
+              {data?.variants?.items?.length > 0 && (
+                <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
+                  <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">
+                    Variants
+                  </div>
+                  <div className="flex flex-wrap items-center -mx-1 2xl:-mx-1.5 3xl:-mx-2 [&>div]:px-1 2xl:[&>div]:px-1.5 3xl:[&>div]:px-2 [&>div]:py-1 xl:[&>div]:py-1.5 2xl:[&>div]:py-2 3xl:[&>div]:py-2.5">
+                    {data?.variants?.items?.map((variant) => (
+                      <div
+                        key={variant?.id}
+                        className="w-[100px] sm:w-[140px] lg:w-1/5"
                       >
-                        <span className="truncate">{variant?.name}</span>
-                      </Button>
-                    </div>
-                  ))}
+                        <Button
+                          size="none"
+                          variant="none"
+                          className={cn(
+                            "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                            !variant?.isAvailable &&
+                              "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
+                            data?.slug === variant?.slug &&
+                              "border-white/60 text-white pointer-events-none",
+                          )}
+                        >
+                          <span className="truncate">{variant?.name}</span>
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -383,7 +385,7 @@ export default function ProductDetail({ data }) {
               >
                 {tab?.id === 2 ? (
                   <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
-                    <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-white/60">
+                    <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60">
                       {parse(tab?.description)}
                     </div>
                   </div>

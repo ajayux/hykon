@@ -5,7 +5,10 @@ import parse from "html-react-parser";
 export default function InnerHero({ data, overlayOpacity = 30 }) {
   return (
     <section className="w-full h-[320px] sm:h-[376px] lg:h-[400px] 2xl:h-[480px] 3xl:h-[600px] bg-black overflow-hidden flex items-end relative z-0">
-      <div className="w-full h-full bg-gradient-to-r from-black via-black/0 to-transparent absolute -z-1 inset-0 opacity-30" style={{ opacity: overlayOpacity / 100 }} />
+      <div
+        className="w-full h-full bg-gradient-to-r from-black via-black/0 to-transparent absolute -z-1 inset-0 opacity-30"
+        style={{ opacity: overlayOpacity / 100 }}
+      />
       {data?.media?.media_type === "video" ? (
         <>
           <video
@@ -31,8 +34,8 @@ export default function InnerHero({ data, overlayOpacity = 30 }) {
         <picture className="absolute -z-2 inset-0">
           <source media="(max-width: 640px)" srcSet={data?.media?.mobilePath} />
           <Image
-            src={data?.media?.desktopPath}
-            alt={data?.media?.alt || data?.title}
+            src={data?.media?.desktopPath || "/images/placeholder.jpg"}
+            alt={data?.media?.alt || "inner hero"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="-z-2 object-cover"
