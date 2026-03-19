@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Heading } from "@/components/utils/typography";
-import SuccessModal from "./SuccessModal";
+import SuccessModal from "./success-modal";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),

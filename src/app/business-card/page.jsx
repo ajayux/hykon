@@ -1,4 +1,4 @@
-import BusinessCardHero from "@/components/blocks/business-card/BusinessCardHero";
+import BusinessCardHero from "@/components/blocks/business-card/business-hero";
 
 const local_data = {
   businessHero: {
@@ -10,15 +10,42 @@ const local_data = {
       path: "/images/business-hero-1.jpg",
       alt: "Business",
     },
-    call_link: "tel:1234567890",
-    whatsapp_link: "https://wa.me/1234567890",
-    direction_link: "https://www.google.com/maps",
-    mail_link: "mailto:WV5tM@example.com",
-    website_link: "https://www.example.com",
-    address_label:
+    call: "tel:1234567890",
+    whatsapp: "https://wa.me/1234567890",
+    direction: "https://www.google.com/maps",
+    mail: "mailto:WV5tM@example.com",
+    website: "https://www.example.com",
+    address:
       "Hykon India Ltd, Kinfra Emc Info Park Expressway, Kakkanad, Kochi-682039",
-    company_call_link: "9072394451",
-    company_Mail_link: "gmrd@hykonindia.com",
+    companyCall: "9072394451",
+    companyMail: "gmrd@hykonindia.com",
+    sociallinks: [
+      {
+        link: "/",
+        icon: "/images/facebook.svg",
+        name: "Facebook",
+      },
+      {
+        link: "/",
+        icon: "/images/youtube.svg",
+        name: "youtube",
+      },
+      {
+        link: "/",
+        icon: "/images/instagram.svg",
+        name: "instagram",
+      },
+      {
+        link: "/",
+        icon: "/images/linkedin.svg",
+        name: "linkedin",
+      },
+      {
+        link: "/",
+        icon: "/images/x.svg",
+        name: "x",
+      },
+    ],
   },
 };
 
