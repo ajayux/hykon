@@ -75,7 +75,7 @@ const local_data = {
       "Discover how the HiLIFE 24V 100Ah LiFePO4 Battery delivers consistent, safe, and efficient power for everyday and critical energy needs.",
     media: {
       thumbnail_path: "/images/landing-power-banner.webp",
-      video_path: "/videos/about-hero.mp4",
+      video_path: "/videos/dummy-video.mp4",
       alt: "power",
     },
   },

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
-import { Button } from "../ui/button"; 
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
@@ -16,10 +16,11 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
   ssr: false,
 });
 
-export default function Footer({ footerData, socialLinkData, locale }) {
+export default function Footer({ footerData, socialLinkData }) {
   const pathname = usePathname();
-  const isLandingPage = pathname === "/landing" || pathname?.startsWith("/landing/");
-  
+  const isLandingPage =
+    pathname === "/landing" || pathname?.startsWith("/landing/");
+
   const [openSection, setOpenSection] = useState(null);
 
   if (isLandingPage) return null;

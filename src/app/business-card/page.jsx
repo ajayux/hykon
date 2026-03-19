@@ -1,4 +1,7 @@
-import BusinessCardHero from "@/components/blocks/business-card/business-hero";
+import BusinessContact from "@/components/blocks/business-card/business-contact";
+import BusinessFooter from "@/components/blocks/business-card/business-footer";
+import BusinessGallery from "@/components/blocks/business-card/business-gallery";
+import BusinessHero from "@/components/blocks/business-card/business-hero";
 
 const local_data = {
   businessHero: {
@@ -47,13 +50,62 @@ const local_data = {
       },
     ],
   },
-  businessFooter: {},
+  businessGallery: {
+    title: "Image Gallery",
+    items: [
+      {
+        id: 1,
+        type: "image",
+        path: "/images/business-gallery-1.jpg",
+        alt: "Business",
+      },
+      {
+        id: 2,
+        type: "image",
+        path: "/images/business-gallery-2.jpg",
+        alt: "Business",
+      },
+      {
+        id: 3,
+        type: "image",
+        path: "/images/business-gallery-3.jpg",
+        alt: "Business",
+      },
+      {
+        id: 4,
+        type: "image",
+        path: "/images/business-gallery-1.jpg",
+        alt: "Business",
+      },
+      {
+        id: 5,
+        type: "video",
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+    ],
+    pagination: {
+      current_page: 1,
+      last_page: 1,
+      per_page: 3,
+      total: 4,
+      has_more: true,
+    },
+  },
+  businessContact: {
+    title: "Contact Us",
+  },
 };
 
 export default function BusinesssCardPage() {
+  const businessCardData = local_data;
+
+  const { businessHero, businessGallery, businessContact } = businessCardData;
   return (
     <>
-      <BusinessCardHero data={local_data?.businessHero} />
+      <BusinessHero data={businessHero} />
+      <BusinessGallery data={businessGallery} />
+      <BusinessContact data={businessContact} />
       <BusinessFooter />
     </>
   );
