@@ -1,3 +1,4 @@
+import BusinessFooter from "@/components/blocks/business-card/business-footer";
 import BusinessCardHero from "@/components/blocks/business-card/BusinessCardHero";
 
 const local_data = {
@@ -20,12 +21,14 @@ const local_data = {
     company_call_link: "9072394451",
     company_Mail_link: "gmrd@hykonindia.com",
   },
+  businessFooter: {},
 };
 
 export default function BusinesssCardPage() {
   return (
     <>
       <BusinessCardHero data={local_data?.businessHero} />
+      <BusinessFooter />
     </>
   );
 }
