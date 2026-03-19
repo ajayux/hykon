@@ -345,7 +345,7 @@ export default async function productDetailPage({params}) {
     productDetailSection,
     similarProductSection,
     faqSection,
-  } = productsData;
+  } = localData;
 
 
 
