@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import { Heading, Text } from "@/components/utils/typography";
 import { Button } from "@/components/ui/button";
 
-export default function BusinessCardHero({ data }) {
+export default function BusinessHero({ data }) {
   return (
     <section className="w-full h-auto py-[100px] block relative z-0">
       <div className="w-full h-full absolute -z-1 inset-0">
@@ -74,27 +74,27 @@ export default function BusinessCardHero({ data }) {
               {
                 label: "Call",
                 icon: "/images/call-icon.svg",
-                url: data?.call_link,
+                url: data?.call,
               },
               {
                 label: "Whatsapp",
                 icon: "/images/whatsapp-icon.svg",
-                url: data?.whatsapp_link,
+                url: data?.whatsapp,
               },
               {
                 label: "Direction",
                 icon: "/images/direction-icon.svg",
-                url: data?.direction_link,
+                url: data?.direction,
               },
               {
                 label: "Mail",
                 icon: "/images/Mail-icon-card.svg",
-                url: data?.mail_link,
+                url: data?.mail,
               },
               {
                 label: "Website",
                 icon: "/images/website-icon.svg",
-                url: data?.website_link,
+                url: data?.website,
               },
             ].map((item) => (
               <Link
@@ -122,23 +122,23 @@ export default function BusinessCardHero({ data }) {
               </Link>
             ))}
           </div>
-          <div className="w-full h-auto block">
+          <div className="w-full h-auto gap-[15px] flex flex-col">
             {[
               {
                 url: null,
-                label: data?.address_label,
+                label: data?.address,
                 icon: "/images/card-business-icon.svg",
               },
               {
                 type: "call",
-                url: data?.company_call_link,
-                label: data?.company_call_link,
+                url: data?.companyCall,
+                label: data?.companyCall,
                 icon: "/images/card-call-icon.svg",
               },
               {
                 type: "mail",
-                url: data?.company_Mail_link,
-                label: data?.company_Mail_link,
+                url: data?.companyMail,
+                label: data?.companyMail,
                 icon: "/images/card-mail-icon.svg",
               },
             ].map((item) =>
@@ -197,8 +197,8 @@ export default function BusinessCardHero({ data }) {
               ),
             )}
           </div>
-          <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
-            {data?.social_links?.map((item, index) => (
+          <div className="flex flex-wrap gap-x-[40px]">
+            {data?.sociallinks?.map((item, index) => (
               <div key={"social_link" + index}>
                 <Button variant="link" size="none" asChild>
                   <a href={item?.link} target="_blank" className="block">
