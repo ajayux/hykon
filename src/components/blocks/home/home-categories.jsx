@@ -34,7 +34,8 @@ export default function HomeCategories({ data }) {
         >
           <div className="flex touch-pan-y touch-pinch-zoom -mx-1 3xl:-mx-2 [&>*]:p-1 3xl:[&>*]:p-2">
             {data?.map((item) => (
-              <div
+              <Link
+                    href={`/categories/${item?.slug}`}
                 key={item?.id}
                 className={cn(
                   "flex-[0_0_130px] lg:flex-[0_0_130px] 2xl:flex-[0_0_150px] 3xl:flex-[0_0_185px] min-w-0 select-none",
@@ -66,8 +67,7 @@ export default function HomeCategories({ data }) {
                   >
                     {item?.name}
                   </Text>
-                  <Link
-                    href={`/categories/${item?.slug}`}
+                  <div
                     className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
                   >
                     <span className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">
@@ -83,9 +83,9 @@ export default function HomeCategories({ data }) {
                     <span className="text-[10px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal text-white">
                       View Details
                     </span>
-                  </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

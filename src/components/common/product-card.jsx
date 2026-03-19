@@ -7,7 +7,11 @@ import parse from "html-react-parser";
 export default function ProductCard({ item, variant = "default" }) {
   if (variant === "variant-1") {
     return (
+      <div>
+
       <div className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-7.5 bg-[#212121] border border-[#212121] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] transition-all duration-500 hover:border-[#008dd2]">
+      
+      <Link                   href={`/categories/${item?.slug}`}>
         <div className="w-full aspect-145/75 overflow-hidden mb-2 xl:mb-5 3xl:mb-6 mt-1 xl:mt-2 3xl:mt-4">
           <Image
             src={item?.media?.path}
@@ -44,7 +48,7 @@ export default function ProductCard({ item, variant = "default" }) {
               className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
               asChild
             >
-              <Link href={`/products/${item?.slug}` || "#"}>
+              <div>
                 <div className="w-4 xl:w-4.5 2xl:w-5.5 3xl:w-6 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -56,11 +60,15 @@ export default function ProductCard({ item, variant = "default" }) {
                   />
                 </div>
                 View Details
-              </Link>
+              </div>
             </Button>
           </div>
         </div>
+      </Link>
+
       </div>
+      </div>
+
     );
   }
 
