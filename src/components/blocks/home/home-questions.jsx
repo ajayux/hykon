@@ -1,11 +1,18 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import parse from "html-react-parser";
 import GetInTouchDialog from "@/components/common/get-in-touch-dialog";
 
 export default function HomeQuestions({ data }) {
+  const pathname = usePathname();
+  const isLandingPage =
+    pathname === "/landing" || pathname?.startsWith("/landing/");
+
+  if (isLandingPage) return null;
   return (
     <section className="w-full h-auto block bg-[#008dd2] py-10 xl:py-15 2xl:py-17.5 3xl:py-[85px] relative z-0">
       <Image

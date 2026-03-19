@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import HeaderNavigation from "./header-navigation";
 import HeaderHamburger from "./header-hamburger";
 import HeaderSheet from "./header-sheet";
@@ -16,9 +17,14 @@ export default function Header({
   socialLinkData,
   mobileMenuData,
 }) {
+  const pathname = usePathname();
+  const isLandingPage =
+    pathname === "/landing" || pathname?.startsWith("/landing/");
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
+
+  if (isLandingPage) return null;
 
   // Handle scroll visibility
   useMotionValueEvent(scrollYProgress, "change", (current) => {
