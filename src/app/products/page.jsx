@@ -157,12 +157,8 @@ const localData = {
 
 export default async function ProductsPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;
-  const rawSlugs = resolvedSearchParams?.["product_slug[]"];
-  const product_slugs = Array.isArray(rawSlugs)
-    ? rawSlugs
-    : rawSlugs
-      ? [rawSlugs]
-      : [];
+  const rawSlug = resolvedSearchParams?.["product_slug"];
+  const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
 
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
 

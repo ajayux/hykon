@@ -63,7 +63,8 @@ export function ProductListingSkeleton() {
 
 function ProductGrid({ data }) {
   const searchParams = useSearchParams();
-  const product_slugs = searchParams.getAll("product_slug[]");
+  const rawSlug = searchParams.get("product_slug");
+  const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
 
   const [items, setItems] = useState(data?.productInfo?.productItems ?? []);
   const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
@@ -187,6 +188,9 @@ function ProductGrid({ data }) {
 }
 
 export default function ProductListing({ data }) {
+  const mobileFilterRef = useRef(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   return (
     <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
@@ -197,7 +201,7 @@ export default function ProductListing({ data }) {
                 <FilterCard data={data} />
               </Suspense>
             </div>
-            <Sheet>
+            <Sheet open={sheetOpen} onOpenChange={(open) => { if (!open) mobileFilterRef.current?.reset(); setSheetOpen(open); }}>
               <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
                 <ListFilterPlus className="size-3 xl:size-4 text-white" />
                 FILTER
@@ -213,7 +217,7 @@ export default function ProductListing({ data }) {
                   </SheetDescription>
                 </SheetHeader>
                 <Suspense fallback={null}>
-                  <FilterCard data={data} />
+                  <FilterCard ref={mobileFilterRef} data={data} deferred />
                 </Suspense>
                 <SheetFooter className="grid grid-cols-2 gap-2 px-0">
                   <SheetClose asChild>
@@ -221,7 +225,14 @@ export default function ProductListing({ data }) {
                       Close
                     </Button>
                   </SheetClose>
-                  <Button size="lg" variant="white" type="submit">
+                  <Button
+                    size="lg"
+                    variant="white"
+                    onClick={() => {
+                      mobileFilterRef.current?.apply();
+                      setSheetOpen(false);
+                    }}
+                  >
                     Apply
                   </Button>
                 </SheetFooter>
