@@ -197,7 +197,6 @@ export default async function ProductsPage({ searchParams }) {
 
   const { heroSection, productSection } = productsData;
 
-  console.log(productSection?.productInfo);
   return (
     <>
       <InnerHero data={heroSection} />

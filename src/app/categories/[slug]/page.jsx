@@ -229,7 +229,7 @@ export default async function categoriesDetailPage({params}) {
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo page={page} slug={`${slug}`} />
+      <BreadcrumbInfo page={page} slug={`${heroSection?.title}`} />
       {categoryDetailSection && (
         <CategoriesDetail data={categoryDetailSection} />
       )}

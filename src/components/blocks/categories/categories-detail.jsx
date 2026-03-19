@@ -1,9 +1,20 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
+
+const scrollToSection = (e, slug) => {
+  e.preventDefault();
+  const el = document.getElementById(slug);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
+};
 
 const getProductUrl = (slug) => {
   const params = new URLSearchParams();
@@ -60,6 +71,20 @@ export default function CategoriesDetail({ data }) {
             <div className="w-full bg-[#171f24] px-4 sm:px-6 xl:px-9 2xl:px-11 3xl:px-12.5 py-6 sm:py-8 xl:py-12.5 2xl:py-13 3xl:py-17 rounded-[10px] 2xl:rounded-[13px] 3xl:rounded-[16px]">
               <div className="typography [--text-color:#fff] [&_ul]:mt-0 [&_ul]:mb-6 xl:[&_ul]:mb-10 2xl:[&_ul]:mb-14 3xl:[&_ul]:mb-16 [&_ul]:flex [&_ul]:flex-wrap [&_li]:w-full sm:[&_li]:w-[44%]">
                 {parse(data?.specification?.description)}
+                {data?.items?.length > 0 && (
+                  <ul>
+                    {data?.items?.map((item) => (
+                      <li key={item?.id}>
+                        <a
+                          href={`#${item?.slug}`}
+                          onClick={(e) => scrollToSection(e, item?.slug)}
+                        >
+                          {parse(item?.title)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <div className="flex flex-wrap gap-2 sm:gap-4 xl:gap-6 2xl:gap-7.5 3xl:gap-8.5">
                 {data?.specification?.specificationMedia?.map((item) => (
@@ -83,7 +108,8 @@ export default function CategoriesDetail({ data }) {
 
         {data?.items?.map((item) => (
           <div
-            key={item?.id}
+            key={item?.slug}
+            id={item?.slug}
             className="w-full my-2 sm:my-3 xl:my-5 2xl:my-6 3xl:my-7"
           >
             <div className="w-full bg-[#212121] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-4 sm:px-8 xl:px-12 2xl:px-15 3xl:px-17.5 py-10 xl:py-15 2xl:py-18 3xl:py-22.5">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import parse from "html-react-parser";
@@ -31,44 +32,15 @@ import Link from "next/link";
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
-export default function PowerCalculation({ data }) {
-  const [items, setItems] = useState([
-    {
-      name: "Lamps (Bulb)",
-      powerOptions: ["5W", "10W", "15W", "20W", "40W", "60W"],
-      rows: [{ id: 1, power: "", count: "" }],
-    },
-    {
-      name: "Lamps (CFL)",
-      powerOptions: ["5W", "8W", "11W", "14W", "20W", "24W"],
-      rows: [{ id: 2, power: "", count: "" }],
-    },
-    {
-      name: "LED Lights",
-      powerOptions: ["3W", "5W", "7W", "9W", "12W", "15W", "18W", "20W"],
-      rows: [{ id: 3, power: "", count: "" }],
-    },
-    {
-      name: "Tube Lights",
-      powerOptions: ["18W", "20W", "36W", "40W"],
-      rows: [{ id: 4, power: "", count: "" }],
-    },
-    {
-      name: "Fans",
-      powerOptions: ["50W", "60W", "75W", "80W"],
-      rows: [{ id: 5, power: "", count: "" }],
-    },
-    {
-      name: "Window air conditioner",
-      powerOptions: ["0.75kW", "1kW", "1.5kW", "2kW"],
-      rows: [{ id: 6, power: "", count: "" }],
-    },
-    {
-      name: "Water Heater/Geaser",
-      powerOptions: ["1kW", "2kW", "3kW"],
-      rows: [{ id: 7, power: "", count: "" }],
-    },
-  ]);
+export default function PowerCalculation({ data, appliances }) {
+  const router = useRouter();
+  const [items, setItems] = useState(() =>
+    (appliances || []).map((appliance, index) => ({
+      name: appliance.name,
+      powerOptions: appliance.powerOptions,
+      rows: [{ id: index + 1, power: "", count: "" }],
+    }))
+  );
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -191,7 +163,7 @@ export default function PowerCalculation({ data }) {
                                     <SelectGroup>
                                       {item?.powerOptions?.map((opt) => (
                                         <SelectItem key={opt} value={opt}>
-                                          {opt}
+                                          {isNaN(Number(opt)) ? opt : opt + "W"}
                                         </SelectItem>
                                       ))}
                                     </SelectGroup>
@@ -289,15 +261,28 @@ export default function PowerCalculation({ data }) {
               >
                 {data?.calculatorDescription}
               </Text>
-              <PowerDialog>
+              {totalVA > 0 ? (
                 <Button
+                  onClick={() =>
+                    router.push(`/products?backup_capacity=${totalVA}`)
+                  }
                   size="lg"
                   variant="outline"
                   className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
                 >
                   Click Here
                 </Button>
-              </PowerDialog>
+              ) : (
+                <PowerDialog>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
+                  >
+                    Click Here
+                  </Button>
+                </PowerDialog>
+              )}
               <div className="text-[12px] lg:text-[10px] 2xl:text-[11px] 3xl:text-[14px] leading-normal font-light italic text-white/80">
                 {parse(data?.calculatorNote)}
               </div>
