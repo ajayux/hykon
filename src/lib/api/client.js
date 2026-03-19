@@ -1,17 +1,18 @@
-const API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+export const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/api` || "http://localhost:3001";
 
-console.log(process.env.NEXT_PUBLIC_API_URL);
+console.log(process.env.NEXT_PUBLIC_BASE_URL);
 console.log(process.env.API_URL);
 
 export async function apiClient(endpoint, options = {}) {
   const url = `${API_URL}${endpoint}`;
 
+  const { headers: extraHeaders, ...restOptions } = options;
   const config = {
     headers: {
       "Content-Type": "application/json",
-      ...options.headers,
+      ...extraHeaders,
     },
-    ...options,
+    ...restOptions,
   };
 
   try {

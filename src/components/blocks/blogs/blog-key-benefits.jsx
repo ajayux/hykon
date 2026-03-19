@@ -35,8 +35,8 @@ export default function BlogKeyBenefits({ data }) {
                   >
                     <div className="w-[20px] sm:w-[25px] xl:w-[35px] 2xl:w-[45px] 3xl:w-[56px] h-[25px] sm:h-[30px] xl:h-[35px] 2xl:h-[45px] 3xl:h-[56px]">
                       <Image
-                        src={item.icon}
-                        alt={item.title}
+                        src={item?.media?.path}
+                        alt={item.media?.alt}
                         width={56}
                         height={56}
                         className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"

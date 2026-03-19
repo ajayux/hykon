@@ -6,11 +6,12 @@ import FactoryInfo from "@/components/blocks/factory/factory-info";
 import FactoryListing from "@/components/blocks/factory/factory-listing";
 import FactoryQualityControl from "@/components/blocks/factory/factory-qaulity-control";
 
-export const metadata = {
-  title: "Factory | HYKON",
-  description:
-    "Learn more about Hykon India, our mission, vision, and our journey in sustainable energy.",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("factory");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function FactoryPage() {
   let factoryData = null;

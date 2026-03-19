@@ -4,11 +4,12 @@ import CustomerCareDetails from "@/components/blocks/customer-care/customer-care
 import CustomerCareForm from "@/components/blocks/customer-care/customer-care-form";
 import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: "Customer Care | HYKON",
-  description:
-    "Stay updated with Hykon's financial reports and investor relations.",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("Customer-Care");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   heroSection: {
@@ -55,27 +56,24 @@ const localData = {
 };
 
 export default async function CustomerCarePage() {
-  // let pageData = null;
+  let pageData = null;
 
-  // try {
-  //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  //   const res = await fetch(`${baseUrl}/api/customer-care`, {
-  //     next: { revalidate: 60 },
-  //   });
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const res = await fetch(`${baseUrl}/api/customer-care`);
 
-  //   if (res.ok) {
-  //     const response = await res.json();
-  //     pageData = response.data;
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching customer care data:", error);
-  // }
+    if (res.ok) {
+      const response = await res.json();
+      pageData = response.data;
+    }
+  } catch (error) {
+    console.error("Error fetching customer care data:", error);
+  }
 
-  // if (!pageData) {
-  //   notFound();
-  // }
+  if (!pageData) {
+    notFound();
+  }
 
-  const pageData = localData;
   const { heroSection, customerCare, formSections } = pageData;
 
   return (

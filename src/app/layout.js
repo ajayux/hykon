@@ -1,16 +1,18 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 import { getFontVariable, getFontClassName } from "@/lib/fonts";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
 import FloatNavigation from "@/components/common/float-navigation";
 import HomeQuestions from "@/components/blocks/home/home-questions";
+import Providers from "./providers";
 
 export const metadata = {
   title: {
     default: "HYKON",
-    template: "%s | HYKON",
+    template: "%s",
   },
   description: "Modern Next.js boilerplate with animations and UI components.",
   keywords: ["nextjs", "react", "tailwind", "boilerplate", "framer-motion"],
@@ -92,6 +94,7 @@ export default async function RootLayout({ children }) {
     footerData,
     socialLinkData,
     questionsSection,
+    mobileMenuData,
   } = globalData;
 
   const fontVariable = getFontVariable();
@@ -116,11 +119,21 @@ export default async function RootLayout({ children }) {
       <body className={cn("antialiased", fontClassName, fontVariable)}>
         {/* <FloatNavigation /> */}
 
-        <Header data={headerData} navigationData={navigationData} />
+        <Header
+          data={headerData}
+          navigationData={navigationData}
+          socialLinkData={socialLinkData}
+          mobileMenuData={mobileMenuData}
+        />
 
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen">
+          <Providers>{children}</Providers>
+        </main>
 
         {questionsSection && <HomeQuestions data={questionsSection} />}
+
+        <Toaster position="top-right" richColors closeButton expand />
+
         <Footer footerData={footerData} socialLinkData={socialLinkData} />
       </body>
     </html>

@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +11,11 @@ import {
 import { Heading } from "../utils/typography";
 import { CareerApplicationForm } from "../form/career-application-form";
 
-export default function CareerDialog({ children, jobTitle, onOpenChange }) {
+export default function CareerDialog({ children, jobTitle, slug }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className={
@@ -34,11 +38,8 @@ export default function CareerDialog({ children, jobTitle, onOpenChange }) {
             career application form
           </DialogDescription>
         </DialogHeader>
-        <div className="-mx-4 no-scrollbar max-h-[80vh] overflow-y-auto px-4">
-          <CareerApplicationForm
-            jobTitle={jobTitle}
-            onOpenChange={onOpenChange}
-          />
+        <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
+          <CareerApplicationForm jobTitle={jobTitle} slug={slug} />
         </div>
       </DialogContent>
     </Dialog>

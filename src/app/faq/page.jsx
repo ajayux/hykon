@@ -2,6 +2,12 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import FaqListing from "@/components/blocks/faq/faq-listing";
 import { notFound } from "next/navigation";
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("faq");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function faqPage() {
   let faqData = null;
@@ -23,7 +29,9 @@ export default async function faqPage() {
     notFound();
   }
 
-  const { heroSection, filterItems, faqs } = faqData;
+  const { heroSection, faqSection } = faqData;
+
+  console.log(faqData)
 
   return (
     <>
@@ -32,9 +40,9 @@ export default async function faqPage() {
 
       <FaqListing
         data={{
-          title: "Frequently Asked Questions",
-          filterItems: filterItems,
-          faqs: faqs,
+          title: faqSection?.title,
+          filterItems: faqSection?.filterItems,
+          faqs: faqSection?.faqs,
         }}
       />
     </>

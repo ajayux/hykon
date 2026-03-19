@@ -20,27 +20,18 @@ export default function FaqListing({ data }) {
   );
 
   const [items, setItems] = useState(data?.faqs || []);
-  const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchFaq = useCallback(async (category, page, isAppend = false) => {
+  const fetchFaq = useCallback(async (category) => {
     setIsLoading(true);
-    if (!isAppend) setItems([]);
+    setItems([]);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const res = await fetch(
-        `${baseUrl}/api/faq?category=${category}&page=${page}`,
-      );
+      const res = await fetch(`${baseUrl}/api/faq?category=${category}`);
       if (res.ok) {
         const response = await res.json();
-        const result = response.data?.faqSection || response.data;
-        const faqData = result;
-        if (isAppend) {
-          setItems((prev) => [...prev, ...(faqData.items || [])]);
-        } else {
-          setItems(faqData.items || []);
-        }
-        setPagination(faqData.pagination || {});
+        const faqSection = response.data?.faqSection;
+        setItems(faqSection?.faqs || []);
       }
     } catch (error) {
       console.error("Error fetching faq:", error);
@@ -51,7 +42,7 @@ export default function FaqListing({ data }) {
 
   const handleFilterChange = (slug) => {
     setActiveFilter(slug);
-    fetchFaq(slug, 1, false);
+    fetchFaq(slug);
   };
 
   return (
@@ -75,8 +66,16 @@ export default function FaqListing({ data }) {
             />
           </div>
         </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center py-16">
+            <svg className="animate-spin h-8 w-8 text-[#008dd2]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          </div>
+        ) : (
         <Accordion type="single" collapsible className="w-full">
-          {data?.faqs?.map((faq, index) => (
+          {items?.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`} className="rounded-[4px] xl:rounded-[8px] 2xl:rounded-[11px] 3xl:rounded-[14px] bg-[#212121] p-[10px_15px] sm:p-[15px_20px] xl:p-[20px_25px] 2xl:p-[25px_32px] 3xl:p-[32px_40px] mb-[18px] shadow-none border-none">
               <AccordionTrigger className="[&>svg]:hidden group flex items-center justify-between text-[12px] xl:text-[15px] 2xl:text-[19px] 3xl:text-[24px] py-0 leading-[1.5] md:leading-tight font-normal text-white cursor-pointer">
                 <span>{index + 1}. {faq?.question}</span>
@@ -91,6 +90,7 @@ export default function FaqListing({ data }) {
             </AccordionItem>
           ))}
         </Accordion>
+        )}
       </div>
     </section>
   );

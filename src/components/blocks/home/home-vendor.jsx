@@ -29,7 +29,7 @@ export default function HomeVendor({ data }) {
             className="text-center text-white min-w-[140px] xl:min-w-[145px] 2xl:min-w-[175px] 3xl:min-w-[213px] pl-4 max-sm:mx-auto"
             asChild
           >
-            <Link href={data?.button?.link}>
+            <Link href={`/vendor-registration`}>
               {data?.button?.label}
               <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                 <Image

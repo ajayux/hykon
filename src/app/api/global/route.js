@@ -25,6 +25,33 @@ export async function GET(request) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
+
+    mobileMenuData: {
+      locations: [
+        {
+          id: 1,
+          city: "Kochi",
+          slug: "/kochi",
+        },
+        {
+          id: 2,
+          city: "Pune",
+          slug: "/pune",
+        },
+        {
+          id: 3,
+          city: "Thrissur",
+          slug: "/thrissur",
+        },
+        {
+          id: 4,
+          city: "Coimbatore",
+          slug: "/coimbatore",
+        },
+      ],
+      phoneNumber: "+91 123 456 7890",
+      email: "info@company.com",
+    },
     navigationData: [
       {
         id: 1,
@@ -93,8 +120,8 @@ export async function GET(request) {
       {
         id: 3,
         hasSubmenu: true,
-        name: "Projects",
-        slug: "/projects",
+        name: "Contact",
+        slug: "/contact",
       },
       {
         id: 4,
@@ -112,7 +139,7 @@ export async function GET(request) {
         id: 6,
         hasSubmenu: false,
         name: "Career",
-        slug: "/career",
+        slug: "/careers",
       },
       {
         id: 7,
@@ -187,39 +214,59 @@ export async function GET(request) {
         title: "Quick Links",
         items: [
           {
+            id: 0,
+            label: "About",
+            slug: "/about",
+          },
+          {
             id: 1,
-            label: "Warranty Registration",
-            slug: "/customer-care/warranty-registration",
+            label: "FAQ",
+            slug: "/faq",
           },
           {
             id: 2,
-            label: "Register Complaints",
-            slug: "/customer-care/register-complaints",
+            label: "Customer Care",
+            slug: "/customer-care",
           },
           {
+            id: 1,
+            label: "Warranty Registration",
+            slug: "/warranty-complaints",
+          },
+          // {
+          //   id: 2,
+          //   label: "Register Complaints",
+          //   slug: "/customer-care/register-complaints",
+          // },
+          // {
+          //   id: 3,
+          //   label: "Privacy Policy",
+          //   slug: "/customer-care/privacy-policy",
+          // },
+          {
             id: 3,
-            label: "Privacy Policy",
-            slug: "/customer-care/privacy-policy",
+            label: "Hykonnect",
+            slug: "/hykonnect",
           },
           {
             id: 4,
             label: "Terms & Conditions",
-            slug: "/customer-care/terms-conditions",
+            slug: "/terms",
           },
-          {
-            id: 5,
-            label: "Return Policy",
-            slug: "/customer-care/return-policy",
-          },
-          {
-            id: 6,
-            label: "Shipping Policy",
-            slug: "/customer-care/shipping-policy",
-          },
+          // {
+          //   id: 5,
+          //   label: "Return Policy",
+          //   slug: "/customer-care/return-policy",
+          // },
+          // {
+          //   id: 6,
+          //   label: "Shipping Policy",
+          //   slug: "/customer-care/shipping-policy",
+          // },
           {
             id: 7,
             label: "Investor Relations",
-            slug: "/customer-care/investor-relations",
+            slug: "/investor-relations",
           },
           {
             id: 8,
@@ -229,18 +276,18 @@ export async function GET(request) {
           {
             id: 9,
             label: "Career",
-            slug: "/career",
+            slug: "/careers",
           },
-          {
-            id: 10,
-            label: "Services",
-            slug: "/services",
-          },
-          {
-            id: 11,
-            label: "Projects",
-            slug: "/projects",
-          },
+          // {
+          //   id: 10,
+          //   label: "Services",
+          //   slug: "/services",
+          // },
+          // {
+          //   id: 11,
+          //   label: "Projects",
+          //   slug: "/projects",
+          // },
           {
             id: 12,
             label: "News",
@@ -386,31 +433,7 @@ export async function GET(request) {
         link: "/contact",
       },
     },
-    mobile_menu_data: {
-      locations: [
-        {
-          id: "01",
-          city: "Kochi",
-        },
-        {
-          id: "02",
-          city: "Pune",
-        },
-        {
-          id: "03",
-          city: "Thrissur",
-        },
-        {
-          id: "04",
-          city: "Coimbatore",
-        },
-      ],
-      contact_info: {
-        phone: "+91 123 456 7890",
-        email: "info@company.com",
-      },
-    },
-    seo_data: {
+    seoData: {
       siteName: "Hykon",
       siteUrl: "https://hykon.in/",
       defaultTitle: "Hykon - Powering the Nation",

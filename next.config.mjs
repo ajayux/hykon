@@ -1,4 +1,3 @@
-import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -13,7 +12,13 @@ const nextConfig = {
         hostname: "beta.hykon.dev14.intersmarthosting.in",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "beta.hykon.dev14.intersmarthosting.in",
+        pathname: "/**",
+      },
     ],
+    qualities: [100],
     formats: ["image/avif", "image/webp"],
     // deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     // imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -30,5 +35,4 @@ const nextConfig = {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],
   },
 };
-
-export default withNextVideo(nextConfig);
+export default nextConfig;

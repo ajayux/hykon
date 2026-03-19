@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
 
+
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
     data?.filters?.[0]?.slug || "warranty-registration",
@@ -62,9 +63,9 @@ export default function WarrantyFormInfo({ data }) {
         </div>
         <div className="w-full">
           {activeTab === "warranty-registration" ? (
-            <WarrantyRegistrationForm />
+            <WarrantyRegistrationForm page={"warranty"} />
           ) : (
-            <WarrantyRegistrationForm />
+            <WarrantyRegistrationForm page={"warranty"} />
           )}
         </div>
       </div>

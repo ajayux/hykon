@@ -42,7 +42,7 @@ export default function HomeBusiness({ data }) {
                 size="h3"
                 className="text-medium text-white mb-2 xl:mb-8 3xl:mb-12"
               >
-                {parse(data?.title)}
+                {parse(data?.description)}
               </Heading>
               <Button
                 size="lg"
@@ -50,7 +50,7 @@ export default function HomeBusiness({ data }) {
                 className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] px-0"
                 asChild
               >
-                <Link href={data?.button?.link}>
+                <Link href={`/factory`}>
                   <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center">
                     <Image
                       src={"/images/icon-arrow-right-blue.svg"}
@@ -117,7 +117,7 @@ export default function HomeBusiness({ data }) {
                                 className="text-black min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
                                 asChild
                               >
-                                <Link href={data?.button?.link}>
+                                <Link href={`/factory/${item?.slug}`}>
                                   <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                                     <Image
                                       src={"/images/icon-arrow-right-white.svg"}

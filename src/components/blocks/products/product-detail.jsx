@@ -10,10 +10,14 @@ import dynamic from "next/dynamic";
 
 const YouTube = dynamic(() => import("react-youtube"), { ssr: false });
 import { useCallback, useEffect, useState } from "react";
-import Fancybox from "@/components/common/fancybox";
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"));
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Video from "yet-another-react-lightbox/plugins/video";
+import "yet-another-react-lightbox/styles.css";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Fade from "embla-carousel-fade";
+import RequestAQuoteDialog from "@/components/common/request-a-quote-dialog";
 
 const opts = {
   width: "320",
@@ -57,6 +61,9 @@ export default function ProductDetail({ data }) {
     [emblaMainApi, emblaThumbsApi],
   );
 
+  const [openProduct, setOpenProduct] = useState(false);
+  const [indexProduct, setIndexProduct] = useState(0);
+
   const onSelect = useCallback(() => {
     if (!emblaMainApi || !emblaThumbsApi) return;
     setSelectedIndex(emblaMainApi.selectedScrollSnap());
@@ -73,7 +80,7 @@ export default function ProductDetail({ data }) {
     <section className="w-full h-auto block bg-[#212121] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap items-center gap-x-10 sm:gap-x-15 xl:gap-x-[72px] 2xl:gap-x-[86px] 3xl:gap-x-[105px] mb-6 sm:mb-10 xl:mb-15 2xl:mb-18 3xl:mb-22">
-          <div className="w-full lg:w-[468px] xl:w-[510px] 2xl:w-[620px] 3xl:w-[700px] max-lg:mb-6">
+          <div className="w-full lg:w-[468px] xl:w-[510px] 2xl:w-[620px] 3xl:w-[700px] max-lg:max-w-[420px] max-lg:mb-6">
             <div
               className={cn(
                 "w-full flex flex-wrap max-lg:flex-direction-row-reverse",
@@ -107,7 +114,7 @@ export default function ProductDetail({ data }) {
                             alt={item?.alt || "thumb"}
                             width={512}
                             height={512}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                           />
                         </button>
                       </div>
@@ -121,27 +128,24 @@ export default function ProductDetail({ data }) {
                 )}
               >
                 <div className="overflow-hidden" ref={emblaMainRef}>
-                  <Fancybox
+                  <div
                     className={cn(
                       "flex touch-pan-y touch-pinch-zoom",
                       GALLERY_STYLES,
                     )}
-                    options={{
-                      Carousel: {
-                        infinite: false,
-                      },
-                    }}
                   >
-                    {data?.media?.map((item) => (
+                    {data?.media?.map((item, index) => (
                       <div
                         key={item?.id}
                         className="flex-[0_0_100%] min-w-0 p-1 xl:p-2.5 2xl:p-3 3xl:p-3.5 block"
+                        onClick={() => {
+                          setIndexProduct(index);
+                          setOpenProduct(true);
+                        }}
                       >
-                        <a
-                          data-fancybox="gallery"
-                          href={item?.url}
+                        <div
                           className={cn(
-                            "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none",
+                            "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none cursor-pointer",
                           )}
                         >
                           {item?.type === "video" ? (
@@ -150,7 +154,7 @@ export default function ProductDetail({ data }) {
                               loop
                               muted
                               playsInline
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             >
                               <source src={item?.url} type="video/mp4" />
                             </video>
@@ -160,13 +164,44 @@ export default function ProductDetail({ data }) {
                               alt={item?.alt || "main"}
                               width={1080}
                               height={1080}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           )}
-                        </a>
+                        </div>
                       </div>
                     ))}
-                  </Fancybox>
+
+                    <Lightbox
+                      open={openProduct}
+                      close={() => setOpenProduct(false)}
+                      index={indexProduct}
+                      slides={data?.media?.map((item) =>
+                        item.type === "video"
+                          ? {
+                              type: "video",
+                              width: 1280,
+                              height: 720,
+                              poster: item?.thumbnailUrl,
+                              autoPlay: true,
+                              sources: [
+                                {
+                                  src: item?.url,
+                                  type: "video/mp4",
+                                },
+                              ],
+                            }
+                          : {
+                              src: item?.url,
+                            },
+                      )}
+                      animation={{ fade: 10 }}
+                      controller={{
+                        closeOnPullDown: true,
+                        closeOnBackdropClick: true,
+                      }}
+                      plugins={[Video, Zoom]}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,51 +302,55 @@ export default function ProductDetail({ data }) {
                   </div>
                 </Button>
 
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5"
-                >
-                  Request a Quote
-                  <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-                    <Image
-                      src={"/images/icon-arrow-right-white.svg"}
-                      alt={"icon-arrow-right-white"}
-                      width={18}
-                      height={13}
-                      className="w-1/2"
-                      unoptimized
-                    />
-                  </span>
-                </Button>
+                <RequestAQuoteDialog>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5"
+                  >
+                    Request a Quote
+                    <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-white.svg"}
+                        alt={"icon-arrow-right-white"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </span>
+                  </Button>
+                </RequestAQuoteDialog>
               </div>
-              <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
-                <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">
-                  Variants
-                </div>
-                <div className="flex flex-wrap items-center -mx-1 2xl:-mx-1.5 3xl:-mx-2 [&>div]:px-1 2xl:[&>div]:px-1.5 3xl:[&>div]:px-2 [&>div]:py-1 xl:[&>div]:py-1.5 2xl:[&>div]:py-2 3xl:[&>div]:py-2.5">
-                  {data?.variants?.items?.map((variant) => (
-                    <div
-                      key={variant?.id}
-                      className="w-1/3 min-[420px]:w-1/4 lg:w-1/5"
-                    >
-                      <Button
-                        size="none"
-                        variant="none"
-                        className={cn(
-                          "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
-                          !variant?.isAvailable &&
-                            "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
-                          data?.slug === variant?.slug &&
-                            "border-white/60 text-white pointer-events-none",
-                        )}
+              {data?.variants?.items?.length > 0 && (
+                <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
+                  <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">
+                    Variants
+                  </div>
+                  <div className="flex flex-wrap items-center -mx-1 2xl:-mx-1.5 3xl:-mx-2 [&>div]:px-1 2xl:[&>div]:px-1.5 3xl:[&>div]:px-2 [&>div]:py-1 xl:[&>div]:py-1.5 2xl:[&>div]:py-2 3xl:[&>div]:py-2.5">
+                    {data?.variants?.items?.map((variant) => (
+                      <div
+                        key={variant?.id}
+                        className="w-[100px] sm:w-[140px] lg:w-1/5"
                       >
-                        {variant?.name}
-                      </Button>
-                    </div>
-                  ))}
+                        <Button
+                          size="none"
+                          variant="none"
+                          className={cn(
+                            "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                            !variant?.isAvailable &&
+                              "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
+                            data?.slug === variant?.slug &&
+                              "border-white/60 text-white pointer-events-none",
+                          )}
+                        >
+                          <span className="truncate">{variant?.name}</span>
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -331,7 +370,7 @@ export default function ProductDetail({ data }) {
                   value={tab?.id}
                   className={cn(
                     "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white dark:data-[state=active]:border-[#008dd2]",
-                    "after:bg-white data-[state=active]:after:bg-[#008dd2] after:opacity-100",
+                    "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] after:opacity-100",
                   )}
                 >
                   {tab?.label}
@@ -346,7 +385,7 @@ export default function ProductDetail({ data }) {
               >
                 {tab?.id === 2 ? (
                   <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
-                    <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-white/60">
+                    <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60">
                       {parse(tab?.description)}
                     </div>
                   </div>
@@ -389,7 +428,7 @@ export default function ProductDetail({ data }) {
                 className="text-white min-w-[130px] xl:min-w-[150px] 2xl:min-w-[180px] 3xl:min-w-[215px] pl-4 xl:pl-5"
                 asChild
               >
-                <Link href={item?.url} target="_blank">
+                <Link href={item?.url ?? ""} target="_blank">
                   {item?.label}
                   <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                     <Image

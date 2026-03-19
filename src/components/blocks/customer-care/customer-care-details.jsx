@@ -4,6 +4,11 @@ import parse from "html-react-parser";
 import React from "react";
 
 export default function CustomerCareDetails({ data }) {
+  const numbers = data?.callCenterNumber?.flatMap((item) =>
+    item.split(",").map((num) => num.trim()),
+  );
+
+
   return (
     <section className="w-full h-auto block py-6 xl:py-8 2xl:py-10 3xl:py-11 bg-[#181818]">
       <div className="container">
@@ -43,7 +48,10 @@ export default function CustomerCareDetails({ data }) {
                 </Text>
               </div>
               <Text as="div" size="p1" className="text-white">
-                <a href={`https://wa.me/${data?.whatsappNumber}`}>
+                <a
+                  href={`https://wa.me/${data?.whatsappNumber}`}
+                  target="_blank"
+                >
                   {data?.whatsappNumber}
                 </a>
               </Text>
@@ -72,11 +80,10 @@ export default function CustomerCareDetails({ data }) {
                         size="p1"
                         className="text-white flex gap-1"
                       >
-                        {data?.callCenterNumber?.map((item, index) => (
+                        {numbers?.map((num, index) => (
                           <React.Fragment key={index}>
-                            <a href={`tel:${item}`}>{item}</a>
-                            {index !== data?.callCenterNumber?.length - 1 &&
-                              "|"}
+                            <a href={`tel:${num.replace(/\s+/g, "")}`}>{num}</a>
+                            {index !== numbers.length - 1 && " | "}
                           </React.Fragment>
                         ))}
                       </Text>
@@ -102,7 +109,7 @@ export default function CustomerCareDetails({ data }) {
                 <div className="md:row-span-2 md:col-start-3 md:row-start-1">
                   {data?.locations && (
                     <ContactDetailsCard
-                      icon="/images/icon-contact-call.svg"
+                      // icon="/images/icon-contact-call.svg"
                       title="Manufacturing Locations"
                     >
                       {data?.locations?.[0]?.split(",").map((item, index) => (
@@ -143,13 +150,16 @@ function ContactDetailsCard({ children, title, icon }) {
         size="p0"
         className="text-[15px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white flex gap-2 mb-2 2xl:mb-2.5"
       >
+        {
+          icon && 
         <Image
-          src={icon}
-          alt={title || "address"}
-          width={20}
-          height={20}
-          className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
+        src={icon ?? ""}
+        alt={title || "address"}
+        width={20}
+        height={20}
+        className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
         />
+      }
         {title || ""}
       </Text>
       {children}

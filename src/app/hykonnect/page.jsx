@@ -75,19 +75,19 @@ const localData = {
   },
 };
 
-export const metadata = {
-  title: "HyConnect | HYKON",
-  description: "Your Digital Connection to Hykon",
-};
+import { getMetaData } from "@/lib/api/metaApi";
+
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("Hyconnect");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function HykonnectPage() {
   let hykonnectData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/hykonnect`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/hykonnect`);
 
     if (res.ok) {
       const response = await res.json();
@@ -97,7 +97,6 @@ export default async function HykonnectPage() {
     console.error("Error fetching factory detail data:", error);
   }
 
-  //   const hykonnectData = localData;
   if (!hykonnectData) {
     notFound();
   }

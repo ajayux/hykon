@@ -67,7 +67,7 @@ export default function HomeCategories({ data }) {
                     {item?.name}
                   </Text>
                   <Link
-                    href={`/products/${item?.slug}`}
+                    href={`/categories/${item?.slug}`}
                     className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
                   >
                     <span className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">

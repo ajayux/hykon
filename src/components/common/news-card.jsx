@@ -66,7 +66,7 @@ export default function NewsCard({ item, isLoading }) {
               className="text-white px-0"
               asChild
             >
-              <Link href={item?.slug}>
+              <Link href={`/news/${item?.slug}`}>
                 Read More
                 <Image
                   src={"/images/icon-news-right.svg"}

@@ -1,11 +1,11 @@
 import parse from "html-react-parser";
 import { Heading, Text } from "@/components/utils/typography";
+import { ParsedContent } from "@/lib/utils";
 
 const defaultData = {
-    title: "Terms & Conditions",
-    text: "Energy solutions and cutting-edge Lithium-ion battery manufacturing. As a top-ranked Indian manu",
-    content:
-        `<h5>1. About Hykon</h5>
+  title: "Terms & Conditions",
+  text: "Energy solutions and cutting-edge Lithium-ion battery manufacturing. As a top-ranked Indian manu",
+  content: `<h5>1. About Hykon</h5>
         <p>Hykon is a provider of power and energy solutions designed for residential, commercial, industrial, and electric vehicle (EV) ecosystems. Our offerings may include power backup systems, energy storage solutions, EV charging infrastructure, related hardware, software integrations, and associated services. All products and services are subject to availability and may vary based on location, regulations, and technical feasibility.</p>
         <h5>2. Acceptance of Terms</h5>
         <p>By using this website or engaging with any Hykon service, you confirm that:</p>
@@ -45,27 +45,27 @@ const defaultData = {
         `,
 };
 
-export default function TermsAndConditions({ data = defaultData }) {
-    return ( 
-        <section className="w-full h-auto block py-[var(--header-y)] bg-[linear-gradient(0deg,_rgba(24,24,24,1)_0%,_rgba(24,24,24,1)_58%,_rgba(19,51,68,1)_100%)] overflow-hidden">
-            <div className="container">
-                <div className="typography w-full block mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
-                    <Heading
-                        as="h1"
-                        size="h1"
-                        className="leading-tight font-normal text-white mb-4"
-                    >
-                        {parse(data?.title || "")}
-                    </Heading>
-                    <div className="typography [--text-color:#fff] mb-4 lg:mb-8 xl:mb-10 2xl:mb-12 3xl:mb-14">
-                        {parse(data?.text || "")}
-                    </div>
-                    
-                    <div className="typography [--text-color:#fff] [&_h5]:mt-[15px] sm:[&_h5]:mt-[18px] xl:[&_h5]:mt-[22px] 2xl:[&_h5]:mt-[28px] 3xl:[&_h5]:mt-[35px]">
-                        {parse(data?.content || "")}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+export default function TermsAndConditions({ data }) {
+  return (
+    <section className="w-full h-auto block py-[var(--header-y)] bg-[linear-gradient(0deg,_rgba(24,24,24,1)_0%,_rgba(24,24,24,1)_58%,_rgba(19,51,68,1)_100%)] overflow-hidden">
+      <div className="container">
+        <div className="typography w-full block mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
+          <Heading
+            as="h1"
+            size="h1"
+            className="leading-tight font-normal text-white mb-4"
+          >
+            {parse(data?.title || "")}
+          </Heading>
+          <div className="typography [--text-color:#fff] mb-4 lg:mb-8 xl:mb-10 2xl:mb-12 3xl:mb-14">
+            {parse(data?.text || "")}
+          </div>
+
+          <div className="typography [--text-color:#fff] [&_h5]:mt-[15px] sm:[&_h5]:mt-[18px] xl:[&_h5]:mt-[22px] 2xl:[&_h5]:mt-[28px] 3xl:[&_h5]:mt-[35px]">
+            <ParsedContent html={data.content} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

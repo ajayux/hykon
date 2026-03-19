@@ -44,7 +44,7 @@ export default function ProductCard({ item, variant = "default" }) {
               className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
               asChild
             >
-              <Link href={item?.slug || "#"}>
+              <Link href={`/products/${item?.slug}` || "#"}>
                 <div className="w-4 xl:w-4.5 2xl:w-5.5 3xl:w-6 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -97,7 +97,7 @@ export default function ProductCard({ item, variant = "default" }) {
             className="text-[10px] sm:text-[12px] 2xl:text-[14px] 3xl:text-[16px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
             asChild
           >
-            <Link href={item?.slug || "#"}>
+            <Link href={`/products/${item?.slug}` || "#"}>
               <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                 <Image
                   src={"/images/icon-arrow-right-white.svg"}

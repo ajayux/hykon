@@ -1,10 +1,12 @@
 import VendorFormInfo from "@/components/blocks/vendor-registration/vendor-form-info";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
+import { getMetaData } from "@/lib/api/metaApi";
 
-export const metadata = {
-  title: "Vendor Registration | HYKON",
-  description: "",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("vendor-registration");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 const localData = {
   formSections: {

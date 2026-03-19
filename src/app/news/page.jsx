@@ -1,21 +1,21 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import NewsListing from "@/components/blocks/news/news-listing";
+import { getMetaData } from "@/lib/api/metaApi";
+import NotFound from "../not-found";
 
-export const metadata = {
-  title: "News | HYKON",
-  description:
-    "Stay updated with the latest news, events, and announcements from Hykon.",
-};
+export async function generateMetadata() {
+  const { title, description, keywords, twitter, openGraph, alternates, other } =
+    await getMetaData("news");
+  return { title, description, keywords, twitter, openGraph, alternates, other };
+}
 
 export default async function NewsPage() {
   let newsData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/news`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/news`);
 
     if (res.ok) {
       const response = await res.json();
@@ -25,7 +25,7 @@ export default async function NewsPage() {
     console.error("Error fetching factory detail data:", error);
   }
   if (!newsData) {
-    notFound();
+    NotFound();
   }
 
   const { heroSection, newsSection } = newsData;

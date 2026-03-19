@@ -27,19 +27,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Heading, Text } from "../utils/typography";
-import Link from "next/link";
 import FormSubmitResponse from "../common/form-submitted-success";
+import { commonValidations } from "@/lib/validtions";
+import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
-  fullName: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
-  email: z.string().email("Invalid email address"),
-  state: z.string().min(1, "State is required"),
-  place: z.string().min(1, "Place is required"),
-  experience: z.string().min(1, "Experience is required"),
-  cv: z.any().refine((file) => file !== null, "CV is required"),
-  coverLetter: z.string().optional(),
+  fullName: commonValidations.name("Name"),
+  phone: commonValidations.phone("Phone Number"),
+  email: commonValidations.email,
+  state: commonValidations.textBox("state"),
+  place: commonValidations.textBox("place"),
+  experience: commonValidations.dropDown("Experience"),
+  cv: commonValidations.file("cv"),
+  coverLetter: commonValidations.optionalString,
 });
 
 const inputClasses =
@@ -47,7 +48,8 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ jobTitle }) {
+export function CareerApplicationForm({ slug }) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -81,18 +83,24 @@ export function CareerApplicationForm({ jobTitle }) {
   };
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA not ready. Please try again.");
+      return;
+    }
     setIsSubmitting(true);
     try {
+      const recaptchaToken = await executeRecaptcha("career_application");
       const formData = new FormData();
-      formData.append("fullName", data.fullName);
+      formData.append("name", data.fullName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
       formData.append("state", data.state);
       formData.append("place", data.place);
       formData.append("experience", data.experience);
-      formData.append("cv", data.cv);
-      formData.append("coverLetter", data.coverLetter || "");
-      formData.append("jobTitle", jobTitle || "");
+      formData.append("resume", data.cv);
+      formData.append("cover_letter", data.coverLetter || "");
+      formData.append("career_slug", slug);
+      formData.append("recaptcha_token", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {
@@ -101,14 +109,17 @@ export function CareerApplicationForm({ jobTitle }) {
       });
 
       if (!res.ok) {
+        toast.error("Failed to submit application");
         throw new Error("Failed to submit application");
       }
 
+      toast.success("Application submitted successfully");
       setIsSuccess(true);
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
+      toast.error("Failed to submit application");
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
@@ -333,7 +344,7 @@ export function CareerApplicationForm({ jobTitle }) {
       <Controller
         name="coverLetter"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <Field>
             <FieldLabel className="sr-only">Cover Letter</FieldLabel>
             <Textarea
@@ -345,6 +356,10 @@ export function CareerApplicationForm({ jobTitle }) {
               )}
               disabled={isSubmitting}
             />
+
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} className={errorClass} />
+            )}
           </Field>
         )}
       />
@@ -373,12 +388,12 @@ export function CareerApplicationForm({ jobTitle }) {
       </div>
 
       {/* form success message */}
-      <FormSubmitResponse
+      {/* <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
         title="Your Application is Submitted"
         description="Thank you for applying. Our team will get in touch with you if your
         profile matches our requirements."
-      />
+      /> */}
     </form>
   );
 }

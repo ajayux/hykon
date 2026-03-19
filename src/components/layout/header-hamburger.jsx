@@ -189,7 +189,7 @@ export default function HeaderHamburger({
                 <div className="w-full h-(--header-y) flex items-center absolute top-0 left-0 right-0">
                   <div className="container flex justify-between items-center">
                     <div className="w-[60px] 2xl:w-[80px] 3xl:w-[100px]">
-                      <Link href={headerData?.slug}>
+                      <Link href={headerData?.slug || "/"}>
                         <Image
                           src={headerData?.logoWhiteUrl}
                           alt={headerData?.name}
