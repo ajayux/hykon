@@ -417,54 +417,54 @@ export function RequestAQuoteForm({ activeTab, page }) {
               isSubmitting={isSubmitting}
             />
           ))}
-
-          {[
-            {
-              name: "billingAddressBuilding",
-              placeholder: "Building/Apartment Name*",
-            },
-            {
-              name: "billingAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "billingAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "billingAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "billingAddressState",
-              placeholder: "State*",
-              type: "select",
-              options: states,
-              isLoading: statesLoading,
-              onValueChange: (value, fieldOnChange) => {
-                fieldOnChange(value);
-                setSelectedBillingState(value);
-                form.setValue("billingAddressDistrict", "");
-              },
-            },
-            {
-              name: "billingAddressDistrict",
-              placeholder: "District*",
-              type: "select",
-              options: billingDistricts,
-              isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading,
-            },
-          ].map((item) => (
-            <FormBlock
-              key={item.name}
-              item={item}
-              form={form}
-              isSubmitting={isSubmitting}
-            />
-          ))}
         </div>
       </div>
+
+      {[
+        {
+          name: "billingAddressBuilding",
+          placeholder: "Building/Apartment Name*",
+        },
+        {
+          name: "billingAddressBlock",
+          placeholder: "Block/Flat No*",
+        },
+        {
+          name: "billingAddressStreet",
+          placeholder: "Street/Road Name*",
+        },
+        {
+          name: "billingAddressPincode",
+          placeholder: "Pincode*",
+        },
+        {
+          name: "billingAddressState",
+          placeholder: "State*",
+          type: "select",
+          options: states,
+          isLoading: statesLoading,
+          onValueChange: (value, fieldOnChange) => {
+            fieldOnChange(value);
+            setSelectedBillingState(value);
+            form.setValue("billingAddressDistrict", "");
+          },
+        },
+        {
+          name: "billingAddressDistrict",
+          placeholder: "District*",
+          type: "select",
+          options: billingDistricts,
+          isLoading: billingDistrictsLoading,
+          disabled: !selectedBillingState || billingDistrictsLoading,
+        },
+      ].map((item) => (
+        <FormBlock
+          key={item.name}
+          item={item}
+          form={form}
+          isSubmitting={isSubmitting}
+        />
+      ))}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[

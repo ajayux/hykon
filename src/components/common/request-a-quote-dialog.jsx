@@ -30,7 +30,7 @@ export default function RequestAQuoteDialog({ children }) {
               size="h1"
               className="font-medium text-white xl:mb-0.5"
             >
-              Get A Quote
+              Get a Quote
             </Heading>
           </DialogTitle>
           <DialogDescription asChild>
