@@ -370,7 +370,7 @@ export default function ProductDetail({ data }) {
                   value={tab?.id}
                   className={cn(
                     "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white dark:data-[state=active]:border-[#008dd2]",
-                    "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] after:opacity-100",
+                    "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] data-[state=active]:text-white after:opacity-100",
                   )}
                 >
                   {tab?.label}

@@ -1,7 +1,13 @@
 import ScanConnect from "@/components/blocks/business-card/scan-connect";
+import BusinessHero from "@/components/blocks/business-card/business-hero";
 import BusinessAbout from "@/components/blocks/business-card/business-about";
-import BusinessCardHero from "@/components/blocks/business-card/business-hero";
+import BusinessFooter from "@/components/blocks/business-card/business-footer";
+import BusinessContact from "@/components/blocks/business-card/business-contact";
+import BusinessGallery from "@/components/blocks/business-card/business-gallery";
 import BusinessServices from "@/components/blocks/business-card/business-services";
+import BusinessVideos from "@/components/blocks/business-card/business-videos";
+import BusinessHeader from "@/components/blocks/business-card/business-header";
+import { div } from "three/src/nodes/math/OperatorNode";
 
 const local_data = {
   businessHero: {
@@ -77,6 +83,31 @@ const local_data = {
       },
     ],
   },
+  businessVideos: {
+    title: "Youtube Videos",
+    Videos: [
+      {
+        id: 1,
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+      {
+        id: 2,
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+      {
+        id: 3,
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+      {
+        id: 4,
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+    ],
+  },
   businessServices: {
     title: "Products & Services",
     gallery: [
@@ -97,15 +128,67 @@ const local_data = {
       },
     ],
   },
+  businessGallery: {
+    title: "Image Gallery",
+    items: [
+      {
+        id: 1,
+        type: "image",
+        path: "/images/business-gallery-1.jpg",
+        alt: "Business",
+      },
+      {
+        id: 2,
+        type: "image",
+        path: "/images/business-gallery-2.jpg",
+        alt: "Business",
+      },
+      {
+        id: 3,
+        type: "image",
+        path: "/images/business-gallery-3.jpg",
+        alt: "Business",
+      },
+      {
+        id: 4,
+        type: "image",
+        path: "/images/business-gallery-1.jpg",
+        alt: "Business",
+      },
+      {
+        id: 5,
+        type: "video",
+        path: "/videos/dummy-video.mp4",
+        alt: "Business",
+      },
+    ],
+    pagination: {
+      current_page: 1,
+      last_page: 1,
+      per_page: 3,
+      total: 4,
+      has_more: true,
+    },
+  },
+  businessContact: {
+    title: "Contact Us",
+  },
 };
 
 export default function BusinesssCardPage() {
   return (
-    <>
-      <BusinessCardHero data={local_data?.businessHero} />
-      <ScanConnect data={local_data?.scanConnect} />
-      <BusinessAbout data={local_data?.businessAbout} />
-      <BusinessServices data={local_data?.businessServices} />
-    </>
+    <div className="w-full h-full bg-black">
+      <div className="max-w-[410px] mx-auto overflow-hidden">
+        <BusinessHeader />
+        <BusinessHero data={local_data?.businessHero} />
+        <ScanConnect data={local_data?.scanConnect} />
+        <BusinessAbout data={local_data?.businessAbout} />
+        <BusinessVideos data={local_data?.businessVideos} />
+        <BusinessServices data={local_data?.businessServices} />
+        <BusinessGallery data={local_data?.businessGallery} />
+        <BusinessContact data={local_data?.businessContact} />
+        <BusinessFooter />
+      </div>
+    </div>
   );
 }

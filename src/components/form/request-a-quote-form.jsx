@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import {
   Select,
@@ -28,85 +29,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Heading, Text } from "../utils/typography";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
 import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-const formSchema = z
-  .object({
-    fullName: commonValidations.name("Name"),
-    phone: commonValidations.phone("Phone Number"),
-    email: commonValidations.email,
-    category: commonValidations.dropDown("Category"),
-    product: commonValidations.dropDown("Product"),
-    productVariant: commonValidations.optionalDropdown,
-    serialNumber: commonValidations.requiredString("Serial Number"),
-    invoiceDate: z
-      .string()
-      .min(1, "Invoice Date is required")
-      .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
-    invoiceNumber: commonValidations.requiredString("Invoice Number"),
-    dealerName: commonValidations.name("Dealer Name"),
-    // Billing Address
-    billingAddressBuilding: commonValidations.requiredString(
-      "Building/Apartment Name",
-    ),
-    billingAddressBlock: commonValidations.requiredString("Block/Flat No"),
-    billingAddressStreet: commonValidations.requiredString("Street/Road Name"),
-    billingAddressPincode: commonValidations.postalCode,
-    billingAddressState: commonValidations.requiredString("State"),
-    billingAddressDistrict: commonValidations.requiredString("District"),
-    // Installation Address — optional at schema level; conditionally required via superRefine
-    installationAddressBuilding: commonValidations.optionalString,
-    installationAddressBlock: commonValidations.optionalString,
-    installationAddressStreet: commonValidations.optionalString,
-    installationAddressPincode: commonValidations.optionalString,
-    installationAddressState: commonValidations.optionalString,
-    installationAddressDistrict: commonValidations.optionalString,
-    sameAsBillingAddress: z.boolean().optional(),
-    images: commonValidations.file("Product image"),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.sameAsBillingAddress) {
-      const installationFields = [
-        {
-          key: "installationAddressBuilding",
-          label: "Building/Apartment Name",
-        },
-        { key: "installationAddressBlock", label: "Block/Flat No" },
-        { key: "installationAddressStreet", label: "Street/Road Name" },
-        { key: "installationAddressPincode", label: "Pincode" },
-        { key: "installationAddressState", label: "State" },
-        { key: "installationAddressDistrict", label: "District" },
-      ];
-      for (const { key, label } of installationFields) {
-        if (!data[key] || data[key].trim() === "") {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `${label} is required`,
-            path: [key],
-          });
-        } else if (
-          key === "installationAddressPincode" &&
-          !/^[1-9][0-9]{5}$/.test(data[key])
-        ) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message:
-              "Invalid PIN code: must be 6 digits and cannot start with 0",
-            path: [key],
-          });
-        }
-      }
-    }
-  });
+const formSchema = z.object({
+  fullName: commonValidations.name("Name"),
+  email: commonValidations.email,
+  phone: commonValidations.phone("Phone Number"),
+  city: commonValidations.requiredString("City"),
+  state: commonValidations.dropDown("State"),
+  district: commonValidations.dropDown("District"),
+  pincode: commonValidations.postalCode,
+  productCategory: commonValidations.dropDown("Product Category"),
+  productModel: commonValidations.dropDown("Product Model"),
+  quantityRequired: commonValidations.requiredString("Quantity Required"),
+  productPurpose: commonValidations.dropDown("Product Purpose"),
+  productPowerRequirement: commonValidations.optionalString,
+  installationSupport: z.string().optional(),
+  projectSiteDetails: commonValidations.optionalString,
+  preferredTime: commonValidations.optionalString,
+  comments: commonValidations.optionalString,
+  images: z.any().optional(),
+});
+
+const headingClasses =
+  "text-[16px] lg:text-[14px] 2xl:text-[18px] 3xl:text-[22px] leading-normal font-normal text-white mb-2 xl:mb-3 2xl:mb-4 3xl:mb-5";
 
 const labelClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white";
-
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white w-full h-[35px] xl:h-[40px] 2xl:h-[45px] 3xl:h-[55px] bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
@@ -120,10 +73,7 @@ export function RequestAQuoteForm({ activeTab, page }) {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedBillingState, setSelectedBillingState] = useState(null);
-  const [selectedInstallationState, setSelectedInstallationState] =
-    useState(null);
+  const [selectedState, setSelectedState] = useState(null);
 
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
@@ -143,17 +93,6 @@ export function RequestAQuoteForm({ activeTab, page }) {
     gcTime: 1000 * 60 * 60, // 1 hour
   });
 
-  const { data: variants = [], isLoading: variantsLoading } = useQuery({
-    queryKey: ["variants", selectedProduct],
-    queryFn: () =>
-      apiClient(`/get-product-variants?slug=${selectedProduct}`).then(
-        (r) => r.data,
-      ),
-    enabled: !!selectedProduct,
-    staleTime: 1000 * 60 * 30, // 30 minutes
-    gcTime: 1000 * 60 * 60, // 1 hour
-  });
-
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
     queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
@@ -161,28 +100,11 @@ export function RequestAQuoteForm({ activeTab, page }) {
     gcTime: 1000 * 60 * 60 * 24,
   });
 
-  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } =
-    useQuery({
-      queryKey: ["districts", selectedBillingState],
-      queryFn: () =>
-        apiClient(`/districts?state_slug=${selectedBillingState}`).then(
-          (r) => r.data,
-        ),
-      enabled: !!selectedBillingState,
-      staleTime: 1000 * 60 * 60, // 1 hour
-      gcTime: 1000 * 60 * 60 * 2, // 2 hours
-    });
-
-  const {
-    data: installationDistricts = [],
-    isLoading: installationDistrictsLoading,
-  } = useQuery({
-    queryKey: ["districts", selectedInstallationState],
+  const { data: districts = [], isLoading: districtsLoading } = useQuery({
+    queryKey: ["districts", selectedState],
     queryFn: () =>
-      apiClient(`/districts?state_slug=${selectedInstallationState}`).then(
-        (r) => r.data,
-      ),
-    enabled: !!selectedInstallationState,
+      apiClient(`/districts?state_slug=${selectedState}`).then((r) => r.data),
+    enabled: !!selectedState,
     staleTime: 1000 * 60 * 60, // 1 hour
     gcTime: 1000 * 60 * 60 * 2, // 2 hours
   });
@@ -191,69 +113,24 @@ export function RequestAQuoteForm({ activeTab, page }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
-      phone: "",
       email: "",
-      category: "",
-      product: "",
-      productVariant: "",
-      serialNumber: "",
-      invoiceDate: "",
-      invoiceNumber: "",
-      dealerName: "",
-      billingAddressBuilding: "",
-      billingAddressBlock: "",
-      billingAddressStreet: "",
-      billingAddressPincode: "",
-      billingAddressState: "",
-      billingAddressDistrict: "",
-      installationAddressBuilding: "",
-      installationAddressBlock: "",
-      installationAddressStreet: "",
-      installationAddressPincode: "",
-      installationAddressState: "",
-      installationAddressDistrict: "",
-      sameAsBillingAddress: false,
+      phone: "",
+      city: "",
+      state: "",
+      district: "",
+      pincode: "",
+      productCategory: "",
+      productModel: "",
+      quantityRequired: "",
+      productPurpose: "",
+      productPowerRequirement: "",
+      installationSupport: "Yes",
+      projectSiteDetails: "",
+      preferredTime: "",
+      comments: "",
       images: null,
     },
   });
-
-  const sameAsBilling = form.watch("sameAsBillingAddress");
-  const billingValues = form.watch([
-    "billingAddressBuilding",
-    "billingAddressBlock",
-    "billingAddressStreet",
-    "billingAddressPincode",
-    "billingAddressState",
-    "billingAddressDistrict",
-  ]);
-
-  useEffect(() => {
-    if (sameAsBilling) {
-      form.setValue("installationAddressBuilding", billingValues[0]);
-      form.setValue("installationAddressBlock", billingValues[1]);
-      form.setValue("installationAddressStreet", billingValues[2]);
-      form.setValue("installationAddressPincode", billingValues[3]);
-      form.setValue("installationAddressState", billingValues[4]);
-      form.setValue("installationAddressDistrict", billingValues[5]);
-      setSelectedInstallationState(selectedBillingState);
-      form.clearErrors([
-        "installationAddressBuilding",
-        "installationAddressBlock",
-        "installationAddressStreet",
-        "installationAddressPincode",
-        "installationAddressState",
-        "installationAddressDistrict",
-      ]);
-    } else {
-      form.setValue("installationAddressBuilding", "");
-      form.setValue("installationAddressBlock", "");
-      form.setValue("installationAddressStreet", "");
-      form.setValue("installationAddressPincode", "");
-      form.setValue("installationAddressState", "");
-      form.setValue("installationAddressDistrict", "");
-      setSelectedInstallationState(null);
-    }
-  }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -276,93 +153,45 @@ export function RequestAQuoteForm({ activeTab, page }) {
     }
     setIsSubmitting(true);
     try {
-      const recaptchaToken = await executeRecaptcha("warranty_registration");
-      const warrantyRecaptchaToken = await executeRecaptcha(
-        "warranty_registration",
-      );
+      const recaptchaToken = await executeRecaptcha("request_quote");
 
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
+      formData.append("city", data.city);
+      formData.append("state_slug", data.state);
+      formData.append("district_slug", data.district);
+      formData.append("pincode", data.pincode);
+      formData.append("product_category_slug", data.productCategory);
+      formData.append("product_slug", data.productModel);
+      formData.append("quantity_required", data.quantityRequired);
+      formData.append("product_purpose", data.productPurpose);
+      formData.append(
+        "product_power_requirement",
+        data.productPowerRequirement || "",
+      );
+      formData.append(
+        "installation_support",
+        data.installationSupport || "Yes",
+      );
+      formData.append("project_site_details", data.projectSiteDetails || "");
+      formData.append("preferred_time", data.preferredTime || "");
+      formData.append("comments", data.comments || "");
 
-      formData.append("serial_number", data.serialNumber);
-      formData.append("invoice_date", data.invoiceDate);
-      formData.append("invoice_number", data.invoiceNumber);
-      formData.append("dealer_name", data.dealerName);
-
-      formData.append("billing_apartment_name", data.billingAddressBuilding);
-      formData.append("billing_flat_number", data.billingAddressBlock);
-      formData.append("billing_street_name", data.billingAddressStreet);
-      formData.append("billing_state_slug", data.billingAddressState);
-      formData.append("billing_district_slug", data.billingAddressDistrict);
-      formData.append("billing_pincode", data.billingAddressPincode);
-
-      formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
-
-      formData.append(
-        "installation_apartment_name",
-        data.sameAsBillingAddress
-          ? data.billingAddressBuilding
-          : data.installationAddressBuilding || "",
-      );
-      formData.append(
-        "installation_flat_number",
-        data.sameAsBillingAddress
-          ? data.billingAddressBlock
-          : data.installationAddressBlock || "",
-      );
-      formData.append(
-        "installation_street_name",
-        data.sameAsBillingAddress
-          ? data.billingAddressStreet
-          : data.installationAddressStreet || "",
-      );
-      formData.append(
-        "installation_state_slug",
-        data.sameAsBillingAddress
-          ? data.billingAddressState
-          : data.installationAddressState || "",
-      );
-      formData.append(
-        "installation_district_slug",
-        data.sameAsBillingAddress
-          ? data.billingAddressDistrict
-          : data.installationAddressDistrict || "",
-      );
-      formData.append(
-        "installation_pincode",
-        data.sameAsBillingAddress
-          ? data.billingAddressPincode
-          : data.installationAddressPincode || "",
-      );
-
-      formData.append("form_slug", activeTab);
-      formData.append("product_category_slug", data.category);
-      formData.append("product_slug", data.product);
-      formData.append("product_variant_slug", data.productVariant);
-      if (data.images) {
-        formData.append("images[]", data.images);
+      if (data.images instanceof File) {
+        formData.append("file", data.images);
       }
-      formData.append(
-        "recaptcha_token",
-        page === "warranty" ? warrantyRecaptchaToken : recaptchaToken,
-      );
-      const url =
-        page === "warranty"
-          ? `${API_URL}/client-warranty-complaint`
-          : `${API_URL}/customer-care-enquiry`;
+      formData.append("recaptcha_token", recaptchaToken);
+
+      const url = `${API_URL}/request-quote`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,
       });
 
       if (!res.ok) {
-        const error = await res
-          .json()
-          .catch(() => ({ message: "Submission failed" }));
-        throw new Error(error.message || `HTTP ${res.status}`);
-        return;
+        throw new Error(`HTTP ${res.status}`);
       }
 
       setIsSuccess(true);
@@ -370,12 +199,10 @@ export function RequestAQuoteForm({ activeTab, page }) {
 
       setUploadedFile(null);
       setSelectedCategory(null);
-      setSelectedProduct(null);
-      setSelectedBillingState(null);
-      setSelectedInstallationState(null);
-      toast.success("Registration submitted successfully");
+      setSelectedState(null);
+      toast.success("Quote request submitted successfully");
     } catch (error) {
-      toast.error("Failed to submit registration");
+      toast.error("Failed to submit quote request");
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);
@@ -386,9 +213,8 @@ export function RequestAQuoteForm({ activeTab, page }) {
     return (
       <FormSubmitResponse
         imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for registering your product warranty. Our team will verify
-        the details and update your warranty status shortly."
+        title="Request Submitted"
+        description="Thank you for requesting a quote. Our team will verify the details and get back to you with the right solution shortly."
       />
     );
   }
@@ -396,14 +222,8 @@ export function RequestAQuoteForm({ activeTab, page }) {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       {/* Personal Details */}
-      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
-        <Heading
-          as="div"
-          size="h6"
-          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
-        >
-          Personal Details
-        </Heading>
+      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+        <div className={headingClasses}>Personal Details</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
           {[
             { name: "fullName", placeholder: "Full Name*" },
@@ -417,43 +237,41 @@ export function RequestAQuoteForm({ activeTab, page }) {
               isSubmitting={isSubmitting}
             />
           ))}
+        </div>
+      </div>
 
+      {/* Location Details */}
+      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+        <div className={headingClasses}>Location Details</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
           {[
             {
-              name: "billingAddressBuilding",
-              placeholder: "Building/Apartment Name*",
+              name: "city",
+              placeholder: "City / Town*",
             },
             {
-              name: "billingAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "billingAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "billingAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "billingAddressState",
+              name: "state",
               placeholder: "State*",
               type: "select",
               options: states,
               isLoading: statesLoading,
               onValueChange: (value, fieldOnChange) => {
                 fieldOnChange(value);
-                setSelectedBillingState(value);
-                form.setValue("billingAddressDistrict", "");
+                setSelectedState(value);
+                form.setValue("district", "");
               },
             },
             {
-              name: "billingAddressDistrict",
+              name: "district",
               placeholder: "District*",
               type: "select",
-              options: billingDistricts,
-              isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading,
+              options: districts,
+              isLoading: districtsLoading,
+              disabled: !selectedState || districtsLoading,
+            },
+            {
+              name: "pincode",
+              placeholder: "Pincode*",
             },
           ].map((item) => (
             <FormBlock
@@ -466,265 +284,203 @@ export function RequestAQuoteForm({ activeTab, page }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
-        {[
-          { name: "fullName", placeholder: "Name*" },
-          { name: "phone", placeholder: "Phone*" },
-          { name: "email", placeholder: "Mail*", type: "email" },
-          {
-            name: "category",
-            placeholder: "Category*",
-            type: "select",
-            options: categories,
-            isLoading: categoriesLoading,
-            disabled: categoriesLoading,
-            onValueChange: (value, fieldOnChange) => {
-              fieldOnChange(value);
-              setSelectedCategory(value);
-              form.setValue("product", "");
-              form.setValue("productVariant", "");
-              setSelectedProduct(null);
+      {/* Product Details */}
+      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+        <div className={headingClasses}>Product / Requirement Details</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+          {[
+            {
+              name: "productCategory",
+              placeholder: "Product Category*",
+              type: "select",
+              options: categories,
+              isLoading: categoriesLoading,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedCategory(value);
+                form.setValue("productModel", "");
+              },
             },
-          },
-          {
-            name: "product",
-            placeholder: "Product*",
-            type: "select",
-            options: products,
-            isLoading: productsLoading,
-            disabled: !selectedCategory || productsLoading,
-            onValueChange: (value, fieldOnChange) => {
-              fieldOnChange(value);
-              setSelectedProduct(value);
-              form.setValue("productVariant", "");
+            {
+              name: "productModel",
+              placeholder: "Product Model*",
+              type: "select",
+              options: products,
+              isLoading: productsLoading,
+              disabled: !selectedCategory || productsLoading,
             },
-          },
-          {
-            name: "productVariant",
-            placeholder: "Product variant*",
-            type: "select",
-            options: variants,
-            isLoading: variantsLoading,
-            disabled: !selectedProduct || variantsLoading,
-          },
-          { name: "serialNumber", placeholder: "Serial Number*" },
-          { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
-          { name: "invoiceNumber", placeholder: "Invoice Number*" },
-        ].map((item) => (
-          <FormBlock
-            key={item.name}
-            item={item}
-            form={form}
-            isSubmitting={isSubmitting}
-          />
-        ))}
-
-        <div className="sm:col-span-2 md:col-span-3">
-          <FormBlock
-            item={{ name: "dealerName", placeholder: "Dealer Name*" }}
-            form={form}
-            isSubmitting={isSubmitting}
-          />
+            {
+              name: "quantityRequired",
+              placeholder: "Quantity Required*",
+              type: "number",
+            },
+            {
+              name: "productPurpose",
+              placeholder: "Product Purpose*",
+              type: "select",
+              options: [
+                { slug: "Home", name: "Home" },
+                { slug: "Commercial", name: "Commercial" },
+                { slug: "Industrial", name: "Industrial" },
+                { slug: "Institutional", name: "Institutional" },
+                { slug: "EV", name: "EV" },
+                { slug: "Other", name: "Other" },
+              ],
+              note: "Home, Commercial, Industrial, Institutional, EV, etc.",
+            },
+            {
+              name: "productPowerRequirement",
+              placeholder: "Expected Load / Power Requirement",
+              note: "If known—e.g., 1kW, 5kW, 10kW. etc",
+            },
+          ].map((item) => (
+            <FormBlock
+              key={item.name}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+            />
+          ))}
         </div>
-        <div className="sm:col-span-2 md:col-span-3">
-          {/* Product Image Upload */}
-          <div className="relative flex flex-col gap-3">
-            {!uploadedFile ? (
-              <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors px-4">
-                <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-tight font-normal text-white flex items-center gap-3">
-                  <Image
-                    src="/images/icon-upload.svg"
-                    alt="Upload"
-                    width={20}
-                    height={20}
-                    className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
-                  />
-                  <span>
-                    Images upload*
-                    <br />
-                    <small>
-                      Kindly upload clear front view image/images of the
-                      installed product (Maximum size: 5 MB)
-                    </small>
-                  </span>
-                </div>
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  disabled={isSubmitting}
-                />
-              </label>
-            ) : (
-              <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
-                <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
-                  {uploadedFile.name}
-                </div>
-                <button
-                  type="button"
-                  onClick={handleFileRemove}
-                  className="text-red-500 hover:text-red-400"
-                  disabled={isSubmitting}
+      </div>
+
+      {/* Installation Requirement */}
+      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+        <div className={headingClasses}>Installation Requirement</div>
+        <FieldGroup>
+          <Controller
+            name="installationSupport"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field
+                data-invalid={fieldState.invalid}
+                className="w-full min-h-[35px] xl:min-h-[40px] 2xl:min-h-[45px] 3xl:min-h-[55px] bg-[#252525] border border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] selection:bg-primary-800 p-4 flex flex-wrap flex-row"
+              >
+                <FieldLabel
+                  className={cn(
+                    labelClasses,
+                    "max-w-full sm:max-w-1/2 md:max-w-1/3 mb-0",
+                  )}
                 >
-                  <X className="size-4 xl:size-5" />
-                </button>
-              </div>
+                  Need Installation Support?
+                </FieldLabel>
+                <RadioGroup
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  className="flex-1 flex flex-wrap gap-x-9 xl:gap-x-10 2xl:gap-x-12 3xl:gap-x-14"
+                >
+                  {["Yes", "No", "Not Sure"].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <RadioGroupItem
+                        value={item}
+                        id={`install-${item}`}
+                        className="text-[#008dd2] border-2 [&_svg]:fill-white hover:scale-100"
+                      />
+                      <Label
+                        htmlFor={`install-${item}`}
+                        className={labelClasses}
+                      >
+                        {item}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+
+                {fieldState.invalid && (
+                  <FieldError
+                    errors={[fieldState.error]}
+                    className={errorClass}
+                  />
+                )}
+              </Field>
             )}
-            {form.formState.errors.images && (
-              <div className={errorClass}>
-                {form.formState.errors.images.message}
-              </div>
-            )}
+          />
+        </FieldGroup>
+      </div>
+
+      {/* Additional Information */}
+      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+        <div className={headingClasses}>Additional Information</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+          {[
+            {
+              name: "projectSiteDetails",
+              placeholder: "Project / Site Details",
+            },
+            {
+              name: "preferredTime",
+              placeholder: "Preferred Time to Contact",
+            },
+            {
+              name: "comments",
+              placeholder: "Comments / Requirements",
+            },
+          ].map((item) => (
+            <FormBlock
+              key={item.name}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+            />
+          ))}
+
+          <div className="sm:col-span-2 md:col-span-3">
+            {/* Product Image Upload */}
+            <div className="relative flex flex-col gap-3">
+              {!uploadedFile ? (
+                <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors px-4">
+                  <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-tight font-normal text-white flex items-center gap-3">
+                    <Image
+                      src="/images/icon-upload.svg"
+                      alt="Upload"
+                      width={20}
+                      height={20}
+                      className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
+                    />
+                    <span>
+                      Upload Documents
+                      <br />
+                      <small>
+                        (Upload Site Plan / Requirement Document (PDF/JPG))
+                        (Maximum size: 5 MB)
+                      </small>
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept=".pdf,.jpg,.jpeg"
+                    onChange={handleFileChange}
+                    disabled={isSubmitting}
+                  />
+                </label>
+              ) : (
+                <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
+                  <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
+                    {uploadedFile.name}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleFileRemove}
+                    className="text-red-500 hover:text-red-400"
+                    disabled={isSubmitting}
+                  >
+                    <X className="size-4 xl:size-5" />
+                  </button>
+                </div>
+              )}
+              {form.formState.errors.images && (
+                <div className={errorClass}>
+                  {form.formState.errors.images.message}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Billing Address */}
-      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
-        <Heading
-          as="div"
-          size="h6"
-          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
-        >
-          Billing Address
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
-          {[
-            {
-              name: "billingAddressBuilding",
-              placeholder: "Building/Apartment Name*",
-            },
-            {
-              name: "billingAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "billingAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "billingAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "billingAddressState",
-              placeholder: "State*",
-              type: "select",
-              options: states,
-              isLoading: statesLoading,
-              onValueChange: (value, fieldOnChange) => {
-                fieldOnChange(value);
-                setSelectedBillingState(value);
-                form.setValue("billingAddressDistrict", "");
-              },
-            },
-            {
-              name: "billingAddressDistrict",
-              placeholder: "District*",
-              type: "select",
-              options: billingDistricts,
-              isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading,
-            },
-          ].map((item) => (
-            <FormBlock
-              key={item.name}
-              item={item}
-              form={form}
-              isSubmitting={isSubmitting}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Installation Address */}
-      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
-        <Heading
-          as="div"
-          size="h6"
-          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
-        >
-          Installation Address
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
-          <FieldGroup className="sm:col-span-2 md:col-span-3">
-            <Controller
-              name="sameAsBillingAddress"
-              control={form.control}
-              render={({ field }) => (
-                <Field orientation="horizontal">
-                  <Checkbox
-                    id="sameAsBillingAddress"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    className={"text-white data-[state=checked]:text-white"}
-                  />
-                  <FieldLabel
-                    className={labelClasses}
-                    htmlFor="sameAsBillingAddress"
-                  >
-                    Same as billing address
-                  </FieldLabel>
-                </Field>
-              )}
-            />
-          </FieldGroup>
-          {[
-            {
-              name: "installationAddressBuilding",
-              placeholder: "Building/Apartment Name*",
-            },
-            {
-              name: "installationAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "installationAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "installationAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "installationAddressState",
-              placeholder: "State*",
-              type: "select",
-              options: states,
-              isLoading: statesLoading,
-              disabled: sameAsBilling,
-              onValueChange: (value, fieldOnChange) => {
-                fieldOnChange(value);
-                setSelectedInstallationState(value);
-                form.setValue("installationAddressDistrict", "");
-              },
-            },
-            {
-              name: "installationAddressDistrict",
-              placeholder: "District*",
-              type: "select",
-              options: installationDistricts,
-              isLoading: installationDistrictsLoading,
-              disabled:
-                sameAsBilling ||
-                !selectedInstallationState ||
-                installationDistrictsLoading,
-            },
-          ].map((item) => (
-            <FormBlock
-              key={item.name}
-              item={item}
-              form={form}
-              isSubmitting={isSubmitting}
-              extraDisabled={sameAsBilling}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* Submit Button */}
-      <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">
+      <div className="flex justify-end">
         <Button
           type="submit"
           size="lg"
@@ -756,7 +512,9 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
       control={form.control}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid} className="w-full">
-          <FieldLabel className="sr-only">{item.placeholder}</FieldLabel>
+          <FieldLabel className={cn(labelClasses, "sr-only")}>
+            {item.placeholder}
+          </FieldLabel>
           {item.type === "select" ? (
             <Select
               onValueChange={(value) =>
@@ -797,13 +555,20 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
               disabled={isSubmitting || extraDisabled}
             />
           ) : (
-            <Input
-              {...field}
-              type={item.type || "text"}
-              placeholder={item.placeholder}
-              className={inputClasses}
-              disabled={isSubmitting || extraDisabled}
-            />
+            <div className="flex flex-col">
+              <Input
+                {...field}
+                type={item.type || "text"}
+                placeholder={item.placeholder}
+                className={inputClasses}
+                disabled={isSubmitting || extraDisabled}
+              />
+              {item.note && (
+                <span className="text-[9px] xl:text-[10px] 3xl:text-[11px] text-white/50 mt-1.5 ml-1 inline-block">
+                  {item.note}
+                </span>
+              )}
+            </div>
           )}
           {fieldState.invalid && (
             <FieldError errors={[fieldState.error]} className={errorClass} />

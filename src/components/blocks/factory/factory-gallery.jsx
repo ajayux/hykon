@@ -1,8 +1,19 @@
+"use client";
+import React, { useMemo } from "react";
 import { Heading } from "@/components/utils/typography";
 import Image from "next/image";
 import Fancybox from "@/components/common/fancybox";
 
 export default function FactoryGallery({ data }) {
+  const options = useMemo(
+    () => ({
+      Carousel: {
+        infinite: false,
+      },
+    }),
+    [],
+  );
+
   return (
     <section className="w-full h-auto block py-10 xl:py-[80px_60px] 2xl:py-[90px_65px] 3xl:py-[110px_80px] bg-[#181818] overflow-hidden">
       <div className="container">
@@ -14,13 +25,7 @@ export default function FactoryGallery({ data }) {
           {data?.title}
         </Heading>
 
-        <Fancybox
-          options={{
-            Carousel: {
-              infinite: false,
-            },
-          }}
-        >
+        <Fancybox options={options}>
           <div className="flex flex-wrap justify-center -mx-1 xl:-mx-1.5 2xl:-mx-2 3xl:-mx-2.5">
             {data?.items?.map((item) => (
               <div

@@ -12,7 +12,10 @@ export default function HomeQuestions({ data }) {
   const isLandingPage =
     pathname === "/landing" || pathname?.startsWith("/landing/");
 
-  if (isLandingPage) return null;
+  const isBusinessCardPage =
+    pathname === "/business-card" || pathname?.startsWith("/business-card/");
+
+  if (isLandingPage || isBusinessCardPage) return null;
   return (
     <section className="w-full h-auto block bg-[#008dd2] py-10 xl:py-15 2xl:py-17.5 3xl:py-[85px] relative z-0">
       <Image

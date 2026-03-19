@@ -56,10 +56,10 @@ export default function LandingForm({ onClose }) {
   }
 
   return (
-    <div className="w-full min-h-full p-[30px_20px] lg:p-[40px_30px] xl:p-[50px_40px] 2xl:p-[60px_50px] relative z-0 flex flex-col justify-center [&::-webkit-scrollbar]:hidden [scrollbar-width:none] bg-[#212121]">
+    <div className="w-full h-full p-[30px_20px] lg:p-[40px_30px] xl:p-[50px_40px] 2xl:p-[60px_50px] relative z-0 flex flex-col justify-center overflow-y-auto no-scrollbar bg-[#212121]">
       <button
         onClick={onClose}
-        className="absolute top-5 right-5 lg:top-8 lg:right-8 text-gray-500 hover:text-white transition-all p-2 z-50 bg-[#121212]/80 backdrop-blur-sm rounded-lg block lg:hidden" 
+        className="absolute top-5 right-5 lg:top-8 lg:right-8 text-gray-500 hover:text-white transition-all p-2 z-50 bg-[#121212]/80 backdrop-blur-sm rounded-lg block lg:hidden"
         aria-label="Close form"
       >
         <svg
@@ -77,7 +77,6 @@ export default function LandingForm({ onClose }) {
           />
         </svg>
       </button>
-
       <Heading
         as="h2"
         size="h2"
@@ -85,7 +84,6 @@ export default function LandingForm({ onClose }) {
       >
         Want to Learn More? Share Your info and we'll be in touch!
       </Heading>
-
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-[10px] 2xl:gap-[15px]"
