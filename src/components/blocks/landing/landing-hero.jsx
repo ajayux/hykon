@@ -3,8 +3,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
 import Fade from "embla-carousel-fade";
-import { Heading } from "../../utils/typography";
 import Autoplay from "embla-carousel-autoplay";
+import { Heading } from "../../utils/typography";
 import useEmblaCarousel from "embla-carousel-react";
 import { DotButton, useDotButton } from "../../utils/embla-carousel-dot-button";
 

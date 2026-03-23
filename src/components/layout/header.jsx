@@ -20,11 +20,11 @@ export default function Header({
   const pathname = usePathname();
   const isLandingPage =
     pathname === "/landing" || pathname?.startsWith("/landing/");
+  const isBusinessCardPage =
+    pathname === "/business-card" || pathname?.startsWith("/business-card/");
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
-
-  if (isLandingPage) return null;
 
   // Handle scroll visibility
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -34,6 +34,8 @@ export default function Header({
       setVisible(atTop || direction < 0);
     }
   });
+
+  if (isLandingPage || isBusinessCardPage) return null;
 
   return (
     <motion.header

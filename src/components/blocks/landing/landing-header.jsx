@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -7,7 +8,10 @@ export default function LandingHeader({ isSidebarOpen }) {
       <div
         className={cn("w-full", isSidebarOpen ? "isContainer" : "container")}
       >
-        <div className="w-[100px] sm:w-[110px] xl:w-[130px] 2xl:w-[160px] 3xl:w-[200px] h-auto aspect-[200/85] overflow-hidden block">
+        <Link
+          href="/"
+          className="w-[100px] sm:w-[110px] xl:w-[130px] 2xl:w-[160px] 3xl:w-[200px] h-auto aspect-[200/85] overflow-hidden block"
+        >
           <Image
             src="/images/brand-logo.svg"
             alt="Hykon Logo"
@@ -15,7 +19,7 @@ export default function LandingHeader({ isSidebarOpen }) {
             height={85}
             className="w-full h-full object-contain"
           />
-        </div>
+        </Link>
       </div>
     </header>
   );

@@ -1,12 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import parse from "html-react-parser";
-import { Heading, Text } from "@/components/utils/typography";
 import { Button } from "@/components/ui/button";
 
 export default function BusinessHero({ data }) {
   return (
-    <section className="w-full h-auto py-[100px] block relative z-0">
+    <section className="w-full h-auto py-[120px_40px] block relative z-0">
       <div className="w-full h-full absolute -z-1 inset-0">
         {data?.media?.type === "video" ? (
           <video
@@ -32,22 +30,18 @@ export default function BusinessHero({ data }) {
         )}
       </div>
       <div className="container">
-        <div className="w-full h-auto gap-[40px] flex flex-col">
+        <div className="w-full h-auto space-y-[40px]">
           <div className="w-full h-auto flex items-center">
             <div className="w-[60%]">
-              <Heading
-                as="h2"
-                size="h1"
-                className="font-semibold text-white mb-[5px]"
-              >
-                {parse(data?.name)}
-              </Heading>
+              <div className="text-[24px] leading-normal font-semibold text-white mb-[5px]">
+                {data?.name}
+              </div>
               <div className="text-[16px] leading-normal font-normal text-white">
                 {data?.designation}
               </div>
             </div>
             <div className="w-[40%]">
-              <div className="w-full h-auto flex justify-end gap-[10px] [&>*]:w-[50px] [&>*]:h-auto [&>*]:aspect-square [&>*]:overflow-hidden [&>*]:block">
+              <div className="w-full h-auto flex justify-end gap-[10px] [&>*]:w-[50px] [&>*]:h-auto [&>*]:aspect-square [&>*]:overflow-hidden [&>*]:cursor-pointer [&>*]:block">
                 <div>
                   <Image
                     src={"/images/business-card-account.svg"}
@@ -112,17 +106,13 @@ export default function BusinessHero({ data }) {
                     className="w-full h-full object-contain"
                   />
                 </span>
-                <Text
-                  as="span"
-                  size="p1"
-                  className="text-white w-[calc(100%-15px)] pl-[10px]"
-                >
+                <div className="text-[14px] leading-normal font-normal text-white flex-1 pl-[10px]">
                   {item?.label}
-                </Text>
+                </div>
               </Link>
             ))}
           </div>
-          <div className="w-full h-auto gap-[15px] flex flex-col">
+          <div className="w-full h-auto space-y-[15px]">
             {[
               {
                 url: null,
@@ -164,13 +154,9 @@ export default function BusinessHero({ data }) {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <Text
-                    as="div"
-                    size="p0"
-                    className="font-medium text-white w-[calc(100%-35px)] pl-[20px]"
-                  >
+                  <div className="text-[15px] leading-normal font-medium text-white flex-1 pl-[20px]">
                     {item?.label}
-                  </Text>
+                  </div>
                 </Link>
               ) : (
                 <div
@@ -186,13 +172,9 @@ export default function BusinessHero({ data }) {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <Text
-                    as="div"
-                    size="p0"
-                    className="font-medium text-white w-[calc(100%-35px)] pl-[20px]"
-                  >
+                  <div className="text-[15px] leading-normal font-medium text-white flex-1 pl-[20px]">
                     {item?.label}
-                  </Text>
+                  </div>
                 </div>
               ),
             )}

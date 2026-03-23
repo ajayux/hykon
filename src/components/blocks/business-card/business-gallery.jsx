@@ -1,6 +1,6 @@
 "use client";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
 import Fancybox from "@/components/common/fancybox";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
@@ -25,6 +25,15 @@ export default function BusinessGallery({ data }) {
   const visibleItems = allItems.slice(0, visibleCount);
   const hasMore = visibleCount < allItems.length;
 
+  const options = useMemo(
+    () => ({
+      Carousel: {
+        infinite: false,
+      },
+    }),
+    [],
+  );
+
   return (
     <section className="w-full h-auto block bg-black py-7.5">
       <div className="container">
@@ -32,13 +41,7 @@ export default function BusinessGallery({ data }) {
           {data?.title}
         </div>
 
-        <Fancybox
-          options={{
-            Carousel: {
-              infinite: false,
-            },
-          }}
-        >
+        <Fancybox options={options}>
           <div className="flex flex-wrap -mx-2.5">
             {visibleItems.map((item, index) => (
               <div

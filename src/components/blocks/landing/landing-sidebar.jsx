@@ -5,7 +5,7 @@ export default function LandingSidebar({ isOpen, onToggle }) {
   return (
     <>
       <aside
-        className={`h-screen bg-[#212121] fixed lg:sticky z-40 top-0 right-0 overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none] transition-all duration-700 ${
+        className={`h-screen bg-[#212121] fixed lg:sticky z-40 top-0 right-0 overflow-y-auto no-scrollbar transition-all duration-700 ${
           isOpen
             ? "w-full lg:w-[340px] xl:w-[370px] 2xl:w-[440px] 3xl:w-[550px]"
             : "w-0"

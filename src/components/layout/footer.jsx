@@ -24,9 +24,12 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
   const isLandingPage =
     pathname === "/landing" || pathname?.startsWith("/landing/");
 
+  const isBusinessCardPage =
+    pathname === "/business-card" || pathname?.startsWith("/business-card/");
+
   const [openSection, setOpenSection] = useState(null);
 
-  if (isLandingPage) return null;
+  if (isLandingPage || isBusinessCardPage) return null;
 
   return (
     <footer className="w-full pt-8 xl:pt-[45px] 2xl:pt-[50px] 3xl:pt-[70px] overflow-hidden bg-[#212121] relative z-0 max-sm:pb-12">

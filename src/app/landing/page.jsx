@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import LandingHero from "@/components/blocks/landing/landing-hero";
 import LandingPower from "@/components/blocks/landing/landing-power";
-import LandingHomes from "@/components/blocks/landing/laning-homes";
+import LandingHomes from "@/components/blocks/landing/landing-homes";
 import LandingHeader from "@/components/blocks/landing/landing-header";
 import LandingFooter from "@/components/blocks/landing/landing-footer";
 import LandingSidebar from "@/components/blocks/landing/landing-sidebar";
 import LandingTrusted from "@/components/blocks/landing/landing-trusted";
-import LandingFeatures from "@/components/blocks/landing/landing-feature";
+import LandingFeatures from "@/components/blocks/landing/landing-features";
 import LandingPerformance from "@/components/blocks/landing/landing-performance";
 
 const local_data = {

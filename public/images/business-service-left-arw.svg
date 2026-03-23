@@ -1,0 +1,6 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="18" cy="18" r="18" transform="matrix(-1 0 0 1 36 0)" fill="#323232"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 17.6602H27.4998V19.1602H10V17.6602Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.7501 19.16C14.2777 19.16 17.1602 16.0579 17.1602 12.75V12H15.6602V12.75C15.6602 15.2616 13.4175 17.66 10.7501 17.66H10V19.16H10.7501Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.7501 17.6602C14.2777 17.6602 17.1602 20.7623 17.1602 24.0702V24.8202H15.6602V24.0702C15.6602 21.5587 13.4175 19.1602 10.7501 19.1602H10V17.6602H10.7501Z" fill="white"/>
+</svg>
