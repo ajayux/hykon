@@ -6,26 +6,11 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   const globalData = {
     headerData: {
-      id: "uuid-primary-key",
       name: "Hykon",
-      tagline: "Powering the Nation",
       slug: "/",
       logoUrl: "/images/brand-logo.svg",
       logoWhiteUrl: "/images/brand-logo-white.svg",
-      description:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      websiteUrl: "https://hykon.in/",
-      countryOfOrigin: "India",
-      establishedYear: "2025",
-      phone: "+91 123 456 7890",
-      email: "info@company.com",
-      seoTitle: "Hykon - Powering the Nation",
-      seoDescription:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     },
-
     mobileMenuData: {
       locations: [
         {
@@ -203,18 +188,11 @@ export async function GET(request) {
       },
     ],
     footerData: {
-      id: "uuid-primary-key",
       name: "Hykon",
-      tagline: "Powering the Nation",
       slug: "/",
       logoUrl: "/images/brand-logo.svg",
-      logoWhiteUrl: "/images/brand-logo-white.svg",
       description:
         "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      websiteUrl: "https://hykon.in/",
-      phone: ["+91 123 456 7890"],
-      email: ["info@company.com"],
-      locationMapLink: "https://goo.gl/maps/example",
       quickLinks: {
         title: "Quick Links",
         items: [
@@ -238,16 +216,6 @@ export async function GET(request) {
             label: "Warranty Registration",
             slug: "/warranty-complaints",
           },
-          // {
-          //   id: 2,
-          //   label: "Register Complaints",
-          //   slug: "/customer-care/register-complaints",
-          // },
-          // {
-          //   id: 3,
-          //   label: "Privacy Policy",
-          //   slug: "/customer-care/privacy-policy",
-          // },
           {
             id: 3,
             label: "Hykonnect",
@@ -258,16 +226,6 @@ export async function GET(request) {
             label: "Terms & Conditions",
             slug: "/terms",
           },
-          // {
-          //   id: 5,
-          //   label: "Return Policy",
-          //   slug: "/customer-care/return-policy",
-          // },
-          // {
-          //   id: 6,
-          //   label: "Shipping Policy",
-          //   slug: "/customer-care/shipping-policy",
-          // },
           {
             id: 7,
             label: "Investor Relations",
@@ -283,16 +241,6 @@ export async function GET(request) {
             label: "Career",
             slug: "/careers",
           },
-          // {
-          //   id: 10,
-          //   label: "Services",
-          //   slug: "/services",
-          // },
-          // {
-          //   id: 11,
-          //   label: "Projects",
-          //   slug: "/projects",
-          // },
           {
             id: 12,
             label: "News",
@@ -376,7 +324,6 @@ export async function GET(request) {
         email: "info@company.com",
       },
       copyright: "<p>© 2025 Hykon. All Rights Reserved.</p>",
-      designedBy: "Designed & Developed by: Intersmart",
     },
     socialLinkData: [
       {
@@ -422,27 +369,6 @@ export async function GET(request) {
         label: "Get In Touch",
         link: "/contact",
       },
-    },
-    seoData: {
-      siteName: "Hykon",
-      siteUrl: "https://hykon.in/",
-      defaultTitle: "Hykon - Powering the Nation",
-      defaultDescription:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      defaultKeywords: [
-        "solar energy",
-        "lithium battery",
-        "electric vehicle",
-        "sustainable energy",
-        "power electronics",
-        "heat pump",
-        "solar water heater",
-        "inverter battery",
-      ],
-      ogImage: "/images/og-image.jpg",
-      twitterHandle: "@hykon",
-      locale: "en_IN",
-      type: "website",
     },
   };
 

@@ -88,7 +88,7 @@ export default function HeaderSheet({
                     className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
                     asChild
                   >
-                    <Link href={item?.slug}>{item?.city}</Link>
+                    <span>{item?.city}</span>
                   </Button>
                 </div>
               ))}

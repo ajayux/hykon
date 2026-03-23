@@ -47,9 +47,9 @@ export default function Header({
       <div className="container">
         <div className="flex justify-between items-center gap-x-3 lg:gap-x-8 relative z-0">
           <div className="w-[140px] xl:w-[152px] 2xl:w-[182px] 3xl:w-[228px]">
-            <Link href={data?.slug}>
+            <Link href={data?.slug ?? ""}>
               <Image
-                src={data?.logoUrl}
+              src={data?.logoUrl  ?? "/images/placeholder.jpg"}
                 alt={data?.name}
                 width={228}
                 height={70}
