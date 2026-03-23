@@ -165,19 +165,19 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       formData.append("pincode", data.pincode);
       formData.append("product_category_slug", data.productCategory);
       formData.append("product_slug", data.productModel);
-      formData.append("quantity_required", data.quantityRequired);
+      formData.append("quantity", data.quantityRequired);
       formData.append("product_purpose", data.productPurpose);
       formData.append(
-        "product_power_requirement",
+        "loading_power",
         data.productPowerRequirement || "",
       );
       formData.append(
         "installation_support",
         data.installationSupport || "Yes",
       );
-      formData.append("project_site_details", data.projectSiteDetails || "");
-      formData.append("preferred_time", data.preferredTime || "");
-      formData.append("comments", data.comments || "");
+      formData.append("site_details", data.projectSiteDetails || "");
+      formData.append("time_for_call", data.preferredTime || "");
+      formData.append("message", data.comments || "");
 
       if (data.images instanceof File) {
         formData.append("file", data.images);

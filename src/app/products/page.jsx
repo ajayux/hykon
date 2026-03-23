@@ -206,7 +206,7 @@ export default async function ProductsPage({ searchParams }) {
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo
-        slug={categorySlug && categoryName ? null : "Products"}
+        slug={categorySlug && categoryName ? null : "Product Category"}
         parentPage={categorySlug && categoryName ? { label: "Product Category", link: "categories" } : null}
         page={categorySlug && categoryName ? { label: categoryName, link: `categories/${categorySlug}` } : null}
       />
