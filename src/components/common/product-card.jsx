@@ -89,7 +89,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
           size="h5"
           className="line-clamp-1 font-medium text-white mb-2 xl:mb-3 2xl:mb-5 3xl:mb-6"
         >
-          {item?.title}
+          {item?.title || item?.name}
         </Heading>
         <Text
           as="div"
@@ -105,7 +105,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
             className="text-[10px] sm:text-[12px] 2xl:text-[14px] 3xl:text-[16px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
             asChild
           >
-            <Link href={`/products/${item?.slug}` || "#"}>
+            <Link href={`/products?product_slug=${item?.slug}` || "#"}>
               <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                 <Image
                   src={"/images/icon-arrow-right-white.svg"}

@@ -170,42 +170,42 @@ export default function ProductDetail({ data }) {
                         </div>
                       </div>
                     ))}
-
-                    <Lightbox
-                      open={openProduct}
-                      close={() => setOpenProduct(false)}
-                      index={indexProduct}
-                      slides={data?.media?.map((item) =>
-                        item.type === "video"
-                          ? {
-                              type: "video",
-                              width: 1280,
-                              height: 720,
-                              poster: item?.thumbnailUrl,
-                              autoPlay: true,
-                              sources: [
-                                {
-                                  src: item?.url,
-                                  type: "video/mp4",
-                                },
-                              ],
-                            }
-                          : {
-                              src: item?.url,
-                            },
-                      )}
-                      animation={{ fade: 10 }}
-                      controller={{
-                        closeOnPullDown: true,
-                        closeOnBackdropClick: true,
-                      }}
-                      plugins={[Video, Zoom]}
-                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <Lightbox
+            open={openProduct}
+            close={() => setOpenProduct(false)}
+            index={indexProduct}
+            slides={data?.media?.map((item) =>
+              item.type === "video"
+                ? {
+                    type: "video",
+                    width: 1280,
+                    height: 720,
+                    poster: item?.thumbnailUrl,
+                    autoPlay: true,
+                    sources: [
+                      {
+                        src: item?.url,
+                        type: "video/mp4",
+                      },
+                    ],
+                  }
+                : {
+                    src: item?.url,
+                  },
+            )}
+            animation={{ fade: 10 }}
+            controller={{
+              closeOnPullDown: true,
+              closeOnBackdropClick: true,
+            }}
+            plugins={[Video, Zoom]}
+          />
 
           <div className="w-full lg:flex-1">
             <div className="w-full xl:max-w-11/12">
@@ -287,6 +287,7 @@ export default function ProductDetail({ data }) {
                 <Button
                   size="lg"
                   variant="outline"
+                  disable={data?.pricing?.sellingPrice>0}
                   className="text-white min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] bg-[#008dd2] pl-4 xl:pl-5"
                 >
                   Buy Now
