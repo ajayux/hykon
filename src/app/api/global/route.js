@@ -63,7 +63,7 @@ export async function GET(request) {
         id: 2,
         hasSubmenu: true,
         name: "Products",
-        slug: "/products",
+        slug: "/categories",
         submenu: [
           {
             id: "2-1",

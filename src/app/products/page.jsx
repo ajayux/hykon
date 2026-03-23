@@ -164,6 +164,11 @@ export default async function ProductsPage({ searchParams }) {
 
   const page = resolvedSearchParams?.page || "1";
 
+  const categorySlug = resolvedSearchParams?.category || null;
+  const categoryName = resolvedSearchParams?.category_name
+    ? decodeURIComponent(resolvedSearchParams.category_name)
+    : null;
+
   let productsData = null;
 
   try {
@@ -177,7 +182,7 @@ export default async function ProductsPage({ searchParams }) {
 
    }
 
-    params.set("page", page);
+    params.set("page", params);
 
     const res = await fetch(`${baseUrl}/api/products?${params}`,{
       backup_capacity
@@ -200,7 +205,11 @@ export default async function ProductsPage({ searchParams }) {
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="Products" />
+      <BreadcrumbInfo
+        slug={categorySlug && categoryName ? null : "Products"}
+        parentPage={categorySlug && categoryName ? { label: "Product Category", link: "categories" } : null}
+        page={categorySlug && categoryName ? { label: categoryName, link: `categories/${categorySlug}` } : null}
+      />
       {productsData && <ProductListing data={productSection} />}
     </>
   );

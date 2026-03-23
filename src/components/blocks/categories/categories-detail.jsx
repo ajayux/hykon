@@ -136,10 +136,9 @@ export default function CategoriesDetail({ data }) {
                   </div>
                   <div className="flex gap-x-3 lg:gap-x-5 2xl:gap-x-6 3xl:gap-x-7.5">
                     {[
-                      {
-                        label: "View Products",
-                        url: getProductUrl(item?.slug),
-                      },
+                      ...(item?.variants?.items?.length > 0
+                        ? [{ label: "View Products", url: getProductUrl(item?.slug) }]
+                        : []),
                       {
                         label: item?.button?.label,
                         url: item?.button?.url,

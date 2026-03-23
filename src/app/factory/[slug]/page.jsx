@@ -19,9 +19,7 @@ export default async function FactoryDetailPage({ params }) {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/factory/${slug}`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/factory/${slug}`);
 
     if (res.ok) {
       const response = await res.json();

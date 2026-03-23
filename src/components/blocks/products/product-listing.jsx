@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useCallback, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/utils/typography";
 import { ListFilterPlus } from "lucide-react";
@@ -62,9 +62,22 @@ export function ProductListingSkeleton() {
 }
 
 function ProductGrid({ data }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const rawSlug = searchParams.get("product_slug");
   const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
+
+  function handleProductSelect(productSlug) {
+    if (!productSlug) return;
+    const current = new URLSearchParams(searchParams.toString());
+    const existing = current.get("product_slug");
+    const slugs = existing ? existing.split(",").filter(Boolean) : [];
+    if (!slugs.includes(productSlug)) {
+      slugs.push(productSlug);
+      current.set("product_slug", slugs.join(","));
+      router.replace(`/products?${current.toString()}`, { scroll: false });
+    }
+  }
 
   const [items, setItems] = useState(data?.productInfo?.productItems ?? []);
   const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
@@ -129,7 +142,7 @@ function ProductGrid({ data }) {
           <>
             {items.map((item) => (
               <div key={item.id} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
-                <ProductCard item={item} variant="variant-1" />
+                <ProductCard item={item} variant="variant-1" onSelect={handleProductSelect} />
               </div>
             ))}
             {isLoading &&
