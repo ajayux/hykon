@@ -166,7 +166,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       formData.append("product_category_slug", data.productCategory);
       formData.append("product_slug", data.productModel);
       formData.append("quantity", data.quantityRequired);
-      formData.append("product_purpose", data.productPurpose);
+      formData.append("use_case_slug", data.productPurpose);
       formData.append(
         "loading_power",
         data.productPowerRequirement || "",
@@ -184,7 +184,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       }
       formData.append("recaptcha_token", recaptchaToken);
 
-      const url = `${API_URL}/request-quote`;
+      const url = `${API_URL}/get-a-quote`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,

@@ -352,7 +352,7 @@ export default function ProductDetail({ data }) {
                     className="underline text-[#ccc] px-1 max-sm:w-full max-sm:justify-start"
                     asChild
                   >
-                    <Link href={data?.deliveryInfo?.url} target="_blank">
+                    <Link href={`/delivery-policy`}>
                       <Image
                         src={"/images/icon-delivery.svg"}
                         alt={"icon-delivery"}
@@ -366,7 +366,7 @@ export default function ProductDetail({ data }) {
                   </Button>
                 )}
 
-<Link href={`https://hykonindia.myshopify.com/products/`} target="_blank">
+<Link href={`https://hykonindia.myshopify.com/products/${data?.productSlug}`} target="_blank">
                 <Button
                   size="lg"
                   variant="outline"
@@ -423,13 +423,20 @@ export default function ProductDetail({ data }) {
                           variant="none"
                           className={cn(
                             "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
-                            !variant?.isAvailable &&
+                            !variant?.isAvailabile &&
                               "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
                               "border-white/60 text-white pointer-events-none",
                           )}
+                          asChild={variant?.isAvailabile && data?.slug !== variant?.slug}
                         >
-                          <span className="truncate">{variant?.name}</span>
+                          {variant?.isAvailabile && data?.slug !== variant?.slug ? (
+                            <Link href={`/products/${variant?.slug}`}>
+                              <span className="truncate">{variant?.name}</span>
+                            </Link>
+                          ) : (
+                            <span className="truncate">{variant?.name}</span>
+                          )}
                         </Button>
                       </div>
                     ))}
@@ -505,7 +512,7 @@ export default function ProductDetail({ data }) {
                 label: data?.deliveryInfo?.label,
                 url: data?.deliveryInfo?.url,
               },
-            ].map((item) => (
+            ].filter((item) => item?.url).map((item) => (
               <Button
                 key={item?.label}
                 size="lg"

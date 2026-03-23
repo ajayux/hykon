@@ -349,22 +349,34 @@ export default async function productDetailPage({params}) {
 
 
 
-  const page = {
+  const grandParentPage = {
     label: "Product Category",
-    link: "categories",
-  }
+    link: "products",
+  };
+
+  const parentPage = {
+    label: productDetailSection?.categoryTitle,
+    link: `categories/${productDetailSection?.categorySlug}`,
+  };
+
+  const page = {
+    label: productDetailSection?.productTitle,
+    link: `products?product_slug=${productDetailSection?.productSlug}`,
+  };
 
   return (
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo
         variant="extra-gap"
-      page={page}  
-        slug={slug}
+        grandParentPage={grandParentPage}
+        parentPage={parentPage}
+        page={page}
+        slug={productDetailSection?.title}
       />
       {productDetailSection && <ProductDetail data={productDetailSection} />}
       {similarProductSection && <ProductSimilar data={similarProductSection} />}
-      {faqSection && <ProductQuestions data={faqSection} />}
+      {faqSection?.faqItems.length>0 && <ProductQuestions data={faqSection} />}
     </>
   );
 }

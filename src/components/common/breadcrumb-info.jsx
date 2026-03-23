@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 
-export default function BreadcrumbInfo({ slug, className, variant, page, parentPage }) {
+export default function BreadcrumbInfo({ slug, className, variant, page, parentPage, grandParentPage }) {
   return (
     <section
       className={cn(
@@ -30,6 +30,16 @@ export default function BreadcrumbInfo({ slug, className, variant, page, parentP
             <BreadcrumbSeparator>
               <div className="w-1 xl:w-1.5 aspect-square bg-[#008dd2] rounded-full" />
             </BreadcrumbSeparator>
+            {grandParentPage && (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/${grandParentPage?.link}`}>{grandParentPage?.label}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <div className="w-1 xl:w-1.5 aspect-square bg-[#008dd2] rounded-full" />
+                </BreadcrumbSeparator>
+              </>
+            )}
             {parentPage && (
               <>
                 <BreadcrumbItem>

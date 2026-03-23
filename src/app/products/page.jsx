@@ -163,12 +163,6 @@ export default async function ProductsPage({ searchParams }) {
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
 
   const page = resolvedSearchParams?.page || "1";
-
-  const categorySlug = resolvedSearchParams?.category || null;
-  const categoryName = resolvedSearchParams?.category_name
-    ? decodeURIComponent(resolvedSearchParams.category_name)
-    : null;
-
   let productsData = null;
 
   try {
@@ -202,13 +196,26 @@ export default async function ProductsPage({ searchParams }) {
 
   const { heroSection, productSection } = productsData;
 
+  const { categorySlug, categoryTitle, productTitle } = productSection;
+
+  const grandParentPage = { label: "Product Category", link: "categories" };
+
+  const parentPage = categorySlug && categoryTitle
+    ? { label: categoryTitle, link: `categories/${categorySlug}` }
+    : null;
+
+
+    console.log("categoryTitle: ", categoryTitle)
+
+  const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");
+
   return (
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo
-        slug={categorySlug && categoryName ? null : "Product Category"}
-        parentPage={categorySlug && categoryName ? { label: "Product Category", link: "categories" } : null}
-        page={categorySlug && categoryName ? { label: categoryName, link: `categories/${categorySlug}` } : null}
+        grandParentPage={parentPage ? grandParentPage : null}
+        page={parentPage}
+        slug={breadcrumbSlug}
       />
       {productsData && <ProductListing data={productSection} />}
     </>
