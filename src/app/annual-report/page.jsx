@@ -6,7 +6,7 @@ import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("investor-relations");
+    await getMetaData("annual-report");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
@@ -37,7 +37,7 @@ export default async function InvestorRelationsPage() {
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug="investor-relations" />
+      <BreadcrumbInfo slug="investor Relations" />
       <InvestorReports data={reportsSection} />
     </>
   );

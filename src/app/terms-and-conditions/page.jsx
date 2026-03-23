@@ -4,7 +4,7 @@ import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("terms");
+    await getMetaData("terms-and-conditions");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
@@ -13,7 +13,7 @@ export default async function TermsPage() {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/delivery-policy`, {
+    const res = await fetch(`${baseUrl}/api/terms-and-conditions`, {
       next: { revalidate: 0 },
     });
 

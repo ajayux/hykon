@@ -35,7 +35,7 @@ export default function HomeCategories({ data }) {
           <div className="flex touch-pan-y touch-pinch-zoom -mx-1 3xl:-mx-2 [&>*]:p-1 3xl:[&>*]:p-2">
             {data?.map((item) => (
               <Link
-                    href={`/categories/${item?.slug}`}
+                    href={`/category/${item?.slug}`}
                 key={item?.id}
                 className={cn(
                   "flex-[0_0_130px] lg:flex-[0_0_130px] 2xl:flex-[0_0_150px] 3xl:flex-[0_0_185px] min-w-0 select-none",

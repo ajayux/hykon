@@ -164,7 +164,7 @@ export default function HomeAbout({ data }) {
                   className="text-center text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[137px] 3xl:min-w-[167px] pl-4 xl:pl-5"
                   asChild
                 >
-                  <Link href={`/about`}>
+                  <Link href={`/about-us`}>
                     {data?.button?.label}
 
                     <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">

@@ -59,7 +59,7 @@ export default function BlogRelatedBlogs({ data, variant="blogs" }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between font-medium pl-4 xl:pl-7"
               asChild
             >
-              <Link href={ variant === "blogs" ? '/blogs' : "/news"}>
+              <Link href={ variant === "blogs" ? '/blog' : "/news-events"}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image

@@ -352,7 +352,7 @@ export default function ProductDetail({ data }) {
                     className="underline text-[#ccc] px-1 max-sm:w-full max-sm:justify-start"
                     asChild
                   >
-                    <Link href={`/delivery-policy`}>
+                    <Link href={`/delivery-polices`}>
                       <Image
                         src={"/images/icon-delivery.svg"}
                         alt={"icon-delivery"}

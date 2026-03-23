@@ -49,7 +49,7 @@ export default function HomeBlogs({ data }) {
               className="text-white min-w-full justify-between pl-4 xl:pl-5"
               asChild
             >
-              <Link href={"/blogs"}>
+              <Link href={"/blog"}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
@@ -75,7 +75,7 @@ export default function HomeBlogs({ data }) {
                 )}
               >
                 <Link
-                  href={`/blogs/${item?.slug}`}
+                  href={`/blog/${item?.slug}`}
                   className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] block relative z-0"
                 >
                   <div className="w-full h-full visible group-hover:invisible scale-100 group-hover:scale-90 transition-all duration-300">

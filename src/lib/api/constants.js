@@ -31,7 +31,31 @@ export const defaultMeta = {
   //     "Hykon India news, solar energy news India, power electronics updates",
   // },
 
-  careers: {
+  "about-us": {
+    title: "About Us | Hykon India Ltd",
+    description:
+      "Learn about Hykon India Ltd — a trusted Indian manufacturer of solar energy systems, lithium batteries, EVs & power electronics since 1991.",
+    keywords:
+      "about Hykon India, Hykon India Ltd history, power electronics company India, solar manufacturer Kerala",
+  },
+
+  blog: {
+    title: "Insights | Hykon India Ltd",
+    description:
+      "Explore insights, updates, and industry perspectives from Hykon India Ltd on solar energy, power electronics, and green energy solutions.",
+    keywords:
+      "Hykon India blog, solar energy insights, power electronics news, green energy India",
+  },
+
+  "news-events": {
+    title: "News & Events | Hykon India Ltd",
+    description:
+      "Stay updated with the latest news, events, and announcements from Hykon India Ltd — India's leader in power electronics and green energy.",
+    keywords:
+      "Hykon India news, solar energy news India, power electronics updates",
+  },
+
+  career: {
     title: "Careers | Hykon India Ltd",
     description:
       "Build your career with Hykon India Ltd and be part of India's leading solar and power electronics manufacturer shaping the future of green energy.",
@@ -70,12 +94,20 @@ export const defaultMeta = {
     keywords: "Hykon India Ltd privacy policy, data protection India",
   },
 
-  terms: {
+  "terms-and-conditions": {
     title: "Terms and Conditions | Hykon India Ltd",
     description:
       "Read the terms and conditions of Hykon India Ltd to understand the legal and contractual obligations of our users.",
     keywords:
       "Hykon India Ltd terms and conditions, legal obligations, terms of use Hykon",
+  },
+
+  "contact-us": {
+    title: "Contact Us | Hykon India Ltd",
+    description:
+      "Contact Hykon India Ltd for business inquiries, product support, partnerships, or to reach our service network across India.",
+    keywords:
+      "contact Hykon India, Hykon customer support, Hykon service network, power electronics company contact",
   },
 
   category: {
@@ -110,8 +142,8 @@ export const defaultMeta = {
       "Hykonnect, Hykon referral program, earn with Hykon, solar referral India",
   },
 
-  "investor-relations": {
-    title: "Investor Relations | Hykon India Ltd",
+  "annual-report": {
+    title: "Annual Report | Hykon India Ltd",
     description:
       "Access Hykon India Ltd's financial reports, investor updates, and corporate governance information for stakeholders and investors.",
     keywords:
@@ -126,7 +158,7 @@ export const defaultMeta = {
       "Hykon customer care, Hykon support, solar product support India, Hykon service helpline",
   },
 
-  "warranty-policy": {
+  warranty: {
     title: "Warranty & Complaints | Hykon India Ltd",
     description:
       "Submit warranty claims or complaints for Hykon India Ltd products. Learn about our warranty coverage, terms, and resolution process.",
@@ -134,7 +166,7 @@ export const defaultMeta = {
       "Hykon warranty, Hykon complaint, solar product warranty India, power electronics warranty",
   },
 
-  "delivery-policy": {
+  "delivery-polices": {
     title: "Delivery Policy | Hykon India Ltd",
     description:
       "Read Hykon India Ltd's delivery policy to understand shipping timelines, charges, and delivery terms for our products across India.",

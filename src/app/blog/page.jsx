@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("blogs");
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("blog");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 

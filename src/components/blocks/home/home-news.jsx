@@ -106,7 +106,7 @@ export default function HomeNews({ data }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-5"
               asChild
             >
-              <Link href={"/news"}>
+              <Link href={"/news-events"}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image

@@ -42,63 +42,63 @@ export async function GET(request) {
         id: 1,
         hasSubmenu: false,
         name: "About",
-        slug: "/about",
+        slug: "/about-us",
       },
       {
         id: 2,
         hasSubmenu: true,
         name: "Products",
-        slug: "/categories",
+        slug: "/category",
         submenu: [
           {
             id: "2-1",
             name: "Solar Water Heater",
-            slug: "/categories/solar-water-heater",
+            slug: "/category/solar-water-heater",
           },
           {
             id: "2-2",
             name: "SST",
-            slug: "/categories/sst",
+            slug: "/category/sst",
           },
           {
             id: "2-3",
             name: "Inverter Battery",
-            slug: "/categories/inverter-battery",
+            slug: "/category/inverter-battery",
           },
           {
             id: "2-4",
             name: "Lithium Battery",
-            slug: "/categories/lithium-battery",
+            slug: "/category/lithium-battery",
           },
           {
             id: "2-5",
             name: "Electric Vehicle",
-            slug: "/categories/electric-vehicle",
+            slug: "/category/electric-vehicle",
           },
           {
             id: "2-6",
             name: "E-Generator",
-            slug: "/categories/e-generator",
+            slug: "/category/e-generator",
           },
           {
             id: "2-7",
             name: "BESS",
-            slug: "/categories/bess",
+            slug: "/category/bess",
           },
           {
             id: "2-8",
             name: "UPS",
-            slug: "/categories/ups",
+            slug: "/category/ups",
           },
           {
             id: "2-9",
             name: "Solar Systems",
-            slug: "/categories/solar-systems",
+            slug: "/category/solar-systems",
           },
           {
             id: "2-10",
             name: "Heat Pump",
-            slug: "/categories/heat-pump",
+            slug: "/category/heat-pump",
           },
         ],
       },
@@ -106,25 +106,25 @@ export async function GET(request) {
         id: 3,
         hasSubmenu: true,
         name: "Contact",
-        slug: "/contact",
+        slug: "/contact-us",
       },
       {
         id: 4,
         hasSubmenu: false,
         name: "News",
-        slug: "/news",
+        slug: "/news-events",
       },
       {
         id: 5,
         hasSubmenu: false,
         name: "Blogs",
-        slug: "/blogs",
+        slug: "/blog",
       },
       {
         id: 6,
         hasSubmenu: false,
         name: "Career",
-        slug: "/careers",
+        slug: "/career",
       },
       {
         id: 7,
@@ -182,7 +182,7 @@ export async function GET(request) {
           {
             id: "9-8",
             name: "Categories",
-            slug: "/categories",
+            slug: "/category",
           },
         ],
       },
@@ -199,7 +199,7 @@ export async function GET(request) {
           {
             id: 0,
             label: "About",
-            slug: "/about",
+            slug: "/about-us",
           },
           {
             id: 1,
@@ -214,7 +214,7 @@ export async function GET(request) {
           {
             id: 1,
             label: "Warranty Registration",
-            slug: "/warranty-complaints",
+            slug: "/warranty",
           },
           {
             id: 3,
@@ -224,12 +224,12 @@ export async function GET(request) {
           {
             id: 4,
             label: "Terms & Conditions",
-            slug: "/terms",
+            slug: "/terms-and-conditions",
           },
           {
             id: 7,
             label: "Investor Relations",
-            slug: "/investor-relations",
+            slug: "/annual-report",
           },
           {
             id: 8,
@@ -239,17 +239,17 @@ export async function GET(request) {
           {
             id: 9,
             label: "Career",
-            slug: "/careers",
+            slug: "/career",
           },
           {
             id: 12,
             label: "News",
-            slug: "/news",
+            slug: "/news-events",
           },
           {
             id: 13,
             label: "Contact",
-            slug: "/contact",
+            slug: "/contact-us",
           },
           {
             id: 14,
@@ -264,32 +264,32 @@ export async function GET(request) {
           {
             id: 1,
             label: "Solar Light",
-            slug: "/categories/solar-light",
+            slug: "/category/solar-light",
           },
           {
             id: 2,
             label: "Solar Water Heater",
-            slug: "/categories/solar-water-heater",
+            slug: "/category/solar-water-heater",
           },
           {
             id: 3,
             label: "Lithium Battery",
-            slug: "/categories/lithium-battery",
+            slug: "/category/lithium-battery",
           },
           {
             id: 12,
             label: "Heat Pump",
-            slug: "/categories/heat-pumpheat-pump",
+            slug: "/category/heat-pumpheat-pump",
           },
           {
             id: 15,
             label: "UPS & Inverters",
-            slug: "/categories/ups-inverters",
+            slug: "/category/ups-inverters",
           },
           {
             id: 17,
             label: "Stainless steel water tank",
-            slug: "/categories/stainless-steel-water-tank",
+            slug: "/category/stainless-steel-water-tank",
           },
         ],
       },
@@ -367,7 +367,7 @@ export async function GET(request) {
         "Get in touch with our team for product details, support, or expert assistance.",
       button: {
         label: "Get In Touch",
-        link: "/contact",
+        link: "/contact-us",
       },
     },
   };

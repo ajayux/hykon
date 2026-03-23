@@ -74,7 +74,7 @@ export default function CategoriesSection({ data, filterData }) {
         <div className={cn("flex flex-wrap justify-center -mx-1 xl:-mx-1.5 2xl:-mx-2 3xl:-mx-5 [&>*]:p-1 xl:[&>*]:p-1.5 2xl:[&>*]:p-2 3xl:[&>*]:p-5 transition-opacity duration-300", isLoading && "opacity-50 pointer-events-none")}>
           {categoryItems?.map((item) => (
             <Link
-                  href={`/categories/${item?.slug}`}
+                  href={`/category/${item?.slug}`}
               key={item?.id}
               className={cn(
                 "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/6",

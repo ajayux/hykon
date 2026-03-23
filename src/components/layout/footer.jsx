@@ -137,7 +137,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
                               size="h5"
                               className="font-normal text-white transition [&>a]:hover:text-[#008dd2] my-0.5 xl:my-1"
                             >
-                              <Link href={`/categories/${item?.slug}`}>{item?.name}</Link>
+                              <Link href={`/category/${item?.slug}`}>{item?.name}</Link>
                             </Heading>
                           </div>
                         ),

@@ -375,7 +375,7 @@ export default async function productDetailPage({params}) {
         slug={productDetailSection?.title}
       />
       {productDetailSection && <ProductDetail data={productDetailSection} />}
-      {similarProductSection && <ProductSimilar data={similarProductSection} />}
+      {similarProductSection?.productItems?.length>0 && <ProductSimilar data={similarProductSection} />}
       {faqSection?.faqItems.length>0 && <ProductQuestions data={faqSection} />}
     </>
   );
