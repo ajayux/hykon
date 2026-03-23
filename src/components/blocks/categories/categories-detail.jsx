@@ -17,9 +17,7 @@ const scrollToSection = (e, slug) => {
 };
 
 const getProductUrl = (slug) => {
-  const params = new URLSearchParams();
-  params.append("product_slug[]", slug);
-  return `/products?${params.toString()}`;
+  return `/products?product_slug=${slug}`;
 };
 
 export default function CategoriesDetail({ data }) {
