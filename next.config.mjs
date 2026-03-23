@@ -34,5 +34,19 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/annual-report",
+        destination: "/investor-relations",
+        permanent: true,
+      },
+      {
+        source: "/csr-policy",
+        destination: "/investor-relations",
+        permanent: true,
+      },
+    ];
+  },
 };
 export default nextConfig;

@@ -142,7 +142,7 @@ export const defaultMeta = {
       "Hykonnect, Hykon referral program, earn with Hykon, solar referral India",
   },
 
-  "annual-report": {
+  "investor-relations": {
     title: "Annual Report | Hykon India Ltd",
     description:
       "Access Hykon India Ltd's financial reports, investor updates, and corporate governance information for stakeholders and investors.",

@@ -239,7 +239,7 @@ const localData = {
           {
             id: 7,
             label: "Investor Relations",
-            slug: "/annual-report",
+            slug: "/investor-relations",
           },
           {
             id: 8,

@@ -2,19 +2,19 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const category = searchParams.get("category") || "annual-report";
+  const category = searchParams.get("category") || "investor-relations";
   const page = parseInt(searchParams.get("page") || "1");
 
   const allReports = [
     {
       title: "Annual Report 2023-2024",
       file: "https://beta.hykon.dev14.intersmarthosting.in/storage/64/dummy-(2).pdf",
-      category: "annual-report",
+      category: "investor-relations",
     },
     {
       title: "Annual Report 2022-2023",
       file: "https://beta.hykon.dev14.intersmarthosting.in/storage/64/dummy-(2).pdf",
-      category: "annual-report",
+      category: "investor-relations",
     },
     {
       title: "CSR Report 2024-2025",
@@ -43,12 +43,12 @@ export async function GET(request) {
       },
     },
     reportsSection: {
-      title: category === "annual-report" ? "Annual Reports" : "CSR Reports",
+      title: category === "investor-relations" ? "Annual Reports" : "CSR Reports",
       filters: [
         {
           id: 1,
           title: "Annual Report",
-          slug: "annual-report",
+          slug: "investor-relations",
         },
         {
           id: 2,

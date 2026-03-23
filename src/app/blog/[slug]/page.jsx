@@ -95,7 +95,7 @@ export default async function BlogDetailPage({ params }) {
 
 
   const page = {
-    link: "blogs",
+    link: "blog",
     label: "Blogs",
   }
 
