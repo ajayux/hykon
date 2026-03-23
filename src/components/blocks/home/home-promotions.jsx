@@ -3,6 +3,7 @@
 // import Autoplay from "embla-carousel-autoplay";
 
 import Image from "next/image";
+import Link from "next/link";
 // import { cn } from "@/lib/utils";
 
 export default function HomePromotions({ data }) {
@@ -18,6 +19,8 @@ export default function HomePromotions({ data }) {
   return (
     <section className="w-full h-auto block bg-[#181818] py-10 xl:py-15 2xl:py-17.5 3xl:py-20 relative z-0">
       <div className="container">
+    <Link href = {`https://play.google.com/store/apps/details?id=in.nexxio.partnerconnect.hykon&hl=en`} target="_blank">
+
         <div className="w-full h-auto aspect-1720/720 overflow-hidden rounded-[30px] relative z-0">
           <Image
             src={data?.media?.path || "/images/placeholder.jpg"}
@@ -27,6 +30,7 @@ export default function HomePromotions({ data }) {
             className="object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>
+    </Link>
         {/* <div ref={emblaRef} className="w-full max-w-full overflow-hidden">
           <div className="flex touch-pan-y touch-pinch-zoom">
             {data?.map((item) => (
