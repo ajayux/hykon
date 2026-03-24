@@ -25,7 +25,7 @@ export default function HomeAbout({ data }) {
     <section className="w-full h-auto block py-[30px] sm:py-[40px] lg:py-[120px_80px] 2xl:py-[150px_110px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
       <div className="container xl:max-w-[1140px] 2xl:max-w-[1360px] 3xl:max-w-[1700px]">
         <div className="flex flex-wrap sm:items-center -mx-3 lg:-mx-1 3xl:-mx-3 [&>*]:p-3 lg:[&>*]:p-1 3xl:[&>*]:p-3">
-          <div className="w-full lg:w-[36%]  xl:w-[38%] 2xl:w-[40%]">
+          <div className="w-full lg:w-[36%] xl:w-[38%] 2xl:w-[40%]">
             <Heading
               as="div"
               size="h6"
@@ -36,7 +36,7 @@ export default function HomeAbout({ data }) {
             <Heading
               as="h2"
               size="h1"
-              className="text-medium text-white mb-6 xl:mb-12 2xl:mb-13 3xl:mb-14"
+              className="text-medium text-white mb-6 xl:mb-12 2xl:mb-13 3xl:mb-14 lg:max-w-11/12"
             >
               {data?.title}
             </Heading>
@@ -45,7 +45,7 @@ export default function HomeAbout({ data }) {
                 <Heading
                   as="h6"
                   size="h5"
-                  className="font-normal tracking-[0.30rem] uppercase text-[#caad63] mb-0.5 xl:mb-1 3xl:mb-2"
+                  className="font-normal tracking-[0.18rem] uppercase text-[#caad63] mb-0.5 xl:mb-1 3xl:mb-2"
                 >
                   {data?.achievement?.title}
                 </Heading>
@@ -100,8 +100,8 @@ export default function HomeAbout({ data }) {
                     className="min-w-[320px] xl:min-w-[440px] 2xl:min-w-[526px] 3xl:min-w-[657px] aspect-square absolute -z-1 bottom-[25%] right-[33%]"
                   />
                   <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-2/10 lg:translate-y-8/10">
-                    <div className="flex-1 h-[1px] bg-[#008dd2]" />
-                    <div className="w-full max-w-9/12 h-auto bg-[#181818] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-6 lg:pl-10 py-3 lg:py-5">
+                    <div className="flex-1 h-[0.5px] bg-[#008dd2]" />
+                    <div className="w-full max-w-8/12 h-auto bg-[#181818] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-4 lg:pl-6 2xl:pl-8 py-3 lg:py-5">
                       <Heading
                         as="div"
                         size="h4"
@@ -125,13 +125,13 @@ export default function HomeAbout({ data }) {
                 >
                   {parse(data?.description)}
                 </Text>
-                <div className="flex flex-wrap -mx-3 mb-4 xl:mb-8 2xl:mb-12 3xl:mb-20">
+                <div className="flex flex-wrap -mx-2 2xl:-mx-3 mb-4 lg:mb-8 2xl:mb-12 3xl:mb-20">
                   {data?.statistics?.map((item) => (
                     <div
                       key={item?.id}
-                      className="w-1/2 sm:w-1/2 xl:w-[166px] 2xl:w-[195px] 3xl:w-[240px] py-2 px-3"
+                      className="w-1/2 sm:w-1/2 lg:w-[160px] 2xl:w-[195px] 3xl:w-[240px] py-1.5 3xl:py-2 px-2 3xl:px-3"
                     >
-                      <div className="w-full bg-[#252525] rounded-[10px] py-4.5 px-6 hover:bg-[#2d2d2d] transition-all duration-300">
+                      <div className="w-full bg-[#252525] rounded-[6px] lg:rounded-[7px] 3xl:rounded-[8px] py-4 px-4 hover:bg-[#2d2d2d] transition-all duration-300">
                         <Heading
                           as="div"
                           size="h3"
@@ -150,7 +150,7 @@ export default function HomeAbout({ data }) {
                         <Text
                           as="div"
                           size="none"
-                          className="text-[12px] lg:text-[13px] 2xl:text-[15px] 3xl:text-[20px] leading-none font-light text-white"
+                          className="text-[12px] lg:text-[12.5px] 2xl:text-[15px] 3xl:text-[20px] leading-none font-light text-white"
                         >
                           {item?.label}
                         </Text>

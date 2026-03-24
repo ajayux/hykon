@@ -68,6 +68,7 @@ export default function HeaderSheet({
               width={230}
               height={70}
               className="w-[90px] sm:w-[100px] xl:w-[140px] 2xl:w-[180px] 3xl:w-[200px] object-contain hover:scale-105 transition"
+              priority
             />
           </Link>
         </div>
@@ -154,7 +155,7 @@ function ContactInfoItem({ icon, title, children }) {
         className="leading-none text-white flex items-center gap-x-2 mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
       >
         <Image
-          src={icon}
+          src={icon || "/images/placeholder.jpg"}
           alt={title}
           width={25}
           height={25}

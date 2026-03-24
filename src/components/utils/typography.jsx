@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 const headingVariants = cva("leading-tight font-medium", {
   variants: {
     size: {
-      h1: "text-[22px] sm:text-[28px] lg:text-[36px] 2xl:text-[44px] 3xl:text-[54px]",
+      h1: "text-[22px] sm:text-[28px] lg:text-[36.80px] 2xl:text-[44px] 3xl:text-[54px]",
       h2: "text-[20px] sm:text-[22px] lg:text-[28px] 2xl:text-[33px] 3xl:text-[40px]",
       h3: "text-[18px] sm:text-[20px] lg:text-[21px] 2xl:text-[25px] 3xl:text-[31px]",
       h4: "text-[14px] sm:text-[15px] lg:text-[17px] 2xl:text-[20px] 3xl:text-[25px]",
@@ -26,7 +26,7 @@ const headingVariants = cva("leading-tight font-medium", {
 // Text Variants
 // ============================================================================
 
-const textVariants = cva("leading-normal font-normal", {
+const textVariants = cva("leading-normal font-normal tracking-[0.015rem]", {
   variants: {
     size: {
       p0: "text-[15px] lg:text-[13px] 2xl:text-[15px] 3xl:text-[18px]",
