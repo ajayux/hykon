@@ -189,7 +189,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       if (data.images instanceof File) {
         formData.append("file", data.images);
       }
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const url = `${API_URL}/get-a-quote`;
       const res = await fetch(url, {

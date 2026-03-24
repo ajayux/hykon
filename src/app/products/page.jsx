@@ -198,10 +198,10 @@ export default async function ProductsPage({ searchParams }) {
 
   const { categorySlug, categoryTitle, productTitle } = productSection;
 
-  const grandParentPage = { label: "Product Category", link: "categories" };
+  const grandParentPage = { label: "Product Category", link: "category" };
 
   const parentPage = categorySlug && categoryTitle
-    ? { label: categoryTitle, link: `categories/${categorySlug}` }
+    ? { label: categoryTitle, link: `category/${categorySlug}` }
     : null;
 
 

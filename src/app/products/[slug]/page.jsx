@@ -351,12 +351,12 @@ export default async function productDetailPage({params}) {
 
   const grandParentPage = {
     label: "Product Category",
-    link: "products",
+    link: "category",
   };
 
   const parentPage = {
     label: productDetailSection?.categoryTitle,
-    link: `categories/${productDetailSection?.categorySlug}`,
+    link: `category/${productDetailSection?.categorySlug}`,
   };
 
   const page = {

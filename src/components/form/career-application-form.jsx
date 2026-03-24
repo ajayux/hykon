@@ -100,7 +100,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       formData.append("resume", data.cv);
       formData.append("cover_letter", data.coverLetter || "");
       formData.append("career_slug", slug);
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {

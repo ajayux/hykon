@@ -63,7 +63,7 @@ export function BusinessContactForm({ activeTab, page }) {
       formData.append("email", data.email);
       formData.append("phone", data.phone);
       formData.append("message", data.message || "");
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const url = `${API_URL}/business-contact`;
       const res = await fetch(url, {

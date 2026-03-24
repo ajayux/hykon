@@ -144,7 +144,7 @@ export function VendorRegistrationForm() {
       if (data.companyProfile) {
         formData.append("file", data.companyProfile);
       }
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
       const res = await fetch(`${API_URL}/vendor-registration`, {
         method: "POST",
         body: formData,

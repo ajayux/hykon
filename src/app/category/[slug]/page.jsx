@@ -221,7 +221,7 @@ export default async function categoriesDetailPage({params}) {
 
   const page = {
     label: "Product Category",
-    link: "categories",
+    link: "category",
   }
 
   const { heroSection, categoryDetailSection } = productsData;

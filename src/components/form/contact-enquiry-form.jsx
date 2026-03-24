@@ -105,7 +105,7 @@ export function ContactEnquiryForm() {
       formData.append("requirement", data.requirement || "");
       formData.append("file", data.attachment);
       formData.append("message", data.message || "");
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/contact-enquiry`, {

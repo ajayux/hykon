@@ -85,7 +85,7 @@ export function GetInTouchForm({ slug, onClose }) {
       formData.append("state", data.state);
       formData.append("place", data.place);
       formData.append("message", data.message || "");
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const res = await fetch(`${API_URL}/get-in-touch`, {
         method: "POST",

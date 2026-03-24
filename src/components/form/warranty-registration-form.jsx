@@ -280,7 +280,7 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       if (data.images) {
         formData.append("images[]", data.images);
       }
-      formData.append("recaptcha_token", page === "warranty" ? warrantyRecaptchaToken : recaptchaToken);
+      formData.append("captcha_key", page === "warranty" ? warrantyRecaptchaToken : recaptchaToken);
       const url = page === "warranty" ? `${API_URL}/client-warranty-complaint` : `${API_URL}/customer-care-enquiry`;
       const res = await fetch(url, {
         method: "POST",
