@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
-import { cn } from "@/lib/utils";
+import { cn, ParsedContent } from "@/lib/utils";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -484,12 +484,12 @@ export default function ProductDetail({ data }) {
                 {tab?.id === 2 ? (
                   <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
                     <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60">
-                      {parse(tab?.description)}
+                      <ParsedContent html={tab?.description} />
                     </div>
                   </div>
                 ) : (
                   <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]">
-                    {parse(tab?.description)}
+                    <ParsedContent html={tab?.description} />
                   </div>
                 )}
               </TabsContent>

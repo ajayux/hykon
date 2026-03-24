@@ -52,7 +52,7 @@ const formSchema = z.object({
   projectSiteDetails: commonValidations.optionalString,
   preferredTime: commonValidations.optionalString,
   comments: commonValidations.optionalString,
-  images: z.any().optional(),
+  images: commonValidations.file("File"),
 });
 
 const headingClasses =
@@ -163,6 +163,9 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       const recaptchaToken = await executeRecaptcha("request_quote");
 
       const formData = new FormData();
+
+      
+
       formData.append("name", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
@@ -178,9 +181,10 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
         "loading_power",
         data.productPowerRequirement || "",
       );
+      const installationSupportMap = { Yes: 1, No: 2, "Not Sure": 3 };
       formData.append(
         "installation_support",
-        data.installationSupport || "Yes",
+        installationSupportMap[data.installationSupport] ?? 1,
       );
       formData.append("site_details", data.projectSiteDetails || "");
       formData.append("time_for_call", data.preferredTime || "");
