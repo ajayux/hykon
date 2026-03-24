@@ -6,7 +6,7 @@ import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("investor-relations");
+    await getMetaData("investor relations");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 

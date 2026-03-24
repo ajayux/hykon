@@ -210,7 +210,7 @@ export default function PowerCalculation({ data, appliances }) {
                               >
                                 <Input
                                   type="text"
-                                  placeholder="No"
+                                  placeholder="No."
                                   value={row.count}
                                   onChange={(e) =>
                                     handleUpdateItem(

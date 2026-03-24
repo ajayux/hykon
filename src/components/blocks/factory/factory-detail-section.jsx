@@ -10,7 +10,7 @@ export default function FactoryDetailSection({ data }) {
           <div className="w-full sm:w-[320px] lg:w-[420px] xl:w-[550px] 2xl:w-[605px] 3xl:w-[740px] max-lg:mb-5 lg:float-left mr-5 sm:mr-10 lg:mr-[50px] xl:mr-[55px] 2xl:mr-[66px] 3xl:mr-[80px] mb-4 xl:mb-6 2xl:mb-7 3xl:mb-9">
             <div className="w-full aspect-74/50 overflow-hidden rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px]">
               <Image
-                src={"/images/placeholder.jpg"}
+                src={data?.media?.path}
                 alt={data?.media?.alt}
                 width={740}
                 height={500}
