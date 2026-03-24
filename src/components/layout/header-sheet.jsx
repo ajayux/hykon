@@ -128,11 +128,11 @@ export default function HeaderSheet({
                 <Button variant="link" size="none" asChild>
                   <a href={item?.link} target="_blank" className="block">
                     <Image
-                      src={item?.icon}
+                      src={item?.icon || "/images/placeholder.jpg"}
                       alt={item?.name}
                       width={18}
                       height={18}
-                      className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                      className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square object-contain block hover:scale-110 transition"
                       unoptimized
                     />
                   </a>

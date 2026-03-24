@@ -17,8 +17,7 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
 });
 
 export default function Footer({ quickLinks, footerData, socialLinkData }) {
-
-  console.log("footer:", footerData)
+  console.log("footer:", footerData);
 
   const pathname = usePathname();
   const isLandingPage =
@@ -137,7 +136,9 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
                               size="h5"
                               className="font-normal text-white transition [&>a]:hover:text-[#008dd2] my-0.5 xl:my-1"
                             >
-                              <Link href={`/category/${item?.slug}`}>{item?.name}</Link>
+                              <Link href={`/category/${item?.slug}`}>
+                                {item?.name}
+                              </Link>
                             </Heading>
                           </div>
                         ),
@@ -322,7 +323,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
         <div className="container opacity-95">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
-              {parse(footerData?.copyright?? "")}
+              {parse(footerData?.copyright ?? "")}
             </Text>
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {socialLinkData?.map((item, index) => (
@@ -334,7 +335,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
                         alt={item?.name}
                         width={18}
                         height={18}
-                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square object-contain block hover:scale-110 transition"
                         unoptimized
                       />
                     </a>
