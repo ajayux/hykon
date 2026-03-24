@@ -266,11 +266,11 @@ const localData = {
             label: "Power Calculator",
             slug: "/power-calculator",
           },
-          {
-            id: 15,
-            label: "Service",
-            slug: "/service",
-          },
+          // {
+          //   id: 15,
+          //   label: "Service",
+          //   slug: "/service",
+          // },
         ],
       },
 }
