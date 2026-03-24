@@ -72,8 +72,7 @@ export default function ProductDetail({ data }) {
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const currentUrl =
-    typeof window !== "undefined" ? window.location.href : "";
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const socialLinks = [
     {
@@ -366,27 +365,30 @@ export default function ProductDetail({ data }) {
                   </Button>
                 )}
 
-<Link href={`https://hykonindia.myshopify.com/products/${data?.productSlug}`} target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  // disable={data?.pricing?.sellingPrice>0}
-                  className="text-white min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] bg-[#008dd2] pl-4 xl:pl-5"
+                <Link
+                  href={`https://hykonindia.myshopify.com/products/${data?.productSlug}?variant=${data?.slug}`}
+                  target="_blank"
                 >
-                  Buy Now
-                  <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
-                    <Image
-                      src={"/images/icon-arrow-right-blue.svg"}
-                      alt={"icon-arrow-right-blue"}
-                      width={18}
-                      height={13}
-                      className="w-1/2"
-                      unoptimized
-                    />
-                  </div>
-                </Button>
-</Link>
- 
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    // disable={data?.pricing?.sellingPrice>0}
+                    className="text-white min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] bg-[#008dd2] pl-4 xl:pl-5"
+                  >
+                    Buy Now
+                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-blue.svg"}
+                        alt={"icon-arrow-right-blue"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </div>
+                  </Button>
+                </Link>
+
                 <RequestAQuoteDialog>
                   <Button
                     size="lg"
@@ -428,9 +430,13 @@ export default function ProductDetail({ data }) {
                             data?.slug === variant?.slug &&
                               "border-white/60 text-white pointer-events-none",
                           )}
-                          asChild={variant?.isAvailabile && data?.slug !== variant?.slug}
+                          asChild={
+                            variant?.isAvailabile &&
+                            data?.slug !== variant?.slug
+                          }
                         >
-                          {variant?.isAvailabile && data?.slug !== variant?.slug ? (
+                          {variant?.isAvailabile &&
+                          data?.slug !== variant?.slug ? (
                             <Link href={`/products/${variant?.slug}`}>
                               <span className="truncate">{variant?.name}</span>
                             </Link>
@@ -512,29 +518,31 @@ export default function ProductDetail({ data }) {
                 label: data?.deliveryInfo?.label,
                 url: data?.deliveryInfo?.url,
               },
-            ].filter((item) => item?.url).map((item) => (
-              <Button
-                key={item?.label}
-                size="lg"
-                variant="outline"
-                className="text-white min-w-[130px] xl:min-w-[150px] 2xl:min-w-[180px] 3xl:min-w-[215px] pl-4 xl:pl-5"
-                asChild
-              >
-                <Link href={item?.url ?? ""} target="_blank">
-                  {item?.label}
-                  <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-                    <Image
-                      src={"/images/icon-arrow-right-white.svg"}
-                      alt={"icon-arrow-right-white"}
-                      width={18}
-                      height={13}
-                      className="w-1/2"
-                      unoptimized
-                    />
-                  </span>
-                </Link>
-              </Button>
-            ))}
+            ]
+              .filter((item) => item?.url)
+              .map((item) => (
+                <Button
+                  key={item?.label}
+                  size="lg"
+                  variant="outline"
+                  className="text-white min-w-[130px] xl:min-w-[150px] 2xl:min-w-[180px] 3xl:min-w-[215px] pl-4 xl:pl-5"
+                  asChild
+                >
+                  <Link href={item?.url ?? ""} target="_blank">
+                    {item?.label}
+                    <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                      <Image
+                        src={"/images/icon-arrow-right-white.svg"}
+                        alt={"icon-arrow-right-white"}
+                        width={18}
+                        height={13}
+                        className="w-1/2"
+                        unoptimized
+                      />
+                    </span>
+                  </Link>
+                </Button>
+              ))}
           </div>
           <Text as="div" size="p1" className="italic text-[#dedede]">
             {data?.deliveryInfo?.notes}

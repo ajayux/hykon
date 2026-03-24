@@ -109,6 +109,13 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
     gcTime: 1000 * 60 * 60 * 2, // 2 hours
   });
 
+  const { data: useCases = [], isLoading: useCasesLoading } = useQuery({
+    queryKey: ["use-cases"],
+    queryFn: () => apiClient("/get-use-case").then((r) => r.data),
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60,
+  });
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -319,14 +326,8 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
               name: "productPurpose",
               placeholder: "Product Purpose*",
               type: "select",
-              options: [
-                { slug: "Home", name: "Home" },
-                { slug: "Commercial", name: "Commercial" },
-                { slug: "Industrial", name: "Industrial" },
-                { slug: "Institutional", name: "Institutional" },
-                { slug: "EV", name: "EV" },
-                { slug: "Other", name: "Other" },
-              ],
+              options: useCases,
+              isLoading: useCasesLoading,
               note: "Home, Commercial, Industrial, Institutional, EV, etc.",
             },
             {

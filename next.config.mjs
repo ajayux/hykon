@@ -46,6 +46,11 @@ const nextConfig = {
         destination: "/investor-relations",
         permanent: true,
       },
+      {
+        source: "/bogs",
+        destination: "/blog",
+        permanent: true,
+      },
     ];
   },
 };
