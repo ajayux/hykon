@@ -44,7 +44,22 @@ const formSchema = z
     product: commonValidations.dropDown("Product"),
     productVariant: commonValidations.optionalDropdown,
     serialNumber: commonValidations.requiredString("Serial Number"),
-    invoiceDate: z.string().min(1, "Invoice Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
+    invoiceDate: z
+      .string()
+      .min(1, "Invoice Date is required")
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date (YYYY-MM-DD)")
+      .refine((val) => {
+        const date = new Date(val);
+        return !isNaN(date.getTime());
+      }, "Please enter a valid calendar date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date <= new Date();
+      }, "Invoice date cannot be a future date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date >= new Date("1900-01-01");
+      }, "Please enter a valid invoice date"),
     invoiceNumber: commonValidations.requiredString("Invoice Number"),
     dealerName: commonValidations.name("Dealer Name"),
     // Billing Address
@@ -646,6 +661,7 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
             <Input
               {...field}
               type="date"
+              max={new Date().toISOString().split("T")[0]}
               placeholder={item.placeholder}
               className={cn(inputClasses, "date-input [color-scheme:dark]")}
               disabled={isSubmitting || extraDisabled}

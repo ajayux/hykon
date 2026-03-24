@@ -93,7 +93,7 @@ export function GetInTouchForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
-        toast.error("Failed to submit application");
+        // toast.error("Failed to submit application");
         throw new Error("Failed to submit application");
       }
 

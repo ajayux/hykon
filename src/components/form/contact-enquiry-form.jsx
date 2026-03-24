@@ -42,7 +42,7 @@ const formSchema = z.object({
   email: commonValidations.email,
   productCategory: commonValidations.dropDown("Product Category"),
   requirement: commonValidations.dropDown("Requirement"),
-  attachment: commonValidations.file("pdf"),
+  attachment: commonValidations.file("file"),
   message: commonValidations.message,
 });
 
