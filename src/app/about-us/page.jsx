@@ -15,7 +15,7 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("about-us");
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("about");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
