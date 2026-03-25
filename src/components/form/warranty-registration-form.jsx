@@ -63,7 +63,9 @@ const formSchema = z
     invoiceNumber: commonValidations.requiredString("Invoice Number"),
     dealerName: commonValidations.name("Dealer Name"),
     // Billing Address
-    billingAddressBuilding: commonValidations.requiredString("Building/Apartment Name"),
+    billingAddressBuilding: commonValidations.requiredString(
+      "Building/Apartment Name",
+    ),
     billingAddressBlock: commonValidations.requiredString("Block/Flat No"),
     billingAddressStreet: commonValidations.requiredString("Street/Road Name"),
     billingAddressPincode: commonValidations.postalCode,
@@ -77,12 +79,15 @@ const formSchema = z
     installationAddressState: commonValidations.optionalString,
     installationAddressDistrict: commonValidations.optionalString,
     sameAsBillingAddress: z.boolean().optional(),
-    images: commonValidations.file("Product image")
+    images: commonValidations.file("Product image"),
   })
   .superRefine((data, ctx) => {
     if (!data.sameAsBillingAddress) {
       const installationFields = [
-        { key: "installationAddressBuilding", label: "Building/Apartment Name" },
+        {
+          key: "installationAddressBuilding",
+          label: "Building/Apartment Name",
+        },
         { key: "installationAddressBlock", label: "Block/Flat No" },
         { key: "installationAddressStreet", label: "Street/Road Name" },
         { key: "installationAddressPincode", label: "Pincode" },
@@ -102,7 +107,8 @@ const formSchema = z
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Invalid PIN code: must be 6 digits and cannot start with 0",
+            message:
+              "Invalid PIN code: must be 6 digits and cannot start with 0",
             path: [key],
           });
         }
@@ -119,7 +125,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function WarrantyRegistrationForm({activeTab, page}) {
+export function WarrantyRegistrationForm({ activeTab, page }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,30 +134,36 @@ export function WarrantyRegistrationForm({activeTab, page}) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedBillingState, setSelectedBillingState] = useState(null);
-  const [selectedInstallationState, setSelectedInstallationState] = useState(null);
-
+  const [selectedInstallationState, setSelectedInstallationState] =
+    useState(null);
 
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60,           // 1 hour
+    staleTime: 1000 * 60 * 60, // 1 hour
+    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: products = [], isLoading: productsLoading } = useQuery({
     queryKey: ["products", selectedCategory],
-    queryFn: () => apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedCategory,
-    staleTime: 1000 * 60 * 30,        // 30 minutes
-    gcTime: 1000 * 60 * 60,           // 1 hour
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: variants = [], isLoading: variantsLoading } = useQuery({
     queryKey: ["variants", selectedProduct],
-    queryFn: () => apiClient(`/get-product-variants?slug=${selectedProduct}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/get-product-variants?slug=${selectedProduct}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedProduct,
-    staleTime: 1000 * 60 * 30,        // 30 minutes
-    gcTime: 1000 * 60 * 60,           // 1 hour
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
@@ -161,20 +173,30 @@ export function WarrantyRegistrationForm({activeTab, page}) {
     gcTime: 1000 * 60 * 60 * 24,
   });
 
-  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } = useQuery({
-    queryKey: ["districts", selectedBillingState],
-    queryFn: () => apiClient(`/districts?state_slug=${selectedBillingState}`).then((r) => r.data),
-    enabled: !!selectedBillingState,
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60 * 2,       // 2 hours
-  });
+  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } =
+    useQuery({
+      queryKey: ["districts", selectedBillingState],
+      queryFn: () =>
+        apiClient(`/districts?state_slug=${selectedBillingState}`).then(
+          (r) => r.data,
+        ),
+      enabled: !!selectedBillingState,
+      staleTime: 1000 * 60 * 60, // 1 hour
+      gcTime: 1000 * 60 * 60 * 2, // 2 hours
+    });
 
-  const { data: installationDistricts = [], isLoading: installationDistrictsLoading } = useQuery({
+  const {
+    data: installationDistricts = [],
+    isLoading: installationDistrictsLoading,
+  } = useQuery({
     queryKey: ["districts", selectedInstallationState],
-    queryFn: () => apiClient(`/districts?state_slug=${selectedInstallationState}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/districts?state_slug=${selectedInstallationState}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedInstallationState,
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60 * 2,       // 2 hours
+    staleTime: 1000 * 60 * 60, // 1 hour
+    gcTime: 1000 * 60 * 60 * 2, // 2 hours
   });
 
   const form = useForm({
@@ -226,7 +248,14 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       form.setValue("installationAddressState", billingValues[4]);
       form.setValue("installationAddressDistrict", billingValues[5]);
       setSelectedInstallationState(selectedBillingState);
-      form.clearErrors(["installationAddressBuilding", "installationAddressBlock", "installationAddressStreet", "installationAddressPincode", "installationAddressState", "installationAddressDistrict"]);
+      form.clearErrors([
+        "installationAddressBuilding",
+        "installationAddressBlock",
+        "installationAddressStreet",
+        "installationAddressPincode",
+        "installationAddressState",
+        "installationAddressDistrict",
+      ]);
     } else {
       form.setValue("installationAddressBuilding", "");
       form.setValue("installationAddressBlock", "");
@@ -260,13 +289,15 @@ export function WarrantyRegistrationForm({activeTab, page}) {
     setIsSubmitting(true);
     try {
       const recaptchaToken = await executeRecaptcha("warranty_registration");
-      const warrantyRecaptchaToken = await executeRecaptcha("warranty_registration");
+      const warrantyRecaptchaToken = await executeRecaptcha(
+        "warranty_registration",
+      );
 
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
-     
+
       formData.append("serial_number", data.serialNumber);
       formData.append("invoice_date", data.invoiceDate);
       formData.append("invoice_number", data.invoiceNumber);
@@ -280,14 +311,44 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       formData.append("billing_pincode", data.billingAddressPincode);
 
       formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
-      
-      formData.append("installation_apartment_name",data.sameAsBillingAddress? data.billingAddressBuilding : data.installationAddressBuilding || "");
-      formData.append("installation_flat_number",data.sameAsBillingAddress? data.billingAddressBlock : data.installationAddressBlock || "");
-      formData.append("installation_street_name", data.sameAsBillingAddress? data.billingAddressStreet  : data.installationAddressStreet || "");
-      formData.append("installation_state_slug", data.sameAsBillingAddress? data.billingAddressState  : data.installationAddressState || "");
-      formData.append("installation_district_slug", data.sameAsBillingAddress? data.billingAddressDistrict  : data.installationAddressDistrict || "");
-      formData.append("installation_pincode", data.sameAsBillingAddress? data.billingAddressPincode  : data.installationAddressPincode || "");
-     
+
+      formData.append(
+        "installation_apartment_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressBuilding
+          : data.installationAddressBuilding || "",
+      );
+      formData.append(
+        "installation_flat_number",
+        data.sameAsBillingAddress
+          ? data.billingAddressBlock
+          : data.installationAddressBlock || "",
+      );
+      formData.append(
+        "installation_street_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressStreet
+          : data.installationAddressStreet || "",
+      );
+      formData.append(
+        "installation_state_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressState
+          : data.installationAddressState || "",
+      );
+      formData.append(
+        "installation_district_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressDistrict
+          : data.installationAddressDistrict || "",
+      );
+      formData.append(
+        "installation_pincode",
+        data.sameAsBillingAddress
+          ? data.billingAddressPincode
+          : data.installationAddressPincode || "",
+      );
+
       formData.append("form_slug", activeTab);
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
@@ -295,30 +356,35 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       if (data.images) {
         formData.append("images[]", data.images);
       }
-      formData.append("captcha_key", page === "warranty" ? warrantyRecaptchaToken : recaptchaToken);
-      const url = page === "warranty" ? `${API_URL}/client-warranty-complaint` : `${API_URL}/customer-care-enquiry`;
+      formData.append(
+        "captcha_key",
+        page === "warranty" ? warrantyRecaptchaToken : recaptchaToken,
+      );
+      const url =
+        page === "warranty"
+          ? `${API_URL}/client-warranty-complaint`
+          : `${API_URL}/customer-care-enquiry`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,
       });
 
       if (!res.ok) {
-        const error = await res.json().catch(() => ({ message: "Submission failed" }));
-        throw new Error(error.message || `HTTP ${res.status}`);
-        return;
+        const responseData = await res.json();
+        toast.error(responseData?.message);
       }
 
       setIsSuccess(true);
       form.reset();
-      
+
       setUploadedFile(null);
       setSelectedCategory(null);
       setSelectedProduct(null);
       setSelectedBillingState(null);
       setSelectedInstallationState(null);
-      toast.success("Registration submitted successfully")
+      toast.success("Registration submitted successfully");
     } catch (error) {
-        toast.error("Failed to submit registration")
+      // toast.error("Failed to submit registration");
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);
@@ -578,7 +644,10 @@ export function WarrantyRegistrationForm({activeTab, page}) {
               type: "select",
               options: installationDistricts,
               isLoading: installationDistrictsLoading,
-              disabled: sameAsBilling || !selectedInstallationState || installationDistrictsLoading,
+              disabled:
+                sameAsBilling ||
+                !selectedInstallationState ||
+                installationDistrictsLoading,
             },
           ].map((item) => (
             <FormBlock

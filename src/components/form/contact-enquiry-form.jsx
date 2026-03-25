@@ -57,10 +57,12 @@ export function ContactEnquiryForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery({
-    queryKey: ["product-categories-contact"],
-    queryFn: () => apiClient("/get-product-category").then((r) => r.data),
-  });
+  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery(
+    {
+      queryKey: ["product-categories-contact"],
+      queryFn: () => apiClient("/get-product-category").then((r) => r.data),
+    },
+  );
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -114,17 +116,16 @@ export function ContactEnquiryForm() {
       });
 
       if (!res.ok) {
+        const responseData = await res.json();
+        toast.error(responseData?.message);
         throw new Error("Failed to submit enquiry");
-        toast.error("Failed to submit enquiry")
       }
 
       setIsSuccess(true);
-      toast.success("Enquiry submitted successfully")
+      toast.success("Enquiry submitted successfully");
       form.reset();
       setUploadedFile(null);
     } catch (error) {
-      console.error("Submission Error:", error);
-      toast.error("Failed to submit enquiry")
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
@@ -240,11 +241,11 @@ export function ContactEnquiryForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-white">
                   <SelectGroup>
-                    {
-                      productCategory?.map(item =>(
-                        <SelectItem key={item?.slug} value={item?.slug}>{item?.title}</SelectItem>
-                      ))
-                    }
+                    {productCategory?.map((item) => (
+                      <SelectItem key={item?.slug} value={item?.slug}>
+                        {item?.title}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -320,7 +321,7 @@ export function ContactEnquiryForm() {
             <input
               type="file"
               className="hidden"
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              accept=".pdf,.doc,.docx,.jpg,.png"
               onChange={handleFileChange}
               disabled={isSubmitting}
             />

@@ -93,7 +93,8 @@ export function GetInTouchForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
-        // toast.error("Failed to submit application");
+        const responseData = await res.json();
+        toast.error(responseData?.message);
         throw new Error("Failed to submit application");
       }
 
@@ -102,7 +103,7 @@ export function GetInTouchForm({ slug, onClose }) {
       form.reset();
     } catch (error) {
       console.error("Submission Error:", error);
-      toast.error("Failed to submit application");
+      // toast.error("Failed to submit application");
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);

@@ -43,7 +43,7 @@ const formSchema = z.object({
   materialType: commonValidations.optionalString,
   gstin: commonValidations.requiredString("GSTIN"),
   annualTurnover: commonValidations.number,
-  companyProfile: commonValidations.pdfUpload("Company Profile"),
+  companyProfile: commonValidations.file("Company Profile"),
   additionalComments: commonValidations.optionalString,
   referredBy: commonValidations.optionalString,
 });
@@ -150,11 +150,15 @@ export function VendorRegistrationForm() {
         body: formData,
       });
 
+      
       if (!res.ok) {
-        throw new Error("Failed to submit enquiry");
+        const responseData = await res.json();
+        toast.error(responseData?.message);
+        throw new Error("Failed to submit enquiry", res);
       }
 
       setIsSuccess(true);
+      toast.success("Registration submitted successfully");
       form.reset();
       setUploadedFile(null);
       setSelectedCountry(null);
@@ -271,7 +275,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept=".pdf,.doc,application/pdf,application/msword"
+                  accept="image/*"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />
