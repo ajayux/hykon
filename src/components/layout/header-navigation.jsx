@@ -29,7 +29,7 @@ export default function HeaderNavigation({ navigationData, className }) {
                 setOpen(false);
               }}
               className={cn(
-                "text-[16px] lg:text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-none font-normal w-full px-4 lg:px-2 xl:px-4.5 2xl:px-6 3xl:px-7.5 hover:scale-100 py-4 lg:py-0 border-b-1 border-white/20 max-lg:rounded-none max-lg:justify-start lg:border-none",
+                "text-[16px] lg:text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-none font-[400] w-full px-4 lg:px-2 xl:px-4.5 2xl:px-6 3xl:px-7.5 hover:scale-100 py-4 lg:py-0 border-b-1 border-white/20 max-lg:rounded-none max-lg:justify-start lg:border-none",
                 isActive
                   ? "text-white lg:text-[#1e1e1e]"
                   : "text-white/90 lg:text-[#1e1e1e]/90",

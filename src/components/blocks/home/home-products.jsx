@@ -181,48 +181,46 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
             </div>
           </MediaQuery>
           <div className={cn("w-full lg:flex-1 max-sm:pr-4")}>
-            <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-[45px] 2xl:py-[55px] 3xl:py-[70px] ">
-              <div className="flex flex-wrap">
-                <Suspense
-                  fallback={
-                    <>
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <div key={i} className="w-1/2 sm:w-1/3">
-                          <ProductCardSkeleton />
-                        </div>
-                      ))}
-                    </>
-                  }
-                >
-                  {isLoading ? (
-                    <>
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <div key={i} className="w-1/2 sm:w-1/3">
-                          <ProductCardSkeleton />
-                        </div>
-                      ))}
-                    </>
-                  ) : fetchError ? (
-                    <div className="w-full flex items-center justify-center py-10">
-                      <span className="text-white/60 text-sm">
-                        {fetchError}
-                      </span>
-                    </div>
-                  ) : displayedProducts.length === 0 ? (
-                    <div className="w-full flex items-center justify-center py-10">
-                      <span className="text-white/40 text-sm">
-                        No products available.
-                      </span>
-                    </div>
-                  ) : (
-                    displayedProducts.map((item) => (
+            <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-[45px] 2xl:py-[55px] 3xl:py-[70px] flex flex-wrap">
+              <Suspense
+                fallback={
+                  <div className="flex flex-wrap">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="w-1/2 sm:w-1/3">
+                        <ProductCardSkeleton />
+                      </div>
+                    ))}
+                  </div>
+                }
+              >
+                {isLoading ? (
+                  <div className="flex flex-wrap">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="w-1/2 sm:w-1/3">
+                        <ProductCardSkeleton />
+                      </div>
+                    ))}
+                  </div>
+                ) : fetchError ? (
+                  <div className="w-full flex items-center justify-center py-10">
+                    <span className="text-white/60 text-sm">{fetchError}</span>
+                  </div>
+                ) : displayedProducts.length === 0 ? (
+                  <div className="w-full h-full flex items-center justify-center py-10 m-auto">
+                    <span className="text-white/40 text-sm">
+                      No products available.
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap">
+                    {displayedProducts.map((item) => (
                       <div key={item.id} className="w-1/2 sm:w-1/3">
                         <ProductCard item={item} />
                       </div>
-                    ))
-                  )}
-                </Suspense>
-              </div>
+                    ))}
+                  </div>
+                )}
+              </Suspense>
             </div>
           </div>
         </div>
@@ -255,7 +253,7 @@ function CategoryItem({ item, activeItem, reversed }) {
       >
         <div
           className={cn(
-            "w-full max-w-7/10 h-[1px] bg-white lg:bg-black absolute z-1 bottom-0 inset-x-0",
+            "w-full max-w-7/10 h-[1px] bg-white lg:bg-transparent absolute z-1 bottom-0 inset-x-0",
             activeItem === item.id ? "opacity-80" : "opacity-10",
           )}
         />
