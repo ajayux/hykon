@@ -18,7 +18,7 @@ export default function LandingPerformance({ data, isSidebarOpen }) {
             >
               {parse(data?.title)}
             </Heading>
-            <Text as="p" size="p0" className="text-white">
+            <Text as="div" size="p0" className="text-white">
               {parse(data?.description)}
             </Text>
           </div>
@@ -28,7 +28,7 @@ export default function LandingPerformance({ data, isSidebarOpen }) {
                 Key Highlights
               </div>
               <div className="w-full p-[15px] 2xl:p-[20px] 3xl:p-[25px] gap-[20px] xl:gap-[25px] 2xl:gap-[30px] 3xl:gap-[35px] bg-[#008DD2]/[.06] rounded-[7px] 2xl:rounded-[10px] overflow-hidden flex flex-1 flex-col">
-                {data?.highlight_list?.map((item) => (
+                {data?.highlightList?.map((item) => (
                   <div key={item?.id} className="w-full h-auto block">
                     <div className="[--icon-size:50px] 2xl:[--icon-size:55px] 3xl:[--icon-size:70px] w-full h-full flex items-center">
                       <div className="w-[var(--icon-size)] h-auto aspect-square p-[8px] 2xl:p-[10px] bg-[#008DD2]/[.07] rounded-[7px] 2xl:rounded-[10px] overflow-hidden flex items-center justify-center">
@@ -45,7 +45,7 @@ export default function LandingPerformance({ data, isSidebarOpen }) {
                           {item?.title}
                         </div>
                         <div className="text-[12px] 2xl:text-[14px] 3xl:text-[16px] leading-normal font-normal text-white/80">
-                          {item?.description}
+                          {parse(item?.description??"")}
                         </div>
                       </div>
                     </div>
@@ -66,7 +66,7 @@ export default function LandingPerformance({ data, isSidebarOpen }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.specifications_list?.map((item) => (
+                    {data?.specificationsList?.map((item) => (
                       <tr
                         key={item?.id}
                         className={cn(

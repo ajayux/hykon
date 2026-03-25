@@ -20,7 +20,7 @@ export default function LandingPower({ data, isSidebarOpen }) {
           >
             {parse(data?.title)}
           </Heading>
-          <Text as="p" size="p1" className="text-normal text-white/80">
+          <Text as="div" size="p1" className="text-normal text-white/80">
             {parse(data?.description)}
           </Text>
         </div>
@@ -30,7 +30,7 @@ export default function LandingPower({ data, isSidebarOpen }) {
         >
           {isPlaying ? (
             <video
-              src={data?.media?.video_path}
+              src={data?.media?.videoPath}
               autoPlay
               className="w-full h-full object-cover"
               onEnded={() => setIsPlaying(false)}
@@ -47,7 +47,7 @@ export default function LandingPower({ data, isSidebarOpen }) {
           ) : (
             <>
               <Image
-                src={data?.media?.thumbnail_path}
+                src={data?.media?.thumbnailPath}
                 alt={data?.media?.alt}
                 width={1250}
                 height={475}

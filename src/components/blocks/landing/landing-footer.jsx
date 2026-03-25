@@ -126,7 +126,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
         <div className="container opacity-95">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
-              {parse(data?.copyright)}
+              {parse(data?.copyright ?? "")}
             </Text>
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {data?.socialLinkData?.map((item, index) => (

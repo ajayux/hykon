@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -26,7 +27,8 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export default function LandingForm({ onClose }) {
+export default function LandingForm({ onClose, slug }) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -42,11 +44,33 @@ export default function LandingForm({ onClose }) {
   });
 
   async function onSubmit(data) {
+    if (!executeRecaptcha) return;
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Landing Form Data:", data);
+      const recaptchaToken = await executeRecaptcha("landing_page_enquiry");
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("phone", data.phone);
+      formData.append("email", data.email);
+      formData.append("place", data.place);
+      formData.append("message", data.message || "");
+      formData.append("captcha_key", recaptchaToken);
+      formData.append("landing_page_slug", slug || "");
+
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await fetch(`${baseUrl}/api/landing-page-enquiry`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const responseData = await res.json();
+        toast.error(responseData?.message);
+        throw new Error("Failed to submit enquiry");
+      }
+
       setIsSuccess(true);
+      toast.success("Enquiry submitted successfully");
       form.reset();
     } catch (error) {
       console.error("Submission Error:", error);
