@@ -366,7 +366,7 @@ export default function ProductDetail({ data }) {
                 )}
 
                 <Link
-                  href={`https://hykonindia.myshopify.com/products/${data?.productSlug}?variant=${data?.slug}`}
+                  href={data?.pricing?.shophifyUrl}
                   target="_blank"
                 >
                   <Button
