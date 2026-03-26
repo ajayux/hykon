@@ -9,30 +9,29 @@ export async function generateMetadata() {
 }
 
 export default async function TermsPage() {
-  let termsData = null;
+  let warrantyPolicyData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/terms-and-conditions`, {
+    const res = await fetch(`${baseUrl}/api/warranty-policy`, {
       next: { revalidate: 0 },
     });
 
     if (res.ok) {
       const response = await res.json();
-      termsData = response.data;
+      warrantyPolicyData = response.data;
     }
 
-    console.log(termsData)
   } catch (error) {
     console.error("Error fetching terms data:", error);
   }
-  if (!termsData) {
+  if (!warrantyPolicyData) {
     notFound();
   }
 
   return (
     <>
-      <TermsAndConditions data={termsData?.policy} />
+      <TermsAndConditions data={warrantyPolicyData?.policy} />
     </>
   );
 }

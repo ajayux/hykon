@@ -161,6 +161,7 @@ export default async function ProductsPage({ searchParams }) {
   const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
 
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
+  const from = resolvedSearchParams?.from || null;
 
   const page = resolvedSearchParams?.page || "1";
   let productsData = null;
@@ -170,17 +171,10 @@ export default async function ProductsPage({ searchParams }) {
     const params = new URLSearchParams();
     product_slugs.forEach((s) => params.append("product_slug[]", s));
 
-   if(backup_capacity){
-    // set to body not in params
-    
+    if (from) params.set("from", from);
+    params.set("page", page);
 
-   }
-
-    params.set("page", params);
-
-    const res = await fetch(`${baseUrl}/api/products?${params}`,{
-      backup_capacity
-    });
+    const res = await fetch(`${baseUrl}/api/products?${params}`);
 
     if (res.ok) {
       const response = await res.json();
@@ -203,6 +197,7 @@ export default async function ProductsPage({ searchParams }) {
   const parentPage = categorySlug && categoryTitle
     ? { label: categoryTitle, link: `category/${categorySlug}` }
     : null;
+
 
 
 

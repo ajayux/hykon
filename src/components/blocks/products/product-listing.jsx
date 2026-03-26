@@ -66,6 +66,7 @@ function ProductGrid({ data }) {
   const searchParams = useSearchParams();
   const rawSlug = searchParams.get("product_slug");
   const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
+  const from = searchParams.get("from");
 
   function handleProductSelect(productSlug) {
     if (!productSlug) return;
@@ -79,7 +80,7 @@ function ProductGrid({ data }) {
     }
   }
 
-  const [items, setItems] = useState(data?.productInfo?.productItems ?? []);
+  const [items, setItems] = useState(data?.productInfo?.productItems?.data ?? []);
   const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
@@ -107,6 +108,7 @@ function ProductGrid({ data }) {
       const params = new URLSearchParams();
       product_slugs.forEach((s) => params.append("product_slug[]", s));
       params.set("page", String(pagination.current_page + 1));
+      if (from) params.set("from", from);
 
       const res = await fetch(`${API_URL}/products?${params}`);
       if (res.ok) {
@@ -120,7 +122,7 @@ function ProductGrid({ data }) {
     } finally {
       setIsLoading(false);
     }
-  }, [product_slugs.join(","), pagination.current_page]);
+  }, [product_slugs.join(","), pagination.current_page, from]);
 
   return (
     <div className="w-full lg:flex-1">

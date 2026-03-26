@@ -22,7 +22,7 @@ export default function NewsListing({ data,variant }) {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(
-        `${baseUrl}/api/news?category=${category}&page=${page}`,
+        `${baseUrl}/api/${variant}?category=${category}&page=${page}`,
       );
       if (res.ok) {
         const response = await res.json();

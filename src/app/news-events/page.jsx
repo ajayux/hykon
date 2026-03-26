@@ -34,7 +34,7 @@ export default async function NewsPage() {
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug={"news"} />
-      <NewsListing data={newsSection} />
+      <NewsListing data={newsSection} variant={"news"}  />
     </>
   );
 }
