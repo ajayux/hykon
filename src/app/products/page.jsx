@@ -199,6 +199,7 @@ export default async function ProductsPage({ searchParams }) {
     : null;
 
 
+    console.log("productSection", productSection)
 
 
   const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");

@@ -81,7 +81,7 @@ function ProductGrid({ data }) {
   }
 
   const [items, setItems] = useState(data?.productInfo?.productItems?.data ?? []);
-  const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
+  const [pagination, setPagination] = useState(data?.productInfo?.productItems?.pagination ?? {});
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
   const prevSlugsRef = useRef(product_slugs.join(","));
@@ -97,8 +97,8 @@ function ProductGrid({ data }) {
 
   // Reset items when server responds with new filtered data
   useEffect(() => {
-    setItems(data?.productInfo?.productItems ?? []);
-    setPagination(data?.productInfo?.pagination ?? {});
+    setItems(data?.productInfo?.productItems?.data ?? []);
+    setPagination(data?.productInfo?.productItems?.pagination ?? {});
     setIsFiltering(false);
   }, [data]);
 
@@ -114,7 +114,7 @@ function ProductGrid({ data }) {
       if (res.ok) {
         const response = await res.json();
         const result = response.data?.productSection?.productInfo || response.data?.productInfo;
-        setItems((prev) => [...prev, ...(result?.productItems ?? [])]);
+        setItems((prev) => [...prev, ...(result?.productItems?.data ?? [])]);
         setPagination(result?.pagination ?? {});
       }
     } catch (error) {
