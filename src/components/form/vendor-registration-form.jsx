@@ -208,11 +208,13 @@ export function VendorRegistrationForm() {
           },
           {
             name: "state",
-            placeholder: "State/Provision/ Region*",
+            placeholder: selectedCountry && !statesLoading && states.length === 0
+              ? "No state available"
+              : "State/Provision/ Region*",
             type: "select",
             options: states,
             isLoading: statesLoading,
-            disabled: !selectedCountry || statesLoading,
+            disabled: !selectedCountry || statesLoading || states.length === 0,
           },
         ].map((item) => (
           <FormBlock

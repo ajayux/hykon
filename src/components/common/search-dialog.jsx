@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { SearchIcon, ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -12,42 +12,94 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/utils/typography";
+import { API_BASE_URL } from "@/lib/api/constants";
 
-const POPULAR_SEARCHES = [
-  "Inverter",
-  "Solar Battery",
-  "Lithium Battery",
-  "UPS",
-  "HUPS",
-  "Charge Controller",
-];
+const TYPE_LABELS = {
+  blog: "Blog",
+  news: "News",
+  product: "Product",
+};
 
-const QUICK_LINKS = [
-  { label: "Products", href: "/products" },
-  { label: "Volt Search", href: "/volt-search" },
-  { label: "About Us", href: "/about" },
-  { label: "Contact Us", href: "/contact" },
-  { label: "Careers", href: "/careers" },
-];
+function getHref(suggestion) {
+  switch (suggestion.type) {
+    case "blog":
+      return `/blog/${suggestion.slug}`;
+    case "news":
+      return `/news/${suggestion.slug}`;
+    case "product variant":
+      return `/products/${suggestion.slug}`;
+    case "service":
+      return `/service/${suggestion.slug}`;
+    case "factory":
+      return `/factory/${suggestion.slug}`;
+    case "projects":
+      return `/projects/${suggestion.slug}`;
+
+    default:
+      return `/volt-search?q=${encodeURIComponent(suggestion.title)}`;
+  }
+}
 
 export default function SearchDialog({ children }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const debounceRef = useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const trimmed = query.trim();
+
+    if (trimmed.length < 2) {
+      setSuggestions([]);
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        console.log("api url", process.env.NEXT_PUBLIC_BASE_URL);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/search?keyword=${encodeURIComponent(trimmed)}`,
+          { cache: "no-store" },
+        );
+        if (res.ok) {
+          const json = await res.json();
+          setSuggestions(json?.data?.suggestions ?? []);
+        } else {
+          setSuggestions([]);
+        }
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [query]);
+
+  // Reset state when dialog closes
+  useEffect(() => {
+    if (!open) {
+      setQuery("");
+      setSuggestions([]);
+      setIsSearching(false);
+    }
+  }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
     setOpen(false);
     router.push(`/volt-search?q=${encodeURIComponent(query.trim())}`);
-    setQuery("");
   };
 
-  const handlePopularSearch = (term) => {
-    setOpen(false);
-    router.push(`/volt-search?q=${encodeURIComponent(term)}`);
-    setQuery("");
-  };
+  const isTyping = query.trim().length >= 2;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -73,55 +125,56 @@ export default function SearchDialog({ children }) {
           </div>
         </form>
 
-        {/* Divider */}
-        <div className="border-t border-white/10 mt-1" />
+        {isTyping && (
+          <>
+            {/* Divider */}
+            <div className="border-t border-white/10 mt-1" />
 
-        {/* Popular Searches */}
-        <div className="space-y-3 2xl:space-y-4">
-          <Text
-            as="p"
-            size="p2"
-            className="text-[#858589] uppercase tracking-widest font-medium"
-          >
-            Popular Searches
-          </Text>
-          <div className="flex flex-wrap gap-2 2xl:gap-2.5">
-            {POPULAR_SEARCHES.map((term) => (
-              <button
-                key={term}
-                type="button"
-                onClick={() => handlePopularSearch(term)}
-                className="px-3 py-1 2xl:px-3.5 2xl:py-1.5 3xl:px-4 3xl:py-2 rounded-full bg-white/10 border border-white/15 text-white/80 text-xs 2xl:text-sm 3xl:text-base hover:bg-white/20 hover:text-white transition-colors cursor-pointer"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Links */}
-        <div className="space-y-1 2xl:space-y-1.5">
-          <Text
-            as="p"
-            size="p2"
-            className="text-[#858589] uppercase tracking-widest font-medium mb-2 2xl:mb-3"
-          >
-            Quick Links
-          </Text>
-          {QUICK_LINKS.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setOpen(false)}
-              className="flex items-center justify-between px-3 py-2 2xl:py-2.5 3xl:py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-colors group"
-            >
-              <Text as="span" size="p1" className="text-inherit">
-                {label}
-              </Text>
-              <ArrowRightIcon className="size-3.5 2xl:size-4 3xl:size-5 text-[#858589] group-hover:text-white transition-colors shrink-0" />
-            </Link>
-          ))}
-        </div>
+            {isSearching ? (
+              /* Loading state */
+              <div className="py-4 flex items-center justify-center">
+                <Text as="p" size="p2" className="text-[#858589]">
+                  Searching...
+                </Text>
+              </div>
+            ) : suggestions.length > 0 ? (
+              /* Suggestions list */
+              <div className="space-y-1 2xl:space-y-1.5">
+                {suggestions.map((suggestion) => (
+                  <Link
+                    key={suggestion.id}
+                    href={getHref(suggestion)}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 2xl:py-2.5 3xl:py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/5 transition-colors group"
+                  >
+                    <Text
+                      as="span"
+                      size="p1"
+                      className="text-inherit line-clamp-1 flex-1 mr-3"
+                    >
+                      {suggestion.title}
+                    </Text>
+                    <div className="flex items-center gap-2 shrink-0">
+                      {suggestion.type && (
+                        <span className="text-[10px] 2xl:text-[11px] uppercase tracking-wide text-[#858589] bg-white/10 px-1.5 py-0.5 rounded">
+                          {TYPE_LABELS[suggestion.type] ?? suggestion.type}
+                        </span>
+                      )}
+                      <ArrowRightIcon className="size-3.5 2xl:size-4 3xl:size-5 text-[#858589] group-hover:text-white transition-colors" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              /* No results */
+              <div className="py-4 flex items-center justify-center">
+                <Text as="p" size="p2" className="text-[#858589]">
+                  No results found
+                </Text>
+              </div>
+            )}
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

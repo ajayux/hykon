@@ -275,11 +275,13 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
             },
             {
               name: "district",
-              placeholder: "District*",
+              placeholder: selectedState && !districtsLoading && districts.length === 0
+                ? "No district available"
+                : "District*",
               type: "select",
               options: districts,
               isLoading: districtsLoading,
-              disabled: !selectedState || districtsLoading,
+              disabled: !selectedState || districtsLoading || districts.length === 0,
             },
             {
               name: "pincode",
@@ -315,11 +317,13 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
             },
             {
               name: "productModel",
-              placeholder: "Product Model*",
+              placeholder: selectedCategory && !productsLoading && products.length === 0
+                ? "No products available"
+                : "Product Model*",
               type: "select",
               options: products,
               isLoading: productsLoading,
-              disabled: !selectedCategory || productsLoading,
+              disabled: !selectedCategory || productsLoading || products.length === 0,
             },
             {
               name: "quantityRequired",

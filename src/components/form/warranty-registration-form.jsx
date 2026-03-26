@@ -141,9 +141,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     setIsSuccess(false);
   }, [activeTab]);
 
-
-
-  console.log()
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
@@ -246,19 +243,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     "billingAddressDistrict",
   ]);
 
-
-  useEffect(() => {
-    if (!sameAsBilling) {
-      form.setValue("installationAddressBuilding", "");
-      form.setValue("installationAddressBlock", "");
-      form.setValue("installationAddressStreet", "");
-      form.setValue("installationAddressPincode", "");
-      form.setValue("installationAddressState", "");
-      form.setValue("installationAddressDistrict", "");
-      setSelectedInstallationState(null);
-    }
-  }, [sameAsBilling]); // eslint-disable-line react-hooks/exhaustive-deps
-
   useEffect(() => {
     if (sameAsBilling) {
       form.setValue("installationAddressBuilding", billingValues[0]);
@@ -276,8 +260,16 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         "installationAddressState",
         "installationAddressDistrict",
       ]);
+    } else {
+      form.setValue("installationAddressBuilding", "");
+      form.setValue("installationAddressBlock", "");
+      form.setValue("installationAddressStreet", "");
+      form.setValue("installationAddressPincode", "");
+      form.setValue("installationAddressState", "");
+      form.setValue("installationAddressDistrict", "");
+      setSelectedInstallationState(null);
     }
-  }, [sameAsBilling, ...billingValues, selectedBillingState]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -322,7 +314,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       formData.append("billing_district_slug", data.billingAddressDistrict);
       formData.append("billing_pincode", data.billingAddressPincode);
 
-      formData.append("is_same_as_billing", sameAsBilling ? 1 : 0);
+      formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
 
       formData.append(
         "installation_apartment_name",
@@ -361,10 +353,9 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           : data.installationAddressPincode || "",
       );
 
-      if(page==="warranty"){
-              formData.append("type", activeTab);
-      }
-      else{
+      if (page === "warranty") {
+        formData.append("type", activeTab);
+      } else {
         formData.append("form_slug", activeTab);
       }
 
@@ -390,7 +381,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       if (!res.ok) {
         const responseData = await res.json();
         toast.error(responseData?.message);
-        return
+        return;
       }
 
       setIsSuccess(true);
@@ -430,11 +421,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           { name: "email", placeholder: "Mail*", type: "email" },
           {
             name: "category",
-            placeholder: "Category*",
+            placeholder: !categoriesLoading && categories.length === 0
+              ? "No Category available"
+              : "Category*",
             type: "select",
             options: categories,
             isLoading: categoriesLoading,
-            disabled: categoriesLoading,
+            disabled: categoriesLoading || categories.length === 0,
             onValueChange: (value, fieldOnChange) => {
               fieldOnChange(value);
               setSelectedCategory(value);
@@ -445,11 +438,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           },
           {
             name: "product",
-            placeholder: "Product*",
+            placeholder: selectedCategory && !productsLoading && products.length === 0
+              ? "No products available"
+              : "Product*",
             type: "select",
-            options: products,
+            options: products ?? [],
             isLoading: productsLoading,
-            disabled: !selectedCategory || productsLoading,
+            disabled: !selectedCategory || productsLoading || products.length === 0,
             onValueChange: (value, fieldOnChange) => {
               fieldOnChange(value);
               setSelectedProduct(value);
@@ -458,11 +453,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           },
           {
             name: "productVariant",
-            placeholder: "Product variant*",
+            placeholder: selectedProduct && !variantsLoading && variants.length === 0
+              ? "No product variant available"
+              : "Product variant*",
             type: "select",
             options: variants,
             isLoading: variantsLoading,
-            disabled: !selectedProduct || variantsLoading,
+            disabled: !selectedProduct || variantsLoading || variants.length === 0,
           },
           { name: "serialNumber", placeholder: "Serial Number*" },
           { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
@@ -578,11 +575,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
             },
             {
               name: "billingAddressDistrict",
-              placeholder: "District*",
+              placeholder: selectedBillingState && !billingDistrictsLoading && billingDistricts.length === 0
+                ? "No district available"
+                : "District*",
               type: "select",
               options: billingDistricts,
               isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading,
+              disabled: !selectedBillingState || billingDistrictsLoading || billingDistricts.length === 0,
             },
           ].map((item) => (
             <FormBlock
@@ -614,7 +613,9 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
                   <Checkbox
                     id="sameAsBillingAddress"
                     checked={field.value}
-                    onCheckedChange={(checked) => field.onChange(checked === true)}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked === true)
+                    }
                     className={"text-white data-[state=checked]:text-white"}
                   />
                   <FieldLabel
@@ -659,14 +660,17 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
             },
             {
               name: "installationAddressDistrict",
-              placeholder: "District*",
+              placeholder: selectedInstallationState && !installationDistrictsLoading && installationDistricts.length === 0
+                ? "No district available"
+                : "District*",
               type: "select",
               options: installationDistricts,
               isLoading: installationDistrictsLoading,
               disabled:
                 sameAsBilling ||
                 !selectedInstallationState ||
-                installationDistrictsLoading,
+                installationDistrictsLoading ||
+                installationDistricts.length === 0,
             },
           ].map((item) => (
             <FormBlock
@@ -737,11 +741,17 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  {item?.options?.map((opt) => (
-                    <SelectItem key={opt?.slug} value={opt?.slug}>
-                      {opt?.title || opt?.name}
+                  {item?.options?.length === 0 ? (
+                    <SelectItem value="no-data" disabled>
+                      No data available
                     </SelectItem>
-                  ))}
+                  ) : (
+                    item?.options?.map((opt) => (
+                      <SelectItem key={opt?.slug} value={opt?.slug}>
+                        {opt?.title || opt?.name}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectGroup>
               </SelectContent>
             </Select>
