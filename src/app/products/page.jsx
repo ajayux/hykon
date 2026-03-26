@@ -212,7 +212,7 @@ export default async function ProductsPage({ searchParams }) {
         page={parentPage}
         slug={breadcrumbSlug}
       />
-      {productsData && <ProductListing data={productSection} />}
+      {productsData && <ProductListing data={productSection} from={from} />}
     </>
   );
 }

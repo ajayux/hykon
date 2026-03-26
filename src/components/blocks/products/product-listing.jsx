@@ -208,58 +208,61 @@ function ProductGrid({ data }) {
   );
 }
 
-export default function ProductListing({ data }) {
+export default function ProductListing({ data, from }) {
   const mobileFilterRef = useRef(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const hideFilter = from === "power_calculator";
 
   return (
     <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap sm:gap-x-8 xl:gap-x-13 2xl:gap-x-15 3xl:gap-x-20">
-          <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
-            <div className="w-full sticky top-(--header-y) hidden lg:block">
-              <Suspense fallback={null}>
-                <FilterCard data={data} />
-              </Suspense>
-            </div>
-            <Sheet open={sheetOpen} onOpenChange={(open) => { if (!open) mobileFilterRef.current?.reset(); setSheetOpen(open); }}>
-              <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
-                <ListFilterPlus className="size-3 xl:size-4 text-white" />
-                FILTER
-              </SheetTrigger>
-              <SheetContent
-                showCloseButton={true}
-                className="bg-[#181818] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
-              >
-                <SheetHeader className="sr-only">
-                  <SheetTitle>FILTER</SheetTitle>
-                  <SheetDescription>
-                    This action cannot be undone.
-                  </SheetDescription>
-                </SheetHeader>
+          {!hideFilter && (
+            <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
+              <div className="w-full sticky top-(--header-y) hidden lg:block">
                 <Suspense fallback={null}>
-                  <FilterCard ref={mobileFilterRef} data={data} deferred />
+                  <FilterCard data={data} />
                 </Suspense>
-                <SheetFooter className="grid grid-cols-2 gap-2 px-0">
-                  <SheetClose asChild>
-                    <Button size="lg" variant="outline">
-                      Close
+              </div>
+              <Sheet open={sheetOpen} onOpenChange={(open) => { if (!open) mobileFilterRef.current?.reset(); setSheetOpen(open); }}>
+                <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
+                  <ListFilterPlus className="size-3 xl:size-4 text-white" />
+                  FILTER
+                </SheetTrigger>
+                <SheetContent
+                  showCloseButton={true}
+                  className="bg-[#181818] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
+                >
+                  <SheetHeader className="sr-only">
+                    <SheetTitle>FILTER</SheetTitle>
+                    <SheetDescription>
+                      This action cannot be undone.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <Suspense fallback={null}>
+                    <FilterCard ref={mobileFilterRef} data={data} deferred />
+                  </Suspense>
+                  <SheetFooter className="grid grid-cols-2 gap-2 px-0">
+                    <SheetClose asChild>
+                      <Button size="lg" variant="outline">
+                        Close
+                      </Button>
+                    </SheetClose>
+                    <Button
+                      size="lg"
+                      variant="white"
+                      onClick={() => {
+                        mobileFilterRef.current?.apply();
+                        setSheetOpen(false);
+                      }}
+                    >
+                      Apply
                     </Button>
-                  </SheetClose>
-                  <Button
-                    size="lg"
-                    variant="white"
-                    onClick={() => {
-                      mobileFilterRef.current?.apply();
-                      setSheetOpen(false);
-                    }}
-                  >
-                    Apply
-                  </Button>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          </div>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+            </div>
+          )}
 
           <Suspense fallback={null}>
             <ProductGrid data={data} />
