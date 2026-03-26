@@ -270,6 +270,11 @@ const localData = {
             label: "Service",
             slug: "/service",
           },
+           {
+            id: 15,
+            label: "Privacy Policy",
+            slug: "/privacy-policy",
+          },
         ],
       },
 }
