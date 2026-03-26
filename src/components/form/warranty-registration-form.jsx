@@ -363,7 +363,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
       if (data.images) {
-        formData.append("images[]", data.images);
+        formData.append("file", data.images);
       }
       formData.append(
         "captcha_key",
