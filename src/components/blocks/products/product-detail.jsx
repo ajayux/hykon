@@ -366,7 +366,7 @@ export default function ProductDetail({ data }) {
                 )}
 
                 <Link
-                  href={data?.pricing?.shophifyUrl}
+                  href={data?.pricing?.shophifyUrl ?? ""}
                   target="_blank"
                 >
                   <Button
@@ -499,7 +499,7 @@ export default function ProductDetail({ data }) {
           {data?.specificationVideo && (
             <div className="w-full mb-6 xl:mb-8 2xl:mb-9 3xl:mb-10">
               <div className="w-full max-w-full overflow-hidden">
-                <YouTube videoId="v_jJpnxpPlY" opts={opts} />
+                <YouTube videoId={new URL(data.specificationVideo.url).searchParams.get("v")} opts={opts} />
               </div>
             </div>
           )}
@@ -507,16 +507,16 @@ export default function ProductDetail({ data }) {
           <div className="flex flex-wrap items-center gap-3 xl:gap-3.5 2xl:gap-4 3xl:gap-4.5 mb-4 xl:mb-6 2xl:mb-7 3xl:mb-8">
             {[
               {
-                label: data?.brochureInfo?.label,
-                url: data?.brochureInfo?.url,
+                label: "Download Brochure",
+                url: data?.brochureInfo?.url ?? "/",
               },
               {
-                label: data?.warrantyInfo?.label,
-                url: data?.warrantyInfo?.url,
+                label: "Warranty Policies",
+                url: '/warranty-policies',
               },
               {
-                label: data?.deliveryInfo?.label,
-                url: data?.deliveryInfo?.url,
+                label: " Delivery Policies",
+                url: "/delivery-polices",
               },
             ]
               .filter((item) => item?.url)
@@ -545,7 +545,7 @@ export default function ProductDetail({ data }) {
               ))}
           </div>
           <Text as="div" size="p1" className="italic text-[#dedede]">
-            {data?.deliveryInfo?.notes}
+            *{data?.deliveryInfo?.notes}
           </Text>
         </div>
 

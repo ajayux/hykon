@@ -595,7 +595,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
                   <Checkbox
                     id="sameAsBillingAddress"
                     checked={field.value}
-                    onCheckedChange={field.onChange}
+                    onCheckedChange={(checked) => field.onChange(checked === true)}
                     className={"text-white data-[state=checked]:text-white"}
                   />
                   <FieldLabel

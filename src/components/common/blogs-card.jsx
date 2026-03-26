@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { Text } from "@/components/utils/typography";
-export default function BlogsCard({ item, variant="blogs" }) {
+export default function BlogsCard({ item, variant="blog" }) {
   return (
     <Link
-      href={`/${variant==='blogs'?'blog': 'news'}/${item?.slug}`}
+      href={`/${variant}/${item?.slug}`}
       className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] block relative z-0"
     >
       <div className="w-full h-full visible group-hover:invisible scale-100 group-hover:scale-90 transition-all duration-300">

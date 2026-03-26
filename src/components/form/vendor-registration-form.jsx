@@ -275,7 +275,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  accept="image/*, .pdf, .doc"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />

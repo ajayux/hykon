@@ -95,7 +95,7 @@ export default async function BlogDetailPage({ params }) {
             description: "",
             items: relatedNews,
           }}
-          variant = "news"
+          variant = "news-events"
         />
       )}
     </>
