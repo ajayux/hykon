@@ -54,7 +54,7 @@ export default function CategoriesSection({ data, filterData }) {
 
           <div className="w-[120px] sm:w-[140px] xl:w-[170px] 2xl:w-[200px] 3xl:w-[245px] lg:mb-2 ml-auto">
             <Select onValueChange={(value) => fetchCategories(value)}>
-              <SelectTrigger className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="Use Case" />
               </SelectTrigger>
               <SelectContent className="bg-white">

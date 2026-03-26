@@ -124,6 +124,10 @@ function ProductGrid({ data }) {
     }
   }, [product_slugs.join(","), pagination.current_page, from]);
 
+
+
+  const hasMore = pagination.current_page !== pagination.last_page;
+
   return (
     <div className="w-full lg:flex-1">
       <Heading
@@ -175,7 +179,7 @@ function ProductGrid({ data }) {
         )}
       </div>
 
-      {pagination?.has_more && (
+      {hasMore && (
         <div className="w-full flex justify-center mt-10 xl:mt-12.5 2xl:mt-15 3xl:mt-20">
           <Button
             size="lg"

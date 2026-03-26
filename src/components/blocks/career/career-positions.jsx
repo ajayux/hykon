@@ -84,7 +84,7 @@ export default function CareerPositions({ data }) {
                   handleFilterChange("job_position", value)
                 }
               >
-                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
                   <SelectValue placeholder="Position" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -105,7 +105,7 @@ export default function CareerPositions({ data }) {
                 value={currentLocation}
                 onValueChange={(value) => handleFilterChange("location", value)}
               >
-                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
