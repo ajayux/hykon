@@ -91,7 +91,6 @@ export function GetInTouchForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
-        const responseData = await res.json();
         throw new Error("Failed to submit application");
       }
 

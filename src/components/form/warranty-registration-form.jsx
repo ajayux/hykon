@@ -377,8 +377,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       });
 
       if (!res.ok) {
-        const responseData = await res.json();
-        return;
+        throw new Error("Failed to submit application");
       }
 
       setIsSuccess(true);
@@ -416,9 +415,10 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           { name: "email", placeholder: "Mail*", type: "email" },
           {
             name: "category",
-            placeholder: !categoriesLoading && categories.length === 0
-              ? "No Category available"
-              : "Category*",
+            placeholder:
+              !categoriesLoading && categories.length === 0
+                ? "No Category available"
+                : "Category*",
             type: "select",
             options: categories,
             isLoading: categoriesLoading,
@@ -433,13 +433,15 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           },
           {
             name: "product",
-            placeholder: selectedCategory && !productsLoading && products.length === 0
-              ? "No products available"
-              : "Product*",
+            placeholder:
+              selectedCategory && !productsLoading && products.length === 0
+                ? "No products available"
+                : "Product*",
             type: "select",
             options: products ?? [],
             isLoading: productsLoading,
-            disabled: !selectedCategory || productsLoading || products.length === 0,
+            disabled:
+              !selectedCategory || productsLoading || products.length === 0,
             onValueChange: (value, fieldOnChange) => {
               fieldOnChange(value);
               setSelectedProduct(value);
@@ -448,13 +450,15 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           },
           {
             name: "productVariant",
-            placeholder: selectedProduct && !variantsLoading && variants.length === 0
-              ? "No product variant available"
-              : "Product variant*",
+            placeholder:
+              selectedProduct && !variantsLoading && variants.length === 0
+                ? "No product variant available"
+                : "Product variant*",
             type: "select",
             options: variants,
             isLoading: variantsLoading,
-            disabled: !selectedProduct || variantsLoading || variants.length === 0,
+            disabled:
+              !selectedProduct || variantsLoading || variants.length === 0,
           },
           { name: "serialNumber", placeholder: "Serial Number*" },
           { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
@@ -570,13 +574,19 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
             },
             {
               name: "billingAddressDistrict",
-              placeholder: selectedBillingState && !billingDistrictsLoading && billingDistricts.length === 0
-                ? "No district available"
-                : "District*",
+              placeholder:
+                selectedBillingState &&
+                !billingDistrictsLoading &&
+                billingDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
               type: "select",
               options: billingDistricts,
               isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading || billingDistricts.length === 0,
+              disabled:
+                !selectedBillingState ||
+                billingDistrictsLoading ||
+                billingDistricts.length === 0,
             },
           ].map((item) => (
             <FormBlock
@@ -655,9 +665,12 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
             },
             {
               name: "installationAddressDistrict",
-              placeholder: selectedInstallationState && !installationDistrictsLoading && installationDistricts.length === 0
-                ? "No district available"
-                : "District*",
+              placeholder:
+                selectedInstallationState &&
+                !installationDistrictsLoading &&
+                installationDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
               type: "select",
               options: installationDistricts,
               isLoading: installationDistrictsLoading,
