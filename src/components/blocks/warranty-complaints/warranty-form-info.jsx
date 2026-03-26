@@ -8,7 +8,7 @@ import { WarrantyRegistrationForm } from "@/components/form/warranty-registratio
 
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
-    data?.filters?.[0]?.slug || "warranty-registration",
+    data?.filters?.[0]?.slug || "warranty",
   );
   return (
     <section className="w-full h-auto block pt-8 xl:pt-10 2xl:pt-12 3xl:pt-15 pb-15 xl:pb-35 2xl:pb-40 3xl:pb-50 bg-[#181818]">
@@ -63,9 +63,9 @@ export default function WarrantyFormInfo({ data }) {
         </div>
         <div className="w-full">
           {activeTab === "warranty-registration" ? (
-            <WarrantyRegistrationForm page={"warranty"} />
+            <WarrantyRegistrationForm key={activeTab} page={"warranty"} activeTab={activeTab} />
           ) : (
-            <WarrantyRegistrationForm page={"warranty"} />
+            <WarrantyRegistrationForm key={activeTab} page={"warranty"} activeTab={activeTab} />
           )}
         </div>
       </div>

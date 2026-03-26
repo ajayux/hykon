@@ -67,6 +67,7 @@ function ProductGrid({ data }) {
   const rawSlug = searchParams.get("product_slug");
   const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
   const from = searchParams.get("from");
+  const backup_capacity = searchParams.get("backup_capacity");
 
   function handleProductSelect(productSlug) {
     if (!productSlug) return;
@@ -109,6 +110,7 @@ function ProductGrid({ data }) {
       product_slugs.forEach((s) => params.append("product_slug[]", s));
       params.set("page", String(pagination.current_page + 1));
       if (from) params.set("from", from);
+      if (backup_capacity) params.set("backup_capacity", backup_capacity);
 
       const res = await fetch(`${API_URL}/products?${params}`);
       if (res.ok) {

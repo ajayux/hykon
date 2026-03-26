@@ -15,12 +15,12 @@ const localData = {
       {
         id: 1,
         title: "Warranty",
-        slug: "warranty-registration",
+        slug: "warranty",
       },
       {
         id: 2,
         title: "Complaints",
-        slug: "complaints-registration",
+        slug: "complaint",
       },
     ],
   },

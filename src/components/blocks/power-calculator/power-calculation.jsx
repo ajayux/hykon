@@ -264,7 +264,7 @@ export default function PowerCalculation({ data, appliances }) {
               {totalVA > 0 ? (
                 <Button
                   onClick={() =>
-                    router.push(`/products?backup_capacity=${totalVA}`)
+                    router.push(`/products?backup_capacity=${totalVA}&from=power_calculator`)
                   }
                   size="lg"
                   variant="outline"

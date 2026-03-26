@@ -172,7 +172,7 @@ export default async function ProductsPage({ searchParams }) {
     product_slugs.forEach((s) => params.append("product_slug[]", s));
 
     if (from) params.set("from", from);
-    params.set("page", page);
+    if (backup_capacity) params.set("backup_capacity", backup_capacity);
 
     const res = await fetch(`${baseUrl}/api/products?${params}`);
 
@@ -199,7 +199,7 @@ export default async function ProductsPage({ searchParams }) {
     : null;
 
 
-    console.log("productSection", productSection)
+    console.log("productSection", productSection?.productInfo)
 
 
   const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");

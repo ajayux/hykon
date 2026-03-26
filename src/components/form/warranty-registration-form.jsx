@@ -137,6 +137,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
   const [selectedInstallationState, setSelectedInstallationState] =
     useState(null);
 
+  useEffect(() => {
+    setIsSuccess(false);
+  }, [activeTab]);
+
+
+
+  console.log()
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
@@ -239,6 +246,19 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     "billingAddressDistrict",
   ]);
 
+
+  useEffect(() => {
+    if (!sameAsBilling) {
+      form.setValue("installationAddressBuilding", "");
+      form.setValue("installationAddressBlock", "");
+      form.setValue("installationAddressStreet", "");
+      form.setValue("installationAddressPincode", "");
+      form.setValue("installationAddressState", "");
+      form.setValue("installationAddressDistrict", "");
+      setSelectedInstallationState(null);
+    }
+  }, [sameAsBilling]); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (sameAsBilling) {
       form.setValue("installationAddressBuilding", billingValues[0]);
@@ -256,16 +276,8 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         "installationAddressState",
         "installationAddressDistrict",
       ]);
-    } else {
-      form.setValue("installationAddressBuilding", "");
-      form.setValue("installationAddressBlock", "");
-      form.setValue("installationAddressStreet", "");
-      form.setValue("installationAddressPincode", "");
-      form.setValue("installationAddressState", "");
-      form.setValue("installationAddressDistrict", "");
-      setSelectedInstallationState(null);
     }
-  }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
+  }, [sameAsBilling, ...billingValues, selectedBillingState]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -310,7 +322,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       formData.append("billing_district_slug", data.billingAddressDistrict);
       formData.append("billing_pincode", data.billingAddressPincode);
 
-      formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
+      formData.append("is_same_as_billing", sameAsBilling ? 1 : 0);
 
       formData.append(
         "installation_apartment_name",
@@ -349,7 +361,13 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           : data.installationAddressPincode || "",
       );
 
-      formData.append("form_slug", activeTab);
+      if(page==="warranty"){
+              formData.append("type", activeTab);
+      }
+      else{
+        formData.append("form_slug", activeTab);
+      }
+
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
@@ -372,6 +390,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       if (!res.ok) {
         const responseData = await res.json();
         toast.error(responseData?.message);
+        return
       }
 
       setIsSuccess(true);
