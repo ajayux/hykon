@@ -32,7 +32,6 @@ import { Heading, Text } from "../utils/typography";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z
@@ -287,7 +286,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -380,7 +378,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
 
       if (!res.ok) {
         const responseData = await res.json();
-        toast.error(responseData?.message);
         return;
       }
 
@@ -392,9 +389,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       setSelectedProduct(null);
       setSelectedBillingState(null);
       setSelectedInstallationState(null);
-      toast.success("Registration submitted successfully");
     } catch (error) {
-      // toast.error("Failed to submit registration");
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);

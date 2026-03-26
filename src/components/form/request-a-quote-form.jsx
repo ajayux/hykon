@@ -32,7 +32,6 @@ import {
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -155,7 +154,6 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -211,9 +209,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       setUploadedFile(null);
       setSelectedCategory(null);
       setSelectedState(null);
-      toast.success("Quote request submitted successfully");
     } catch (error) {
-      toast.error("Failed to submit quote request");
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);

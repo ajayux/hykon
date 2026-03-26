@@ -25,7 +25,6 @@ import {
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -117,7 +116,6 @@ export function VendorRegistrationForm() {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -153,12 +151,10 @@ export function VendorRegistrationForm() {
       
       if (!res.ok) {
         const responseData = await res.json();
-        toast.error(responseData?.message);
         throw new Error("Failed to submit enquiry", res);
       }
 
       setIsSuccess(true);
-      toast.success("Registration submitted successfully");
       form.reset();
       setUploadedFile(null);
       setSelectedCountry(null);

@@ -33,7 +33,6 @@ import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -93,7 +92,6 @@ export function ContactEnquiryForm() {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -117,12 +115,10 @@ export function ContactEnquiryForm() {
 
       if (!res.ok) {
         const responseData = await res.json();
-        toast.error(responseData?.message);
         throw new Error("Failed to submit enquiry");
       }
 
       setIsSuccess(true);
-      toast.success("Enquiry submitted successfully");
       form.reset();
       setUploadedFile(null);
     } catch (error) {

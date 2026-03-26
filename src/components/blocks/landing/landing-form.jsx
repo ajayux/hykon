@@ -65,12 +65,10 @@ export default function LandingForm({ onClose, slug }) {
 
       if (!res.ok) {
         const responseData = await res.json();
-        toast.error(responseData?.message);
         throw new Error("Failed to submit enquiry");
       }
 
       setIsSuccess(true);
-      toast.success("Enquiry submitted successfully");
       form.reset();
     } catch (error) {
       console.error("Submission Error:", error);
