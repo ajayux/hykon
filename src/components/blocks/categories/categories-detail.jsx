@@ -192,7 +192,7 @@ export default function CategoriesDetail({ data }) {
                             "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/8",
                           )}
                         >
-                          <div className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]">
+                          <Link href={`/products/${variant?.slug}`} className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]">
                             <div>
                               <Text
                                 as="div"
@@ -213,7 +213,7 @@ export default function CategoriesDetail({ data }) {
                                 {"/-"}
                               </div>
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       ))}
                     </div>
