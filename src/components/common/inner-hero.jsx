@@ -49,7 +49,7 @@ export default function InnerHero({ data, overlayOpacity = 30 }) {
             size="h1"
             className="leading-tight font-normal text-white"
           >
-            {parse(data?.title || "")}
+            {/* {parse(data?.title || "")} */}
           </Heading>
         </div>
       </div>
