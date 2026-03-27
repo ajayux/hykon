@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
-import FormSubmitResponse from "../common/form-submitted-success";
+import SuccessModal from "@/components/blocks/landing/success-modal";
 import { commonValidations } from "@/lib/validtions";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
@@ -128,18 +128,9 @@ export function ContactEnquiryForm() {
     }
   }
 
-  if (isSuccess) {
-    return (
-      <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for registering your product warranty. Our team will verify
-            the details and update your warranty status shortly."
-      />
-    );
-  }
-
   return (
+    <>
+    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
     <form
       id="contact-enquiry-form"
       onSubmit={form.handleSubmit(onSubmit)}
@@ -387,5 +378,6 @@ export function ContactEnquiryForm() {
         </Button>
       </div>
     </form>
+    </>
   );
 }

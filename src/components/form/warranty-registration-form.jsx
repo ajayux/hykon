@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
-import FormSubmitResponse from "../common/form-submitted-success";
+import SuccessModal from "@/components/blocks/landing/success-modal";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -395,18 +395,9 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     }
   }
 
-  if (isSuccess) {
-    return (
-      <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for registering your product warranty. Our team will verify
-        the details and update your warranty status shortly."
-      />
-    );
-  }
-
   return (
+    <>
+    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[
@@ -715,6 +706,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         </Button>
       </div>
     </form>
+    </>
   );
 }
 
