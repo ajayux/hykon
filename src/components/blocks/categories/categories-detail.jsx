@@ -12,7 +12,11 @@ const scrollToSection = (e, slug) => {
   const el = document.getElementById(slug);
   if (el) {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.replaceState(null, "", window.location.pathname + window.location.search);
+    history.replaceState(
+      null,
+      "",
+      window.location.pathname + window.location.search,
+    );
   }
 };
 
@@ -135,7 +139,12 @@ export default function CategoriesDetail({ data }) {
                   <div className="flex gap-x-3 lg:gap-x-5 2xl:gap-x-6 3xl:gap-x-7.5">
                     {[
                       ...(item?.variants?.items?.length > 0
-                        ? [{ label: "View Products", url: getProductUrl(item?.slug) }]
+                        ? [
+                            {
+                              label: "View Products",
+                              url: getProductUrl(item?.slug),
+                            },
+                          ]
                         : []),
                       {
                         label: item?.button?.label,
@@ -149,7 +158,7 @@ export default function CategoriesDetail({ data }) {
                         className="text-white min-w-[110px] xl:min-w-[130px] 2xl:min-w-[155px] 3xl:min-w-[190px] pl-4"
                         asChild
                       >
-                        <Link href={btn?.url}>
+                        <Link href={btn?.url || "#"}>
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                             <Image
