@@ -29,11 +29,10 @@ import {
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
 import Link from "next/link";
-import FormSubmitResponse from "../common/form-submitted-success";
+import SuccessModal from "@/components/blocks/landing/success-modal";
 import { commonValidations } from "@/lib/validtions";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -57,10 +56,12 @@ export function ContactEnquiryForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery({
-    queryKey: ["product-categories-contact"],
-    queryFn: () => apiClient("/get-product-category").then((r) => r.data),
-  });
+  const { data: productCategory = [], isLoading: categoriesLoading } = useQuery(
+    {
+      queryKey: ["product-categories-contact"],
+      queryFn: () => apiClient("/get-product-category").then((r) => r.data),
+    },
+  );
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -91,7 +92,6 @@ export function ContactEnquiryForm() {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -114,35 +114,23 @@ export function ContactEnquiryForm() {
       });
 
       if (!res.ok) {
+        const responseData = await res.json();
         throw new Error("Failed to submit enquiry");
-        toast.error("Failed to submit enquiry")
       }
 
       setIsSuccess(true);
-      toast.success("Enquiry submitted successfully")
       form.reset();
       setUploadedFile(null);
     } catch (error) {
-      console.error("Submission Error:", error);
-      toast.error("Failed to submit enquiry")
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  if (isSuccess) {
-    return (
-      <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for registering your product warranty. Our team will verify
-            the details and update your warranty status shortly."
-      />
-    );
-  }
-
   return (
+    <>
+    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
     <form
       id="contact-enquiry-form"
       onSubmit={form.handleSubmit(onSubmit)}
@@ -240,11 +228,11 @@ export function ContactEnquiryForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-white">
                   <SelectGroup>
-                    {
-                      productCategory?.map(item =>(
-                        <SelectItem key={item?.slug} value={item?.slug}>{item?.title}</SelectItem>
-                      ))
-                    }
+                    {productCategory?.map((item) => (
+                      <SelectItem key={item?.slug} value={item?.slug}>
+                        {item?.title}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -320,7 +308,7 @@ export function ContactEnquiryForm() {
             <input
               type="file"
               className="hidden"
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              accept=".pdf,.doc,.docx,.jpg,.png"
               onChange={handleFileChange}
               disabled={isSubmitting}
             />
@@ -390,5 +378,6 @@ export function ContactEnquiryForm() {
         </Button>
       </div>
     </form>
+    </>
   );
 }

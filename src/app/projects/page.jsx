@@ -6,35 +6,35 @@ import NotFound from "../not-found";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("news");
+    await getMetaData("news-events");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
 export default async function NewsPage() {
-  let newsData = null;
+  let projectData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/news`);
+    const res = await fetch(`${baseUrl}/api/projects`);
 
     if (res.ok) {
       const response = await res.json();
-      newsData = response.data;
+      projectData = response.data;
     }
   } catch (error) {
     console.error("Error fetching factory detail data:", error);
   }
-  if (!newsData) {
+  if (!projectData) {
     NotFound();
   }
 
-  const { heroSection, newsSection } = newsData;
+  const { heroSection, newsSection } = projectData;
 
   return (
     <>
       <InnerHero data={heroSection} />
-      <BreadcrumbInfo slug={"news"} />
-      <NewsListing data={newsSection} variant={"news"}  />
+      <BreadcrumbInfo slug={"Projects"} />
+      <NewsListing data={newsSection} variant={"projects"} />
     </>
   );
 }

@@ -59,7 +59,7 @@ export default function BlogRelatedBlogs({ data, variant="blogs" }) {
               className="text-white min-w-[100px] lg:min-w-full justify-between font-medium pl-4 xl:pl-7"
               asChild
             >
-              <Link href={ variant === "blogs" ? '/blog' : "/news-events"}>
+              <Link href={`/${variant}`}>
                 View All
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
@@ -93,7 +93,7 @@ export default function BlogRelatedBlogs({ data, variant="blogs" }) {
                       "flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 select-none px-1 sm:px-2 lg:px-2.5",
                     )}
                   >
-                    <BlogsCard isLoading={loading} item={item} variant = {variant} />
+                    <BlogsCard isLoading={loading} item={item} variant = {variant === "news-events"? "news": variant} />
                   </div>
                 ))}
               </div>

@@ -34,7 +34,7 @@ export default function LandingTrusted({ data, isSidebarOpen }) {
           >
             {parse(data?.title)}
           </Heading>
-          <Text as="p" size="p0" className="text-white">
+          <Text as="div" size="p0" className="text-white">
             {parse(data?.description)}
           </Text>
         </div>
@@ -43,7 +43,7 @@ export default function LandingTrusted({ data, isSidebarOpen }) {
           className="w-full h-full max-w-full overflow-hidden"
         >
           <div className="flex h-full -mx-[7px] sm:-mx-[12px] lg:-mx-[15px] 2xl:-mx-[17px] 3xl:-mx-[22px] touch-pan-y touch-pinch-zoom">
-            {data?.trusted_list?.map((item) => (
+            {data?.trustedList?.map((item) => (
               <div
                 key={item?.id}
                 className={cn(
@@ -62,7 +62,7 @@ export default function LandingTrusted({ data, isSidebarOpen }) {
                       />
                     </div>
                     <Text as="div" size="p1" className="text-white">
-                      {item?.description}
+                      {parse(item?.description)}
                     </Text>
                   </div>
                   <div className="[--profile-size:35px] sm:[--profile-size:40px] 2xl:[--profile-size:50px] 3xl:[--profile-size:60px] w-full h-auto flex items-center">

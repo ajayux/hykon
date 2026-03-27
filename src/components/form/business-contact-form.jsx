@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -51,7 +50,6 @@ export function BusinessContactForm({ activeTab, page }) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -77,9 +75,7 @@ export function BusinessContactForm({ activeTab, page }) {
 
       setIsSuccess(true);
       form.reset();
-      toast.success("Contact request submitted successfully");
     } catch (error) {
-      toast.error("Failed to submit contact request");
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);

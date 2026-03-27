@@ -27,10 +27,10 @@ export default function LandingFeatures({ data, isSidebarOpen }) {
                 size="p0"
                 className="text-white mb-[10px] xl:mb-[15px] 2xl:mb-[25px]"
               >
-                <b>{parse(data?.feature_title)}</b>
+                <b>{parse(data?.featureTitle)}</b>
               </Text>
               <div className="typography [&_li]:not-last:mb-[10px] xl:[&_li]:not-last:mb-[15px] 3xl:[&_li]:not-last:mb-[20px] [&_li]:list-image-[url('/images/landing-li-check.svg')] [--text-color:#d1d1d1]">
-                {parse(data?.feature_description)}
+                {parse(data?.featureDescription)}
               </div>
             </div>
           </div>

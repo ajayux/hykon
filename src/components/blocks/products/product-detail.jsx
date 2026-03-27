@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
-import { cn } from "@/lib/utils";
+import { cn, ParsedContent } from "@/lib/utils";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -423,39 +423,27 @@ export default function ProductDetail({ data, themeProps }) {
                     </Link>
                   </Button>
                 )}
-
-                <Link
-                  href={`https://hykonindia.myshopify.com/products/${data?.productSlug}?variant=${data?.slug}`}
-                  target="_blank"
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    // disable={data?.pricing?.sellingPrice>0}
-                    className={cn(
-                      "min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] pl-4 xl:pl-5",
-                      "text-[var(--theme-fg)] bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
-                    )}
-                  >
-                    Buy Now
-                    <div
-                      className={cn(
-                        "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
-                        "border-[var(--theme-color)]",
-                      )}
+                {data?.pricing?.shophifyUrl && (
+                  <Link href={data?.pricing?.shophifyUrl} target="_blank">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="text-white min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] bg-[#008dd2] pl-4 xl:pl-5"
                     >
-                      <Image
-                        src={"/images/icon-arrow-right-blue.svg"}
-                        alt={"icon-arrow-right-blue"}
-                        width={18}
-                        height={13}
-                        className="w-1/2"
-                        unoptimized
-                      />
-                    </div>
-                  </Button>
-                </Link>
-
+                      Buy Now
+                      <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                        <Image
+                          src={"/images/icon-arrow-right-blue.svg"}
+                          alt={"icon-arrow-right-blue"}
+                          width={18}
+                          height={13}
+                          className="w-1/2"
+                          unoptimized
+                        />
+                      </div>
+                    </Button>
+                  </Link>
+                )}
                 <RequestAQuoteDialog>
                   <Button
                     size="lg"
@@ -572,12 +560,12 @@ export default function ProductDetail({ data, themeProps }) {
                 {tab?.id === 2 ? (
                   <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
                     <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60">
-                      {parse(tab?.description)}
+                      <ParsedContent html={tab?.description} />
                     </div>
                   </div>
                 ) : (
                   <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]">
-                    {parse(tab?.description)}
+                    <ParsedContent html={tab?.description} />
                   </div>
                 )}
               </TabsContent>
@@ -587,7 +575,12 @@ export default function ProductDetail({ data, themeProps }) {
           {data?.specificationVideo && (
             <div className="w-full mb-6 xl:mb-8 2xl:mb-9 3xl:mb-10">
               <div className="w-full max-w-full overflow-hidden">
-                <YouTube videoId="v_jJpnxpPlY" opts={opts} />
+                <YouTube
+                  videoId={new URL(
+                    data.specificationVideo.url,
+                  ).searchParams.get("v")}
+                  opts={opts}
+                />
               </div>
             </div>
           )}
@@ -595,16 +588,16 @@ export default function ProductDetail({ data, themeProps }) {
           <div className="flex flex-wrap items-center gap-3 xl:gap-3.5 2xl:gap-4 3xl:gap-4.5 mb-4 xl:mb-6 2xl:mb-7 3xl:mb-8">
             {[
               {
-                label: data?.brochureInfo?.label,
-                url: data?.brochureInfo?.url,
+                label: "Download Brochure",
+                url: data?.brochureInfo?.url ?? "/",
               },
               {
-                label: data?.warrantyInfo?.label,
-                url: data?.warrantyInfo?.url,
+                label: "Warranty Policies",
+                url: "/warranty-policies",
               },
               {
-                label: data?.deliveryInfo?.label,
-                url: data?.deliveryInfo?.url,
+                label: " Delivery Policies",
+                url: "/delivery-polices",
               },
             ]
               .filter((item) => item?.url)
@@ -633,7 +626,8 @@ export default function ProductDetail({ data, themeProps }) {
               ))}
           </div>
           <Text as="div" size="p1" className="italic text-[#dedede]">
-            {data?.deliveryInfo?.notes}
+            {data?.deliveryInfo?.notes ??
+              "*Courier Charges Extra. Conditions Apply."}
           </Text>
         </div>
 

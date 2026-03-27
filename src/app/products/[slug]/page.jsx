@@ -4,6 +4,7 @@ import CategoriesDetail from "@/components/blocks/categories/categories-detail";
 import ProductDetail from "@/components/blocks/products/product-detail";
 import ProductSimilar from "@/components/blocks/products/product-similar";
 import ProductQuestions from "@/components/blocks/products/product-questions";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Product details | HYKON",
@@ -339,7 +340,7 @@ export default async function productDetailPage({ params }) {
     console.error("Error fetching categories data:", error);
   }
 
-  if (!productsData) {
+  if (!productsData || productsData?.length === 0) {
     notFound();
   }
 

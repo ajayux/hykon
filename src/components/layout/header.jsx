@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import HeaderNavigation from "./header-navigation";
 import HeaderHamburger from "./header-hamburger";
 import HeaderSheet from "./header-sheet";
+import SearchDialog from "../common/search-dialog";
 
 export default function Header({
   data,
@@ -68,28 +69,30 @@ export default function Header({
               navigationData={navigationData}
             />
 
-            <Button
-              variant="none"
-              size="none"
-              className="w-4 xl:w-4.5 2xl:w-5 3xl:w-6"
-            >
-              <Image
-                src={"/images/icon-search.svg"}
-                alt={"icon-search"}
-                width={25}
-                height={25}
-                className="w-full h-full block object-contain hidden lg:block"
-                unoptimized
-              />
-              <Image
-                src={"/images/icon-search-white.svg"}
-                alt={"icon-search"}
-                width={25}
-                height={25}
-                className="w-full h-full block object-contain block lg:hidden"
-                unoptimized
-              />
-            </Button>
+            <SearchDialog>
+              <Button
+                variant="none"
+                size="none"
+                className="w-4 xl:w-4.5 2xl:w-5 3xl:w-6"
+              >
+                <Image
+                  src={"/images/icon-search.svg"}
+                  alt={"icon-search"}
+                  width={25}
+                  height={25}
+                  className="w-full h-full block object-contain hidden lg:block"
+                  unoptimized
+                />
+                <Image
+                  src={"/images/icon-search-white.svg"}
+                  alt={"icon-search"}
+                  width={25}
+                  height={25}
+                  className="w-full h-full block object-contain block lg:hidden"
+                  unoptimized
+                />
+              </Button>
+            </SearchDialog>
 
             {/* <HeaderHamburger
               setIsOpen={setToggle}

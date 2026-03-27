@@ -22,10 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import FormSubmitResponse from "../common/form-submitted-success";
+import SuccessModal from "@/components/blocks/landing/success-modal";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -43,7 +42,7 @@ const formSchema = z.object({
   materialType: commonValidations.optionalString,
   gstin: commonValidations.requiredString("GSTIN"),
   annualTurnover: commonValidations.number,
-  companyProfile: commonValidations.pdfUpload("Company Profile"),
+  companyProfile: commonValidations.file("Company Profile"),
   additionalComments: commonValidations.optionalString,
   referredBy: commonValidations.optionalString,
 });
@@ -117,7 +116,6 @@ export function VendorRegistrationForm() {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -150,8 +148,10 @@ export function VendorRegistrationForm() {
         body: formData,
       });
 
+      
       if (!res.ok) {
-        throw new Error("Failed to submit enquiry");
+        const responseData = await res.json();
+        throw new Error("Failed to submit enquiry", res);
       }
 
       setIsSuccess(true);
@@ -165,17 +165,9 @@ export function VendorRegistrationForm() {
     }
   }
 
-  if (isSuccess) {
-    return (
-      <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for your interest in becoming a Hykon vendor. Our team will review your profile and contact you if there's a requirement matching your services."
-      />
-    );
-  }
-
   return (
+    <>
+    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[
@@ -204,11 +196,13 @@ export function VendorRegistrationForm() {
           },
           {
             name: "state",
-            placeholder: "State/Provision/ Region*",
+            placeholder: selectedCountry && !statesLoading && states.length === 0
+              ? "No state available"
+              : "State/Provision/ Region*",
             type: "select",
             options: states,
             isLoading: statesLoading,
-            disabled: !selectedCountry || statesLoading,
+            disabled: !selectedCountry || statesLoading || states.length === 0,
           },
         ].map((item) => (
           <FormBlock
@@ -271,7 +265,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept=".pdf,.doc,application/pdf,application/msword"
+                  accept="image/*, .pdf, .doc"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />
@@ -341,6 +335,7 @@ export function VendorRegistrationForm() {
         </Button>
       </div>
     </form>
+    </>
   );
 }
 

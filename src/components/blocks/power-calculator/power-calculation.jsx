@@ -210,7 +210,7 @@ export default function PowerCalculation({ data, appliances }) {
                               >
                                 <Input
                                   type="text"
-                                  placeholder="No"
+                                  placeholder="No."
                                   value={row.count}
                                   onChange={(e) =>
                                     handleUpdateItem(
@@ -264,7 +264,7 @@ export default function PowerCalculation({ data, appliances }) {
               {totalVA > 0 ? (
                 <Button
                   onClick={() =>
-                    router.push(`/products?backup_capacity=${totalVA}`)
+                    router.push(`/products?backup_capacity=${totalVA}&from=power_calculator`)
                   }
                   size="lg"
                   variant="outline"

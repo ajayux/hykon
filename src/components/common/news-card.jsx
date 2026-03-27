@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 
-export default function NewsCard({ item, isLoading }) {
+export default function NewsCard({ item, isLoading, variant = "news" }) {
   if (isLoading) return <NewsCardSkelton />;
   return (
     <Suspense fallback={<NewsCardSkelton />}>
@@ -66,7 +66,7 @@ export default function NewsCard({ item, isLoading }) {
               className="text-white px-0"
               asChild
             >
-              <Link href={`/news/${item?.slug}`}>
+              <Link href={`/${variant}/${item?.slug}`}>
                 Read More
                 <Image
                   src={"/images/icon-news-right.svg"}

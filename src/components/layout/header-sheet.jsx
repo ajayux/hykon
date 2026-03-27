@@ -126,7 +126,11 @@ export default function HeaderSheet({
             {socialLinkData?.map((item, index) => (
               <div key={"social_link" + index}>
                 <Button variant="link" size="none" asChild>
-                  <a href={item?.url} target="_blank" className="block">
+                  <a
+                    href={item?.url}
+                    target="_blank"
+                    className="block cursor-pointer"
+                  >
                     <Image
                       src={item?.iconPath || "/images/placeholder.jpg"}
                       alt={item?.name}

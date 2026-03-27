@@ -1,6 +1,5 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Toaster } from "sonner";
 import { getFontVariable, getFontClassName } from "@/lib/fonts";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -266,6 +265,16 @@ const localData = {
             label: "Power Calculator",
             slug: "/power-calculator",
           },
+          {
+            id: 15,
+            label: "Service",
+            slug: "/service",
+          },
+           {
+            id: 15,
+            label: "Privacy Policy",
+            slug: "/privacy-policy",
+          },
         ],
       },
 }
@@ -349,8 +358,6 @@ export default async function RootLayout({ children }) {
             {questionsSection && <HomeQuestions data={questionsSection} />}
           </Providers>
         </main>
-
-        <Toaster position="top-right" richColors closeButton expand />
 
         <Footer quickLinks={localData?.quickLinks} footerData={footerData} socialLinkData={socialLinkData} />
       </body>

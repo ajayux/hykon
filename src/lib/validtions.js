@@ -31,11 +31,11 @@ const VALIDATION_CONFIG = {
 
   file: {
     allowedTypes: [
+      "image/jpeg", // .jpg
+      "image/png", // .png
       "application/pdf", // .pdf
       "application/msword", // .doc
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-      "image/jpeg", // .jpg
-      "image/png", // .png
     ],
     allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
     maxSizeMB: 5, // adjust as needed
