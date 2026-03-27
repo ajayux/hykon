@@ -60,9 +60,7 @@ export default function AboutManufacturing({ data }) {
                       </Heading>
                       <Text as="div" size="p1" className="text-white">
                         {parse(
-                          item?.description ||
-                            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-                        )}
+                          item?.description?? "")}
                       </Text>
                     </div>
                   </div>

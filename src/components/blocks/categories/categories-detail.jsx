@@ -118,7 +118,7 @@ export default function CategoriesDetail({ data }) {
                     alt={item?.media?.alt}
                     width={524}
                     height={250}
-                    className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
+                    className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
                   />
                 </div>
                 <div className="w-full lg:flex-1">
