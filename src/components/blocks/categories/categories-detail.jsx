@@ -137,11 +137,15 @@ export default function CategoriesDetail({ data }) {
                       ...(item?.variants?.items?.length > 0
                         ? [{ label: "View Products", url: getProductUrl(item?.slug) }]
                         : []),
-                      {
-                        label: item?.button?.label,
-                        url: item?.button?.url,
-                        target: "blank",
-                      },
+                      ...(item?.button?.url
+                        ? [
+                            {
+                              label: item?.button?.label,
+                              url: item?.button?.url,
+                              target: "blank",
+                            },
+                          ]
+                        : []),
                     ].map((btn) => (
                       <Button
                         key={btn?.label}
@@ -150,7 +154,7 @@ export default function CategoriesDetail({ data }) {
                         className="text-white min-w-[110px] xl:min-w-[130px] 2xl:min-w-[155px] 3xl:min-w-[190px] pl-4"
                         asChild
                       >
-                        <Link href={btn?.url} target={btn?.target==="blank"? "_blank": ""}>
+                        <Link href={btn?.url ?? ""} target={btn?.target==="blank"? "_blank": ""}>
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                             <Image
