@@ -545,7 +545,7 @@ export default function ProductDetail({ data }) {
               ))}
           </div>
           <Text as="div" size="p1" className="italic text-[#dedede]">
-            *{data?.deliveryInfo?.notes}
+            {data?.deliveryInfo?.notes ?? "*Courier Charges Extra. Conditions Apply."}
           </Text>
         </div>
 
