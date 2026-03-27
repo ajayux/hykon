@@ -33,8 +33,9 @@ export default function BreadcrumbInfo({
       >
         <Breadcrumb
           className={cn(
-            "mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5",
-            variant === "product-detail" && "mb-0",
+            variant === "product-detail"
+              ? "mb-0"
+              : "mb-1 lg:mb-1.5 xl:mb-2 2xl:mb-2.5",
           )}
         >
           <BreadcrumbList className={"sm:gap-x-3"}>
