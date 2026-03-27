@@ -53,7 +53,7 @@ export default function HeaderSheet({
         className="sm:max-w-[268px] xl:max-w-[320px] 2xl:max-w-[410px] 3xl:max-w-[468px] bg-[#212121] lg:bg-[#008dd2] border-[#212121] lg:border-[#008dd2] lg:px-6 xl:px-10 2xl:px-12.5 3xl:px-15 py-8 sm:py-4 xl:py-12 2xl:py-16 3xl:py-24"
       >
         <SheetClose className="absolute z-0 top-4 lg:top-4 2xl:top-5 right-5 lg:right-6 2xl:right-8">
-          <X className="size-6 text-white lg:text-white" />
+          <X className="size-6 xl:size-8 3xl:size-8 text-white lg:text-white" />
         </SheetClose>
         <SheetHeader className="sr-only p-0">
           <SheetTitle>Menu</SheetTitle>
@@ -126,9 +126,9 @@ export default function HeaderSheet({
             {socialLinkData?.map((item, index) => (
               <div key={"social_link" + index}>
                 <Button variant="link" size="none" asChild>
-                  <a href={item?.link} target="_blank" className="block">
+                  <a href={item?.url} target="_blank" className="block">
                     <Image
-                      src={item?.icon || "/images/placeholder.jpg"}
+                      src={item?.iconPath || "/images/placeholder.jpg"}
                       alt={item?.name}
                       width={18}
                       height={18}

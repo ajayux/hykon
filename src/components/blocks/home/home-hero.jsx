@@ -78,7 +78,7 @@ export default function HomeHero({ data }) {
                 alt={"icon-arrow-right"}
                 width={18}
                 height={13}
-                className="w-2/3 m-auto"
+                className="w-9/10 m-auto"
                 unoptimized
               />
             </a>

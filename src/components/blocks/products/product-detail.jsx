@@ -43,7 +43,32 @@ const opts = {
 const GALLERY_STYLES =
   "h-[260px] sm:h-[276px] xl:h-[340px] 2xl:h-[420px] 3xl:h-[480px]";
 
-export default function ProductDetail({ data }) {
+export default function ProductDetail({ data, themeProps }) {
+  const styleVars = {
+    "--theme-bg": themeProps?.backgroundColor || "#212121",
+    "--theme-bg-alt": themeProps?.backgroundColor || "#333",
+    "--theme-fg": themeProps?.foregroundColor || "#fff",
+    "--theme-fg-50": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}80`
+      : "#bcbcbc",
+    "--theme-fg-80": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}cc`
+      : "#ccc",
+    "--theme-fg-50-alt": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}80`
+      : "#878787",
+    "--theme-fg-80-alt": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}cc`
+      : "#d3d3d3",
+    "--theme-border-20": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}33`
+      : "#3e3e3e",
+    "--theme-border-20-alt": themeProps?.foregroundColor
+      ? `${themeProps.foregroundColor}33`
+      : "#333",
+    "--theme-color": themeProps?.themeColor || "#008dd2",
+  };
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(
     {
@@ -115,7 +140,13 @@ export default function ProductDetail({ data }) {
     emblaMainApi.on("select", onSelect).on("reInit", onSelect);
   }, [emblaMainApi, onSelect]);
   return (
-    <section className="w-full h-auto block bg-[#212121] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
+    <section
+      style={styleVars}
+      className={cn(
+        "w-full h-auto block py-12 xl:py-16 2xl:py-18 3xl:py-22.5",
+        "bg-[var(--theme-bg)]",
+      )}
+    >
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap items-center gap-x-10 sm:gap-x-15 xl:gap-x-[72px] 2xl:gap-x-[86px] 3xl:gap-x-[105px] mb-6 sm:mb-10 xl:mb-15 2xl:mb-18 3xl:mb-22">
           <div className="w-full lg:w-[468px] xl:w-[510px] 2xl:w-[620px] 3xl:w-[700px] max-lg:max-w-[420px] max-lg:mb-6">
@@ -145,6 +176,7 @@ export default function ProductDetail({ data }) {
                             index === selectedIndex
                               ? " border-white"
                               : "border-[#888]",
+                            "bg-[var(--theme-bg)]",
                           )}
                         >
                           <Image
@@ -289,19 +321,25 @@ export default function ProductDetail({ data }) {
 
           <div className="w-full lg:flex-1">
             <div className="w-full xl:max-w-11/12">
-              <div className="flex flex-wrap items-center justify-between mb-2 xl:mb-3 2xl:mb-4 3xl:mb-5">
-                <div className="flex flex-wrap items-center gap-x-2 xl:gap-x-3 2xl:gap-x-4 3xl:gap-x-5">
+              <div className="flex flex-wrap sm:flex-nowrap items-center justify-between mb-2 xl:mb-3 2xl:mb-4 3xl:mb-5">
+                <div className="flex flex-wrap items-center gap-x-2 xl:gap-x-3 2xl:gap-x-4 3xl:gap-x-5 gap-y-1 xl:gap-y-2">
                   <Heading
                     as="h2"
                     size="h2"
-                    className="xl:text-[30px] 2xl:text-[36px] 3xl:text-[44px] text-white"
+                    className={cn(
+                      "xl:text-[30px] 2xl:text-[36px] 3xl:text-[44px] leading-tight text-white",
+                      "text-[var(--theme-fg)]",
+                    )}
                   >
                     {parse(data?.title)}
                   </Heading>
                   <Text
                     as="div"
                     size="p2"
-                    className="leading-tight text-white bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full"
+                    className={cn(
+                      "leading-tight text-white bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full",
+                      "text-[var(--theme-fg)] bg-[var(--theme-color)]",
+                    )}
                   >
                     {data?.pricing?.formattedDiscountPercentage}
                   </Text>
@@ -311,7 +349,10 @@ export default function ProductDetail({ data }) {
                     size="lg"
                     variant="none"
                     onClick={() => setShareOpen(true)}
-                    className="flex text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer"
+                    className={cn(
+                      "flex text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer",
+                      "text-[var(--theme-fg-50)] hover:text-[var(--theme-color)]",
+                    )}
                   >
                     <Image
                       src={"/images/blog-share-icon.svg"}
@@ -328,18 +369,33 @@ export default function ProductDetail({ data }) {
                 <Text
                   as="div"
                   size="p0"
-                  className="text-[#ccc] line-through mb-0.5 xl:mb-1"
+                  className={cn(
+                    "text-[#ccc] line-through mb-0.5 xl:mb-1",
+                    "text-[var(--theme-fg-80)]",
+                  )}
                 >
                   {"MRP-"}
                   {data?.pricing?.mrp}
                   {"/-"}
                 </Text>
-                <div className="text-[16px] sm:text-[18px] lg:text-[19px] 2xl:text-[23px] 3xl:text-[28px] leading-tight font-semibold text-[#008dd2] mb-1 xl:mb-1.5">
+                <div
+                  className={cn(
+                    "text-[16px] sm:text-[18px] lg:text-[19px] 2xl:text-[23px] 3xl:text-[28px] leading-tight font-semibold text-[#008dd2] mb-1 xl:mb-1.5",
+                    "text-[var(--theme-color)]",
+                  )}
+                >
                   {data?.pricing?.currencySymbol}
                   {data?.pricing?.sellingPrice}
                   {"/-"}
                 </div>
-                <Text as="div" size="p1" className="text-[#878787]">
+                <Text
+                  as="div"
+                  size="p1"
+                  className={cn(
+                    "text-[#878787]",
+                    "text-[var(--theme-fg-50-alt)]",
+                  )}
+                >
                   {data?.pricing?.taxLabel}
                 </Text>
               </div>
@@ -348,7 +404,10 @@ export default function ProductDetail({ data }) {
                   <Button
                     size="lg"
                     variant="none"
-                    className="underline text-[#ccc] px-1 max-sm:w-full max-sm:justify-start"
+                    className={cn(
+                      "underline text-[#ccc] px-1 max-sm:w-full max-sm:justify-start",
+                      `text-[${themeProps?.foregroundColor ? themeProps.foregroundColor + "/80" : "#ccc"}]`,
+                    )}
                     asChild
                   >
                     <Link href={`/delivery-polices`}>
@@ -373,10 +432,18 @@ export default function ProductDetail({ data }) {
                     size="lg"
                     variant="outline"
                     // disable={data?.pricing?.sellingPrice>0}
-                    className="text-white min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] bg-[#008dd2] pl-4 xl:pl-5"
+                    className={cn(
+                      "min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] pl-4 xl:pl-5",
+                      "text-[var(--theme-fg)] bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
+                    )}
                   >
                     Buy Now
-                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto">
+                    <div
+                      className={cn(
+                        "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
+                        "border-[var(--theme-color)]",
+                      )}
+                    >
                       <Image
                         src={"/images/icon-arrow-right-blue.svg"}
                         alt={"icon-arrow-right-blue"}
@@ -393,10 +460,18 @@ export default function ProductDetail({ data }) {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5"
+                    className={cn(
+                      "text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5",
+                      "text-[var(--theme-fg)] hover:bg-[var(--theme-color)]",
+                    )}
                   >
                     Request a Quote
-                    <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+                    <span
+                      className={cn(
+                        "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
+                        "border-[var(--theme-bg)] bg-[var(--theme-color)]",
+                      )}
+                    >
                       <Image
                         src={"/images/icon-arrow-right-white.svg"}
                         alt={"icon-arrow-right-white"}
@@ -410,8 +485,18 @@ export default function ProductDetail({ data }) {
                 </RequestAQuoteDialog>
               </div>
               {data?.variants?.items?.length > 0 && (
-                <div className="w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6">
-                  <div className="text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1">
+                <div
+                  className={cn(
+                    "w-full bg-[#212121] border border-[#3e3e3e] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 xl:py-3 2xl:py-3.5 3xl:py-4 xl:-translate-x-4 2xl:-translate-x-5 3xl:-translate-x-6",
+                    "bg-[var(--theme-bg)] border-[var(--theme-border-20)]",
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-normal font-normal text-[#d3d3d3] mb-0.5 xl:mb-1",
+                      "text-[var(--theme-fg-80-alt)]",
+                    )}
+                  >
                     Variants
                   </div>
                   <div className="flex flex-wrap items-center -mx-1 2xl:-mx-1.5 3xl:-mx-2 [&>div]:px-1 2xl:[&>div]:px-1.5 3xl:[&>div]:px-2 [&>div]:py-1 xl:[&>div]:py-1.5 2xl:[&>div]:py-2 3xl:[&>div]:py-2.5">
@@ -423,12 +508,14 @@ export default function ProductDetail({ data }) {
                         <Button
                           size="none"
                           variant="none"
+                          title={variant?.name}
                           className={cn(
-                            "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                            "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
                             !variant?.isAvailabile &&
                               "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
                               "border-white/60 text-white pointer-events-none",
+                            "bg-[var(--theme-bg-alt)] border-[var(--theme-border-20-alt)] hover:bg-[var(--theme-color)] hover:text-[var(--theme-fg)]",
                           )}
                           asChild={
                             variant?.isAvailabile &&
@@ -467,7 +554,7 @@ export default function ProductDetail({ data }) {
                   key={"TabsTrigger" + tab?.id}
                   value={tab?.id}
                   className={cn(
-                    "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white dark:data-[state=active]:border-[#008dd2]",
+                    "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white hover:text-white dark:data-[state=active]:border-[#008dd2]",
                     "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] data-[state=active]:text-white after:opacity-100",
                   )}
                 >
