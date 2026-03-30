@@ -160,7 +160,7 @@ const localData = {
       submenu: [
         {
           id: "9-1",
-          name: "Warranty Registration",
+          name: "Warranty & Complaints",
           slug: "/customer-care/warranty-registration",
         },
         {
@@ -221,7 +221,7 @@ const localData = {
       },
       {
         id: 1,
-        label: "Warranty Registration",
+        label: "Warranty & Complaints",
         slug: "/warranty",
       },
       {

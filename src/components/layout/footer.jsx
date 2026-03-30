@@ -328,8 +328,8 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {socialLinkData?.map((item, index) => (
                 <div key={"social_link" + index}>
-                  <Button variant="link" size="none" asChild>
-                    <a href={item?.link} target="_blank" className="block">
+                  <Button variant="link" className="cursor-pointer" size="none" asChild>
+                    <a href={item?.url} target="_blank" className="block">
                       <Image
                         src={item?.iconPath}
                         alt={item?.name}
