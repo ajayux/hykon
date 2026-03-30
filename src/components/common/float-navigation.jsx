@@ -6,13 +6,13 @@ const local_data = [
   {
     id: 1,
     icon: "/images/floatIcon-call.svg",
-    link: "tel:+966501234567",
+    link: "tel:+919020121121",
     label: "Call Us",
   },
   {
     id: 2,
     icon: "/images/floatIcon-mail.svg",
-    link: "mailto:[EMAIL_ADDRESS]",
+    link: "mailto:into@company.com",
     label: "Email Us",
   },
 ];
