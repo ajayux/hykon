@@ -5,7 +5,7 @@ import React from "react";
 
 export default function CustomerCareDetails({ data }) {
   const numbers = data?.callCenterNumber?.flatMap((item) =>
-    item.split(",").map((num) => num.trim()),
+    item.split(",").map((num) =>  num.trim()),
   );
 
 
