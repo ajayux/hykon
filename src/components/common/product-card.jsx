@@ -100,7 +100,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
           <Button
             size="lg"
             variant="none"
-            className="text-[9.8px] 2xl:text-[11.7px] 3xl:text-[14.3px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
+            className="text-[9.8px] 2xl:text-[11.7px] 3xl:text-[14.3px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto justify-start px-0"
             asChild
           >
             <Link href={`/products?product_slug=${item?.slug}` || "#"}>

@@ -15,9 +15,9 @@ export const metadata = {
   },
   description: "Modern Next.js boilerplate with animations and UI components.",
   keywords: ["nextjs", "react", "tailwind", "boilerplate", "framer-motion"],
-  authors: [{ name: "HYKON" }],
-  creator: "HYKON",
-  publisher: "HYKON",
+  authors: [{ name: "intersmart" }],
+  creator: "intersmart",
+  publisher: "intersmart",
   formatDetection: {
     email: false,
     address: false,
@@ -50,235 +50,233 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-
 const localData = {
-     navigationData: [
+  navigationData: [
+    {
+      id: 1,
+      hasSubmenu: false,
+      name: "About",
+      slug: "/about-us",
+    },
+    {
+      id: 2,
+      hasSubmenu: true,
+      name: "Products",
+      slug: "/category",
+      submenu: [
+        {
+          id: "2-1",
+          name: "Solar Water Heater",
+          slug: "/category/solar-water-heater",
+        },
+        {
+          id: "2-2",
+          name: "SST",
+          slug: "/category/sst",
+        },
+        {
+          id: "2-3",
+          name: "Inverter Battery",
+          slug: "/category/inverter-battery",
+        },
+        {
+          id: "2-4",
+          name: "Lithium Battery",
+          slug: "/category/lithium-battery",
+        },
+        {
+          id: "2-5",
+          name: "Electric Vehicle",
+          slug: "/category/electric-vehicle",
+        },
+        {
+          id: "2-6",
+          name: "E-Generator",
+          slug: "/category/e-generator",
+        },
+        {
+          id: "2-7",
+          name: "BESS",
+          slug: "/category/bess",
+        },
+        {
+          id: "2-8",
+          name: "UPS",
+          slug: "/category/ups",
+        },
+        {
+          id: "2-9",
+          name: "Solar Systems",
+          slug: "/category/solar-systems",
+        },
+        {
+          id: "2-10",
+          name: "Heat Pump",
+          slug: "/category/heat-pump",
+        },
+      ],
+    },
+    {
+      id: 3,
+      hasSubmenu: true,
+      name: "Contact",
+      slug: "/contact-us",
+    },
+    {
+      id: 4,
+      hasSubmenu: false,
+      name: "News",
+      slug: "/news-events",
+    },
+    {
+      id: 5,
+      hasSubmenu: false,
+      name: "Blogs",
+      slug: "/blog",
+    },
+    {
+      id: 6,
+      hasSubmenu: false,
+      name: "Career",
+      slug: "/career",
+    },
+    {
+      id: 7,
+      hasSubmenu: false,
+      name: "Hykonnect",
+      slug: "/hykonnect",
+    },
+    {
+      id: 8,
+      hasSubmenu: false,
+      name: "FAQ",
+      slug: "/faq",
+    },
+    {
+      id: 9,
+      hasSubmenu: true,
+      name: "Customer Care",
+      slug: "/customer-care",
+      submenu: [
+        {
+          id: "9-1",
+          name: "Warranty Registration",
+          slug: "/customer-care/warranty-registration",
+        },
+        {
+          id: "9-2",
+          name: "Register Complaints",
+          slug: "/customer-care/register-complaints",
+        },
+        {
+          id: "9-3",
+          name: "Privacy Policy",
+          slug: "/customer-care/privacy-policy",
+        },
+        {
+          id: "9-4",
+          name: "Terms & Conditions",
+          slug: "/customer-care/terms-conditions",
+        },
+        {
+          id: "9-5",
+          name: "Return Policy",
+          slug: "/customer-care/return-policy",
+        },
+        {
+          id: "9-6",
+          name: "Shipping Policy",
+          slug: "/customer-care/shipping-policy",
+        },
+        {
+          id: "9-7",
+          name: "Investor Relations",
+          slug: "/customer-care/investor-relations",
+        },
+        {
+          id: "9-8",
+          name: "Categories",
+          slug: "/category",
+        },
+      ],
+    },
+  ],
+  quickLinks: {
+    title: "Quick Links",
+    items: [
       {
-        id: 1,
-        hasSubmenu: false,
-        name: "About",
+        id: 0,
+        label: "About",
         slug: "/about-us",
       },
       {
-        id: 2,
-        hasSubmenu: true,
-        name: "Products",
-        slug: "/category",
-        submenu: [
-          {
-            id: "2-1",
-            name: "Solar Water Heater",
-            slug: "/category/solar-water-heater",
-          },
-          {
-            id: "2-2",
-            name: "SST",
-            slug: "/category/sst",
-          },
-          {
-            id: "2-3",
-            name: "Inverter Battery",
-            slug: "/category/inverter-battery",
-          },
-          {
-            id: "2-4",
-            name: "Lithium Battery",
-            slug: "/category/lithium-battery",
-          },
-          {
-            id: "2-5",
-            name: "Electric Vehicle",
-            slug: "/category/electric-vehicle",
-          },
-          {
-            id: "2-6",
-            name: "E-Generator",
-            slug: "/category/e-generator",
-          },
-          {
-            id: "2-7",
-            name: "BESS",
-            slug: "/category/bess",
-          },
-          {
-            id: "2-8",
-            name: "UPS",
-            slug: "/category/ups",
-          },
-          {
-            id: "2-9",
-            name: "Solar Systems",
-            slug: "/category/solar-systems",
-          },
-          {
-            id: "2-10",
-            name: "Heat Pump",
-            slug: "/category/heat-pump",
-          },
-        ],
-      },
-      {
-        id: 3,
-        hasSubmenu: true,
-        name: "Contact",
-        slug: "/contact-us",
-      },
-      {
-        id: 4,
-        hasSubmenu: false,
-        name: "News",
-        slug: "/news-events",
-      },
-      {
-        id: 5,
-        hasSubmenu: false,
-        name: "Blogs",
-        slug: "/blog",
-      },
-      {
-        id: 6,
-        hasSubmenu: false,
-        name: "Career",
-        slug: "/career",
-      },
-      {
-        id: 7,
-        hasSubmenu: false,
-        name: "Hykonnect",
-        slug: "/hykonnect",
-      },
-      {
-        id: 8,
-        hasSubmenu: false,
-        name: "FAQ",
+        id: 1,
+        label: "FAQ",
         slug: "/faq",
       },
       {
-        id: 9,
-        hasSubmenu: true,
-        name: "Customer Care",
+        id: 2,
+        label: "Customer Care",
         slug: "/customer-care",
-        submenu: [
-          {
-            id: "9-1",
-            name: "Warranty Registration",
-            slug: "/customer-care/warranty-registration",
-          },
-          {
-            id: "9-2",
-            name: "Register Complaints",
-            slug: "/customer-care/register-complaints",
-          },
-          {
-            id: "9-3",
-            name: "Privacy Policy",
-            slug: "/customer-care/privacy-policy",
-          },
-          {
-            id: "9-4",
-            name: "Terms & Conditions",
-            slug: "/customer-care/terms-conditions",
-          },
-          {
-            id: "9-5",
-            name: "Return Policy",
-            slug: "/customer-care/return-policy",
-          },
-          {
-            id: "9-6",
-            name: "Shipping Policy",
-            slug: "/customer-care/shipping-policy",
-          },
-          {
-            id: "9-7",
-            name: "Investor Relations",
-            slug: "/customer-care/investor-relations",
-          },
-          {
-            id: "9-8",
-            name: "Categories",
-            slug: "/category",
-          },
-        ],
+      },
+      {
+        id: 1,
+        label: "Warranty Registration",
+        slug: "/warranty",
+      },
+      {
+        id: 3,
+        label: "Hykonnect",
+        slug: "/hykonnect",
+      },
+      {
+        id: 4,
+        label: "Terms & Conditions",
+        slug: "/terms-and-conditions",
+      },
+      {
+        id: 7,
+        label: "Investor Relations",
+        slug: "/investor-relations",
+      },
+      {
+        id: 8,
+        label: "Factory",
+        slug: "/factory",
+      },
+      {
+        id: 9,
+        label: "Career",
+        slug: "/career",
+      },
+      {
+        id: 12,
+        label: "News",
+        slug: "/news-events",
+      },
+      {
+        id: 13,
+        label: "Contact",
+        slug: "/contact-us",
+      },
+      {
+        id: 14,
+        label: "Power Calculator",
+        slug: "/power-calculator",
+      },
+      {
+        id: 15,
+        label: "Service",
+        slug: "/service",
+      },
+      {
+        id: 15,
+        label: "Privacy Policy",
+        slug: "/privacy-policy",
       },
     ],
-      quickLinks: {
-        title: "Quick Links",
-        items: [
-          {
-            id: 0,
-            label: "About",
-            slug: "/about-us",
-          },
-          {
-            id: 1,
-            label: "FAQ",
-            slug: "/faq",
-          },
-          {
-            id: 2,
-            label: "Customer Care",
-            slug: "/customer-care",
-          },
-          {
-            id: 1,
-            label: "Warranty Registration",
-            slug: "/warranty",
-          },
-          {
-            id: 3,
-            label: "Hykonnect",
-            slug: "/hykonnect",
-          },
-          {
-            id: 4,
-            label: "Terms & Conditions",
-            slug: "/terms-and-conditions",
-          },
-          {
-            id: 7,
-            label: "Investor Relations",
-            slug: "/investor-relations",
-          },
-          {
-            id: 8,
-            label: "Factory",
-            slug: "/factory",
-          },
-          {
-            id: 9,
-            label: "Career",
-            slug: "/career",
-          },
-          {
-            id: 12,
-            label: "News",
-            slug: "/news-events",
-          },
-          {
-            id: 13,
-            label: "Contact",
-            slug: "/contact-us",
-          },
-          {
-            id: 14,
-            label: "Power Calculator",
-            slug: "/power-calculator",
-          },
-          {
-            id: 15,
-            label: "Service",
-            slug: "/service",
-          },
-           {
-            id: 15,
-            label: "Privacy Policy",
-            slug: "/privacy-policy",
-          },
-        ],
-      },
-}
-
+  },
+};
 
 export default async function RootLayout({ children }) {
   let globalData = null;
@@ -340,10 +338,9 @@ export default async function RootLayout({ children }) {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={cn("antialiased", fontClassName, fontVariable)}>
-        {/* <FloatNavigation /> */}
+        <FloatNavigation />
 
         <Header
           data={headerData}
@@ -359,7 +356,11 @@ export default async function RootLayout({ children }) {
           </Providers>
         </main>
 
-        <Footer quickLinks={localData?.quickLinks} footerData={footerData} socialLinkData={socialLinkData} />
+        <Footer
+          quickLinks={localData?.quickLinks}
+          footerData={footerData}
+          socialLinkData={socialLinkData}
+        />
       </body>
     </html>
   );
