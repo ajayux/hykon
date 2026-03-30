@@ -118,7 +118,7 @@ const localData = {
     },
     {
       id: 3,
-      hasSubmenu: true,
+      hasSubmenu: false,
       name: "Contact",
       slug: "/contact-us",
     },

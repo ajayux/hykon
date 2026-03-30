@@ -8,7 +8,6 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import HeaderNavigation from "./header-navigation";
-import HeaderHamburger from "./header-hamburger";
 import HeaderSheet from "./header-sheet";
 import SearchDialog from "../common/search-dialog";
 
@@ -23,16 +22,19 @@ export default function Header({
     pathname === "/landing" || pathname?.startsWith("/landing/");
   const isBusinessCardPage =
     pathname === "/business-card" || pathname?.startsWith("/business-card/");
-  const { scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll visibility
-  useMotionValueEvent(scrollYProgress, "change", (current) => {
-    if (typeof current === "number") {
-      const direction = current - scrollYProgress.getPrevious();
-      const atTop = scrollYProgress.get() < 0.05;
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious();
+    if (typeof current === "number" && typeof previous === "number") {
+      const direction = current - previous;
+      const atTop = current < 50;
       setVisible(atTop || direction < 0);
+      setIsScrolled(!atTop);
     }
   });
 
@@ -40,11 +42,14 @@ export default function Header({
 
   return (
     <motion.header
-      initial={{ opacity: 1, y: -100 }}
-      animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.2 }}
+      initial={{ opacity: 1, y: 0 }}
+      animate={{ y: visible ? 0 : "-100%", opacity: visible ? 1 : 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className={cn(
-        "w-full h-(--header-y) z-10 top-0 inset-x-0 flex items-center bg-linear-to-b from-black/60 lg:from-black/20 to-transparent transition-background duration-300 absolute",
+        "w-full h-(--header-y) z-50 top-0 inset-x-0 flex items-center transition-[background-color,backdrop-filter,box-shadow] fixed",
+        isScrolled
+          ? "bg-black/80 backdrop-blur-md shadow-sm duration-500 delay-100"
+          : "bg-linear-to-b from-black/60 lg:from-black/20 to-transparent duration-300 delay-0",
       )}
     >
       <div className="container min-[1200px]:max-w-[1200px] min-[1408px]:max-w-[1408px] min-[1576px]:max-w-[1576px] min-[1720px]:max-w-[1720px]">
@@ -63,7 +68,7 @@ export default function Header({
             </Link>
           </div>
 
-          <div className="flex items-center justify-end lg:justify-end transition gap-x-6 lg:gap-x-7.5 2xl:gap-x-10 bg-transparent lg:bg-white/75 lg:backdrop-blur-[30px] lg:rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] p-3 2xl:p-3.5 3xl:p-4">
+          <div className="flex items-center justify-end lg:justify-end transition gap-x-6 lg:gap-x-5 xl:gap-x-7 2xl:gap-x-8 3xl:gap-x-10 bg-transparent lg:bg-white/75 lg:backdrop-blur-[30px] lg:rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] lg:p-3 2xl:p-3.5 3xl:p-4">
             <HeaderNavigation
               className="max-lg:hidden"
               navigationData={navigationData}
@@ -93,12 +98,6 @@ export default function Header({
                 />
               </Button>
             </SearchDialog>
-
-            {/* <HeaderHamburger
-              setIsOpen={setToggle}
-              menuItems={navigationData}
-              data={data}
-            /> */}
 
             <HeaderSheet
               data={data}
