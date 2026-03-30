@@ -23,13 +23,13 @@ export default function HomeAbout({ data }) {
   );
   return (
     <section className="w-full h-auto block py-[30px] sm:py-[40px] lg:py-[120px_80px] 2xl:py-[150px_110px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
-      <div className="container xl:max-w-[1140px] 2xl:max-w-[1360px] 3xl:max-w-[1700px]">
+      <div className="container xl:max-w-[1140px] 2xl:max-w-[1408px] 3xl:max-w-[1700px]">
         <div className="flex flex-wrap sm:items-center -mx-3 lg:-mx-1 3xl:-mx-3 [&>*]:p-3 lg:[&>*]:p-1 3xl:[&>*]:p-3">
-          <div className="w-full lg:w-[36%] xl:w-[38%] 2xl:w-[40%]">
+          <div className="w-full lg:w-[36%] xl:w-[37%] 2xl:w-[38%] 3xl:w-[37%]">
             <Heading
               as="div"
               size="h6"
-              className="tracking-1 uppercase text-[#008dd2] mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7"
+              className="tracking-[0.4rem] font-normal uppercase text-[#008dd2] mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7"
             >
               {data?.subTitle}
             </Heading>
@@ -79,7 +79,7 @@ export default function HomeAbout({ data }) {
             )}
           </div>
 
-          <div className="w-full lg:w-[64%] xl:w-[62%] 2xl:w-[60%]">
+          <div className="w-full lg:w-[64%] xl:w-[63%] 2xl:w-[62%] 3xl:w-[63%]">
             <div className="flex flex-wrap items-center gap-x-13 2xl:gap-x-16 3xl:gap-x-20">
               {data?.chairman && (
                 <div className="w-full sm:w-[368px] lg:w-[268px] xl:w-[305px] 2xl:w-[362px] 3xl:w-[452px] relative z-0">
@@ -121,7 +121,7 @@ export default function HomeAbout({ data }) {
                 <Text
                   as="div"
                   size="p1"
-                  className="text-white mb-4 xl:mb-8 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15"
+                  className="xl:leading-[1.7] text-white mb-4 xl:mb-8 2xl:mb-12 3xl:mb-14 mt-10 2xl:mt-13 3xl:mt-15"
                 >
                   {parse(data?.description)}
                 </Text>
@@ -150,7 +150,7 @@ export default function HomeAbout({ data }) {
                         <Text
                           as="div"
                           size="none"
-                          className="text-[12px] lg:text-[12.5px] 2xl:text-[15px] 3xl:text-[20px] leading-none font-light text-white"
+                          className="text-[12px] lg:text-[12.5px] 2xl:text-[14.5px] 3xl:text-[17.5px] leading-none font-light text-white"
                         >
                           {item?.label}
                         </Text>
@@ -161,12 +161,13 @@ export default function HomeAbout({ data }) {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-center text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[137px] 3xl:min-w-[167px] pl-4 xl:pl-5"
+                  className="text-center text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[137px] 3xl:min-w-[167px]"
                   asChild
                 >
                   <Link href={`/about-us`}>
-                    {data?.button?.label}
-
+                    <span className="flex-1 text-center">
+                      {data?.button?.label}
+                    </span>
                     <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                       <Image
                         src={"/images/icon-arrow-right-white.svg"}

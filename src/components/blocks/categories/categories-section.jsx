@@ -59,9 +59,18 @@ export default function CategoriesSection({ data, filterData }) {
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  <SelectItem value="all" className="block text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">All Use Case</SelectItem>
+                  <SelectItem
+                    value="all"
+                    className="block text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]"
+                  >
+                    All Use Case
+                  </SelectItem>
                   {filterData?.useCasees?.map((item) => (
-                    <SelectItem key={item?.id} value={item?.slug} className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]">
+                    <SelectItem
+                      key={item?.id}
+                      value={item?.slug}
+                      className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px]"
+                    >
                       {item?.title}
                     </SelectItem>
                   ))}
@@ -71,37 +80,38 @@ export default function CategoriesSection({ data, filterData }) {
           </div>
         </div>
 
-        <div className={cn("flex flex-wrap justify-center -mx-1 xl:-mx-1.5 2xl:-mx-2 3xl:-mx-5 [&>*]:p-1 xl:[&>*]:p-1.5 2xl:[&>*]:p-2 3xl:[&>*]:p-5 transition-opacity duration-300", isLoading && "opacity-50 pointer-events-none")}>
+        <div
+          className={cn(
+            "flex flex-wrap justify-center -mx-1 xl:-mx-1.5 2xl:-mx-[7px] 3xl:-mx-[9px] [&>*]:p-1 xl:[&>*]:p-1.5 2xl:[&>*]:p-[7px] 3xl:[&>*]:p-[9px] transition-opacity duration-300",
+            isLoading && "opacity-50 pointer-events-none",
+          )}
+        >
           {categoryItems?.map((item) => (
             <Link
-                  href={`/category/${item?.slug}`}
+              href={`/category/${item?.slug}`}
               key={item?.id}
-              className={cn(
-                "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/6",
-              )}
+              className={cn("w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/6")}
             >
-              <div className="group w-full h-full bg-[#16242A] rounded-[10px] 2xl:rounded-[13px] 3xl:rounded-[15px] flex flex-col px-2 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 pt-5 sm:pt-5 xl:pt-7.5 2xl:pt-9 3xl:pt-11 pb-12 sm:pb-15 lg:pb-5 xl:pb-7.5 2xl:pb-9 3xl:pb-11 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
+              <div className="group w-full h-full bg-[#171f23] rounded-[10px] 2xl:rounded-[13px] 3xl:rounded-[15px] flex flex-col px-2 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 pt-5 sm:pt-5 xl:pt-7.5 2xl:pt-9 3xl:pt-11 pb-12 sm:pb-15 lg:pb-5 xl:pb-7.5 2xl:pb-9 3xl:pb-11 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">
                 <div className="w-full h-auto flex justify-center items-center mb-4 xl:mb-6 2xl:mb-7 3xl:mb-8.5">
-                  
                   {item?.iconPath && item?.iconWhitePath && (
                     <div className="w-[40px] 2xl:w-[48px] 3xl:w-[60px] aspect-square relative group-hover:translate-y-[-10px] transition-all duration-300">
-                    <Image
-                      src={item?.iconPath}
-                      alt={item?.name}
-                      width={56}
-                      height={56}
-                      className="w-full aspect-square object-contain opacity-100 group-hover:opacity-0 transition-all duration-300 absolute z-0"
-                    />
-                    <Image
-                      src={item?.iconWhitePath}
-                      alt={item?.name}
-                      width={56}
-                      height={56}
-                      className="w-full aspect-square object-contain opacity-0 group-hover:opacity-100 transition-all duration-300 absolute z-1"
-                    />
-                  </div>
+                      <Image
+                        src={item?.iconPath}
+                        alt={item?.name}
+                        width={56}
+                        height={56}
+                        className="w-full aspect-square object-contain opacity-100 group-hover:opacity-0 transition-all duration-300 absolute z-0"
+                      />
+                      <Image
+                        src={item?.iconWhitePath}
+                        alt={item?.name}
+                        width={56}
+                        height={56}
+                        className="w-full aspect-square object-contain opacity-0 group-hover:opacity-100 transition-all duration-300 absolute z-1"
+                      />
+                    </div>
                   )}
-                
                 </div>
                 <Heading
                   as="div"
@@ -113,13 +123,11 @@ export default function CategoriesSection({ data, filterData }) {
                 <Text
                   as="div"
                   size="p1"
-                  className="max-sm:text-[12px] leading-normal font-normal text-center line-clamp-3 text-white group-hover:translate-y-[-20px] 2xl:group-hover:translate-y-[-25px] 3xl:group-hover:translate-y-[-30px] transition-all duration-300"
+                  className="max-sm:text-[12px] xl:leading-[1.4] font-normal text-center line-clamp-3 text-white group-hover:translate-y-[-20px] 2xl:group-hover:translate-y-[-25px] 3xl:group-hover:translate-y-[-30px] transition-all duration-300"
                 >
                   {parse(item?.description)}
                 </Text>
-                <div
-                  className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 lg:opacity-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-300"
-                >
+                <div className="absolute z-1 bottom-[18px] inset-x-0 flex justify-center items-center gap-x-1 2xl:gap-x-2 3xl:gap-x-3 lg:opacity-0 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-300">
                   <span className="w-4 2xl:w-5 3xl:w-6 aspect-square bg-white rounded-full flex items-center justify-center">
                     <Image
                       src={"/images/icon-arrow-right-blue.svg"}
@@ -138,7 +146,6 @@ export default function CategoriesSection({ data, filterData }) {
             </Link>
           ))}
         </div>
-
       </div>
     </section>
   );

@@ -103,11 +103,11 @@ export default function HomeNews({ data }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-5"
+              className="text-white min-w-[100px] lg:min-w-full justify-between"
               asChild
             >
               <Link href={"/news-events"}>
-                View All
+                <span className="flex-1 text-center">View All</span>
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -185,15 +185,15 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] capitalize text-white p-0 relative z-0",
-              isActive ? "text-white" : "text-white/50",
+              "xl:text-[14.1px] 2xl:text-[16.8px] 3xl:text-[20px] capitalize text-white p-0 relative z-0",
+              isActive ? "text-white" : "text-white/90",
             )}
           >
             {item?.title}
             <span
               className={cn(
                 "absolute z-0 bottom-0.5 inset-x-0 w-full h-0.5 bg-white",
-                isActive ? "bg-[#008dd2]" : "bg-white/50",
+                isActive ? "bg-[#008dd2]" : "bg-white/90",
               )}
             />
           </Button>

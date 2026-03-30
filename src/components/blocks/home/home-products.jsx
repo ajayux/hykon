@@ -116,7 +116,7 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
             >
               <div className={cn("lg:max-w-9/12", reversed && "ml-auto")}>
                 <div className={cn("w-auto flex")}>
-                  <span className="text-[10px] lg:text-[11px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal truncate text-white w-auto min-w-[90px] xl:min-w-[96px] 2xl:min-w-[115px] 3xl:min-w-[140px] h-auto border border-white rounded-[6px] flex items-center gap-2 p-1 mb-10 xl:mb-20 2xl:mb-[96px] 3xl:mb-[120px]">
+                  <span className="text-[10px] lg:text-[11px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal truncate text-white w-auto min-w-[90px] xl:min-w-[96px] 2xl:min-w-[115px] 3xl:min-w-[140px] h-auto border border-white rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[9px] flex items-center gap-2 p-1 xl:px-1.5 mb-10 xl:mb-20 2xl:mb-[96px] 3xl:mb-[120px]">
                     <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#02a3f2] rounded-full flex items-center justify-center p-1">
                       {sectionData?.id}
                     </span>
@@ -127,7 +127,7 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
                   as="div"
                   size="none"
                   className={cn(
-                    "text-[7px] lg:text-[7.5px] 2xl:text-[9px] 3xl:text-[11px] font-normal tracking-[0.05rem] uppercase text-[#008dd2] mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7",
+                    "text-[7px] lg:text-[8px] 2xl:text-[10px] 3xl:text-[11px] font-normal tracking-[0.05rem] uppercase text-[#008dd2] mb-3 xl:mb-4 2xl:mb-6 3xl:mb-7",
                   )}
                 >
                   {parentTitle}
@@ -181,7 +181,7 @@ function ProductBlock({ sectionData, parentTitle, reversed }) {
             </div>
           </MediaQuery>
           <div className={cn("w-full lg:flex-1 max-sm:pr-4")}>
-            <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-7 3xl:px-25 py-5 sm:py-10 xl:py-[45px] 2xl:py-[55px] 3xl:py-[70px] flex flex-wrap">
+            <div className="w-full lg:min-h-[570px] xl:min-h-[680px] 2xl:min-h-[870px] 3xl:min-h-[1000px] bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_30%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-1 min-[376px]:px-5 sm:px-10 lg:px-15 xl:px-18 2xl:px-20 3xl:px-25 py-5 sm:py-10 xl:py-[45px] 2xl:py-[55px] 3xl:py-[70px] flex flex-wrap">
               <Suspense
                 fallback={
                   <div className="w-full flex flex-wrap">
