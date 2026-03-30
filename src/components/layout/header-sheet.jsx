@@ -50,7 +50,7 @@ export default function HeaderSheet({
       </SheetTrigger>
       <SheetContent
         showCloseButton={false}
-        className="sm:max-w-[268px] xl:max-w-[320px] 2xl:max-w-[410px] 3xl:max-w-[468px] bg-[#212121] lg:bg-[#008dd2] border-[#212121] lg:border-[#008dd2] lg:px-6 xl:px-10 2xl:px-12.5 3xl:px-15 py-8 sm:py-4 xl:py-12 2xl:py-16 3xl:py-24"
+        className="sm:max-w-[268px] xl:max-w-[320px] 2xl:max-w-[410px] 3xl:max-w-[468px] bg-[#212121] lg:bg-[#008dd2] border-[#212121] lg:border-[#008dd2] lg:px-6 xl:px-10 2xl:px-12.5 3xl:px-15 pt-8 sm:pt-4 xl:pt-12 2xl:pt-16 3xl:pt-24 pb-0 sm:pb-0 xl:pb-0 2xl:pb-0 3xl:pb-0"
       >
         <SheetClose className="absolute z-0 top-4 lg:top-4 2xl:top-5 right-5 lg:right-6 2xl:right-8">
           <X className="size-6 xl:size-8 3xl:size-8 text-white lg:text-white" />
@@ -73,55 +73,66 @@ export default function HeaderSheet({
           </Link>
         </div>
 
-        <div className="w-full h-[calc(100vh-400px)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] py-4 overflow-y-scroll lg:hidden">
+        <div className="w-full h-[calc(100vh-280px)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] py-4 overflow-y-scroll lg:hidden">
           <HeaderNavigation navigationData={navigationData} />
         </div>
 
-        <div className="bg-[#008dd2] lg:bg-transparent h-[300px] lg:h-full flex flex-col justify-between gap-x-5 xl:gap-x-8 2xl:gap-x-9 3xl:gap-x-10 gap-y-2 xl:gap-y-3.5 2xl:gap-y-4 3xl:gap-y-5 py-3 lg:py-0 [&>div]:px-4 lg:[&>div]:px-4 2xl:[&>div]:px-5 3xl:[&>div]:px-6 overflow-y-auto">
-          <hr className="border-[#008dd2]" />
-          <ContactInfoItem icon="/images/icon-header-loc.svg" title="Locations">
-            <div className="flex flex-wrap gap-x-5 xl:gap-x-8 2xl:gap-x-9 3xl:gap-x-10 gap-y-2 xl:gap-y-3.5 2xl:gap-y-4">
-              {mobileMenuData?.locations?.map((item) => (
-                <div key={item?.id}>
-                  <Button
-                    variant="link"
-                    size="none"
-                    className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
-                    asChild
-                  >
-                    <span>{item?.city}</span>
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </ContactInfoItem>
-          <hr className="border-[#219cd8]" />
-          <ContactInfoItem icon="/images/icon-header-call.svg" title="Call Us">
-            <Button
-              variant="link"
-              size="none"
-              className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
-              asChild
+        <div className="w-full h-[280px] lg:h-full bg-[#008dd2] lg:bg-transparent flex flex-col align-justify py-3 lg:py-0 [&>div]:px-4 lg:[&>div]:px-4 2xl:[&>div]:px-5 3xl:[&>div]:px-6 overflow-y-auto max-lg:mt-auto">
+          <div className="flex-1 flex flex-col justify-center gap-x-5 xl:gap-x-8 2xl:gap-x-9 3xl:gap-x-10 gap-y-3 lg:gap-y-5 xl:gap-y-7.5 2xl:gap-y-10 3xl:gap-y-11">
+            <hr className="border-[#008dd2]" />
+            <ContactInfoItem
+              icon="/images/icon-header-loc.svg"
+              title="Locations"
             >
-              <Link href={`tel:${mobileMenuData?.phoneNumber}`}>
-                {mobileMenuData?.phoneNumber}
-              </Link>
-            </Button>
-          </ContactInfoItem>
-          <hr className="border-[#219cd8]" />
-          <ContactInfoItem icon="/images/icon-header-mail.svg" title="Mail Us">
-            <Button
-              variant="link"
-              size="none"
-              className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
-              asChild
+              <div className="flex flex-wrap gap-x-5 xl:gap-x-8 2xl:gap-x-9 3xl:gap-x-10 gap-y-2 xl:gap-y-3.5 2xl:gap-y-4">
+                {mobileMenuData?.locations?.map((item) => (
+                  <div key={item?.id}>
+                    <Button
+                      variant="link"
+                      size="none"
+                      className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
+                      asChild
+                    >
+                      <span>{item?.city}</span>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </ContactInfoItem>
+            <hr className="border-[#219cd8]" />
+            <ContactInfoItem
+              icon="/images/icon-header-call.svg"
+              title="Call Us"
             >
-              <Link href={`mailto:${mobileMenuData?.email}`}>
-                {mobileMenuData?.email}
-              </Link>
-            </Button>
-          </ContactInfoItem>
-          <hr className="border-[#219cd8]" />
+              <Button
+                variant="link"
+                size="none"
+                className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
+                asChild
+              >
+                <Link href={`tel:${mobileMenuData?.phoneNumber}`}>
+                  {mobileMenuData?.phoneNumber}
+                </Link>
+              </Button>
+            </ContactInfoItem>
+            <hr className="border-[#219cd8]" />
+            <ContactInfoItem
+              icon="/images/icon-header-mail.svg"
+              title="Mail Us"
+            >
+              <Button
+                variant="link"
+                size="none"
+                className="text-[12px] lg:text-[11px] 2xl:text-[14px] 3xl:text-[16px] leading-tight font-normal text-white block"
+                asChild
+              >
+                <Link href={`mailto:${mobileMenuData?.email}`}>
+                  {mobileMenuData?.email}
+                </Link>
+              </Button>
+            </ContactInfoItem>
+            <hr className="border-[#219cd8]" />
+          </div>
           <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
             {socialLinkData?.map((item, index) => (
               <div key={"social_link" + index}>
@@ -156,7 +167,7 @@ function ContactInfoItem({ icon, title, children }) {
       <Heading
         as="div"
         size="h5"
-        className="leading-none text-white flex items-center gap-x-2 mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
+        className="leading-none text-white flex items-center gap-x-2 mb-2 lg:mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
       >
         <Image
           src={icon || "/images/placeholder.jpg"}
