@@ -47,7 +47,7 @@ export default function HomeBusiness({ data }) {
               <Button
                 size="lg"
                 variant="none"
-                className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] px-0"
+                className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] justify-start px-0"
                 asChild
               >
                 <Link href={`/factory`}>

@@ -47,7 +47,7 @@ export default function Header({
         "w-full h-(--header-y) z-10 top-0 inset-x-0 flex items-center bg-linear-to-b from-black/60 lg:from-black/20 to-transparent transition-background duration-300 absolute",
       )}
     >
-      <div className="container lg:px-0">
+      <div className="container min-[1200px]:max-w-[1200px] min-[1408px]:max-w-[1408px] min-[1576px]:max-w-[1576px] min-[1720px]:max-w-[1720px]">
         <div className="flex justify-between items-center gap-x-3 lg:gap-x-8 relative z-0">
           <div className="w-[140px] xl:w-[152px] 2xl:w-[182px] 3xl:w-[228px]">
             <Link href={data?.slug ?? ""}>
