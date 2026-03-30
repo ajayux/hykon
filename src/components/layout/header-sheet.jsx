@@ -30,7 +30,7 @@ export default function HeaderSheet({
         <Button
           variant="none"
           size="none"
-          className="w-12 xl:w-11 2xl:w-13.5 3xl:w-16 aspect-square flex items-center justify-center rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] bg-[#008dd2] hover:scale-100"
+          className="w-10 lg:w-12 xl:w-11 2xl:w-13.5 3xl:w-16 aspect-square flex items-center justify-center rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] bg-[#008dd2] hover:scale-100"
         >
           <div className="w-4 xl:w-4.5 2xl:w-5 3xl:w-7 flex flex-col gap-1 3xl:gap-1.5">
             {[1, 2, 3].map((item) => (
@@ -50,10 +50,23 @@ export default function HeaderSheet({
       </SheetTrigger>
       <SheetContent
         showCloseButton={false}
-        className="sm:max-w-[268px] xl:max-w-[320px] 2xl:max-w-[410px] 3xl:max-w-[468px] bg-[#212121] lg:bg-[#008dd2] border-[#212121] lg:border-[#008dd2] lg:px-6 xl:px-10 2xl:px-12.5 3xl:px-15 pt-8 sm:pt-4 xl:pt-12 2xl:pt-16 3xl:pt-24 pb-0 sm:pb-0 xl:pb-0 2xl:pb-0 3xl:pb-0"
+        className="sm:max-w-[268px] xl:max-w-[320px] 2xl:max-w-[410px] 3xl:max-w-[468px] bg-[#212121] lg:bg-[#008dd2] border-[#212121] lg:border-[#008dd2] lg:px-6 xl:px-10 2xl:px-12.5 3xl:px-15 pt-8 sm:pt-4 xl:pt-12 2xl:pt-16 3xl:pt-24 pb-1 xl:pb-2"
       >
         <SheetClose className="absolute z-0 top-4 lg:top-4 2xl:top-5 right-5 lg:right-6 2xl:right-8">
-          <X className="size-6 xl:size-8 3xl:size-8 text-white lg:text-white" />
+          {/* <X className="size-6 xl:size-8 3xl:size-8 font-light text-white lg:text-white" /> */}
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 13 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="size-3 xl:size-3.5 3xl:size-4.5"
+          >
+            <path
+              d="M6.99437 6.13542L12.0868 1.04302C12.3322 0.797604 12.3322 0.429479 12.0868 0.184063C11.8414 -0.0613542 11.4732 -0.0613542 11.2278 0.184063L6.13542 5.27646L1.04302 0.184063C0.797604 -0.0613542 0.429479 -0.0613542 0.184063 0.184063C-0.0613542 0.429479 -0.0613542 0.797604 0.184063 1.04302L5.27646 6.13542L0.184063 11.2278C-0.0613542 11.4732 -0.0613542 11.8414 0.184063 12.0868C0.429479 12.3322 0.797604 12.3322 1.04302 12.0868L6.13542 6.99437L11.2278 12.0868C11.4732 12.3322 11.8414 12.3322 12.0868 12.0868C12.3322 11.8414 12.3322 11.4732 12.0868 11.2278L6.99437 6.13542Z"
+              fill="white"
+            />
+          </svg>
         </SheetClose>
         <SheetHeader className="sr-only p-0">
           <SheetTitle>Menu</SheetTitle>
