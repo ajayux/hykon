@@ -63,58 +63,58 @@ const localData = {
       hasSubmenu: true,
       name: "Products",
       slug: "/category",
-      submenu: [
-        {
-          id: "2-1",
-          name: "Solar Water Heater",
-          slug: "/category/solar-water-heater",
-        },
-        {
-          id: "2-2",
-          name: "SST",
-          slug: "/category/sst",
-        },
-        {
-          id: "2-3",
-          name: "Inverter Battery",
-          slug: "/category/inverter-battery",
-        },
-        {
-          id: "2-4",
-          name: "Lithium Battery",
-          slug: "/category/lithium-battery",
-        },
-        {
-          id: "2-5",
-          name: "Electric Vehicle",
-          slug: "/category/electric-vehicle",
-        },
-        {
-          id: "2-6",
-          name: "E-Generator",
-          slug: "/category/e-generator",
-        },
-        {
-          id: "2-7",
-          name: "BESS",
-          slug: "/category/bess",
-        },
-        {
-          id: "2-8",
-          name: "UPS",
-          slug: "/category/ups",
-        },
-        {
-          id: "2-9",
-          name: "Solar Systems",
-          slug: "/category/solar-systems",
-        },
-        {
-          id: "2-10",
-          name: "Heat Pump",
-          slug: "/category/heat-pump",
-        },
-      ],
+      // submenu: [
+      //   {
+      //     id: "2-1",
+      //     name: "Solar Water Heater",
+      //     slug: "/category/solar-water-heater",
+      //   },
+      //   {
+      //     id: "2-2",
+      //     name: "SST",
+      //     slug: "/category/sst",
+      //   },
+      //   {
+      //     id: "2-3",
+      //     name: "Inverter Battery",
+      //     slug: "/category/inverter-battery",
+      //   },
+      //   {
+      //     id: "2-4",
+      //     name: "Lithium Battery",
+      //     slug: "/category/lithium-battery",
+      //   },
+      //   {
+      //     id: "2-5",
+      //     name: "Electric Vehicle",
+      //     slug: "/category/electric-vehicle",
+      //   },
+      //   {
+      //     id: "2-6",
+      //     name: "E-Generator",
+      //     slug: "/category/e-generator",
+      //   },
+      //   {
+      //     id: "2-7",
+      //     name: "BESS",
+      //     slug: "/category/bess",
+      //   },
+      //   {
+      //     id: "2-8",
+      //     name: "UPS",
+      //     slug: "/category/ups",
+      //   },
+      //   {
+      //     id: "2-9",
+      //     name: "Solar Systems",
+      //     slug: "/category/solar-systems",
+      //   },
+      //   {
+      //     id: "2-10",
+      //     name: "Heat Pump",
+      //     slug: "/category/heat-pump",
+      //   },
+      // ],
     },
     {
       id: 3,
@@ -314,12 +314,24 @@ export default async function RootLayout({ children }) {
 
   const {
     headerData,
-    navigationData,
     footerData,
     socialLinkData,
     questionsSection,
     mobileMenuData,
   } = globalData;
+
+  const productSubmenu =
+    footerData?.productCategories?.items?.map((item, index) => ({
+      id: `2-${index + 1}`,
+      name: item.name,
+      slug: `/category/${item.slug}`,
+    })) ?? [];
+
+  const navigationData = localData.navigationData.map((navItem) =>
+    navItem.id === 2 && productSubmenu.length > 0
+      ? { ...navItem, submenu: productSubmenu }
+      : navItem
+  );
 
   const fontVariable = getFontVariable();
   const fontClassName = getFontClassName();
@@ -344,7 +356,7 @@ export default async function RootLayout({ children }) {
 
         <Header
           data={headerData}
-          navigationData={localData?.navigationData}
+          navigationData={navigationData}
           socialLinkData={socialLinkData}
           mobileMenuData={mobileMenuData}
         />
