@@ -568,12 +568,22 @@ export default function ProductDetail({ data, themeProps }) {
               >
                 {tab?.id === 2 ? (
                   <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
-                    <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60">
+                    <div
+                      className={cn(
+                        "typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60",
+                      )}
+                    >
                       <ParsedContent html={tab?.description} />
                     </div>
                   </div>
                 ) : (
-                  <div className="typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]">
+                  <div
+                    className={cn(
+                      "typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]",
+                      themeProps?.defaultColor &&
+                        "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
+                    )}
+                  >
                     <ParsedContent html={tab?.description} />
                   </div>
                 )}
