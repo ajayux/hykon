@@ -10,12 +10,22 @@ import {
 } from "@/components/ui/dialog";
 import { Heading } from "../utils/typography";
 import { CareerApplicationForm } from "../form/career-application-form";
+import { cn } from "@/lib/utils";
 
 export default function CareerDialog({ children, jobTitle, slug }) {
   const [open, setOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        setOpen(val);
+        if (!val) {
+          setTimeout(() => setIsSuccess(false), 300);
+        }
+      }}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className={
@@ -23,7 +33,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
         }
         closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >
-        <DialogHeader className={"text-start"}>
+        <DialogHeader className={cn("text-start", isSuccess && "sr-only")}>
           <DialogTitle asChild>
             <Heading
               as="h2"
@@ -39,7 +49,12 @@ export default function CareerDialog({ children, jobTitle, slug }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
-          <CareerApplicationForm jobTitle={jobTitle} slug={slug} onClose={() => setOpen(false)} />
+          <CareerApplicationForm
+            jobTitle={jobTitle}
+            slug={slug}
+            onClose={() => setOpen(false)}
+            onSuccess={() => setIsSuccess(true)}
+          />
         </div>
       </DialogContent>
     </Dialog>

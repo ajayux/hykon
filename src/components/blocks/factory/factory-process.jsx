@@ -70,7 +70,7 @@ export default function FactoryProcess({ data }) {
                       height={70}
                       className="w-[48px] 2xl:w-[58px] 3xl:w-[70px] aspect-square object-contain hidden group-hover:block"
                     />
-                    <div className="text-[8px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[14px] leading-none font-normal truncate text-center text-[#1d1d1d] bg-white rounded-full py-1.5 2xl:py-2 3xl:py-2.5 px-2.5 2xl:px-3 3xl:px-4 absolute z-1 bottom-0 inset-x-auto translate-y-1/2 border-1 border-white group-hover:border-[#008dd2] transition-all duration-500">
+                    <div className="text-[8px] lg:text-[10px] 2xl:text-[11.7px] 3xl:text-[14.3px] leading-none font-medium truncate text-center text-[#1d1d1d] bg-white rounded-full py-[4px_4px] 2xl:py-[5px_3px] 3xl:py-[6px_4px] px-2.5 2xl:px-3 3xl:px-4 absolute z-1 bottom-0 inset-x-auto translate-y-1/2 border-1 border-white group-hover:border-[#008dd2] transition-all duration-500">
                       {item?.step}
                     </div>
                     <div className="absolute z-1 inset-0 border-1 border-[#008dd2] rounded-full scale-0 group-hover:scale-80 transition-transform duration-500" />

@@ -29,14 +29,14 @@ export default function CareerLife({ data }) {
               {parse(data?.description)}
             </div>
           </div>
-          <div className="w-full lg:w-[576px] xl:w-[600px] 2xl:w-[720px] 3xl:w-[880px]">
+          <div className="w-full lg:w-[576px] xl:w-[655px] 2xl:w-[720px] 3xl:w-[880px]">
             <div className="aspect-[88/53] flex flex-wrap -mx-1 lg:-mx-2 2xl:-mx-2.5 3xl:-mx-3 [&>div>div]:p-1 lg:[&>div>div]:p-2 2xl:[&>div>div]:p-2.5 3xl:[&>div>div]:p-3">
               <div className="w-4/10 flex flex-col">
                 <div className="w-full h-1/2 rounded-[10px] overflow-hidden">
                   <div className="w-full h-full rounded-[10px] overflow-hidden relative">
                     <Image
                       src={data?.mediaOne?.path}
-                      alt={data?.mediaOne?.alt}
+                      alt={data?.mediaOne?.alt || ""}
                       fill
                       className="object-cover hover:scale-105 transition-all duration-300"
                     />
@@ -46,7 +46,7 @@ export default function CareerLife({ data }) {
                   <div className="w-full h-full rounded-[10px] overflow-hidden relative">
                     <Image
                       src={data?.mediaThree?.path}
-                      alt={data?.mediaThree?.alt}
+                      alt={data?.mediaThree?.alt || "mediaThree"}
                       fill
                       className="object-cover hover:scale-105 transition-all duration-300"
                     />
@@ -70,7 +70,7 @@ export default function CareerLife({ data }) {
                       as="div"
                       size="h3"
                       className={cn(
-                        "lg:text-[26px] 2xl:text-[32px] 3xl:text-[38px] font-bold text-[#008dd2] mb-0.5 3xl:mb-1",
+                        "lg:text-[26px] 2xl:text-[32px] 3xl:text-[38px] leading-tight font-bold text-[#008dd2] mb-0.5 3xl:mb-1",
                       )}
                     >
                       <CountUp
@@ -84,7 +84,7 @@ export default function CareerLife({ data }) {
                     <Text
                       as="div"
                       size="none"
-                      className="text-[14px] lg:text-[16px] 2xl:text-[20px] 3xl:text-[24px] leading-none font-light text-white"
+                      className="text-[14px] lg:text-[16px] 2xl:text-[20px] 3xl:text-[24px] leading-none font-normal text-white"
                     >
                       {data?.statistics?.label}
                     </Text>

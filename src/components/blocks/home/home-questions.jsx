@@ -17,13 +17,13 @@ export default function HomeQuestions({ data }) {
 
   if (isLandingPage || isBusinessCardPage) return null;
   return (
-    <section className="w-full h-auto block bg-[#008dd2] py-10 xl:py-15 2xl:py-17.5 3xl:py-[85px] relative z-0">
+    <section className="w-full h-auto block bg-[#008dd2] py-10 xl:py-12 2xl:py-17.5 3xl:py-[85px] overflow-hidden relative z-0">
       <Image
         src={"/images/home-questions-bg.png"}
         alt={"home-questions-bg"}
         width={222}
         height={455}
-        className="w-[100px] xl:w-[160px] 2xl:w-[192px] 3xl:w-[240px] aspect-[222/455] absolute -z-1 left-0 inset-y-0 m-auto"
+        className="w-[100px] xl:w-[140px] 2xl:w-[192px] 3xl:w-[240px] aspect-[222/455] absolute -z-1 left-0 inset-y-0 m-auto"
       />
       <div className="container xl:pl-[140px] xl:pr-[60px] 2xl:pl-[160px] 2xl:pr-[90px] 3xl:pl-[200px] 3xl:pr-[100px]">
         <div className="flex flex-wrap items-center">

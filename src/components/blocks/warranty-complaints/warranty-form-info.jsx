@@ -5,7 +5,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
 
-
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
     data?.filters?.[0]?.slug || "warranty",
@@ -40,7 +39,7 @@ export default function WarrantyFormInfo({ data }) {
                     size="lg"
                     variant="none"
                     className={cn(
-                      "capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-all",
+                      "text-[12px] xl:text-[14px] 2xl:text-[16.8px] 3xl:text-[20px] capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-all",
                       isActive
                         ? "text-white"
                         : "text-white/90 hover:text-white",
@@ -63,9 +62,17 @@ export default function WarrantyFormInfo({ data }) {
         </div>
         <div className="w-full">
           {activeTab === "warranty-registration" ? (
-            <WarrantyRegistrationForm key={activeTab} page={"warranty"} activeTab={activeTab} />
+            <WarrantyRegistrationForm
+              key={activeTab}
+              page={"warranty"}
+              activeTab={activeTab}
+            />
           ) : (
-            <WarrantyRegistrationForm key={activeTab} page={"warranty"} activeTab={activeTab} />
+            <WarrantyRegistrationForm
+              key={activeTab}
+              page={"warranty"}
+              activeTab={activeTab}
+            />
           )}
         </div>
       </div>

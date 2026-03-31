@@ -39,7 +39,7 @@ export default function PowerCalculation({ data, appliances }) {
       name: appliance.name,
       powerOptions: appliance.powerOptions,
       rows: [{ id: index + 1, power: "", count: "" }],
-    }))
+    })),
   );
 
   const totalVA = useMemo(() => {
@@ -264,7 +264,9 @@ export default function PowerCalculation({ data, appliances }) {
               {totalVA > 0 ? (
                 <Button
                   onClick={() =>
-                    router.push(`/products?backup_capacity=${totalVA}&from=power_calculator`)
+                    router.push(
+                      `/products?backup_capacity=${totalVA}&from=power_calculator`,
+                    )
                   }
                   size="lg"
                   variant="outline"
@@ -302,24 +304,26 @@ function PowerDialog({ children }) {
         className={
           "xl:max-w-[480px] 2xl:max-w-[576px] 3xl:max-w-[680px] bg-[#212121] py-8 sm:py-10 xl:py-14 2xl:py-16 3xl:py-20 px-4 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
         }
-        closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
+        closeClassName="3xl:size-4 top-2 right-2 3xl:top-4 3xl:right-4 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >
         <DialogHeader className={"text-start"}>
           <DialogTitle asChild>
             <Heading
               as="h2"
               size="h4"
-              className="leading-tight font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
+              className="leading-normal font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
             >
               Sorry! Your power consumption is above standard usage levels.
-              Please contact <Link href="/customer-care">customer care</Link>{" "}
-              for customized solutions. career application form
+              Please contact{" "}
+              <i>
+                <Link href="/customer-care">customer care</Link>{" "}
+              </i>
+              for customized solutions.
             </Heading>
           </DialogTitle>
           <DialogDescription className={"sr-only"}>
             Sorry! Your power consumption is above standard usage levels. Please
-            contact customer care for customized solutions. career application
-            form
+            contact customer care for customized solutions.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
