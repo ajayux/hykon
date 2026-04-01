@@ -77,7 +77,7 @@ export default function HeaderNavigation({ navigationData, className }) {
             >
               {item?.hasSubmenu ? (
                 <div className="flex items-center justify-between lg:justify-start gap-0.5 w-full cursor-pointer">
-                  <span>{item?.name}</span>
+                  <Link href={`${item?.slug}`}>{item?.name}</Link>
                   <ChevronDown
                     className={cn(
                       "size-4 text-[#008dd2] transition-transform duration-200 mt-px xl:mt-[2px]",

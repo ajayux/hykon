@@ -154,51 +154,9 @@ const localData = {
     },
     {
       id: 9,
-      hasSubmenu: true,
+      hasSubmenu: false,
       name: "Customer Care",
       slug: "/customer-care",
-      submenu: [
-        {
-          id: "9-1",
-          name: "Warranty & Complaints",
-          slug: "/customer-care/warranty-registration",
-        },
-        {
-          id: "9-2",
-          name: "Register Complaints",
-          slug: "/customer-care/register-complaints",
-        },
-        {
-          id: "9-3",
-          name: "Privacy Policy",
-          slug: "/customer-care/privacy-policy",
-        },
-        {
-          id: "9-4",
-          name: "Terms & Conditions",
-          slug: "/customer-care/terms-conditions",
-        },
-        {
-          id: "9-5",
-          name: "Return Policy",
-          slug: "/customer-care/return-policy",
-        },
-        {
-          id: "9-6",
-          name: "Shipping Policy",
-          slug: "/customer-care/shipping-policy",
-        },
-        {
-          id: "9-7",
-          name: "Investor Relations",
-          slug: "/customer-care/investor-relations",
-        },
-        {
-          id: "9-8",
-          name: "Categories",
-          slug: "/category",
-        },
-      ],
     },
   ],
   quickLinks: {

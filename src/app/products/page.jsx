@@ -4,6 +4,7 @@ import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
 import { API_BASE_URL } from "@/lib/api/constants";
+import { navigate } from "next/dist/client/components/segment-cache/navigation";
 
 export async function generateMetadata() {
   const {
@@ -174,6 +175,12 @@ export default async function ProductsPage({ searchParams }) {
     if (from) params.set("from", from);
     if (backup_capacity) params.set("backup_capacity", backup_capacity);
 
+
+    // if no paramms present then navigates to category page
+    if (!product_slugs.length && !backup_capacity && !from) {
+      navigate("/category");
+    }
+
     const res = await fetch(`${baseUrl}/api/products?${params}`);
 
     if (res.ok) {
@@ -197,10 +204,6 @@ export default async function ProductsPage({ searchParams }) {
   const parentPage = categorySlug && categoryTitle
     ? { label: categoryTitle, link: `category/${categorySlug}` }
     : null;
-
-
-    console.log("productSection", productSection?.productInfo)
-
 
   const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");
 

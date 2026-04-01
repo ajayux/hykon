@@ -370,7 +370,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       const url =
         page === "warranty"
           ? `${API_URL}/client-warranty-complaint`
-          : `${API_URL}/customer-care-enquiry`;
+          : `${API_URL}/client-warranty`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,
