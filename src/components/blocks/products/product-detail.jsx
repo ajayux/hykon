@@ -24,6 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Share2 } from "lucide-react";
 
 const opts = {
   width: "320",
@@ -174,8 +175,8 @@ export default function ProductDetail({ data, themeProps }) {
                           className={cn(
                             "w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border transition select-none",
                             index === selectedIndex
-                              ? " border-white"
-                              : "border-[#888]",
+                              ? " border-white border-[var(--theme-color)]"
+                              : "border-[#888] border-[var(--theme-border-20)]",
                             "bg-[var(--theme-bg)]",
                           )}
                         >
@@ -216,6 +217,8 @@ export default function ProductDetail({ data, themeProps }) {
                         <div
                           className={cn(
                             "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none cursor-pointer",
+                            "bg-[var(--theme-bg-alt)]",
+                            "border-[var(--theme-border-20)]",
                           )}
                         >
                           {item?.type === "video" ? (
@@ -337,8 +340,8 @@ export default function ProductDetail({ data, themeProps }) {
                     as="div"
                     size="p2"
                     className={cn(
-                      "leading-tight text-white bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full",
-                      "text-[var(--theme-fg)] bg-[var(--theme-color)]",
+                      "leading-tight bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full",
+                      "text-[var(--theme-fg)] text-white bg-[var(--theme-color)]",
                     )}
                   >
                     {data?.pricing?.formattedDiscountPercentage}
@@ -350,17 +353,18 @@ export default function ProductDetail({ data, themeProps }) {
                     variant="none"
                     onClick={() => setShareOpen(true)}
                     className={cn(
-                      "flex text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer",
+                      "flex text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer hover:scale-100 hover:translate-y-0",
                       "text-[var(--theme-fg-50)] hover:text-[var(--theme-color)]",
                     )}
                   >
-                    <Image
+                    {/* <Image
                       src={"/images/blog-share-icon.svg"}
                       alt={"icon-news-right"}
                       width={32}
                       height={32}
                       className="w-3 xl:w-4.5 2xl:w-5 3xl:w-6 block opacity-70"
-                    />
+                    /> */}
+                    <Share2 className="size-3 xl:size-4.5 2xl:size-5 3xl:size-6 block opacity-70 text-[var(--theme-fg-50)]" />
                     Share
                   </Button>
                 </div>
@@ -431,7 +435,7 @@ export default function ProductDetail({ data, themeProps }) {
                       variant="outline"
                       className={cn(
                         "min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] pl-4 xl:pl-5",
-                        "text-[var(--theme-fg)] bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
+                        "text-white bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
                       )}
                     >
                       Buy Now
@@ -441,14 +445,41 @@ export default function ProductDetail({ data, themeProps }) {
                           "border-[var(--theme-color)]",
                         )}
                       >
-                        <Image
+                        {/* <Image
                           src={"/images/icon-arrow-right-blue.svg"}
                           alt={"icon-arrow-right-blue"}
                           width={18}
                           height={13}
                           className="w-1/2"
                           unoptimized
-                        />
+                        /> */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="13"
+                          viewBox="0 0 18 13"
+                          fill="none"
+                          className="w-1/2"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M17.5 5.66016H0.000209808V7.16016H17.5V5.66016Z"
+                            fill="var(--theme-color)"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M16.7499 7.16005C13.2223 7.16005 10.3398 4.05791 10.3398 0.75V0H11.8398V0.75C11.8398 3.26158 14.0825 5.66005 16.7499 5.66005H17.5V7.16005H16.7499Z"
+                            fill="var(--theme-color)"
+                          />
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M16.7499 5.66016C13.2223 5.66016 10.3398 8.76226 10.3398 12.0702V12.8202H11.8398V12.0702C11.8398 9.55866 14.0825 7.16016 16.7499 7.16016H17.5V5.66016H16.7499Z"
+                            fill="var(--theme-color)"
+                          />
+                        </svg>
                       </div>
                     </Button>
                   </Link>
@@ -511,8 +542,8 @@ export default function ProductDetail({ data, themeProps }) {
                             !variant?.isAvailabile &&
                               "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
-                              "border-white/60 text-white pointer-events-none",
-                            "bg-[var(--theme-bg-alt)] border-[var(--theme-border-20-alt)] hover:bg-[var(--theme-color)] hover:text-[var(--theme-fg)]",
+                              "border-white/60 border-[var(--theme-color)] text-white pointer-events-none",
+                            "text-[var(--theme-fg-80)] bg-[var(--theme-bg-alt)] border-[var(--theme-border-20-alt)] hover:bg-[var(--theme-color)] hover:text-[var(--theme-fg)] hover:text-white",
                           )}
                           asChild={
                             variant?.isAvailabile &&
@@ -553,7 +584,7 @@ export default function ProductDetail({ data, themeProps }) {
                   className={cn(
                     "text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 rounded-none border-0 transition-all dark:data-[state=active]:text-[#008dd2] dark:text-white dark:hover:text-white hover:text-white dark:data-[state=active]:border-[#008dd2]",
                     "after:bg-white/40 data-[state=active]:after:bg-[#008dd2] data-[state=active]:text-white after:opacity-100",
-                    "text-[var(--theme-fg)] dark:text-[var(--theme-fg)] dark:hover:text-[var(--theme-fg)] dark:data-[state=active]:text-[var(--theme-color)] data-[state=active]:after:bg-[var(--theme-color)] data-[state=active]:text-[var(--theme-fg)] after:bg-[var(--theme-color)]/40",
+                    "text-[var(--theme-fg)] dark:text-[var(--theme-fg)] dark:hover:text-[var(--theme-fg)] hover:text-[var(--theme-fg)] dark:data-[state=active]:text-[var(--theme-color)] data-[state=active]:after:bg-[var(--theme-color)] data-[state=active]:text-[var(--theme-fg)] after:bg-[var(--theme-color)]/40",
                   )}
                 >
                   {tab?.label}
@@ -567,10 +598,16 @@ export default function ProductDetail({ data, themeProps }) {
                 className=""
               >
                 {tab?.id === 2 ? (
-                  <div className="w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6">
+                  <div
+                    className={cn(
+                      "w-full bg-[#262626] border border-[#424242] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] px-3 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 py-2 sm:py-3 xl:py-4 2xl:py-5 3xl:py-6",
+                      "bg-",
+                    )}
+                  >
                     <div
                       className={cn(
                         "typography [--text-color:#fff] [&_h5]:text-[#008dd2] [&_td:nth-child(odd)]:text-white/60",
+                        "[--text-color:var(--theme-fg)]",
                       )}
                     >
                       <ParsedContent html={tab?.description} />
@@ -580,6 +617,7 @@ export default function ProductDetail({ data, themeProps }) {
                   <div
                     className={cn(
                       "typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]",
+                      "[--text-color:var(--theme-fg)]",
                       themeProps?.defaultColor &&
                         "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
                     )}
@@ -627,7 +665,7 @@ export default function ProductDetail({ data, themeProps }) {
                   variant="outline"
                   className={cn(
                     "text-white min-w-[130px] xl:min-w-[150px] 2xl:min-w-[180px] 3xl:min-w-[215px] pl-4 xl:pl-5",
-                    "hover:bg-[var(--theme-color)]",
+                    "text-[var(--theme-fg)] hover:bg-[var(--theme-color)]",
                   )}
                   asChild
                 >
@@ -652,7 +690,11 @@ export default function ProductDetail({ data, themeProps }) {
                 </Button>
               ))}
           </div>
-          <Text as="div" size="p1" className="italic text-[#dedede]">
+          <Text
+            as="div"
+            size="p1"
+            className={cn("italic text-[#dedede]", "text-[var(--theme-fg-80)]")}
+          >
             {data?.deliveryInfo?.notes ??
               "*Courier Charges Extra. Conditions Apply."}
           </Text>
