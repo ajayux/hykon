@@ -69,7 +69,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function ComplaintRegistrationForm({ activeTab }) {
+export function ComplaintRegistrationForm({ activeTab, page }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -128,6 +128,8 @@ export function ComplaintRegistrationForm({ activeTab }) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) return;
+
+    console.log("activeTab", page)
     setIsSubmitting(true);
     try {
       const captchaToken = await executeRecaptcha("client_complaint");
@@ -143,7 +145,13 @@ export function ComplaintRegistrationForm({ activeTab }) {
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
       formData.append("captcha_key", captchaToken);
-      formData.append("form_slug", activeTab);
+    
+       if (page === "warranty") {
+        formData.append("type", activeTab);
+      } else {
+        formData.append("form_slug", activeTab);
+      }
+
       const res = await fetch(`${API_URL}/client-complaint`, {
         method: "POST",
         body: formData,

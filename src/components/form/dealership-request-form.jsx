@@ -108,7 +108,7 @@ export function DealershipRequestForm({ activeTab }) {
       formData.append("district_slug", data.district);
       formData.append("city", data.city);
       formData.append("pincode", data.pinCode);
-      formData.append("product_category_id", JSON.stringify(data.categories));
+      formData.append("product_categories", JSON.stringify(data.categories));
       formData.append("message", data.message);
       formData.append("captcha_key", captchaToken);
       formData.append("form_slug", activeTab);

@@ -4,6 +4,7 @@ import { Heading } from "@/components/utils/typography";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
+import { ComplaintRegistrationForm } from "@/components/form/complaint-registration-form";
 
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
@@ -61,14 +62,14 @@ export default function WarrantyFormInfo({ data }) {
           </div>
         </div>
         <div className="w-full">
-          {activeTab === "warranty-registration" ? (
+          {activeTab === "warranty" ? (
             <WarrantyRegistrationForm
               key={activeTab}
               page={"warranty"}
               activeTab={activeTab}
             />
           ) : (
-            <WarrantyRegistrationForm
+            <ComplaintRegistrationForm
               key={activeTab}
               page={"warranty"}
               activeTab={activeTab}
