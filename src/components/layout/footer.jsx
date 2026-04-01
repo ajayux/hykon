@@ -57,7 +57,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
             </Heading>
           </div>
         </div>
-        <hr className="border-[#414141] my-4 xl:my-8.5 2xl:my-10 3xl:my-12.5" />
+        <hr className="border-[#2e2e2e] my-4 xl:my-8.5 2xl:my-10 3xl:my-12.5" />
 
         <div className="flex flex-wrap -mx-1 sm:-mx-2 xl:-mx-3 [&>*]:p-1 sm:[&>*]:p-2 xl:[&>*]:px-3 max-lg:flex-col-reverse">
           {quickLinks && (
@@ -166,7 +166,9 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
                                 size="h5"
                                 className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
                               >
-                                <Link href={`/category/${item?.slug}`}>{item?.name}</Link>
+                                <Link href={`/category/${item?.slug}`}>
+                                  {item?.name}
+                                </Link>
                               </Heading>
                             </div>
                           ),
@@ -319,7 +321,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
         </div>
       </div>
 
-      <div className="w-full bg-black py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
+      <div className="w-full bg-[#1b1b1b] py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
         <div className="container opacity-95">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
@@ -328,7 +330,12 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {socialLinkData?.map((item, index) => (
                 <div key={"social_link" + index}>
-                  <Button variant="link" className="cursor-pointer" size="none" asChild>
+                  <Button
+                    variant="link"
+                    className="cursor-pointer"
+                    size="none"
+                    asChild
+                  >
                     <a href={item?.url} target="_blank" className="block">
                       <Image
                         src={item?.iconPath}
@@ -355,7 +362,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
                   alt="footer-author"
                   width={100}
                   height={20}
-                  className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline ml-1"
+                  className="w-[70px] sm:w-[50px] xl:w-[75px] 2xl:w-[85px] inline ml-1"
                   unoptimized
                 />
               </a>

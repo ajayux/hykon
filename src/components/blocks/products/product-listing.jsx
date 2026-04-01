@@ -81,8 +81,12 @@ function ProductGrid({ data }) {
     }
   }
 
-  const [items, setItems] = useState(data?.productInfo?.productItems?.data ?? []);
-  const [pagination, setPagination] = useState(data?.productInfo?.productItems?.pagination ?? {});
+  const [items, setItems] = useState(
+    data?.productInfo?.productItems?.data ?? [],
+  );
+  const [pagination, setPagination] = useState(
+    data?.productInfo?.productItems?.pagination ?? {},
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
   const prevSlugsRef = useRef(product_slugs.join(","));
@@ -115,7 +119,9 @@ function ProductGrid({ data }) {
       const res = await fetch(`${API_URL}/products?${params}`);
       if (res.ok) {
         const response = await res.json();
-        const result = response.data?.productSection?.productInfo || response.data?.productInfo;
+        const result =
+          response.data?.productSection?.productInfo ||
+          response.data?.productInfo;
         setItems((prev) => [...prev, ...(result?.productItems?.data ?? [])]);
         setPagination(result?.pagination ?? {});
       }
@@ -125,8 +131,6 @@ function ProductGrid({ data }) {
       setIsLoading(false);
     }
   }, [product_slugs.join(","), pagination.current_page, from]);
-
-
 
   const hasMore = pagination.current_page !== pagination.last_page;
 
@@ -142,7 +146,10 @@ function ProductGrid({ data }) {
       <div className="flex flex-wrap -mx-1 sm:-mx-2.5 xl:-mx-3.5 2xl:-mx-4.5 3xl:-mx-5.5 [&>div]:py-2 sm:[&>div]:py-2.5 xl:[&>div]:py-3 2xl:[&>div]:py-3.5 3xl:[&>div]:py-5 [&>div]:px-1 sm:[&>div]:px-2.5 xl:[&>div]:px-3.5 2xl:[&>div]:px-4.5 3xl:[&>div]:px-5.5">
         {isFiltering ? (
           [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div key={`sk-filter-${i}`} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
+            <div
+              key={`sk-filter-${i}`}
+              className="w-1/2 min-[468px]:w-1/3 md:w-1/4"
+            >
               <ProductCardSkeleton />
             </div>
           ))
@@ -150,12 +157,19 @@ function ProductGrid({ data }) {
           <>
             {items.map((item) => (
               <div key={item.id} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
-                <ProductCard item={item} variant="variant-1" onSelect={handleProductSelect} />
+                <ProductCard
+                  item={item}
+                  variant="variant-1"
+                  onSelect={handleProductSelect}
+                />
               </div>
             ))}
             {isLoading &&
               [1, 2, 3, 4].map((i) => (
-                <div key={`sk-${i}`} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
+                <div
+                  key={`sk-${i}`}
+                  className="w-1/2 min-[468px]:w-1/3 md:w-1/4"
+                >
                   <ProductCardSkeleton />
                 </div>
               ))}
@@ -215,7 +229,7 @@ export default function ProductListing({ data, from }) {
 
   return (
     <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
-      <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
+      <div className="container ">
         <div className="flex flex-wrap sm:gap-x-8 xl:gap-x-13 2xl:gap-x-15 3xl:gap-x-20">
           {!hideFilter && (
             <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
@@ -224,7 +238,13 @@ export default function ProductListing({ data, from }) {
                   <FilterCard data={data} />
                 </Suspense>
               </div>
-              <Sheet open={sheetOpen} onOpenChange={(open) => { if (!open) mobileFilterRef.current?.reset(); setSheetOpen(open); }}>
+              <Sheet
+                open={sheetOpen}
+                onOpenChange={(open) => {
+                  if (!open) mobileFilterRef.current?.reset();
+                  setSheetOpen(open);
+                }}
+              >
                 <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
                   <ListFilterPlus className="size-3 xl:size-4 text-white" />
                   FILTER

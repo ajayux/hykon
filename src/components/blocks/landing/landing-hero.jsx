@@ -31,7 +31,7 @@ export default function LandingHero({ data, isSidebarOpen }) {
             <div
               key={item?.id}
               className={cn(
-                "flex-[0_0_100%] min-w-0 lg:h-screen min-h-[576px] sm:min-h-[768px] lg:min-h-[520px] 2xl:min-h-[620px] 3xl:min-h-[768px] select-none relative z-0",
+                "flex-[0_0_100%] min-w-0 min-h-[320px] sm:min-h-[340px] lg:h-[368px] xl:h-[376px] 2xl:h-[455px] 3xl:h-[510px] select-none relative z-0",
               )}
             >
               <div className="w-full h-full absolute -z-1 inset-0">
@@ -71,7 +71,7 @@ export default function LandingHero({ data, isSidebarOpen }) {
                   <Heading
                     as="h2"
                     size="h1"
-                    className="text-[20px] sm:text-[22px] lg:text-[26px] 2xl:text-[32px] 3xl:text-[40px] font-semibold text-white mb-1 xl:mb-1.5 3xl:mb-2"
+                    className="text-[20px] sm:text-[22px] lg:text-[26px] 2xl:text-[32px] 3xl:text-[40px] leading-tight font-semibold text-white mb-1 xl:mb-1.5 3xl:mb-2"
                   >
                     {parse(item?.title)}
                   </Heading>
@@ -92,7 +92,7 @@ export default function LandingHero({ data, isSidebarOpen }) {
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}
-              className={`w-[6px] 2xl:w-[8px] h-auto aspect-square rounded-full border-1 border-[#FFFFFF]/60 transition-all duration-300 ${index === selectedIndex && "bg-white outline outline-2 outline-offset-2 outline-[#008DD2]"}`}
+              className={`w-[4px] 3xl:w-[6px] h-auto aspect-square rounded-full border-1 border-[#FFFFFF]/60 transition-all duration-300 ${index === selectedIndex && "bg-white outline outline-1 outline-offset-1 outline-[#008DD2]"}`}
             />
           ))}
         </div>

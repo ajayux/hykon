@@ -61,10 +61,11 @@ export default function AboutMilestones({ data }) {
 
                     <div
                       className={cn(
-                        "w-0.5 sm:w-[3px] lg:w-[5px] h-auto absolute z-1 inset-x-0 m-auto  group-hover:animate-bounce",
+                        "w-0.5 sm:w-[3px] lg:w-[5px] h-auto absolute z-1 inset-x-0 m-auto",
+                        // group-hover:animate-bounce",
                         i % 2 === 0
-                          ? "top-6/10 rotate-0"
-                          : "top-6/10 rotate-0 sm:bottom-6/10 sm:rotate-180",
+                          ? "top-[57%] rotate-180"
+                          : "top-[57%] sm:top-auto rotate-0 sm:bottom-[57%] sm:rotate-0",
                       )}
                     >
                       <Image

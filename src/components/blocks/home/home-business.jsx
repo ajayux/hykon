@@ -33,7 +33,7 @@ export default function HomeBusiness({ data }) {
               <Heading
                 as="div"
                 size="h6"
-                className="tracking-1 font-normal uppercase text-white mb-1 xl:mb-2.5 2xl:mb-4"
+                className="tracking-[0.4rem] font-normal uppercase text-white mb-1 xl:mb-2.5 2xl:mb-4"
               >
                 {data?.title}
               </Heading>

@@ -6,9 +6,11 @@ import parse from "html-react-parser";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
+import { useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AboutAwards({ awardData, certificationData }) {
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: false,
       align: "start",
@@ -17,6 +19,15 @@ export default function AboutAwards({ awardData, certificationData }) {
     },
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
   return (
     <section className="w-full block py-10 xl:py-17.5 2xl:py-21.5 3xl:py-25 bg-[#212121]">
       <div className="container">
@@ -39,12 +50,12 @@ export default function AboutAwards({ awardData, certificationData }) {
                   {parse(awardData?.description)}
                 </Text>
                 {awardData?.items && (
-                  <div className="w-full lg:max-w-8/12 2xl:max-w-9/12">
+                  <div className="w-full lg:max-w-9/12 2xl:max-w-10/12">
                     <div
                       ref={emblaRef}
-                      className="w-full max-w-full overflow-hidden"
+                      className="w-full max-w-full overflow-hidden relative z-0"
                     >
-                      <div className="flex touch-pan-y touch-pinch-zoom -mx-2 lg:-mx-6 [&>*]:p-2 lg:[&>*]:p-6">
+                      <div className="flex touch-pan-y touch-pinch-zoom -mx-2 lg:-mx-6 px-7 xl:px-8 2xl:px-9 3xl:px-10 [&>*]:p-2 lg:[&>*]:p-6">
                         {awardData?.items?.map((item) => (
                           <div
                             key={item?.id}
@@ -64,6 +75,16 @@ export default function AboutAwards({ awardData, certificationData }) {
                           </div>
                         ))}
                       </div>
+
+                      <div className="flex justify-between absolute z-2 top-1/2 left-0 right-0 -translate-y-1/2">
+                        <button onClick={scrollPrev} className="cursor-pointer">
+                          <ChevronLeft className="size-4 xl:size-5 text-white" />
+                        </button>
+
+                        <button onClick={scrollNext} className="cursor-pointer">
+                          <ChevronRight className="size-4 xl:size-5 text-white" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -80,7 +101,7 @@ export default function AboutAwards({ awardData, certificationData }) {
               >
                 {certificationData?.title}
               </Heading>
-              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-2 xl:[&_li]:my-3 2xl:[&_li]:my-4 [&_li]:list-image-[url('/images/li-check.svg')] [&_li]:marker:size-1.5 3xl:[&_li]:marker:size-2">
+              <div className="typography [--text-color:#fff] lg:[&_li]:text-[14px] 2xl:[&_li]:text-[16px] 3xl:[&_li]:text-[20px] [&_ul]:mt-6 2xl:[&_ul]:mt-8 3xl:[&_ul]:mt-10 [&_li]:pl-2 [&_li]:my-2 xl:[&_li]:my-3 2xl:[&_li]:my-4 [&_li]:relative [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:inset-y-0 [&_li]:before:-left-[15px] [&_li]:before:mt-[5px] xl:[&_li]:before:mt-[7px] [&_li]:before:size-2 [&_li]:before:rounded-full [&_li]:before:bg-[#008dd2] [&_li]:before:border-1 [&_li]:before:border-[#212121] [&_li]:before:stroke-1 [&_li]:before:outline-2 [&_li]:before:outline-[#008dd2] [&_li]:list-image-none">
                 {parse(certificationData?.description)}
               </div>
             </div>

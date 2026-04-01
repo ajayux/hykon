@@ -51,7 +51,7 @@ export default function NewsCard({ item, isLoading, variant = "news" }) {
             <Text
               as="div"
               size="p2"
-              className="line-clamp-3 font-normal text-white mb-1 xl:mb-2 3xl:mb-3"
+              className="line-clamp-3 xl:leading-[1.7] font-normal text-white mb-1 xl:mb-2 3xl:mb-3"
             >
               {parse(
                 item?.description ||

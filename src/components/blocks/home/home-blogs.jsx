@@ -32,7 +32,7 @@ export default function HomeBlogs({ data }) {
           "max-sm:pr-0 max-sm:[mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)] max-sm:[-webkit-mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)]",
         )}
       >
-        <div className="flex flex-wrap items-end gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15 max-sm:pr-4">
+        <div className="flex flex-wrap items-center gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15 max-sm:pr-4">
           <div className="flex-1">
             <Heading
               as="h2"
@@ -46,11 +46,11 @@ export default function HomeBlogs({ data }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-full justify-between pl-4 xl:pl-5"
+              className="text-white min-w-full justify-between"
               asChild
             >
               <Link href={"/blog"}>
-                View All
+                <span className="flex-1 text-center">View All</span>
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}

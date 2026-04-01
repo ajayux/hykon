@@ -8,7 +8,7 @@ import NewsCard from "@/components/common/news-card";
 import { useState, useCallback } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function NewsListing({ data,variant }) {
+export default function NewsListing({ data, variant }) {
   const [activeFilter, setActiveFilter] = useState(
     data?.filters?.[0]?.slug || "upcoming",
   );
@@ -97,7 +97,7 @@ export default function NewsListing({ data,variant }) {
         <div className="flex flex-wrap -mx-1 xl:-mx-[5px] 2xl:-mx-1.5 3xl:-mx-2">
           {isLoading && items.length === 0 ? (
             <>
-              < Skeleton />
+              <Skeleton />
               <NewsCardSkeleton />
               <NewsCardSkeleton />
             </>
@@ -107,7 +107,7 @@ export default function NewsListing({ data,variant }) {
                 key={item?.id}
                 className="w-full lg:w-1/3 p-1 xl:p-[5px] 2xl:p-1.5 3xl:p-2"
               >
-                <NewsCard item={item} variant={variant}/>
+                <NewsCard item={item} variant={variant} />
               </div>
             ))
           ) : (
@@ -171,7 +171,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             variant="none"
             disabled={isActive}
             className={cn(
-              "capitalize text-white p-0 relative z-0 transition-colors",
+              "capitalize text-white p-0 relative z-0 transition-colors disabled:opacity-100",
               isActive ? "text-white" : "text-white/50 hover:text-white",
             )}
           >

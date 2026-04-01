@@ -21,7 +21,7 @@ export default function FloatNavigation({ data = local_data }) {
   return (
     <div
       className={cn(
-        "fixed z-1 right-0 bottom-0 sm:bottom-10 xl:bottom-15 2xl:bottom-20 flex flex-row sm:flex-col max-sm:w-full bg-black sm:bg-white shadow-lg shadow-white/20 overflow-hidden",
+        "fixed z-1 right-0 bottom-0 sm:bottom-10 xl:bottom-15 2xl:bottom-20 flex flex-row sm:flex-col max-sm:w-full bg-black sm:bg-white shadow-sm shadow-black/20 overflow-hidden",
         "sm:p-1 xl:p-1.5 2xl:p-2 rounded-t-[6px] sm:rounded-t-none sm:rounded-l-[6px] 2xl:rounded-l-[8px]",
       )}
     >

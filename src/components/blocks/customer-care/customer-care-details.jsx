@@ -8,11 +8,10 @@ export default function CustomerCareDetails({ data }) {
     item.split(",").map((num) =>  num.trim()),
   );
 
-
   return (
     <section className="w-full h-auto block py-6 xl:py-8 2xl:py-10 3xl:py-11 bg-[#181818]">
       <div className="container">
-        <div className="w-full sm:bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] py-6 sm:p-6 lg:p-8 xl:p-11 2xl:p-13 3xl:p-16">
+        <div className="w-full sm:bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] py-6 sm:p-6 lg:p-8 xl:p-[44px_66px] 2xl:p-[58px_86px] 3xl:p-16">
           <Heading
             as="h2"
             size="h2"
@@ -117,7 +116,7 @@ export default function CustomerCareDetails({ data }) {
                           key={"locations" + index}
                           as="div"
                           size="p1"
-                          className="text-white w-full flex items-center gap-2 xl:gap-2.5 3xl:gap-3 my-2 xl:my-3 2xl:my-3.5 3xl:my-4"
+                          className="text-white/80 w-full flex items-center gap-2 xl:gap-2.5 3xl:gap-3 my-2 xl:my-3 2xl:my-3.5 3xl:my-4"
                         >
                           <Image
                             src="/images/icon-customer-loc.svg"
@@ -150,16 +149,15 @@ function ContactDetailsCard({ children, title, icon }) {
         size="p0"
         className="text-[15px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px] text-white flex gap-2 mb-2 2xl:mb-2.5"
       >
-        {
-          icon && 
-        <Image
-        src={icon ?? ""}
-        alt={title || "address"}
-        width={20}
-        height={20}
-        className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
-        />
-      }
+        {icon && (
+          <Image
+            src={icon ?? ""}
+            alt={title || "address"}
+            width={20}
+            height={20}
+            className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
+          />
+        )}
         {title || ""}
       </Text>
       {children}

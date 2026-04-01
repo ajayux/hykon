@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 // Heading Variants
 // ============================================================================
 
-const headingVariants = cva("leading-tight font-medium", {
+const headingVariants = cva("leading-tight font-medium tracking-[0.020rem]", {
   variants: {
     size: {
       h1: "text-[22px] sm:text-[28px] lg:text-[36.80px] 2xl:text-[44px] 3xl:text-[54px]",
@@ -26,20 +26,23 @@ const headingVariants = cva("leading-tight font-medium", {
 // Text Variants
 // ============================================================================
 
-const textVariants = cva("leading-normal font-normal tracking-[0.015rem]", {
-  variants: {
-    size: {
-      p0: "text-[15px] lg:text-[13px] 2xl:text-[15px] 3xl:text-[18px]",
-      // p0: "text-[15px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px]",
-      // p1: "text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[18px]",
-      p1: "text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[17px]",
-      p2: "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px]",
+const textVariants = cva(
+  "leading-normal xl:leading-[1.7] font-normal tracking-[0.020rem]",
+  {
+    variants: {
+      size: {
+        p0: "text-[15px] lg:text-[13px] 2xl:text-[15px] 3xl:text-[18px]",
+        // p0: "text-[15px] lg:text-[14px] 2xl:text-[16px] 3xl:text-[20px]",
+        // p1: "text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[18px]",
+        p1: "text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[17px]",
+        p2: "text-[12px] lg:text-[10px] 2xl:text-[12px] 3xl:text-[15px]",
+      },
+    },
+    defaultVariants: {
+      size: "p1",
     },
   },
-  defaultVariants: {
-    size: "p1",
-  },
-});
+);
 
 // ============================================================================
 // Heading Component
