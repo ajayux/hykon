@@ -35,7 +35,7 @@ const formSchema = z.object({
   city: commonValidations.requiredString("City"),
   pinCode: commonValidations.postalCode,
   categories: z.array(z.union([z.string(), z.number()])).min(1, "Please select at least one product category"),
-  message: commonValidations.requiredString("Message"),
+  message: commonValidations.message,
 });
 
 const inputClasses =

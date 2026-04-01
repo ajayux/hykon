@@ -38,7 +38,7 @@ const formSchema = z.object({
   country: commonValidations.dropDown("Country"),
   state: commonValidations.dropDown("State"),
   postalCode: commonValidations.postalCode,
-  website: commonValidations.optionalString,
+  website: commonValidations.optionalUrl,
   materialType: commonValidations.optionalString,
   gstin: commonValidations.requiredString("GSTIN"),
   annualTurnover: commonValidations.number,

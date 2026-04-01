@@ -311,6 +311,8 @@ export const commonValidations = {
           })
       ),
 
+
+      
   // ─── Optional String ─────────────────────────────────────────────────────────
   optionalString: z
     .string()
@@ -346,6 +348,31 @@ export const commonValidations = {
               "This field contains invalid content. Please enter valid text",
           },
         ),
+    ),
+
+  // ─── Optional URL ────────────────────────────────────────────────────────────
+  optionalUrl: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.trim() : val))
+    .pipe(
+      z
+        .string()
+        .optional()
+        .refine(
+          (val) =>
+            !val ||
+            /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i.test(
+              val,
+            ),
+          {
+            message:
+              "Please enter a valid URL starting with http:// or https://",
+          },
+        )
+        .refine((val) => !val || val.length <= 255, {
+          message: "URL is too long. Please keep it under 255 characters",
+        }),
     ),
 
   // ─── PDF Upload ──────────────────────────────────────────────────────────────
@@ -608,4 +635,27 @@ pdfUpload: (fieldName) =>
     .min(1, { message: `${value} is required` }),
 
   number: z.coerce.number( "Please enter a valid number"),
+
+  url: (value) =>
+    z
+      .string()
+      .transform((val) => val.trim())
+      .refine((val) => val.length > 0, {
+        message: `${value} is required`,
+      })
+      .refine((val) => !/^\s+$/.test(val), {
+        message: `${value} cannot be just spaces. Please enter a valid URL`,
+      })
+      .refine(
+        (val) =>
+          /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i.test(
+            val,
+          ),
+        {
+          message: `Please enter a valid URL (e.g. https://www.example.com)`,
+        },
+      )
+      .refine((val) => val.length <= 255, {
+        message: `${value} is too long. Please keep it under 255 characters`,
+      }),
 };

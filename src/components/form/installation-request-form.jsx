@@ -43,7 +43,7 @@ const formSchema = z.object({
   name: commonValidations.name("Name"),
   email: commonValidations.email,
   phone: commonValidations.phone("Phone Number"),
-  address: commonValidations.textBox("Address"),
+  address: commonValidations.requiredString("Address"),
   state: commonValidations.dropDown("State"),
   district: commonValidations.dropDown("District"),
   city: commonValidations.requiredString("City"),
@@ -56,9 +56,9 @@ const formSchema = z.object({
   productVariant: commonValidations.optionalDropdown,
   dateOfPurchase: dateValidation,
   dealerName: commonValidations.name("Dealer Name"),
-  dealerAddress: commonValidations.textBox("Dealer Address"),
+  dealerAddress: commonValidations.requiredString("Dealer Address"),
   dealerContact: commonValidations.phone("Dealer Contact Number"),
-  message: commonValidations.requiredString("Message"),
+  message: commonValidations.message,
 });
 
 const inputClasses =
