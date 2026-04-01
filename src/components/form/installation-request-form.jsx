@@ -49,6 +49,7 @@ const formSchema = z.object({
   city: commonValidations.requiredString("City"),
   pinCode: commonValidations.postalCode,
   invoiceDate: dateValidation,
+  invoiceNumber: commonValidations.requiredString("Invoice Number"),
   serialNumber: commonValidations.requiredString("Product Serial Number"),
   category: commonValidations.dropDown("Product Category"),
   product: commonValidations.dropDown("Product"),
@@ -136,6 +137,7 @@ export function InstallationRequestForm({ activeTab }) {
       city: "",
       pinCode: "",
       invoiceDate: "",
+      invoiceNumber: "",
       serialNumber: "",
       category: "",
       product: "",
@@ -163,6 +165,7 @@ export function InstallationRequestForm({ activeTab }) {
       formData.append("city", data.city);
       formData.append("pincode", data.pinCode);
       formData.append("invoice_date", data.invoiceDate);
+      formData.append("invoice_number", data.invoiceNumber);
       formData.append("serial_number", data.serialNumber);
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
@@ -263,6 +266,10 @@ export function InstallationRequestForm({ activeTab }) {
               placeholder: "Invoice Date*",
               type: "date",
               max: today,
+            },
+             {
+              name: "invoiceNumber",
+              placeholder: "Invoice Number*",
             },
             { name: "serialNumber", placeholder: "Product Serial Number*" },
             {

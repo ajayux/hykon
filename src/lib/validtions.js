@@ -297,9 +297,6 @@ export const commonValidations = {
           .refine((val) => val.length <= VALIDATION_CONFIG.place.maxLength, {
             message: `${value} is too long. Please keep it under ${VALIDATION_CONFIG.place.maxLength} characters`,
           })
-          .refine((val) => !/[0-9]/.test(val), {
-            message: `${value} should not contain numbers. Please enter a valid ${value}`,
-          })
           .refine((val) => !/[@#!$%^&*_+=\[\]{};:",.<>?/\\|`~]/.test(val), {
             message: `${value} contains invalid characters. Please enter a valid ${value}`,
           })
@@ -312,9 +309,6 @@ export const commonValidations = {
           .refine((val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b)/i.test(val), {
             message: `${value} contains invalid content. Please enter a valid ${value}`,
           })
-          .refine((val) => /^[\p{L} '\-,\.]+$/u.test(val), {
-            message: `${value} can only contain letters, spaces, hyphens, apostrophes, commas, and periods`,
-          }),
       ),
 
   // ─── Optional String ─────────────────────────────────────────────────────────

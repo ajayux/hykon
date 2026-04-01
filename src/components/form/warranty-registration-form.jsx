@@ -367,10 +367,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         "captcha_key",
         page === "warranty" ? warrantyRecaptchaToken : recaptchaToken,
       );
-      const url =
-        page === "warranty"
-          ? `${API_URL}/client-warranty-complaint`
-          : `${API_URL}/client-warranty`;
+      const url = `${API_URL}/client-warranty`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,
