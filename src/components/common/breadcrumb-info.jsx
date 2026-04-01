@@ -71,7 +71,10 @@ export default function BreadcrumbInfo({
         >
           <BreadcrumbList className={"sm:gap-x-3"}>
             <BreadcrumbItem>
-              <BreadcrumbLink className="text-[var(--theme-fg)]" href="/">
+              <BreadcrumbLink
+                className="text-[var(--theme-fg)] hover:text-[var(--theme-color)]"
+                href="/"
+              >
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -82,7 +85,7 @@ export default function BreadcrumbInfo({
               <>
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="text-[var(--theme-fg)]"
+                    className="text-[var(--theme-fg)] hover:text-[var(--theme-color)]"
                     href={`/${grandParentPage?.link}`}
                   >
                     {grandParentPage?.label}
@@ -97,7 +100,7 @@ export default function BreadcrumbInfo({
               <>
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="text-[var(--theme-fg)]"
+                    className="text-[var(--theme-fg)] hover:text-[var(--theme-color)]"
                     href={`/${parentPage?.link}`}
                   >
                     {parentPage?.label}
@@ -112,7 +115,7 @@ export default function BreadcrumbInfo({
               <>
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="text-[var(--theme-fg)]"
+                    className="text-[var(--theme-fg)] hover:text-[var(--theme-color)]"
                     href={`/${page?.link}`}
                   >
                     {page?.label}

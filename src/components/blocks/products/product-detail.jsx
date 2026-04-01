@@ -439,7 +439,7 @@ export default function ProductDetail({ data, themeProps }) {
                       )}
                     >
                       Buy Now
-                      <div
+                      <span
                         className={cn(
                           "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
                           "border-[var(--theme-color)]",
@@ -459,7 +459,7 @@ export default function ProductDetail({ data, themeProps }) {
                           height="13"
                           viewBox="0 0 18 13"
                           fill="none"
-                          className="w-1/2"
+                          className="size-1/2"
                         >
                           <path
                             fill-rule="evenodd"
@@ -480,7 +480,7 @@ export default function ProductDetail({ data, themeProps }) {
                             fill="var(--theme-color)"
                           />
                         </svg>
-                      </div>
+                      </span>
                     </Button>
                   </Link>
                 )}
