@@ -6,7 +6,7 @@ import NotFound from "../not-found";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("news-events");
+    await getMetaData("service");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
