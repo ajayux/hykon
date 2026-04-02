@@ -25,9 +25,9 @@ import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-const dateValidation = z
+const dateValidation = (value)=> z
   .string()
-  .min(1, "Date is required")
+  .min(1, `${value} is required`)
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date (YYYY-MM-DD)")
   .refine(
     (val) => !isNaN(new Date(val).getTime()),
@@ -36,7 +36,7 @@ const dateValidation = z
   .refine((val) => new Date(val) <= new Date(), "Date cannot be in the future")
   .refine(
     (val) => new Date(val) >= new Date("1900-01-01"),
-    "Please enter a valid date",
+    `Please enter a valid ${value}`,
   );
 
 const formSchema = z.object({
@@ -48,13 +48,13 @@ const formSchema = z.object({
   district: commonValidations.dropDown("District"),
   city: commonValidations.requiredString("City"),
   pinCode: commonValidations.postalCode,
-  invoiceDate: dateValidation,
+  invoiceDate: dateValidation("Invoice Date"),
   invoiceNumber: commonValidations.requiredString("Invoice Number"),
   serialNumber: commonValidations.requiredString("Product Serial Number"),
   category: commonValidations.dropDown("Product Category"),
   product: commonValidations.dropDown("Product"),
   productVariant: commonValidations.optionalDropdown,
-  dateOfPurchase: dateValidation,
+  dateOfPurchase: dateValidation("Date of Purchase"),
   dealerName: commonValidations.name("Dealer Name"),
   dealerAddress: commonValidations.requiredString("Dealer Address"),
   dealerContact: commonValidations.phone("Dealer Contact Number"),
