@@ -96,6 +96,7 @@ function HeaderContent({ data, navigationData, socialLinkData, mobileMenuData })
                   height={70}
                   className="w-full h-full block object-contain"
                   priority
+                  fetchpriority="high"
                   unoptimized
                 />
               </Link>
