@@ -30,6 +30,7 @@ export default function HeaderSheet({
         <Button
           variant="none"
           size="none"
+          aria-label="Toggle Menu"
           className="w-10 lg:w-12 xl:w-11 2xl:w-13.5 3xl:w-16 aspect-square flex items-center justify-center rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] bg-[#008dd2] hover:scale-100"
         >
           <div className="w-4 xl:w-4.5 2xl:w-5 3xl:w-7 flex flex-col gap-1 3xl:gap-1.5">

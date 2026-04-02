@@ -149,7 +149,7 @@ export default function PowerCalculation({ data, appliances }) {
                                       val,
                                     )
                                   }
-                                  value={row.power}
+                                  value={row.power || undefined}
                                 >
                                   <SelectTrigger
                                     className={cn(
@@ -161,11 +161,13 @@ export default function PowerCalculation({ data, appliances }) {
                                   </SelectTrigger>
                                   <SelectContent className="bg-white">
                                     <SelectGroup>
-                                      {item?.powerOptions?.map((opt) => (
-                                        <SelectItem key={opt} value={opt}>
-                                          {isNaN(Number(opt)) ? opt : opt + "W"}
-                                        </SelectItem>
-                                      ))}
+                                      {item?.powerOptions
+                                        ?.filter((opt) => opt === row.power || !item.rows.some((r) => r.power === opt))
+                                        .map((opt) => (
+                                          <SelectItem key={opt} value={opt}>
+                                            {isNaN(Number(opt)) ? opt : opt + "W"}
+                                          </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                   </SelectContent>
                                 </Select>
@@ -175,7 +177,8 @@ export default function PowerCalculation({ data, appliances }) {
                                     onClick={() => handleAddItem(itemIndex)}
                                     size="lg"
                                     variant="outline"
-                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0"
+                                    disabled={item.rows.length >= (item.powerOptions?.length || 0)}
+                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                                   >
                                     <Plus className="size-4" />
                                   </Button>
