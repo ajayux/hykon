@@ -143,8 +143,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
-    staleTime: 1000 * 60 * 60, // 1 hour
-    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: products = [], isLoading: productsLoading } = useQuery({
@@ -154,8 +152,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         (r) => r.data,
       ),
     enabled: !!selectedCategory,
-    staleTime: 1000 * 60 * 30, // 30 minutes
-    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: variants = [], isLoading: variantsLoading } = useQuery({
@@ -165,15 +161,11 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         (r) => r.data,
       ),
     enabled: !!selectedProduct,
-    staleTime: 1000 * 60 * 30, // 30 minutes
-    gcTime: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
     queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
-    staleTime: 1000 * 60 * 60 * 24,
-    gcTime: 1000 * 60 * 60 * 24,
   });
 
   const { data: billingDistricts = [], isLoading: billingDistrictsLoading } =
@@ -184,8 +176,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
           (r) => r.data,
         ),
       enabled: !!selectedBillingState,
-      staleTime: 1000 * 60 * 60, // 1 hour
-      gcTime: 1000 * 60 * 60 * 2, // 2 hours
     });
 
   const {
@@ -198,9 +188,9 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
         (r) => r.data,
       ),
     enabled: !!selectedInstallationState,
-    staleTime: 1000 * 60 * 60, // 1 hour
-    gcTime: 1000 * 60 * 60 * 2, // 2 hours
   });
+
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),

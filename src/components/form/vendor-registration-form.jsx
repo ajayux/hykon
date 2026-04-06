@@ -62,10 +62,7 @@ export function VendorRegistrationForm() {
 
   const { data: countries = [], isLoading: countriesLoading } = useQuery({
     queryKey: ["countries"],
-    queryFn: () =>
-      apiClient("/country", { cache: "force-cache" }).then((res) => res.data),
-    staleTime: 1000 * 60 * 60 * 24 * 30, // 24 hours — countries rarely change
-    gcTime: 1000 * 60 * 60 * 24 * 30,
+    queryFn: () => apiClient("/country").then((res) => res.data),
   });
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
@@ -371,8 +368,8 @@ function FormBlock({ item, form, isSubmitting }) {
               <SelectContent className="bg-white">
                 <SelectGroup>
                   {item.options.map((opt) => (
-                    <SelectItem key={opt.slug} value={opt.slug}>
-                      {opt.name}
+                    <SelectItem key={opt?.slug} value={opt?.slug}>
+                      {opt?.title || opt?.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>
