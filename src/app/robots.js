@@ -4,7 +4,7 @@ export default function robots() {
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
+      disallow: '/',
     },
     sitemap: 'https://hykon-beta-ux.netlify.app/sitemap.xml',
   }

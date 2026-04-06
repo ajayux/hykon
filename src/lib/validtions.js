@@ -227,54 +227,95 @@ export const commonValidations = {
         }),
     ),
 
-  // ─── Message ─────────────────────────────────────────────────────────────────
+ 
+ 
+
+  // ─── Optional Message ────────────────────────────────────────────────────────
   message: z
     .string()
-    .transform((val) => val.trim())
     .optional()
+    .transform((val) => (val ? val.trim() : val))
     .pipe(
       z
         .string()
-        .refine((val) => !/^[\s\t\n]+$/.test(val), {
+        .optional()
+        .refine(
+          (val) => !val || val.length >= VALIDATION_CONFIG.message.minLength,
+          {
+            message: `This field is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
+          },
+        )
+        .refine(
+          (val) => !val || val.length <= VALIDATION_CONFIG.message.maxLength,
+          {
+            message: `This field is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength} characters`,
+          },
+        )
+        // Must contain actual words (not just symbols/numbers)
+        .refine((val) => !val || /\p{L}{2,}/u.test(val), {
           message:
-            "Message cannot be just spaces or blank lines. Please enter some text",
+            "This field must contain actual words. Please write a meaningful message",
         })
-        .refine((val) => val.length >= VALIDATION_CONFIG.message.minLength, {
-          message: `Message is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
-        })
-        .refine((val) => val.length <= VALIDATION_CONFIG.message.maxLength, {
-          message: `Message is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength.toLocaleString()} characters`,
-        })
-        .refine((val) => !/^[@#!$%^&*()]+$/.test(val), {
+        // Excessive repeated characters e.g. "AAAAAAA..." or "!!!!!!!"
+        .refine((val) => !val || !/(.)\1{9,}/.test(val), {
           message:
-            "Message cannot contain only special characters. Please enter a meaningful message",
+            "This field contains excessive repeated characters. Please enter a valid message",
         })
-        .refine((val) => !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val), {
-          message:
-            "Message contains invalid content. Please enter a valid message",
-        })
-        .refine((val) => !/<img[\s\S]*?onerror=/i.test(val), {
-          message:
-            "Message contains invalid content. Please enter a valid message",
-        })
-        .refine((val) => !/<\s*iframe/i.test(val), {
-          message:
-            "Message contains invalid content. Please enter a valid message",
-        })
-        .refine((val) => !/\{\{.*constructor.*\}\}/i.test(val), {
-          message:
-            "Message contains invalid content. Please enter a valid message",
-        })
+        // XSS: <script> tags
         .refine(
           (val) =>
-            !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bTABLE\b)/i.test(
+            !val || !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
+          {
+            message:
+              "This field contains invalid content. Please enter a valid message",
+          },
+        )
+        // XSS: <img onerror>
+        .refine((val) => !val || !/<img[\s\S]*?onerror=/i.test(val), {
+          message:
+            "This field contains invalid content. Please enter a valid message",
+        })
+        // XSS: <iframe>
+        .refine((val) => !val || !/<\s*iframe/i.test(val), {
+          message:
+            "This field contains invalid content. Please enter a valid message",
+        })
+        // XSS: javascript: protocol
+        .refine((val) => !val || !/javascript\s*:/i.test(val), {
+          message:
+            "This field contains invalid content. Please enter a valid message",
+        })
+        // XSS: on* event handlers e.g. onclick=, onload=
+        .refine((val) => !val || !/\bon\w+\s*=/i.test(val), {
+          message:
+            "This field contains invalid content. Please enter a valid message",
+        })
+        // Template injection: {{...constructor...}}
+        .refine(
+          (val) =>
+            !val || !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
+          {
+            message:
+              "This field contains invalid content. Please enter a valid message",
+          },
+        )
+        // SQL injection
+        .refine(
+          (val) =>
+            !val ||
+            !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bTABLE\b|\bFROM\b|\bWHERE\b)/i.test(
               val,
             ),
           {
             message:
-              "Message contains invalid content. Please enter a valid message",
+              "This field contains invalid content. Please enter a valid message",
           },
-        ),
+        )
+        // Null bytes
+        .refine((val) => !val || !/\x00/.test(val), {
+          message:
+            "This field contains invalid characters. Please enter a valid message",
+        }),
     ),
 
   // ─── Place ───────────────────────────────────────────────────────────────────
@@ -635,6 +676,15 @@ pdfUpload: (fieldName) =>
     .min(1, { message: `${value} is required` }),
 
   number: z.coerce.number( "Please enter a valid number"),
+
+
+  
+  gstin: z.
+  string()
+  // only accept strings from a-z, A-Z, numbers
+  .regex(/^[A-Za-z0-9]{15}$/, {
+    message: "Please enter a valid GSTIN number",
+  }),
 
   url: (value) =>
     z

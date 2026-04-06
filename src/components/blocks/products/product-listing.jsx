@@ -123,7 +123,7 @@ function ProductGrid({ data }) {
           response.data?.productSection?.productInfo ||
           response.data?.productInfo;
         setItems((prev) => [...prev, ...(result?.productItems?.data ?? [])]);
-        setPagination(result?.pagination ?? {});
+        setPagination(result?.productItems?.pagination ?? {});
       }
     } catch (error) {
       console.error("Error loading more products:", error);
@@ -204,7 +204,7 @@ function ProductGrid({ data }) {
             onClick={fetchMore}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Load More"}
+            {isLoading ? "" : "Load More"}
             {!isLoading && (
               <Image
                 src={"/images/icon-news-right.svg"}

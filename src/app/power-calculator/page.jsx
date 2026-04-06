@@ -23,23 +23,6 @@ export async function generateMetadata() {
   };
 }
 
-// const localData = {
-//   formSections: {
-//     title: "Power Calculator",
-//     calculatorTitle: "Your approximate power need is",
-//     calculatorDescription:
-//       "to find out the best products that match your needs",
-//     calculatorNote:
-//       "<p>*The consumption data derived are based on approximate calculations. Please contact our customer care for more details.</p>",
-//   },
-//   metaTag: {
-//     id: 12,
-//     meta_title: "Power Calculator",
-//     meta_description: null,
-//     meta_keywords: null,
-//     other_meta_tags: null,
-//   },
-// };
 
 export default async function PowerCalculatorPage() {
   let pageData = null;

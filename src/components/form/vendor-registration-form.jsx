@@ -40,10 +40,10 @@ const formSchema = z.object({
   postalCode: commonValidations.postalCode,
   website: commonValidations.optionalUrl,
   materialType: commonValidations.optionalString,
-  gstin: commonValidations.requiredString("GSTIN"),
+  gstin: commonValidations.gstin,
   annualTurnover: commonValidations.number,
   companyProfile: commonValidations.file("Company Profile"),
-  additionalComments: commonValidations.optionalString,
+  additionalComments: commonValidations.message,
   referredBy: commonValidations.optionalString,
 });
 
@@ -265,7 +265,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*, .pdf, .doc"
+                  accept=".png, .jpg"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />

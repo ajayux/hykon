@@ -339,8 +339,8 @@ export function ContactEnquiryForm() {
       <Controller
         name="message"
         control={form.control}
-        render={({ field }) => (
-          <Field>
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
             <FieldLabel className="sr-only">Message</FieldLabel>
             <Textarea
               {...field}
@@ -351,6 +351,9 @@ export function ContactEnquiryForm() {
               )}
               disabled={isSubmitting}
             />
+            {fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} className={errorClass} />
+            )}
           </Field>
         )}
       />

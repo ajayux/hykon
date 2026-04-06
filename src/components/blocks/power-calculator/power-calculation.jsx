@@ -25,7 +25,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
@@ -41,6 +40,8 @@ export default function PowerCalculation({ data, appliances }) {
       rows: [{ id: index + 1, power: "", count: "" }],
     })),
   );
+  const [invalidRows, setInvalidRows] = useState(new Set());
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -72,6 +73,42 @@ export default function PowerCalculation({ data, appliances }) {
     const newItems = [...items];
     newItems[itemIndex].rows[rowIndex][field] = value;
     setItems(newItems);
+
+    if (field === "count") {
+      setInvalidRows((prev) => {
+        const next = new Set(prev);
+        next.delete(newItems[itemIndex].rows[rowIndex].id);
+        return next;
+      });
+    }
+  };
+
+  const handleClickHere = () => {
+    const errorIds = new Set();
+    items.forEach((item) => {
+      item.rows.forEach((row) => {
+        if (row.power && !row.count) {
+          errorIds.add(row.id);
+        }
+      });
+    });
+
+    setInvalidRows(errorIds);
+
+    if (errorIds.size > 0) {
+      return;
+    }
+
+
+    setInvalidRows(new Set());
+
+    if (totalVA > 0) {
+      router.push(
+        `/products?backup_capacity=${totalVA}&from=power_calculator`,
+      );
+    } else {
+      setDialogOpen(true);
+    }
   };
 
   return (
@@ -226,6 +263,7 @@ export default function PowerCalculation({ data, appliances }) {
                                   className={cn(
                                     inputClasses,
                                     "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRows.has(row.id) && "border-red-500",
                                   )}
                                 />
                               </motion.div>
@@ -264,30 +302,15 @@ export default function PowerCalculation({ data, appliances }) {
               >
                 {data?.calculatorDescription}
               </Text>
-              {totalVA > 0 ? (
-                <Button
-                  onClick={() =>
-                    router.push(
-                      `/products?backup_capacity=${totalVA}&from=power_calculator`,
-                    )
-                  }
-                  size="lg"
-                  variant="outline"
-                  className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
-                >
-                  Click Here
-                </Button>
-              ) : (
-                <PowerDialog>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
-                  >
-                    Click Here
-                  </Button>
-                </PowerDialog>
-              )}
+              <Button
+                onClick={handleClickHere}
+                size="lg"
+                variant="outline"
+                className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
+              >
+                Click Here
+              </Button>
+              <PowerDialog open={dialogOpen} onOpenChange={setDialogOpen} />
               <div className="text-[12px] lg:text-[10px] 2xl:text-[11px] 3xl:text-[14px] leading-normal font-light italic text-white/80">
                 {parse(data?.calculatorNote)}
               </div>
@@ -299,10 +322,9 @@ export default function PowerCalculation({ data, appliances }) {
   );
 }
 
-function PowerDialog({ children }) {
+function PowerDialog({ open, onOpenChange }) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={
           "xl:max-w-[480px] 2xl:max-w-[576px] 3xl:max-w-[680px] bg-[#212121] py-8 sm:py-10 xl:py-14 2xl:py-16 3xl:py-20 px-4 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"

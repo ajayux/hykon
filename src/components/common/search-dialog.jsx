@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+
 import { SearchIcon, ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import {
@@ -36,7 +36,7 @@ function getHref(suggestion) {
       return `/projects/${suggestion.slug}`;
 
     default:
-      return `/volt-search?q=${encodeURIComponent(suggestion.title)}`;
+      return `/?q=${encodeURIComponent(suggestion.title)}`;
   }
 }
 
@@ -46,7 +46,6 @@ export default function SearchDialog({ children }) {
   const [suggestions, setSuggestions] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const debounceRef = useRef(null);
-  const router = useRouter();
 
   useEffect(() => {
     const trimmed = query.trim();
@@ -94,9 +93,6 @@ export default function SearchDialog({ children }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!query.trim()) return;
-    setOpen(false);
-    router.push(`/volt-search?q=${encodeURIComponent(query.trim())}`);
   };
 
   const isTyping = query.trim().length >= 2;

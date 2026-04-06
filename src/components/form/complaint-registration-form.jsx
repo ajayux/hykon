@@ -57,7 +57,7 @@ const formSchema = z.object({
     }, "Please enter a valid invoice date"),
   invoiceNumber: commonValidations.requiredString("Invoice Number"),
   phone: commonValidations.phone("Phone Number"),
-  message: commonValidations.requiredString("Message"),
+  message: commonValidations.message,
 });
 
 const labelClasses =
