@@ -88,7 +88,7 @@ export default function HomeBusiness({ data }) {
                             <Heading
                               as="h3"
                               size="none"
-                              className="text-[12px] sm:text-[14px] xl:text-[15px] 2xl:text-[17px] 3xl:text-[22px] leading-tight font-normal line-clamp-2 text-white max-w-8/10 lg:max-w-6/10"
+                              className="text-[12px] sm:text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[21px] leading-tight font-normal line-clamp-2 text-white max-w-8/10 lg:max-w-6/10"
                             >
                               {item?.title}
                             </Heading>

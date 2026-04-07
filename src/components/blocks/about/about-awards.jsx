@@ -76,7 +76,14 @@ export default function AboutAwards({ awardData, certificationData }) {
                         ))}
                       </div>
 
-                      <div className="flex justify-between absolute z-2 top-1/2 left-0 right-0 -translate-y-1/2">
+                      <div
+                        className={cn(
+                          "flex justify-between absolute z-2 top-1/2 left-0 right-0 -translate-y-1/2",
+                          awardData?.items?.length <= 4
+                            ? "invisible"
+                            : "visible",
+                        )}
+                      >
                         <button onClick={scrollPrev} className="cursor-pointer">
                           <ChevronLeft className="size-4 xl:size-5 text-white" />
                         </button>

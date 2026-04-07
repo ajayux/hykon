@@ -61,7 +61,7 @@ export default function HomeHero({ data }) {
       <div className="absolute z-1 inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
       <div className="absolute z-2 bottom-0 inset-x-0 container min-[1200px]:max-w-[1200px] min-[1408px]:max-w-[1408px] min-[1576px]:max-w-[1576px] min-[1720px]:max-w-[1720px] flex justify-end pb-4 lg:pb-12.5 2xl:pb-15 3xl:pb-19">
-        <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-2 xl:py-3 2xl:py-4.5 3xl:py-5 px-4 xl:px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
+        <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-2 xl:py-3 2xl:py-3.5 3xl:py-4 px-4 xl:px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
           <div className="pl-2 2xl:pl-2.5 3xl:pl-3 pr-5 2xl:pr-6 3xl:pr-7.5">
             <Text as="p" size="p2" className="text-white">
               {data?.contactInfo?.title}
