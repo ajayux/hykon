@@ -39,6 +39,19 @@ const VALIDATION_CONFIG = {
     maxSizeMB: 5, // adjust as needed
   },
 
+  contactEnquiryUpload: {
+    allowedTypes: [
+      "application/pdf", // .pdf
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "image/jpeg", // .jpg / .jpeg
+      "image/jpg",
+      "image/png", // .png
+    ],
+    allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
+    maxSizeMB: 5,
+  },
+
   quoteDocUpload: {
     allowedTypes: ["application/pdf", "image/jpg"],
     allowedExtensions: [".pdf", ".jpg"],
@@ -458,6 +471,48 @@ export const commonValidations = {
           file.size <= VALIDATION_CONFIG.file.maxSizeMB * 1024 * 1024,
         {
           message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.file.maxSizeMB}MB`,
+        },
+      ),
+
+  // ─── Contact Enquiry File Upload ─────────────────────────────────────────────
+  contactEnquiryFile: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.contactEnquiryUpload.allowedTypes.includes(
+            file.type,
+          ),
+        {
+          message: "Only PDF, DOC, DOCX, JPG, and PNG files are allowed",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.contactEnquiryUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        {
+          message:
+            "File must have a .pdf, .doc, .docx, .jpg, or .png extension",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <=
+            VALIDATION_CONFIG.contactEnquiryUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.contactEnquiryUpload.maxSizeMB}MB`,
         },
       ),
 

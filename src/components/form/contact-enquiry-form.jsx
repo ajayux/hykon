@@ -41,7 +41,7 @@ const formSchema = z.object({
   email: commonValidations.email,
   productCategory: commonValidations.dropDown("Product Category"),
   requirement: commonValidations.dropDown("Requirement"),
-  attachment: commonValidations.file("file"),
+  attachment: commonValidations.contactEnquiryFile("file"),
   message: commonValidations.message,
 });
 
