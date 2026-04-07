@@ -30,20 +30,7 @@ const securityHeaders = [
     value: "1; mode=block",
   },
   // ✅ Content Security Policy — most important header
-  {
-    key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // tighten in prod
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self'",
-      "connect-src 'self' https://beta.hykon.dev14.intersmarthosting.in https://www.google.com https://www.gstatic.com",
-      "frame-ancestors 'none'",       // blocks iframe embedding
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join("; "),
-  },
+  // 
 ];
 
 /** @type {import('next').NextConfig} */
