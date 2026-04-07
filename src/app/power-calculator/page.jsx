@@ -45,12 +45,12 @@ export default async function PowerCalculatorPage() {
     notFound();
   }
 
-  const { formSections, appliances } = pageData;
+  const { formSections, appliances, highestPower } = pageData;
 
   return (
     <div className="w-full bg-[#202020] pt-(--header-y-sm) lg:pt-(--header-y-lg) 2xl:pt-(--header-y-2xl) 3xl:pt-(--header-y-3xl)">
       <BreadcrumbInfo slug="Power Calculator" />
-      <PowerCalculation data={formSections} appliances={appliances} />
+      <PowerCalculation data={formSections} appliances={appliances} highestPower={highestPower} />
     </div>
   );
 }

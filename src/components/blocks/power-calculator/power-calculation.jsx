@@ -31,7 +31,7 @@ import Link from "next/link";
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
-export default function PowerCalculation({ data, appliances }) {
+export default function PowerCalculation({ data, appliances, highestPower }) {
   const router = useRouter();
   const [items, setItems] = useState(() =>
     (appliances || []).map((appliance, index) => ({
@@ -99,15 +99,16 @@ export default function PowerCalculation({ data, appliances }) {
       return;
     }
 
-
     setInvalidRows(new Set());
 
     if (totalVA > 0) {
-      router.push(
-        `/products?backup_capacity=${totalVA}&from=power_calculator`,
-      );
-    } else {
-      setDialogOpen(true);
+      if (!highestPower || totalVA <= parseFloat(highestPower)) {
+        router.push(
+          `/products?backup_capacity=${totalVA}&from=power_calculator`,
+        );
+      } else {
+        setDialogOpen(true);
+      }
     }
   };
 
@@ -214,7 +215,7 @@ export default function PowerCalculation({ data, appliances }) {
                                     onClick={() => handleAddItem(itemIndex)}
                                     size="lg"
                                     variant="outline"
-                                    disabled={item.rows.length >= (item.powerOptions?.length || 0)}
+                                    disabled={item.rows.length >= (item.powerOptions?.length || 0) || totalVA === 0}
                                     className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                                   >
                                     <Plus className="size-4" />
@@ -304,9 +305,10 @@ export default function PowerCalculation({ data, appliances }) {
               </Text>
               <Button
                 onClick={handleClickHere}
+                disabled={totalVA === 0}
                 size="lg"
                 variant="outline"
-                className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
+                className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Click Here
               </Button>
