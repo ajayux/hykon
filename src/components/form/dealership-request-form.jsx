@@ -100,22 +100,25 @@ export function DealershipRequestForm({ activeTab }) {
     setIsSubmitting(true);
     try {
       const captchaToken = await executeRecaptcha("dealership_request");
-      const formData = new FormData();
-      formData.append("name", data.fullName);
-      formData.append("email", data.email);
-      formData.append("phone", data.phone);
-      formData.append("state_slug", data.state);
-      formData.append("district_slug", data.district);
-      formData.append("city", data.city);
-      formData.append("pincode", data.pinCode);
-      formData.append("product_categories", JSON.stringify(data.categories));
-      formData.append("message", data.message);
-      formData.append("captcha_key", captchaToken);
-      formData.append("form_slug", activeTab);
 
       const res = await fetch(`${API_URL}/dealer-enquiry`, {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          state_slug: data.state,
+          district_slug: data.district,
+          city: data.city,
+          pincode: data.pinCode,
+          product_categories: data.categories,
+          message: data.message,
+          captcha_key: captchaToken,
+          form_slug: activeTab,
+        }),
       });
 
       if (!res.ok) throw new Error("Failed to submit");
