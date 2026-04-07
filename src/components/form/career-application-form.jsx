@@ -38,7 +38,7 @@ const formSchema = z.object({
   state: commonValidations.textBox("state"),
   place: commonValidations.textBox("place"),
   experience: commonValidations.dropDown("Experience"),
-  cv: commonValidations.file("cv"),
+  cv: commonValidations.cvUpload("cv"),
   coverLetter: commonValidations.optionalString,
 });
 

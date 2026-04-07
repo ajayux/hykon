@@ -262,7 +262,7 @@ export function VendorRegistrationForm() {
                 <input
                   type="file"
                   className="hidden"
-                  accept=".png, .jpg"
+                  accept=".png, .jpg, .jpeg"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />

@@ -483,7 +483,7 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
                   type="file"
                   className="hidden"
                   // Only PDF, DOC, DOCX, JPG, and PNG files are allowed
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  accept=".jpg,.jpeg,.png"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />

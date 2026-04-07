@@ -51,7 +51,7 @@ const formSchema = z.object({
   projectSiteDetails: commonValidations.optionalString,
   preferredTime: commonValidations.optionalString,
   comments: commonValidations.optionalString,
-  images: commonValidations.file("File"),
+  images: commonValidations.quoteDocumentUpload("File"),
 });
 
 const headingClasses =
@@ -455,7 +455,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
                   <input
                     type="file"
                     className="hidden"
-                    accept=".pdf,.jpg,.jpeg"
+                    accept=".pdf,.jpg"
                     onChange={handleFileChange}
                     disabled={isSubmitting}
                   />

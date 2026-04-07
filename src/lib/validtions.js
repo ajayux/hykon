@@ -33,21 +33,34 @@ const VALIDATION_CONFIG = {
     allowedTypes: [
       "image/jpeg", // .jpg
       "image/png", // .png
-      "application/pdf", // .pdf
-      "application/msword", // .doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "image/jpg", // .png
     ],
-    allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
+    allowedExtensions: [".jpg", ".jpeg", ".png"],
     maxSizeMB: 5, // adjust as needed
   },
 
+  quoteDocUpload: {
+    allowedTypes: ["application/pdf", "image/jpg"],
+    allowedExtensions: [".pdf", ".jpg"],
+    maxSizeMB: 5,
+  },
 
   // In your VALIDATION_CONFIG:
-pdfUpload: {
-  allowedTypes: ["application/pdf", "application/msword"],
-  allowedExtensions: [".pdf", ".doc"],
-  maxSizeMB: 10, // keep whatever value you have
-}
+  pdfUpload: {
+    allowedTypes: ["application/pdf", "application/msword"],
+    allowedExtensions: [".pdf", ".doc"],
+    maxSizeMB: 10, // keep whatever value you have
+  },
+
+  cvUpload: {
+    allowedTypes: [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+    allowedExtensions: [".pdf", ".doc", ".docx"],
+    maxSizeMB: 10,
+  },
 };
 
 export const commonValidations = {
@@ -227,9 +240,6 @@ export const commonValidations = {
         }),
     ),
 
- 
- 
-
   // ─── Optional Message ────────────────────────────────────────────────────────
   message: z
     .string()
@@ -263,8 +273,7 @@ export const commonValidations = {
         })
         // XSS: <script> tags
         .refine(
-          (val) =>
-            !val || !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
+          (val) => !val || !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
           {
             message:
               "This field contains invalid content. Please enter a valid message",
@@ -292,8 +301,7 @@ export const commonValidations = {
         })
         // Template injection: {{...constructor...}}
         .refine(
-          (val) =>
-            !val || !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
+          (val) => !val || !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
           {
             message:
               "This field contains invalid content. Please enter a valid message",
@@ -349,11 +357,9 @@ export const commonValidations = {
           )
           .refine((val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b)/i.test(val), {
             message: `${value} contains invalid content. Please enter a valid ${value}`,
-          })
+          }),
       ),
 
-
-      
   // ─── Optional String ─────────────────────────────────────────────────────────
   optionalString: z
     .string()
@@ -432,7 +438,7 @@ export const commonValidations = {
           !(file instanceof File) ||
           VALIDATION_CONFIG.file.allowedTypes.includes(file.type),
         {
-          message: "Only PDF, DOC, DOCX, JPG, and PNG files are allowed",
+          message: "Only JPG, and PNG, JPEG files are allowed",
         },
       )
       .refine(
@@ -455,44 +461,108 @@ export const commonValidations = {
         },
       ),
 
+  quoteDocumentUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.quoteDocUpload.allowedTypes.includes(file.type),
+        { message: "Only PDF and JPG files are allowed" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.quoteDocUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        { message: "File must have a .pdf or .jpg extension" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.quoteDocUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.quoteDocUpload.maxSizeMB}MB`,
+        },
+      ),
 
+  cvUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.cvUpload.allowedTypes.includes(file.type),
+        { message: "Only PDF, DOC, and DOCX files are allowed" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.cvUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        { message: "File must have a .pdf, .doc, or .docx extension" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.cvUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.cvUpload.maxSizeMB}MB`,
+        },
+      ),
 
-
-pdfUpload: (fieldName) =>
-  z
-    .any()
-    .refine((file) => file instanceof File, {
-      message: `Please upload a ${fieldName}`,
-    })
-    .refine((file) => !(file instanceof File) || file.size > 0, {
-      message: "The uploaded file appears to be empty. Please upload a valid file",
-    })
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
-      {
-        message: "Only PDF and DOC files are allowed",
-      },
-    )
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
-          file.name.toLowerCase().endsWith(ext),
-        ),
-      {
-        message: "File must have a .pdf or .doc extension",
-      },
-    )
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
-      {
-        message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
-      },
-    ),
+  pdfUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
+        {
+          message: "Only PDF and DOC files are allowed",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        {
+          message: "File must have a .pdf or .doc extension",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
+        },
+      ),
   // ─── Optional PDF Upload ──────────────────────────────────────────────────────
   pdfUploadOptional: z
     .instanceof(File)
@@ -670,21 +740,17 @@ pdfUpload: (fieldName) =>
     })
     .length(6, { message: "PIN code must be exactly 6 digits" }),
 
+  requiredString: (value) =>
+    z.string().min(1, { message: `${value} is required` }),
 
-    requiredString: (value)=> z
+  number: z.coerce.number("Please enter a valid number"),
+
+  gstin: z
     .string()
-    .min(1, { message: `${value} is required` }),
-
-  number: z.coerce.number( "Please enter a valid number"),
-
-
-  
-  gstin: z.
-  string()
-  // only accept strings from a-z, A-Z, numbers
-  .regex(/^[A-Za-z0-9]{15}$/, {
-    message: "Please enter a valid GSTIN number",
-  }),
+    // only accept strings from a-z, A-Z, numbers
+    .regex(/^[A-Za-z0-9]{15}$/, {
+      message: "Please enter a valid GSTIN number",
+    }),
 
   url: (value) =>
     z
