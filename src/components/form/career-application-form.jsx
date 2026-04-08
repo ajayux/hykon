@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -29,13 +30,14 @@ import {
 } from "@/components/ui/select";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
+import { apiClient } from "@/lib/api/client";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
   fullName: commonValidations.name("Name"),
   phone: commonValidations.phone("Phone Number"),
   email: commonValidations.email,
-  state: commonValidations.textBox("state"),
+  state: commonValidations.dropDown("State"),
   place: commonValidations.textBox("place"),
   experience: commonValidations.dropDown("Experience"),
   cv: commonValidations.cvUpload("cv"),
@@ -49,6 +51,11 @@ const errorClass =
 
 export function CareerApplicationForm({ slug, onClose, onSuccess }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const { data: states = [], isLoading: statesLoading } = useQuery({
+    queryKey: ["states"],
+    queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
+  });
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -217,12 +224,29 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="sr-only">State*</FieldLabel>
-              <Input
-                {...field}
-                placeholder="State*"
-                className={inputClasses}
-                disabled={isSubmitting}
-              />
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                disabled={isSubmitting || statesLoading}
+              >
+                <SelectTrigger
+                  className={cn(
+                    inputClasses,
+                    "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                  )}
+                >
+                  <SelectValue placeholder="State*" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    {states.map((opt) => (
+                      <SelectItem key={opt?.slug} value={opt?.slug}>
+                        {opt?.title || opt?.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               {fieldState.invalid && (
                 <FieldError
                   errors={[fieldState.error]}
