@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
@@ -42,6 +42,8 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
   );
   const [invalidRows, setInvalidRows] = useState(new Set());
   const [dialogOpen, setDialogOpen] = useState(false);
+  const isNavigatingRef = useRef(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -74,16 +76,30 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     newItems[itemIndex].rows[rowIndex][field] = value;
     setItems(newItems);
 
+    const row = newItems[itemIndex].rows[rowIndex];
+
     if (field === "count") {
       setInvalidRows((prev) => {
         const next = new Set(prev);
-        next.delete(newItems[itemIndex].rows[rowIndex].id);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
+        return next;
+      });
+    } else if (field === "power" && value && !row.count) {
+      setInvalidRows((prev) => {
+        const next = new Set(prev);
+        next.add(row.id);
         return next;
       });
     }
   };
 
   const handleClickHere = () => {
+    if (isNavigatingRef.current) return;
+
     const errorIds = new Set();
     items.forEach((item) => {
       item.rows.forEach((row) => {
@@ -103,6 +119,8 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
 
     if (totalVA > 0) {
       if (!highestPower || totalVA <= parseFloat(highestPower)) {
+        isNavigatingRef.current = true;
+        setIsNavigating(true);
         router.push(
           `/products?backup_capacity=${totalVA}&from=power_calculator`,
         );
@@ -305,7 +323,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
               </Text>
               <Button
                 onClick={handleClickHere}
-                disabled={totalVA === 0}
+                disabled={totalVA === 0 || isNavigating}
                 size="lg"
                 variant="outline"
                 className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9 disabled:opacity-40 disabled:cursor-not-allowed"
