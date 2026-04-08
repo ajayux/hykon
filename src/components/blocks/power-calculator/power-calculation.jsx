@@ -25,22 +25,23 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
-export default function PowerCalculation({ data, appliances }) {
+export default function PowerCalculation({ data, appliances, highestPower }) {
   const router = useRouter();
   const [items, setItems] = useState(() =>
     (appliances || []).map((appliance, index) => ({
       name: appliance.name,
       powerOptions: appliance.powerOptions,
       rows: [{ id: index + 1, power: "", count: "" }],
-    }))
+    })),
   );
+  const [invalidRows, setInvalidRows] = useState(new Set());
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -72,6 +73,43 @@ export default function PowerCalculation({ data, appliances }) {
     const newItems = [...items];
     newItems[itemIndex].rows[rowIndex][field] = value;
     setItems(newItems);
+
+    if (field === "count") {
+      setInvalidRows((prev) => {
+        const next = new Set(prev);
+        next.delete(newItems[itemIndex].rows[rowIndex].id);
+        return next;
+      });
+    }
+  };
+
+  const handleClickHere = () => {
+    const errorIds = new Set();
+    items.forEach((item) => {
+      item.rows.forEach((row) => {
+        if (row.power && !row.count) {
+          errorIds.add(row.id);
+        }
+      });
+    });
+
+    setInvalidRows(errorIds);
+
+    if (errorIds.size > 0) {
+      return;
+    }
+
+    setInvalidRows(new Set());
+
+    if (totalVA > 0) {
+      if (!highestPower || totalVA <= parseFloat(highestPower)) {
+        router.push(
+          `/products?backup_capacity=${totalVA}&from=power_calculator`,
+        );
+      } else {
+        setDialogOpen(true);
+      }
+    }
   };
 
   return (
@@ -149,7 +187,7 @@ export default function PowerCalculation({ data, appliances }) {
                                       val,
                                     )
                                   }
-                                  value={row.power}
+                                  value={row.power || undefined}
                                 >
                                   <SelectTrigger
                                     className={cn(
@@ -161,11 +199,13 @@ export default function PowerCalculation({ data, appliances }) {
                                   </SelectTrigger>
                                   <SelectContent className="bg-white">
                                     <SelectGroup>
-                                      {item?.powerOptions?.map((opt) => (
-                                        <SelectItem key={opt} value={opt}>
-                                          {isNaN(Number(opt)) ? opt : opt + "W"}
-                                        </SelectItem>
-                                      ))}
+                                      {item?.powerOptions
+                                        ?.filter((opt) => opt === row.power || !item.rows.some((r) => r.power === opt))
+                                        .map((opt) => (
+                                          <SelectItem key={opt} value={opt}>
+                                            {isNaN(Number(opt)) ? opt : opt + "W"}
+                                          </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                   </SelectContent>
                                 </Select>
@@ -175,7 +215,8 @@ export default function PowerCalculation({ data, appliances }) {
                                     onClick={() => handleAddItem(itemIndex)}
                                     size="lg"
                                     variant="outline"
-                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0"
+                                    disabled={item.rows.length >= (item.powerOptions?.length || 0) || totalVA === 0}
+                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                                   >
                                     <Plus className="size-4" />
                                   </Button>
@@ -210,7 +251,7 @@ export default function PowerCalculation({ data, appliances }) {
                               >
                                 <Input
                                   type="text"
-                                  placeholder="No"
+                                  placeholder="No."
                                   value={row.count}
                                   onChange={(e) =>
                                     handleUpdateItem(
@@ -223,6 +264,7 @@ export default function PowerCalculation({ data, appliances }) {
                                   className={cn(
                                     inputClasses,
                                     "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRows.has(row.id) && "border-red-500",
                                   )}
                                 />
                               </motion.div>
@@ -261,28 +303,16 @@ export default function PowerCalculation({ data, appliances }) {
               >
                 {data?.calculatorDescription}
               </Text>
-              {totalVA > 0 ? (
-                <Button
-                  onClick={() =>
-                    router.push(`/products?backup_capacity=${totalVA}`)
-                  }
-                  size="lg"
-                  variant="outline"
-                  className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
-                >
-                  Click Here
-                </Button>
-              ) : (
-                <PowerDialog>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
-                  >
-                    Click Here
-                  </Button>
-                </PowerDialog>
-              )}
+              <Button
+                onClick={handleClickHere}
+                disabled={totalVA === 0}
+                size="lg"
+                variant="outline"
+                className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Click Here
+              </Button>
+              <PowerDialog open={dialogOpen} onOpenChange={setDialogOpen} />
               <div className="text-[12px] lg:text-[10px] 2xl:text-[11px] 3xl:text-[14px] leading-normal font-light italic text-white/80">
                 {parse(data?.calculatorNote)}
               </div>
@@ -294,32 +324,33 @@ export default function PowerCalculation({ data, appliances }) {
   );
 }
 
-function PowerDialog({ children }) {
+function PowerDialog({ open, onOpenChange }) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={
           "xl:max-w-[480px] 2xl:max-w-[576px] 3xl:max-w-[680px] bg-[#212121] py-8 sm:py-10 xl:py-14 2xl:py-16 3xl:py-20 px-4 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
         }
-        closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
+        closeClassName="3xl:size-4 top-2 right-2 3xl:top-4 3xl:right-4 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >
         <DialogHeader className={"text-start"}>
           <DialogTitle asChild>
             <Heading
               as="h2"
               size="h4"
-              className="leading-tight font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
+              className="leading-normal font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
             >
               Sorry! Your power consumption is above standard usage levels.
-              Please contact <Link href="/customer-care">customer care</Link>{" "}
-              for customized solutions. career application form
+              Please contact{" "}
+              <i>
+                <Link href="/customer-care">customer care</Link>{" "}
+              </i>
+              for customized solutions.
             </Heading>
           </DialogTitle>
           <DialogDescription className={"sr-only"}>
             Sorry! Your power consumption is above standard usage levels. Please
-            contact customer care for customized solutions. career application
-            form
+            contact customer care for customized solutions.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

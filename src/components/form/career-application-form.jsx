@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z.object({
@@ -39,7 +38,7 @@ const formSchema = z.object({
   state: commonValidations.textBox("state"),
   place: commonValidations.textBox("place"),
   experience: commonValidations.dropDown("Experience"),
-  cv: commonValidations.file("cv"),
+  cv: commonValidations.cvUpload("cv"),
   coverLetter: commonValidations.optionalString,
 });
 
@@ -48,7 +47,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ slug, onClose }) {
+export function CareerApplicationForm({ slug, onClose, onSuccess }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -84,7 +83,6 @@ export function CareerApplicationForm({ slug, onClose }) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -100,7 +98,7 @@ export function CareerApplicationForm({ slug, onClose }) {
       formData.append("resume", data.cv);
       formData.append("cover_letter", data.coverLetter || "");
       formData.append("career_slug", slug);
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/career-enquiry`, {
@@ -109,17 +107,15 @@ export function CareerApplicationForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
-        toast.error("Failed to submit application");
         throw new Error("Failed to submit application");
       }
 
-      toast.success("Application submitted successfully");
       setIsSuccess(true);
+      if (onSuccess) onSuccess();
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
-      toast.error("Failed to submit application");
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);
@@ -322,7 +318,7 @@ export function CareerApplicationForm({ slug, onClose }) {
             />
           </label>
         ) : (
-          <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border-1 border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
+          <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border-1 border-dashed border-white/50 rounded-[6px] 3xl:rounded-[9px] px-6">
             <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
               {uploadedFile.name}
             </div>
@@ -371,10 +367,12 @@ export function CareerApplicationForm({ slug, onClose }) {
           type="submit"
           size="lg"
           variant="outline"
-          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
+          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px]"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          <span className="flex-1 text-center">
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </span>
           <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
             <Image
               src={"/images/icon-arrow-right-white.svg"}

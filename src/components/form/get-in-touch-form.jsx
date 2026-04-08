@@ -28,7 +28,6 @@ import {
 
 import FormSubmitResponse from "../common/form-submitted-success";
 import { commonValidations } from "@/lib/validtions";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useQuery } from "@tanstack/react-query";
 import { API_URL, apiClient } from "@/lib/api/client";
@@ -72,7 +71,6 @@ export function GetInTouchForm({ slug, onClose }) {
   });
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
@@ -85,7 +83,7 @@ export function GetInTouchForm({ slug, onClose }) {
       formData.append("state", data.state);
       formData.append("place", data.place);
       formData.append("message", data.message || "");
-      formData.append("recaptcha_token", recaptchaToken);
+      formData.append("captcha_key", recaptchaToken);
 
       const res = await fetch(`${API_URL}/get-in-touch`, {
         method: "POST",
@@ -93,16 +91,13 @@ export function GetInTouchForm({ slug, onClose }) {
       });
 
       if (!res.ok) {
-        toast.error("Failed to submit application");
         throw new Error("Failed to submit application");
       }
 
-      toast.success("Application submitted successfully");
       setIsSuccess(true);
       form.reset();
     } catch (error) {
       console.error("Submission Error:", error);
-      toast.error("Failed to submit application");
       // You might want to show an error message to the user here
     } finally {
       setIsSubmitting(false);

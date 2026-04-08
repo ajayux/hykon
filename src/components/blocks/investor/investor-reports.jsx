@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function InvestorReports({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filters?.[0]?.slug || "annual-report",
+    data?.filters?.[0]?.slug || "investor-relations",
   );
   const [items, setItems] = useState(data?.items ?? []);
   const [pagination, setPagination] = useState(data?.pagination ?? {});

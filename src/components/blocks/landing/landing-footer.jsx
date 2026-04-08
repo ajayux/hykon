@@ -27,7 +27,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
             </div>
           </div>
           <div className="w-full lg:w-[75%] lg:pl-[10px]">
-            <div className="w-full h-auto pb-[20px] sm:pb-[30px] 2xl:pb-[40px] border-b border-white/25 flex items-center flex-wrap">
+            <div className="w-full h-auto pb-[20px] sm:pb-[30px] 2xl:pb-[40px] border-b border-white/10 flex items-center flex-wrap mb-[20px] sm:mb-[25px] 2xl:mb-[30px] 3xl:mb-[35px]">
               <div className="w-auto h-auto pr-[20px] sm:pr-[50px] lg:pr-[70px] 2xl:pr-[90px] 3xl:pr-[120px] block">
                 <Link
                   href={`tel:${data?.contactInfo?.phone}`}
@@ -83,7 +83,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
                 </Link>
               </div>
             </div>
-            <div className="w-full h-auto -mx-[5px] sm:-mx-[7px] 2xl:-mx-[10px] 3xl:-mx-[15px] py-[20px] sm:py-[30px] 2xl:py-[40px] 3xl:py-[50px] flex flex-wrap">
+            <div className="w-full h-auto -mx-[5px] sm:-mx-[7px] 2xl:-mx-[10px] 3xl:-mx-[15px] mb-[20px] sm:mb-[30px] 2xl:mb-[40px] 3xl:mb-[50px] flex flex-wrap">
               {data?.locations?.map((item) => (
                 <div
                   key={item?.id}
@@ -92,24 +92,26 @@ export default function LandingFooter({ data, isSidebarOpen }) {
                   <Link
                     href={`mailto:${item?.email}`}
                     target={item?.isExternal ? "_blank" : "_self"}
-                    className="group w-full h-full flex"
+                    className="group w-full h-full flex flex-wrap gap-[7px] 2xl:gap-[8px] 3xl:gap-[10px]"
                   >
-                    <div className="w-[13px] 2xl:w-[15px] h-[20px] mt-[2px] 3xl:mt-[5px] overflow-hidden block">
-                      <Image
-                        src={"/images/location-icon.svg"}
-                        alt="Mail"
-                        width={15}
-                        height={20}
-                        className="w-full h-full object-contain"
-                      />
+                    <div className="w-[8px] 2xl:w-[10px] 3xl:w-[13px] aspect-square overflow-hidden block">
+                      <div className="w-full h-auto">
+                        <Image
+                          src={"/images/location-icon.svg"}
+                          alt="Mail"
+                          width={15}
+                          height={20}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
                     </div>
-                    <div className="w-[calc(100%-13px)] 2xl:w-[calc(100%-15px)] pl-[7px] 2xl:pl-[10px]">
+                    <div className="flex-1">
                       <Heading
                         as="div"
                         size="h5"
                         className="font-normal text-white transition-colors duration-300 group-hover:text-[#008DD2]"
                       >
-                        <span className="lg:mb-[8px] 2xl:mb-[15px] block">
+                        <span className="leading-none lg:mb-[4px] 2xl:mb-[6px] 3xl:mb-[8px] block">
                           {item?.title}
                         </span>
                         {item?.email}
@@ -122,11 +124,13 @@ export default function LandingFooter({ data, isSidebarOpen }) {
           </div>
         </div>
       </div>
-      <div className="w-full bg-black py-2 sm:py-3 xl:py-4 2xl:py-4.5">
-        <div className="container opacity-95">
+      <div className="w-full bg-[#181818] py-2 sm:py-3 xl:py-4 2xl:py-4.5">
+        <div
+          className={cn("w-full", isSidebarOpen ? "isContainer" : "container")}
+        >
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
-              {parse(data?.copyright)}
+              {parse(data?.copyright ?? "© 2026 HYKON. All rights reserved.")}
             </Text>
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {data?.socialLinkData?.map((item, index) => (
@@ -138,7 +142,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
                         alt={item?.name}
                         width={18}
                         height={18}
-                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square object-contain block hover:scale-110 transition"
                         unoptimized
                       />
                     </a>
@@ -158,7 +162,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
                   alt="footer-author"
                   width={100}
                   height={20}
-                  className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline ml-1"
+                  className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline mx-1"
                   unoptimized
                 />
               </a>

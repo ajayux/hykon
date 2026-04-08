@@ -29,10 +29,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Heading, Text } from "../utils/typography";
-import FormSubmitResponse from "../common/form-submitted-success";
+import SuccessModal from "@/components/blocks/landing/success-modal";
 import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
-import { toast } from "sonner";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const formSchema = z
@@ -44,11 +43,28 @@ const formSchema = z
     product: commonValidations.dropDown("Product"),
     productVariant: commonValidations.optionalDropdown,
     serialNumber: commonValidations.requiredString("Serial Number"),
-    invoiceDate: z.string().min(1, "Invoice Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
+    invoiceDate: z
+      .string()
+      .min(1, "Invoice Date is required")
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date (YYYY-MM-DD)")
+      .refine((val) => {
+        const date = new Date(val);
+        return !isNaN(date.getTime());
+      }, "Please enter a valid calendar date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date <= new Date();
+      }, "Invoice date cannot be a future date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date >= new Date("1900-01-01");
+      }, "Please enter a valid invoice date"),
     invoiceNumber: commonValidations.requiredString("Invoice Number"),
     dealerName: commonValidations.name("Dealer Name"),
     // Billing Address
-    billingAddressBuilding: commonValidations.requiredString("Building/Apartment Name"),
+    billingAddressBuilding: commonValidations.requiredString(
+      "Building/Apartment Name",
+    ),
     billingAddressBlock: commonValidations.requiredString("Block/Flat No"),
     billingAddressStreet: commonValidations.requiredString("Street/Road Name"),
     billingAddressPincode: commonValidations.postalCode,
@@ -62,12 +78,15 @@ const formSchema = z
     installationAddressState: commonValidations.optionalString,
     installationAddressDistrict: commonValidations.optionalString,
     sameAsBillingAddress: z.boolean().optional(),
-    images: commonValidations.file("Product image")
+    images: commonValidations.file("Product image"),
   })
   .superRefine((data, ctx) => {
     if (!data.sameAsBillingAddress) {
       const installationFields = [
-        { key: "installationAddressBuilding", label: "Building/Apartment Name" },
+        {
+          key: "installationAddressBuilding",
+          label: "Building/Apartment Name",
+        },
         { key: "installationAddressBlock", label: "Block/Flat No" },
         { key: "installationAddressStreet", label: "Street/Road Name" },
         { key: "installationAddressPincode", label: "Pincode" },
@@ -87,7 +106,8 @@ const formSchema = z
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Invalid PIN code: must be 6 digits and cannot start with 0",
+            message:
+              "Invalid PIN code: must be 6 digits and cannot start with 0",
             path: [key],
           });
         }
@@ -104,7 +124,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function WarrantyRegistrationForm({activeTab, page}) {
+export function WarrantyRegistrationForm({ activeTab, page }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -113,54 +133,64 @@ export function WarrantyRegistrationForm({activeTab, page}) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedBillingState, setSelectedBillingState] = useState(null);
-  const [selectedInstallationState, setSelectedInstallationState] = useState(null);
+  const [selectedInstallationState, setSelectedInstallationState] =
+    useState(null);
 
+  useEffect(() => {
+    setIsSuccess(false);
+  }, [activeTab]);
 
   const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ["product-categories"],
     queryFn: () => apiClient("/get-categories").then((r) => r.data),
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60,           // 1 hour
   });
 
   const { data: products = [], isLoading: productsLoading } = useQuery({
     queryKey: ["products", selectedCategory],
-    queryFn: () => apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedCategory,
-    staleTime: 1000 * 60 * 30,        // 30 minutes
-    gcTime: 1000 * 60 * 60,           // 1 hour
   });
 
   const { data: variants = [], isLoading: variantsLoading } = useQuery({
     queryKey: ["variants", selectedProduct],
-    queryFn: () => apiClient(`/get-product-variants?slug=${selectedProduct}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/get-product-variants?slug=${selectedProduct}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedProduct,
-    staleTime: 1000 * 60 * 30,        // 30 minutes
-    gcTime: 1000 * 60 * 60,           // 1 hour
   });
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
     queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
-    staleTime: 1000 * 60 * 60 * 24,
-    gcTime: 1000 * 60 * 60 * 24,
   });
 
-  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } = useQuery({
-    queryKey: ["districts", selectedBillingState],
-    queryFn: () => apiClient(`/districts?state_slug=${selectedBillingState}`).then((r) => r.data),
-    enabled: !!selectedBillingState,
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60 * 2,       // 2 hours
-  });
+  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } =
+    useQuery({
+      queryKey: ["districts", selectedBillingState],
+      queryFn: () =>
+        apiClient(`/districts?state_slug=${selectedBillingState}`).then(
+          (r) => r.data,
+        ),
+      enabled: !!selectedBillingState,
+    });
 
-  const { data: installationDistricts = [], isLoading: installationDistrictsLoading } = useQuery({
+  const {
+    data: installationDistricts = [],
+    isLoading: installationDistrictsLoading,
+  } = useQuery({
     queryKey: ["districts", selectedInstallationState],
-    queryFn: () => apiClient(`/districts?state_slug=${selectedInstallationState}`).then((r) => r.data),
+    queryFn: () =>
+      apiClient(`/districts?state_slug=${selectedInstallationState}`).then(
+        (r) => r.data,
+      ),
     enabled: !!selectedInstallationState,
-    staleTime: 1000 * 60 * 60,        // 1 hour
-    gcTime: 1000 * 60 * 60 * 2,       // 2 hours
   });
+
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -211,7 +241,14 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       form.setValue("installationAddressState", billingValues[4]);
       form.setValue("installationAddressDistrict", billingValues[5]);
       setSelectedInstallationState(selectedBillingState);
-      form.clearErrors(["installationAddressBuilding", "installationAddressBlock", "installationAddressStreet", "installationAddressPincode", "installationAddressState", "installationAddressDistrict"]);
+      form.clearErrors([
+        "installationAddressBuilding",
+        "installationAddressBlock",
+        "installationAddressStreet",
+        "installationAddressPincode",
+        "installationAddressState",
+        "installationAddressDistrict",
+      ]);
     } else {
       form.setValue("installationAddressBuilding", "");
       form.setValue("installationAddressBlock", "");
@@ -239,19 +276,20 @@ export function WarrantyRegistrationForm({activeTab, page}) {
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
-      toast.error("reCAPTCHA not ready. Please try again.");
       return;
     }
     setIsSubmitting(true);
     try {
       const recaptchaToken = await executeRecaptcha("warranty_registration");
-      const warrantyRecaptchaToken = await executeRecaptcha("warranty_registration");
+      const warrantyRecaptchaToken = await executeRecaptcha(
+        "warranty_registration",
+      );
 
       const formData = new FormData();
       formData.append("name", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
-     
+
       formData.append("serial_number", data.serialNumber);
       formData.append("invoice_date", data.invoiceDate);
       formData.append("invoice_number", data.invoiceNumber);
@@ -265,63 +303,88 @@ export function WarrantyRegistrationForm({activeTab, page}) {
       formData.append("billing_pincode", data.billingAddressPincode);
 
       formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
-      
-      formData.append("installation_apartment_name",data.sameAsBillingAddress? data.billingAddressBuilding : data.installationAddressBuilding || "");
-      formData.append("installation_flat_number",data.sameAsBillingAddress? data.billingAddressBlock : data.installationAddressBlock || "");
-      formData.append("installation_street_name", data.sameAsBillingAddress? data.billingAddressStreet  : data.installationAddressStreet || "");
-      formData.append("installation_state_slug", data.sameAsBillingAddress? data.billingAddressState  : data.installationAddressState || "");
-      formData.append("installation_district_slug", data.sameAsBillingAddress? data.billingAddressDistrict  : data.installationAddressDistrict || "");
-      formData.append("installation_pincode", data.sameAsBillingAddress? data.billingAddressPincode  : data.installationAddressPincode || "");
-     
-      formData.append("form_slug", activeTab);
+
+      formData.append(
+        "installation_apartment_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressBuilding
+          : data.installationAddressBuilding || "",
+      );
+      formData.append(
+        "installation_flat_number",
+        data.sameAsBillingAddress
+          ? data.billingAddressBlock
+          : data.installationAddressBlock || "",
+      );
+      formData.append(
+        "installation_street_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressStreet
+          : data.installationAddressStreet || "",
+      );
+      formData.append(
+        "installation_state_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressState
+          : data.installationAddressState || "",
+      );
+      formData.append(
+        "installation_district_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressDistrict
+          : data.installationAddressDistrict || "",
+      );
+      formData.append(
+        "installation_pincode",
+        data.sameAsBillingAddress
+          ? data.billingAddressPincode
+          : data.installationAddressPincode || "",
+      );
+
+      if (page === "warranty") {
+        formData.append("type", activeTab);
+      } else {
+        formData.append("form_slug", activeTab);
+      }
+
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
       if (data.images) {
-        formData.append("images[]", data.images);
+        formData.append("file", data.images);
       }
-      formData.append("recaptcha_token", page === "warranty" ? warrantyRecaptchaToken : recaptchaToken);
-      const url = page === "warranty" ? `${API_URL}/client-warranty-complaint` : `${API_URL}/customer-care-enquiry`;
+      formData.append(
+        "captcha_key",
+        page === "warranty" ? warrantyRecaptchaToken : recaptchaToken,
+      );
+      const url = `${API_URL}/client-warranty`;
       const res = await fetch(url, {
         method: "POST",
         body: formData,
       });
 
       if (!res.ok) {
-        const error = await res.json().catch(() => ({ message: "Submission failed" }));
-        throw new Error(error.message || `HTTP ${res.status}`);
-        return;
+        throw new Error("Failed to submit application");
       }
 
       setIsSuccess(true);
       form.reset();
-      
+
       setUploadedFile(null);
       setSelectedCategory(null);
       setSelectedProduct(null);
       setSelectedBillingState(null);
       setSelectedInstallationState(null);
-      toast.success("Registration submitted successfully")
     } catch (error) {
-        toast.error("Failed to submit registration")
       console.error("Submission Error:", error);
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  if (isSuccess) {
-    return (
-      <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Registration Successful"
-        description="Thank you for registering your product warranty. Our team will verify
-        the details and update your warranty status shortly."
-      />
-    );
-  }
-
   return (
+    <>
+    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
         {[
@@ -330,11 +393,14 @@ export function WarrantyRegistrationForm({activeTab, page}) {
           { name: "email", placeholder: "Mail*", type: "email" },
           {
             name: "category",
-            placeholder: "Category*",
+            placeholder:
+              !categoriesLoading && categories.length === 0
+                ? "No Category available"
+                : "Category*",
             type: "select",
             options: categories,
             isLoading: categoriesLoading,
-            disabled: categoriesLoading,
+            disabled: categoriesLoading || categories.length === 0,
             onValueChange: (value, fieldOnChange) => {
               fieldOnChange(value);
               setSelectedCategory(value);
@@ -345,11 +411,15 @@ export function WarrantyRegistrationForm({activeTab, page}) {
           },
           {
             name: "product",
-            placeholder: "Product*",
+            placeholder:
+              selectedCategory && !productsLoading && products.length === 0
+                ? "No products available"
+                : "Product*",
             type: "select",
-            options: products,
+            options: products ?? [],
             isLoading: productsLoading,
-            disabled: !selectedCategory || productsLoading,
+            disabled:
+              !selectedCategory || productsLoading || products.length === 0,
             onValueChange: (value, fieldOnChange) => {
               fieldOnChange(value);
               setSelectedProduct(value);
@@ -358,11 +428,15 @@ export function WarrantyRegistrationForm({activeTab, page}) {
           },
           {
             name: "productVariant",
-            placeholder: "Product variant*",
+            placeholder:
+              selectedProduct && !variantsLoading && variants.length === 0
+                ? "No product variant available"
+                : "Product variant*",
             type: "select",
             options: variants,
             isLoading: variantsLoading,
-            disabled: !selectedProduct || variantsLoading,
+            disabled:
+              !selectedProduct || variantsLoading || variants.length === 0,
           },
           { name: "serialNumber", placeholder: "Serial Number*" },
           { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
@@ -408,7 +482,8 @@ export function WarrantyRegistrationForm({activeTab, page}) {
                 <input
                   type="file"
                   className="hidden"
-                  accept="image/*"
+                  // Only PDF, DOC, DOCX, JPG, and PNG files are allowed
+                  accept=".jpg,.jpeg,.png"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />
@@ -478,11 +553,19 @@ export function WarrantyRegistrationForm({activeTab, page}) {
             },
             {
               name: "billingAddressDistrict",
-              placeholder: "District*",
+              placeholder:
+                selectedBillingState &&
+                !billingDistrictsLoading &&
+                billingDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
               type: "select",
               options: billingDistricts,
               isLoading: billingDistrictsLoading,
-              disabled: !selectedBillingState || billingDistrictsLoading,
+              disabled:
+                !selectedBillingState ||
+                billingDistrictsLoading ||
+                billingDistricts.length === 0,
             },
           ].map((item) => (
             <FormBlock
@@ -514,7 +597,9 @@ export function WarrantyRegistrationForm({activeTab, page}) {
                   <Checkbox
                     id="sameAsBillingAddress"
                     checked={field.value}
-                    onCheckedChange={field.onChange}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked === true)
+                    }
                     className={"text-white data-[state=checked]:text-white"}
                   />
                   <FieldLabel
@@ -559,11 +644,20 @@ export function WarrantyRegistrationForm({activeTab, page}) {
             },
             {
               name: "installationAddressDistrict",
-              placeholder: "District*",
+              placeholder:
+                selectedInstallationState &&
+                !installationDistrictsLoading &&
+                installationDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
               type: "select",
               options: installationDistricts,
               isLoading: installationDistrictsLoading,
-              disabled: sameAsBilling || !selectedInstallationState || installationDistrictsLoading,
+              disabled:
+                sameAsBilling ||
+                !selectedInstallationState ||
+                installationDistrictsLoading ||
+                installationDistricts.length === 0,
             },
           ].map((item) => (
             <FormBlock
@@ -600,6 +694,7 @@ export function WarrantyRegistrationForm({activeTab, page}) {
         </Button>
       </div>
     </form>
+    </>
   );
 }
 
@@ -634,11 +729,17 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectGroup>
-                  {item?.options?.map((opt) => (
-                    <SelectItem key={opt?.slug} value={opt?.slug}>
-                      {opt?.title || opt?.name}
+                  {item?.options?.length === 0 ? (
+                    <SelectItem value="no-data" disabled>
+                      No data available
                     </SelectItem>
-                  ))}
+                  ) : (
+                    item?.options?.map((opt) => (
+                      <SelectItem key={opt?.slug} value={opt?.slug}>
+                        {opt?.title || opt?.name}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -646,6 +747,7 @@ function FormBlock({ item, form, isSubmitting, extraDisabled }) {
             <Input
               {...field}
               type="date"
+              max={new Date().toISOString().split("T")[0]}
               placeholder={item.placeholder}
               className={cn(inputClasses, "date-input [color-scheme:dark]")}
               disabled={isSubmitting || extraDisabled}

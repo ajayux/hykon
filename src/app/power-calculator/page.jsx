@@ -23,30 +23,15 @@ export async function generateMetadata() {
   };
 }
 
-const localData = {
-  formSections: {
-    title: "Power Calculator",
-    calculatorTitle: "Your approximate power need is",
-    calculatorDescription:
-      "to find out the best products that match your needs",
-    calculatorNote:
-      "<p>*The consumption data derived are based on approximate calculations. Please contact our customer care for more details.</p>",
-  },
-  metaTag: {
-    id: 12,
-    meta_title: "Power Calculator",
-    meta_description: null,
-    meta_keywords: null,
-    other_meta_tags: null,
-  },
-};
 
 export default async function PowerCalculatorPage() {
   let pageData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const res = await fetch(`${baseUrl}/api/power-calculator`);
+    const res = await fetch(`${baseUrl}/api/power-calculator`, {
+      revalidate: 60,
+    });
 
     if (res.ok) {
       const response = await res.json();
@@ -60,12 +45,12 @@ export default async function PowerCalculatorPage() {
     notFound();
   }
 
-  const { formSections, appliances } = pageData;
+  const { formSections, appliances, highestPower } = pageData;
 
   return (
     <div className="w-full bg-[#202020] pt-(--header-y-sm) lg:pt-(--header-y-lg) 2xl:pt-(--header-y-2xl) 3xl:pt-(--header-y-3xl)">
       <BreadcrumbInfo slug="Power Calculator" />
-      <PowerCalculation data={formSections} appliances={appliances} />
+      <PowerCalculation data={formSections} appliances={appliances} highestPower={highestPower} />
     </div>
   );
 }

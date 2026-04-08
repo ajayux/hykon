@@ -31,23 +31,49 @@ const VALIDATION_CONFIG = {
 
   file: {
     allowedTypes: [
-      "application/pdf", // .pdf
-      "application/msword", // .doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
       "image/jpeg", // .jpg
       "image/png", // .png
+      "image/jpg", // .png
     ],
-    allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
+    allowedExtensions: [".jpg", ".jpeg", ".png"],
     maxSizeMB: 5, // adjust as needed
   },
 
+  contactEnquiryUpload: {
+    allowedTypes: [
+      "application/pdf", // .pdf
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "image/jpeg", // .jpg / .jpeg
+      "image/jpg",
+      "image/png", // .png
+    ],
+    allowedExtensions: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
+    maxSizeMB: 5,
+  },
+
+  quoteDocUpload: {
+    allowedTypes: ["application/pdf", "image/jpg"],
+    allowedExtensions: [".pdf", ".jpg"],
+    maxSizeMB: 5,
+  },
 
   // In your VALIDATION_CONFIG:
-pdfUpload: {
-  allowedTypes: ["application/pdf", "application/msword"],
-  allowedExtensions: [".pdf", ".doc"],
-  maxSizeMB: 10, // keep whatever value you have
-}
+  pdfUpload: {
+    allowedTypes: ["application/pdf", "application/msword"],
+    allowedExtensions: [".pdf", ".doc"],
+    maxSizeMB: 10, // keep whatever value you have
+  },
+
+  cvUpload: {
+    allowedTypes: [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ],
+    allowedExtensions: [".pdf", ".doc", ".docx"],
+    maxSizeMB: 10,
+  },
 };
 
 export const commonValidations = {
@@ -227,54 +253,90 @@ export const commonValidations = {
         }),
     ),
 
-  // ─── Message ─────────────────────────────────────────────────────────────────
+  // ─── Optional Message ────────────────────────────────────────────────────────
   message: z
     .string()
-    .transform((val) => val.trim())
     .optional()
+    .transform((val) => (val ? val.trim() : val))
     .pipe(
       z
         .string()
-        .refine((val) => !/^[\s\t\n]+$/.test(val), {
+        .optional()
+        .refine(
+          (val) => !val || val.length >= VALIDATION_CONFIG.message.minLength,
+          {
+            message: `This field is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
+          },
+        )
+        .refine(
+          (val) => !val || val.length <= VALIDATION_CONFIG.message.maxLength,
+          {
+            message: `This field is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength} characters`,
+          },
+        )
+        // Must contain actual words (not just symbols/numbers)
+        .refine((val) => !val || /\p{L}{2,}/u.test(val), {
           message:
-            "Message cannot be just spaces or blank lines. Please enter some text",
+            "This field must contain actual words. Please write a meaningful message",
         })
-        .refine((val) => val.length >= VALIDATION_CONFIG.message.minLength, {
-          message: `Message is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
-        })
-        .refine((val) => val.length <= VALIDATION_CONFIG.message.maxLength, {
-          message: `Message is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength.toLocaleString()} characters`,
-        })
-        .refine((val) => !/^[@#!$%^&*()]+$/.test(val), {
+        // Excessive repeated characters e.g. "AAAAAAA..." or "!!!!!!!"
+        .refine((val) => !val || !/(.)\1{9,}/.test(val), {
           message:
-            "Message cannot contain only special characters. Please enter a meaningful message",
+            "This field contains excessive repeated characters. Please enter a valid message",
         })
-        .refine((val) => !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val), {
+        // XSS: <script> tags
+        .refine(
+          (val) => !val || !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
+          {
+            message:
+              "This field contains invalid content. Please enter a valid message",
+          },
+        )
+        // XSS: <img onerror>
+        .refine((val) => !val || !/<img[\s\S]*?onerror=/i.test(val), {
           message:
-            "Message contains invalid content. Please enter a valid message",
+            "This field contains invalid content. Please enter a valid message",
         })
-        .refine((val) => !/<img[\s\S]*?onerror=/i.test(val), {
+        // XSS: <iframe>
+        .refine((val) => !val || !/<\s*iframe/i.test(val), {
           message:
-            "Message contains invalid content. Please enter a valid message",
+            "This field contains invalid content. Please enter a valid message",
         })
-        .refine((val) => !/<\s*iframe/i.test(val), {
+        // XSS: javascript: protocol
+        .refine((val) => !val || !/javascript\s*:/i.test(val), {
           message:
-            "Message contains invalid content. Please enter a valid message",
+            "This field contains invalid content. Please enter a valid message",
         })
-        .refine((val) => !/\{\{.*constructor.*\}\}/i.test(val), {
+        // XSS: on* event handlers e.g. onclick=, onload=
+        .refine((val) => !val || !/\bon\w+\s*=/i.test(val), {
           message:
-            "Message contains invalid content. Please enter a valid message",
+            "This field contains invalid content. Please enter a valid message",
         })
+        // Template injection: {{...constructor...}}
+        .refine(
+          (val) => !val || !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
+          {
+            message:
+              "This field contains invalid content. Please enter a valid message",
+          },
+        )
+        // SQL injection
         .refine(
           (val) =>
-            !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bTABLE\b)/i.test(
+            !val ||
+            !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bTABLE\b|\bFROM\b|\bWHERE\b)/i.test(
               val,
             ),
           {
             message:
-              "Message contains invalid content. Please enter a valid message",
+              "This field contains invalid content. Please enter a valid message",
           },
-        ),
+        )
+        // Null bytes
+        .refine((val) => !val || !/\x00/.test(val), {
+          message:
+            "This field contains invalid characters. Please enter a valid message",
+        }),
     ),
 
   // ─── Place ───────────────────────────────────────────────────────────────────
@@ -297,9 +359,6 @@ export const commonValidations = {
           .refine((val) => val.length <= VALIDATION_CONFIG.place.maxLength, {
             message: `${value} is too long. Please keep it under ${VALIDATION_CONFIG.place.maxLength} characters`,
           })
-          .refine((val) => !/[0-9]/.test(val), {
-            message: `${value} should not contain numbers. Please enter a valid ${value}`,
-          })
           .refine((val) => !/[@#!$%^&*_+=\[\]{};:",.<>?/\\|`~]/.test(val), {
             message: `${value} contains invalid characters. Please enter a valid ${value}`,
           })
@@ -311,9 +370,6 @@ export const commonValidations = {
           )
           .refine((val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b)/i.test(val), {
             message: `${value} contains invalid content. Please enter a valid ${value}`,
-          })
-          .refine((val) => /^[\p{L} '\-,\.]+$/u.test(val), {
-            message: `${value} can only contain letters, spaces, hyphens, apostrophes, commas, and periods`,
           }),
       ),
 
@@ -354,6 +410,31 @@ export const commonValidations = {
         ),
     ),
 
+  // ─── Optional URL ────────────────────────────────────────────────────────────
+  optionalUrl: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.trim() : val))
+    .pipe(
+      z
+        .string()
+        .optional()
+        .refine(
+          (val) =>
+            !val ||
+            /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i.test(
+              val,
+            ),
+          {
+            message:
+              "Please enter a valid URL starting with http:// or https://",
+          },
+        )
+        .refine((val) => !val || val.length <= 255, {
+          message: "URL is too long. Please keep it under 255 characters",
+        }),
+    ),
+
   // ─── PDF Upload ──────────────────────────────────────────────────────────────
   file: (fieldName) =>
     z
@@ -370,7 +451,7 @@ export const commonValidations = {
           !(file instanceof File) ||
           VALIDATION_CONFIG.file.allowedTypes.includes(file.type),
         {
-          message: "Only PDF, DOC, DOCX, JPG, and PNG files are allowed",
+          message: "Only JPG, and PNG, JPEG files are allowed",
         },
       )
       .refine(
@@ -393,44 +474,150 @@ export const commonValidations = {
         },
       ),
 
+  // ─── Contact Enquiry File Upload ─────────────────────────────────────────────
+  contactEnquiryFile: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.contactEnquiryUpload.allowedTypes.includes(
+            file.type,
+          ),
+        {
+          message: "Only PDF, DOC, DOCX, JPG, and PNG files are allowed",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.contactEnquiryUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        {
+          message:
+            "File must have a .pdf, .doc, .docx, .jpg, or .png extension",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <=
+            VALIDATION_CONFIG.contactEnquiryUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.contactEnquiryUpload.maxSizeMB}MB`,
+        },
+      ),
 
+  quoteDocumentUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.quoteDocUpload.allowedTypes.includes(file.type),
+        { message: "Only PDF and JPG files are allowed" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.quoteDocUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        { message: "File must have a .pdf or .jpg extension" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.quoteDocUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.quoteDocUpload.maxSizeMB}MB`,
+        },
+      ),
 
+  cvUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.cvUpload.allowedTypes.includes(file.type),
+        { message: "Only PDF, DOC, and DOCX files are allowed" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.cvUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        { message: "File must have a .pdf, .doc, or .docx extension" },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.cvUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.cvUpload.maxSizeMB}MB`,
+        },
+      ),
 
-pdfUpload: (fieldName) =>
-  z
-    .any()
-    .refine((file) => file instanceof File, {
-      message: `Please upload a ${fieldName}`,
-    })
-    .refine((file) => !(file instanceof File) || file.size > 0, {
-      message: "The uploaded file appears to be empty. Please upload a valid file",
-    })
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
-      {
-        message: "Only PDF and DOC files are allowed",
-      },
-    )
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
-          file.name.toLowerCase().endsWith(ext),
-        ),
-      {
-        message: "File must have a .pdf or .doc extension",
-      },
-    )
-    .refine(
-      (file) =>
-        !(file instanceof File) ||
-        file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
-      {
-        message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
-      },
-    ),
+  pdfUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.pdfUpload.allowedTypes.includes(file.type),
+        {
+          message: "Only PDF and DOC files are allowed",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.pdfUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        {
+          message: "File must have a .pdf or .doc extension",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <= VALIDATION_CONFIG.pdfUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.pdfUpload.maxSizeMB}MB`,
+        },
+      ),
   // ─── Optional PDF Upload ──────────────────────────────────────────────────────
   pdfUploadOptional: z
     .instanceof(File)
@@ -608,10 +795,38 @@ pdfUpload: (fieldName) =>
     })
     .length(6, { message: "PIN code must be exactly 6 digits" }),
 
+  requiredString: (value) =>
+    z.string().min(1, { message: `${value} is required` }),
 
-    requiredString: (value)=> z
+  number: z.coerce.number("Please enter a valid number"),
+
+  gstin: z
     .string()
-    .min(1, { message: `${value} is required` }),
+    // only accept strings from a-z, A-Z, numbers
+    .regex(/^[A-Za-z0-9]{15}$/, {
+      message: "Please enter a valid GSTIN number",
+    }),
 
-  number: z.coerce.number( "Please enter a valid number"),
+  url: (value) =>
+    z
+      .string()
+      .transform((val) => val.trim())
+      .refine((val) => val.length > 0, {
+        message: `${value} is required`,
+      })
+      .refine((val) => !/^\s+$/.test(val), {
+        message: `${value} cannot be just spaces. Please enter a valid URL`,
+      })
+      .refine(
+        (val) =>
+          /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i.test(
+            val,
+          ),
+        {
+          message: `Please enter a valid URL (e.g. https://www.example.com)`,
+        },
+      )
+      .refine((val) => val.length <= 255, {
+        message: `${value} is too long. Please keep it under 255 characters`,
+      }),
 };

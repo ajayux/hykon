@@ -22,7 +22,7 @@ export default function HomeNews({ data }) {
   const fetchNews = async () => {
     if (activeFilter === data?.filterItems?.[0]?.slug && data?.items) {
       setItems(data.items);
-    return;
+      return;
     }
 
     setLoading(true);
@@ -31,12 +31,12 @@ export default function HomeNews({ data }) {
       const res = await fetch(`${baseUrl}/api/news?category=${activeFilter}`);
       if (res.ok) {
         const response = await res.json();
-        
-    const items =
-      response?.data?.newsSection?.items ??
-      response?.data?.items ??
-      response?.items ??
-      [];
+
+        const items =
+          response?.data?.newsSection?.items ??
+          response?.data?.items ??
+          response?.items ??
+          [];
 
         setItems(items);
       }
@@ -70,7 +70,7 @@ export default function HomeNews({ data }) {
 
   return (
     <section className="w-full h-auto block bg-[#212121] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
-      <div className="text-[80px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-[#212121] select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
+      <div className="text-[80px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-black leading-none uppercase text-center text-[#212121] select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
         {parse(data?.title)}
       </div>
       <div className="container">
@@ -103,11 +103,11 @@ export default function HomeNews({ data }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[100px] lg:min-w-full justify-between pl-4 xl:pl-5"
+              className="text-white min-w-[100px] lg:min-w-full justify-between"
               asChild
             >
-              <Link href={"/news"}>
-                View All
+              <Link href={"/news-events"}>
+                <span className="flex-1 text-center">View All</span>
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -185,15 +185,15 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "capitalize text-white p-0 relative z-0",
-              isActive ? "text-white" : "text-white/50",
+              "xl:text-[14.1px] 2xl:text-[16.8px] 3xl:text-[20px] capitalize text-white p-0 relative z-0",
+              isActive ? "text-white" : "text-white/90",
             )}
           >
             {item?.title}
             <span
               className={cn(
-                "absolute z-0 bottom-0 inset-x-0 w-full h-0.5 bg-white",
-                isActive ? "bg-[#008dd2]" : "bg-white/50",
+                "absolute z-0 bottom-0.5 inset-x-0 w-full h-0.5 bg-white",
+                isActive ? "bg-[#008dd2]" : "bg-white/90",
               )}
             />
           </Button>

@@ -19,3 +19,4 @@ const options = {
 export const ParsedContent = ({ html }) => {
   return <div>{parse(html, options)}</div>;
 };
+

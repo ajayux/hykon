@@ -6,26 +6,11 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   const globalData = {
     headerData: {
-      id: "uuid-primary-key",
       name: "Hykon",
-      tagline: "Powering the Nation",
       slug: "/",
       logoUrl: "/images/brand-logo.svg",
       logoWhiteUrl: "/images/brand-logo-white.svg",
-      description:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      websiteUrl: "https://hykon.in/",
-      countryOfOrigin: "India",
-      establishedYear: "2025",
-      phone: "+91 123 456 7890",
-      email: "info@company.com",
-      seoTitle: "Hykon - Powering the Nation",
-      seoDescription:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     },
-
     mobileMenuData: {
       locations: [
         {
@@ -57,63 +42,63 @@ export async function GET(request) {
         id: 1,
         hasSubmenu: false,
         name: "About",
-        slug: "/about",
+        slug: "/about-us",
       },
       {
         id: 2,
         hasSubmenu: true,
         name: "Products",
-        slug: "/products",
+        slug: "/category",
         submenu: [
           {
             id: "2-1",
             name: "Solar Water Heater",
-            slug: "/categories/solar-water-heater",
+            slug: "/category/solar-water-heater",
           },
           {
             id: "2-2",
             name: "SST",
-            slug: "/categories/sst",
+            slug: "/category/sst",
           },
           {
             id: "2-3",
             name: "Inverter Battery",
-            slug: "/categories/inverter-battery",
+            slug: "/category/inverter-battery",
           },
           {
             id: "2-4",
             name: "Lithium Battery",
-            slug: "/categories/lithium-battery",
+            slug: "/category/lithium-battery",
           },
           {
             id: "2-5",
             name: "Electric Vehicle",
-            slug: "/categories/electric-vehicle",
+            slug: "/category/electric-vehicle",
           },
           {
             id: "2-6",
             name: "E-Generator",
-            slug: "/categories/e-generator",
+            slug: "/category/e-generator",
           },
           {
             id: "2-7",
             name: "BESS",
-            slug: "/categories/bess",
+            slug: "/category/bess",
           },
           {
             id: "2-8",
             name: "UPS",
-            slug: "/categories/ups",
+            slug: "/category/ups",
           },
           {
             id: "2-9",
             name: "Solar Systems",
-            slug: "/categories/solar-systems",
+            slug: "/category/solar-systems",
           },
           {
             id: "2-10",
             name: "Heat Pump",
-            slug: "/categories/heat-pump",
+            slug: "/category/heat-pump",
           },
         ],
       },
@@ -121,25 +106,25 @@ export async function GET(request) {
         id: 3,
         hasSubmenu: true,
         name: "Contact",
-        slug: "/contact",
+        slug: "/contact-us",
       },
       {
         id: 4,
         hasSubmenu: false,
         name: "News",
-        slug: "/news",
+        slug: "/news-events",
       },
       {
         id: 5,
         hasSubmenu: false,
         name: "Blogs",
-        slug: "/blogs",
+        slug: "/blog",
       },
       {
         id: 6,
         hasSubmenu: false,
         name: "Career",
-        slug: "/careers",
+        slug: "/career",
       },
       {
         id: 7,
@@ -197,31 +182,24 @@ export async function GET(request) {
           {
             id: "9-8",
             name: "Categories",
-            slug: "/categories",
+            slug: "/category",
           },
         ],
       },
     ],
     footerData: {
-      id: "uuid-primary-key",
       name: "Hykon",
-      tagline: "Powering the Nation",
       slug: "/",
       logoUrl: "/images/brand-logo.svg",
-      logoWhiteUrl: "/images/brand-logo-white.svg",
       description:
         "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      websiteUrl: "https://hykon.in/",
-      phone: ["+91 123 456 7890"],
-      email: ["info@company.com"],
-      locationMapLink: "https://goo.gl/maps/example",
       quickLinks: {
         title: "Quick Links",
         items: [
           {
             id: 0,
             label: "About",
-            slug: "/about",
+            slug: "/about-us",
           },
           {
             id: 1,
@@ -236,18 +214,8 @@ export async function GET(request) {
           {
             id: 1,
             label: "Warranty Registration",
-            slug: "/warranty-complaints",
+            slug: "/warranty",
           },
-          // {
-          //   id: 2,
-          //   label: "Register Complaints",
-          //   slug: "/customer-care/register-complaints",
-          // },
-          // {
-          //   id: 3,
-          //   label: "Privacy Policy",
-          //   slug: "/customer-care/privacy-policy",
-          // },
           {
             id: 3,
             label: "Hykonnect",
@@ -256,18 +224,8 @@ export async function GET(request) {
           {
             id: 4,
             label: "Terms & Conditions",
-            slug: "/terms",
+            slug: "/terms-and-conditions",
           },
-          // {
-          //   id: 5,
-          //   label: "Return Policy",
-          //   slug: "/customer-care/return-policy",
-          // },
-          // {
-          //   id: 6,
-          //   label: "Shipping Policy",
-          //   slug: "/customer-care/shipping-policy",
-          // },
           {
             id: 7,
             label: "Investor Relations",
@@ -281,27 +239,17 @@ export async function GET(request) {
           {
             id: 9,
             label: "Career",
-            slug: "/careers",
+            slug: "/career",
           },
-          // {
-          //   id: 10,
-          //   label: "Services",
-          //   slug: "/services",
-          // },
-          // {
-          //   id: 11,
-          //   label: "Projects",
-          //   slug: "/projects",
-          // },
           {
             id: 12,
             label: "News",
-            slug: "/news",
+            slug: "/news-events",
           },
           {
             id: 13,
             label: "Contact",
-            slug: "/contact",
+            slug: "/contact-us",
           },
           {
             id: 14,
@@ -316,32 +264,32 @@ export async function GET(request) {
           {
             id: 1,
             label: "Solar Light",
-            slug: "/categories/solar-light",
+            slug: "/category/solar-light",
           },
           {
             id: 2,
             label: "Solar Water Heater",
-            slug: "/categories/solar-water-heater",
+            slug: "/category/solar-water-heater",
           },
           {
             id: 3,
             label: "Lithium Battery",
-            slug: "/categories/lithium-battery",
+            slug: "/category/lithium-battery",
           },
           {
             id: 12,
             label: "Heat Pump",
-            slug: "/categories/heat-pumpheat-pump",
+            slug: "/category/heat-pumpheat-pump",
           },
           {
             id: 15,
             label: "UPS & Inverters",
-            slug: "/categories/ups-inverters",
+            slug: "/category/ups-inverters",
           },
           {
             id: 17,
             label: "Stainless steel water tank",
-            slug: "/categories/stainless-steel-water-tank",
+            slug: "/category/stainless-steel-water-tank",
           },
         ],
       },
@@ -376,7 +324,6 @@ export async function GET(request) {
         email: "info@company.com",
       },
       copyright: "<p>© 2025 Hykon. All Rights Reserved.</p>",
-      designedBy: "Designed & Developed by: Intersmart",
     },
     socialLinkData: [
       {
@@ -420,29 +367,8 @@ export async function GET(request) {
         "Get in touch with our team for product details, support, or expert assistance.",
       button: {
         label: "Get In Touch",
-        link: "/contact",
+        link: "/contact-us",
       },
-    },
-    seoData: {
-      siteName: "Hykon",
-      siteUrl: "https://hykon.in/",
-      defaultTitle: "Hykon - Powering the Nation",
-      defaultDescription:
-        "Hykon India Has Successfully Evolved Its Expertise From Power Electronics Into A Leader In Sustainable Energy.",
-      defaultKeywords: [
-        "solar energy",
-        "lithium battery",
-        "electric vehicle",
-        "sustainable energy",
-        "power electronics",
-        "heat pump",
-        "solar water heater",
-        "inverter battery",
-      ],
-      ogImage: "/images/og-image.jpg",
-      twitterHandle: "@hykon",
-      locale: "en_IN",
-      type: "website",
     },
   };
 

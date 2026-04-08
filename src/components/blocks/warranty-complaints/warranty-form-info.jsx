@@ -4,11 +4,11 @@ import { Heading } from "@/components/utils/typography";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
-
+import { ComplaintRegistrationForm } from "@/components/form/complaint-registration-form";
 
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
-    data?.filters?.[0]?.slug || "warranty-registration",
+    data?.filters?.[0]?.slug || "warranty",
   );
   return (
     <section className="w-full h-auto block pt-8 xl:pt-10 2xl:pt-12 3xl:pt-15 pb-15 xl:pb-35 2xl:pb-40 3xl:pb-50 bg-[#181818]">
@@ -40,7 +40,7 @@ export default function WarrantyFormInfo({ data }) {
                     size="lg"
                     variant="none"
                     className={cn(
-                      "capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-all",
+                      "text-[12px] xl:text-[14px] 2xl:text-[16.8px] 3xl:text-[20px] capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-all",
                       isActive
                         ? "text-white"
                         : "text-white/90 hover:text-white",
@@ -62,10 +62,18 @@ export default function WarrantyFormInfo({ data }) {
           </div>
         </div>
         <div className="w-full">
-          {activeTab === "warranty-registration" ? (
-            <WarrantyRegistrationForm page={"warranty"} />
+          {activeTab === "warranty" ? (
+            <WarrantyRegistrationForm
+              key={activeTab}
+              page={"warranty"}
+              activeTab={activeTab}
+            />
           ) : (
-            <WarrantyRegistrationForm page={"warranty"} />
+            <ComplaintRegistrationForm
+              key={activeTab}
+              page={"warranty"}
+              activeTab={activeTab}
+            />
           )}
         </div>
       </div>

@@ -42,14 +42,14 @@ export default function InnerHero({ data, overlayOpacity = 30 }) {
           />
         </picture>
       )}
-      <div className="container">
+      <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="w-full py-[20px] sm:py-[30px] lg:py-[40px] xl:py-[50px] 2xl:py-[80px] 3xl:py-[100px]">
           <Heading
             as="h1"
             size="h1"
             className="leading-tight font-normal text-white"
           >
-            {parse(data?.title || "")}
+            {/* {parse(data?.title || "")} */}
           </Heading>
         </div>
       </div>

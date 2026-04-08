@@ -4,7 +4,7 @@ import WarrantyFormInfo from "@/components/blocks/warranty-complaints/warranty-f
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("warranty-policy");
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("warranty");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 
@@ -15,12 +15,12 @@ const localData = {
       {
         id: 1,
         title: "Warranty",
-        slug: "warranty-registration",
+        slug: "warranty",
       },
       {
         id: 2,
         title: "Complaints",
-        slug: "complaints-registration",
+        slug: "complaint",
       },
     ],
   },

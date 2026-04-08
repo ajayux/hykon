@@ -12,14 +12,16 @@ const scrollToSection = (e, slug) => {
   const el = document.getElementById(slug);
   if (el) {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.replaceState(null, "", window.location.pathname + window.location.search);
+    history.replaceState(
+      null,
+      "",
+      window.location.pathname + window.location.search,
+    );
   }
 };
 
 const getProductUrl = (slug) => {
-  const params = new URLSearchParams();
-  params.append("product_slug[]", slug);
-  return `/products?${params.toString()}`;
+  return `/products?product_slug=${slug}`;
 };
 
 export default function CategoriesDetail({ data }) {
@@ -43,7 +45,7 @@ export default function CategoriesDetail({ data }) {
               {parse(data?.description)}
             </Text>
 
-            {data?.button?.url && (
+            {data?.button?.url === null && (
               <Button
                 size="lg"
                 variant="outline"
@@ -120,7 +122,7 @@ export default function CategoriesDetail({ data }) {
                     alt={item?.media?.alt}
                     width={524}
                     height={250}
-                    className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
+                    className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
                   />
                 </div>
                 <div className="w-full lg:flex-1">
@@ -136,14 +138,23 @@ export default function CategoriesDetail({ data }) {
                   </div>
                   <div className="flex gap-x-3 lg:gap-x-5 2xl:gap-x-6 3xl:gap-x-7.5">
                     {[
-                      {
-                        label: "View Products",
-                        url: getProductUrl(item?.slug),
-                      },
-                      {
-                        label: item?.button?.label,
-                        url: item?.button?.url,
-                      },
+                      ...(item?.variants?.items?.length > 0
+                        ? [
+                            {
+                              label: "View Products",
+                              url: getProductUrl(item?.slug),
+                            },
+                          ]
+                        : []),
+                      ...(item?.button?.url
+                        ? [
+                            {
+                              label: item?.button?.label,
+                              url: item?.button?.url,
+                              target: "blank",
+                            },
+                          ]
+                        : []),
                     ].map((btn) => (
                       <Button
                         key={btn?.label}
@@ -152,7 +163,10 @@ export default function CategoriesDetail({ data }) {
                         className="text-white min-w-[110px] xl:min-w-[130px] 2xl:min-w-[155px] 3xl:min-w-[190px] pl-4"
                         asChild
                       >
-                        <Link href={btn?.url}>
+                        <Link
+                          href={btn?.url ?? ""}
+                          target={btn?.target === "blank" ? "_blank" : ""}
+                        >
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                             <Image
@@ -194,7 +208,10 @@ export default function CategoriesDetail({ data }) {
                             "w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/8",
                           )}
                         >
-                          <div className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]">
+                          <Link
+                            href={`/products/${variant?.slug}`}
+                            className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]"
+                          >
                             <div>
                               <Text
                                 as="div"
@@ -215,7 +232,7 @@ export default function CategoriesDetail({ data }) {
                                 {"/-"}
                               </div>
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       ))}
                     </div>

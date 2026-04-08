@@ -16,7 +16,9 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
   ssr: false,
 });
 
-export default function Footer({ footerData, socialLinkData }) {
+export default function Footer({ quickLinks, footerData, socialLinkData }) {
+  console.log("footer:", footerData);
+
   const pathname = usePathname();
   const isLandingPage =
     pathname === "/landing" || pathname?.startsWith("/landing/");
@@ -33,7 +35,7 @@ export default function Footer({ footerData, socialLinkData }) {
       <div className="container opacity-95">
         <div className="flex flex-wrap items-center justify-between">
           <Link
-            href={footerData?.slug}
+            href={footerData?.slug ?? ""}
             className="w-[90px] sm:w-[100px] lg:w-[125px] 2xl:w-[150px] 3xl:w-[186px] block mb-3 lg:mb-0"
           >
             <Image
@@ -51,14 +53,14 @@ export default function Footer({ footerData, socialLinkData }) {
               size="none"
               className="text-[12px] lg:text-[14px] xl:text-[18px] 2xl:text-[22px] 3xl:text-[28px] font-normal text-white"
             >
-              {parse(footerData?.description)}
+              {parse(footerData?.description ?? "")}
             </Heading>
           </div>
         </div>
-        <hr className="border-[#414141] my-4 xl:my-8.5 2xl:my-10 3xl:my-12.5" />
+        <hr className="border-[#2e2e2e] my-4 xl:my-8.5 2xl:my-10 3xl:my-12.5" />
 
         <div className="flex flex-wrap -mx-1 sm:-mx-2 xl:-mx-3 [&>*]:p-1 sm:[&>*]:p-2 xl:[&>*]:px-3 max-lg:flex-col-reverse">
-          {footerData?.quickLinks && (
+          {quickLinks && (
             <div className="w-full lg:w-[30%] 2xl:w-[32%]">
               <div className="w-full">
                 <MediaQuery minWidth={1024}>
@@ -68,10 +70,10 @@ export default function Footer({ footerData, socialLinkData }) {
                       size="p0"
                       className="font-medium uppercase text-[#bcbcbc] mb-3 xl:mb-5 2xl:mb-6 3xl:mb-8"
                     >
-                      {footerData?.quickLinks?.title}
+                      {quickLinks?.title}
                     </Text>
                     <div className="grid grid-cols-2 gap-x-1">
-                      {footerData?.quickLinks?.items?.map((item, index) => (
+                      {quickLinks?.items?.map((item, index) => (
                         <div key={"quickLinks" + index}>
                           <Heading
                             as="div"
@@ -94,7 +96,7 @@ export default function Footer({ footerData, socialLinkData }) {
                       setOpenSection={setOpenSection}
                     >
                       <div className="flex flex-wrap -mx-2">
-                        {footerData?.quickLinks?.items?.map((item, index) => (
+                        {quickLinks?.items?.map((item, index) => (
                           <div key={"quickLinks" + index} className="w-1/2 p-2">
                             <Heading
                               as="div"
@@ -134,7 +136,9 @@ export default function Footer({ footerData, socialLinkData }) {
                               size="h5"
                               className="font-normal text-white transition [&>a]:hover:text-[#008dd2] my-0.5 xl:my-1"
                             >
-                              <Link href={item?.slug}>{item?.label}</Link>
+                              <Link href={`/category/${item?.slug}`}>
+                                {item?.name}
+                              </Link>
                             </Heading>
                           </div>
                         ),
@@ -162,7 +166,9 @@ export default function Footer({ footerData, socialLinkData }) {
                                 size="h5"
                                 className="font-normal text-white transition [&>a]:hover:text-[#008dd2]"
                               >
-                                <Link href={item?.slug}>{item?.label}</Link>
+                                <Link href={`/category/${item?.slug}`}>
+                                  {item?.name}
+                                </Link>
                               </Heading>
                             </div>
                           ),
@@ -315,23 +321,28 @@ export default function Footer({ footerData, socialLinkData }) {
         </div>
       </div>
 
-      <div className="w-full bg-black py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
+      <div className="w-full bg-[#1b1b1b] py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
         <div className="container opacity-95">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
-              {parse(footerData?.copyright)}
+              {parse(footerData?.copyright ?? "")}
             </Text>
             <div className="flex flex-wrap gap-x-4 xl:gap-x-6 2xl:gap-x-7 3xl:gap-x-11">
               {socialLinkData?.map((item, index) => (
                 <div key={"social_link" + index}>
-                  <Button variant="link" size="none" asChild>
-                    <a href={item?.link} target="_blank" className="block">
+                  <Button
+                    variant="link"
+                    className="cursor-pointer"
+                    size="none"
+                    asChild
+                  >
+                    <a href={item?.url} target="_blank" className="block">
                       <Image
-                        src={item?.icon}
+                        src={item?.iconPath}
                         alt={item?.name}
                         width={18}
                         height={18}
-                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square block hover:scale-110 transition"
+                        className="w-4 sm:w-3 xl:w-3.5 2xl:w-4 3xl:w-4.5 aspect-square object-contain block hover:scale-110 transition"
                         unoptimized
                       />
                     </a>
@@ -351,7 +362,7 @@ export default function Footer({ footerData, socialLinkData }) {
                   alt="footer-author"
                   width={100}
                   height={20}
-                  className="w-[70px] sm:w-[50px] xl:w-[70px] 2xl:w-[85px] inline ml-1"
+                  className="w-[70px] sm:w-[50px] xl:w-[75px] 2xl:w-[85px] inline ml-1"
                   unoptimized
                 />
               </a>

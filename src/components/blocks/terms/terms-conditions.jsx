@@ -57,9 +57,11 @@ export default function TermsAndConditions({ data }) {
           >
             {parse(data?.title || "")}
           </Heading>
-          <div className="typography [--text-color:#fff] mb-4 lg:mb-8 xl:mb-10 2xl:mb-12 3xl:mb-14">
-            {parse(data?.text || "")}
-          </div>
+          {data?.text && (
+            <div className="typography [--text-color:#fff] mb-4 lg:mb-8 xl:mb-10 2xl:mb-12 3xl:mb-14">
+              {parse(data?.text || "")}
+            </div>
+          )}
 
           <div className="typography [--text-color:#fff] [&_h5]:mt-[15px] sm:[&_h5]:mt-[18px] xl:[&_h5]:mt-[22px] 2xl:[&_h5]:mt-[28px] 3xl:[&_h5]:mt-[35px]">
             <ParsedContent html={data.content} />

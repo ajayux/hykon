@@ -1,7 +1,7 @@
 "use client";
 import LandingForm from "./landing-form";
 
-export default function LandingSidebar({ isOpen, onToggle }) {
+export default function LandingSidebar({ isOpen, onToggle, slug }) {
   return (
     <>
       <aside
@@ -11,7 +11,7 @@ export default function LandingSidebar({ isOpen, onToggle }) {
             : "w-0"
         }`}
       >
-        <LandingForm onClose={onToggle} />
+        <LandingForm onClose={onToggle} slug={slug} />
       </aside>
       {!isOpen && (
         <button

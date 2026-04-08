@@ -84,7 +84,7 @@ export default function CareerPositions({ data }) {
                   handleFilterChange("job_position", value)
                 }
               >
-                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0 [&_svg]:text-white">
                   <SelectValue placeholder="Position" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -105,7 +105,7 @@ export default function CareerPositions({ data }) {
                 value={currentLocation}
                 onValueChange={(value) => handleFilterChange("location", value)}
               >
-                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+                <SelectTrigger className="text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-[120px] xl:w-[140px] 2xl:w-[160px] 3xl:w-[190px] p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0 [&_svg]:text-white">
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -147,10 +147,10 @@ export default function CareerPositions({ data }) {
 
 function CareerCard({ item }) {
   return (
-    <div className="w-full bg-[#1c1c1c] px-4 sm:px-8 xl:px-11 2xl:px-12.5 3xl:px-15 py-6 sm:py-5 xl:p-6 2xl:py-7.5 3xl:py-10 rounded-[10px] xl:rounded-[15px] 2xl:rounded-[20px] group transition-all hover:bg-[#252525] relative">
+    <div className="w-full bg-[#212121] px-4 sm:px-8 xl:px-11 2xl:px-12.5 3xl:px-15 py-6 sm:py-5 xl:p-6 2xl:py-7.5 3xl:py-10 rounded-[10px] xl:rounded-[15px] 2xl:rounded-[20px] group transition-all hover:bg-[#252525] relative">
       <div className="flex flex-wrap lg:items-center">
         <div className="w-full lg:w-3/12 mb-4 lg:mb-0">
-          <div className="text-[15px] lg:text-[15px] 2xl:text-[18px] 3xl:text-[21px] leading-tight font-medium text-white mb-2.5 2xl:mb-3 3xl:mb-4">
+          <div className="text-[15px] lg:text-[16px] 2xl:text-[19px] 3xl:text-[21.5px] leading-tight font-normal text-white mb-2.5 2xl:mb-3 3xl:mb-4">
             {item?.title}
           </div>
           <Text as="div" size="p1" className="text-white">
@@ -186,9 +186,9 @@ function CareerCard({ item }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px] pl-6"
+              className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px]"
             >
-              Apply Now
+              <span className="flex-1 text-center">Apply Now</span>
               <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                 <Image
                   src="/images/icon-arrow-right-white.svg"
@@ -205,10 +205,12 @@ function CareerCard({ item }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px] pl-6"
+              className="text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[200px]"
               onClick={() => window.open(item?.button?.file, "_blank")}
             >
-              {item?.button?.text || "Download"}
+              <span className="flex-1 text-center">
+                {item?.button?.text || "Download"}
+              </span>
               <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                 <Image
                   src="/images/icon-download.svg"
@@ -230,13 +232,13 @@ function CareerCard({ item }) {
 function CareerInfo({ careerInfoIcon, title, description }) {
   return (
     <div className="flex flex-col">
-      <div className="text-[10px] xl:text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-none font-medium text-white mb-2 xl:mb-2.5 flex items-center gap-1 xl:gap-2">
+      <div className="text-[10px] xl:text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-none font-medium text-white mb-2 xl:mb-2.5 flex items-center gap-0.5 xl:gap-1  ">
         <Image
           src={careerInfoIcon}
           alt={title}
           width={30}
           height={30}
-          className="h-[14px] xl:h-[14px] 2xl:h-[18px] 3xl:h-[22px] aspect-28/22 object-contain"
+          className="h-[14px] xl:h-[14px] 2xl:h-[18px] 3xl:h-[22px] aspect-square object-contain"
           unoptimized
         />
         {title}
