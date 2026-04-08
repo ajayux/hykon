@@ -100,7 +100,7 @@ export default function HomeAbout({ data }) {
                     className="min-w-[320px] xl:min-w-[440px] 2xl:min-w-[526px] 3xl:min-w-[657px] aspect-square absolute -z-1 bottom-[25%] right-[33%]"
                   />
                   <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-2/10 lg:translate-y-8/10">
-                    <div className="flex-1 h-[0.5px] bg-[#008dd2]" />
+                    <div className="flex-1 h-[1px] xl:h-[0.5px] bg-[#008dd2]" />
                     <div className="w-full max-w-8/12 h-auto bg-[#181818] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-4 lg:pl-6 2xl:pl-8 py-3 lg:py-5">
                       <Heading
                         as="div"
@@ -131,7 +131,7 @@ export default function HomeAbout({ data }) {
                       key={item?.id}
                       className="w-1/2 sm:w-1/2 lg:w-[160px] 2xl:w-[195px] 3xl:w-[240px] py-1.5 3xl:py-2 px-2 3xl:px-3"
                     >
-                      <div className="w-full bg-[#252525] rounded-[6px] lg:rounded-[7px] 3xl:rounded-[8px] py-4 px-4 hover:bg-[#2d2d2d] transition-all duration-300">
+                      <div className="w-full bg-[#252525] rounded-[6px] lg:rounded-[7px] 3xl:rounded-[8px] py-3 2xl:py-4 px-4 hover:bg-[#2d2d2d] transition-all duration-300">
                         <Heading
                           as="div"
                           size="h3"

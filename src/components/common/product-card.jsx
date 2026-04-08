@@ -26,6 +26,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
               as="div"
               size="h5"
               className="line-clamp-1 font-medium text-center text-white mb-2 xl:mb-2.5 2xl:mb-3 3xl:mb-3.5"
+              title={item?.title}
             >
               {item?.title}
             </Heading>
@@ -86,6 +87,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
           as="div"
           size="h5"
           className="line-clamp-1 font-medium text-white mb-2 xl:mb-2.5 2xl:mb-4.5 3xl:mb-5"
+          title={item?.title || item?.name}
         >
           {item?.title || item?.name}
         </Heading>
