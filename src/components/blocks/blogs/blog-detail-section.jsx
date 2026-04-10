@@ -107,7 +107,7 @@ export default function BlogDetailSection({ data }) {
             </div>
           </div>
           <div className="typography [--text-color:#fff]  ">
-            {parse(data?.description??"")}
+            {parse(data?.content??"")}
           </div>
           <div className="clear-both" />
           <div className="w-full my-8 xl:mt-10.5 xl:mb-9.5 2xl:mt-13.5 2xl:mb-12 3xl:mt-17.5 3xl:mb-15">
@@ -128,9 +128,9 @@ export default function BlogDetailSection({ data }) {
               ))}
             </div>
           </div>
-          {/* <div className="typography [--text-color:#fff]  ">
-            {parse(data?.text)}
-          </div> */}
+          <div className="typography [--text-color:#fff]  ">
+            {parse(data?.description?? "")}
+          </div>
         </div>
       </div>
 

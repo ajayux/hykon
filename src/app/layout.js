@@ -60,103 +60,76 @@ const localData = {
     },
     {
       id: 2,
-      hasSubmenu: true,
+      hasSubmenu: false,
       name: "Products",
       slug: "/category",
-      // submenu: [
-      //   {
-      //     id: "2-1",
-      //     name: "Solar Water Heater",
-      //     slug: "/category/solar-water-heater",
-      //   },
-      //   {
-      //     id: "2-2",
-      //     name: "SST",
-      //     slug: "/category/sst",
-      //   },
-      //   {
-      //     id: "2-3",
-      //     name: "Inverter Battery",
-      //     slug: "/category/inverter-battery",
-      //   },
-      //   {
-      //     id: "2-4",
-      //     name: "Lithium Battery",
-      //     slug: "/category/lithium-battery",
-      //   },
-      //   {
-      //     id: "2-5",
-      //     name: "Electric Vehicle",
-      //     slug: "/category/electric-vehicle",
-      //   },
-      //   {
-      //     id: "2-6",
-      //     name: "E-Generator",
-      //     slug: "/category/e-generator",
-      //   },
-      //   {
-      //     id: "2-7",
-      //     name: "BESS",
-      //     slug: "/category/bess",
-      //   },
-      //   {
-      //     id: "2-8",
-      //     name: "UPS",
-      //     slug: "/category/ups",
-      //   },
-      //   {
-      //     id: "2-9",
-      //     name: "Solar Systems",
-      //     slug: "/category/solar-systems",
-      //   },
-      //   {
-      //     id: "2-10",
-      //     name: "Heat Pump",
-      //     slug: "/category/heat-pump",
-      //   },
-      // ],
     },
     {
       id: 3,
-      hasSubmenu: false,
-      name: "Contact",
-      slug: "/contact-us",
+      hasSubmenu: true,
+      name: "Solutions",
+      slug: null,
+      submenu: [
+        {
+          id: "3-1",
+          name: "Services",
+          slug: "/service",
+        },
+        {
+          id: "3-1",
+          name: "Projects",
+          slug: "/projects",
+        },
+      ],
     },
     {
       id: 4,
-      hasSubmenu: false,
-      name: "News",
-      slug: "/news-events",
+      hasSubmenu: true,
+      name: "Insights",
+      slug: null,
+
+      submenu: [
+        {
+          id: "4-1",
+          name: "Media",
+          slug: "/news-events",
+        },
+        {
+          id: "4-1",
+          name: "Blog",
+          slug: "/blog",
+        },
+      ],
     },
     {
       id: 5,
-      hasSubmenu: false,
-      name: "Blogs",
-      slug: "/blog",
-    },
-    {
-      id: 6,
       hasSubmenu: false,
       name: "Career",
       slug: "/career",
     },
     {
-      id: 7,
+      id: 6,
       hasSubmenu: false,
       name: "Hykonnect",
       slug: "/hykonnect",
     },
     {
-      id: 8,
+      id: 7,
       hasSubmenu: false,
       name: "FAQ",
       slug: "/faq",
     },
     {
-      id: 9,
+      id: 8,
       hasSubmenu: false,
       name: "Customer Care",
       slug: "/customer-care",
+    },
+    {
+      id: 9,
+      hasSubmenu: false,
+      name: "Contact",
+      slug: "/contact-us",
     },
   ],
   quickLinks: {
@@ -288,7 +261,7 @@ export default async function RootLayout({ children }) {
   const navigationData = localData.navigationData.map((navItem) =>
     navItem.id === 2 && productSubmenu.length > 0
       ? { ...navItem, submenu: productSubmenu }
-      : navItem
+      : navItem,
   );
 
   const fontVariable = getFontVariable();

@@ -8,17 +8,18 @@ import BlogKeyBenefits from "@/components/blocks/blogs/blog-key-benefits";
 import BlogRelatedBlogs from "@/components/blocks/blogs/related-blogs";
 
 
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   try {
-    const res = await fetch(`${baseUrl}/api/projects/${slug}`);
-    if (!res.ok) return { title: "Projects Not Found" };
+    const res = await fetch(`${baseUrl}/api/project/${slug}`);
+    if (!res.ok) return { title: "" };
 
     const response = await res.json();
     const data = response.data;
-    if (!data) return { title: "Projects Not Found" };
+    if (!data) return { title: "" };
 
     const { meta_title, meta_description, meta_keywords, other_meta_tags } = data.metaTag || {};
     const { other } = parseOtherMeta(other_meta_tags || "");
@@ -42,11 +43,11 @@ export async function generateMetadata({ params }) {
       },
       other: { ...other },
       alternates: {
-        canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/projects/${slug}`,
+        canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/project/${slug}`,
       },
     };
   } catch {
-    return { title: "Projects Not Found" };
+    return { title: "" };
   }
 }
 
