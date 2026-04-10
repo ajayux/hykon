@@ -37,7 +37,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     (appliances || []).map((appliance, index) => ({
       name: appliance.name,
       powerOptions: appliance.powerOptions,
-      rows: [{ id: index + 1, power: "", count: "" }],
+      rows: [{ id: index + 1, power: "", count: "", runtime: "" }],
     })),
   );
   const [invalidRows, setInvalidRows] = useState(new Set());
@@ -61,7 +61,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
 
   const handleAddItem = (index) => {
     const newItems = [...items];
-    newItems[index].rows.push({ id: Date.now(), power: "", count: "" });
+    newItems[index].rows.push({ id: Date.now(), power: "", count: "", runtime: "" });
     setItems(newItems);
   };
 
@@ -121,9 +121,25 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
       if (!highestPower || totalVA <= parseFloat(highestPower)) {
         isNavigatingRef.current = true;
         setIsNavigating(true);
-        router.push(
-          `/products?backup_capacity=${totalVA}&from=power_calculator`,
-        );
+
+        const params = new URLSearchParams();
+        params.set("backup_capacity", totalVA.toString());
+        params.set("from", "power_calculator");
+
+        // Find the maximum runtime across all rows
+        let maxRuntime = 0;
+        items.forEach((item) => {
+          item.rows.forEach((row) => {
+            const r = parseFloat(row.runtime) || 0;
+            if (r > maxRuntime) maxRuntime = r;
+          });
+        });
+
+        if (maxRuntime > 0) {
+          params.set("approx_runtime", maxRuntime.toString());
+        }
+
+        router.push(`/products?${params.toString()}`);
       } else {
         setDialogOpen(true);
       }
@@ -150,16 +166,19 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                       { name: "Appliances" },
                       { name: "Power" },
                       { name: "No." },
+                      { name: "Runtime (Hrs)" },
                     ].map((item, index) => (
                       <th
                         key={item.name}
                         className={cn(
                           "bg-[#333] border-b border-white/35 px-3 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 sm:py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5",
                           index === 0
-                            ? "w-3/10 text-start"
+                            ? "w-2.5/10 text-start"
                             : index === 1
-                              ? "w-5/10 text-start"
-                              : "w-2/10 text-start",
+                              ? "w-4/10 text-start"
+                              : index === 2
+                                ? "w-1.5/10 text-start"
+                                : "w-2/10 text-start",
                         )}
                       >
                         <Text as="p" size="p1" className="text-white">
@@ -285,6 +304,52 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                                     invalidRows.has(row.id) && "border-red-500",
                                   )}
                                 />
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                      </td>
+                      <td className="align-top py-4">
+                        <div className="flex flex-col gap-y-3">
+                          <AnimatePresence initial={false}>
+                            {item.rows.map((row, rowIndex) => (
+                              <motion.div
+                                key={row.id}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="h-7 xl:h-8 2xl:h-9 3xl:h-11 flex items-center overflow-hidden"
+                              >
+                                <Select
+                                  onValueChange={(val) =>
+                                    handleUpdateItem(
+                                      itemIndex,
+                                      rowIndex,
+                                      "runtime",
+                                      val,
+                                    )
+                                  }
+                                  value={row.runtime || undefined}
+                                >
+                                  <SelectTrigger
+                                    className={cn(
+                                      inputClasses,
+                                      "data-[placeholder]:text-white data-[size=default]:h-7 xl:data-[size=default]:h-8 2xl:data-[size=default]:h-9 3xl:data-[size=default]:h-11 justify-between",
+                                    )}
+                                  >
+                                    <SelectValue placeholder="Hrs" />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-white">
+                                    <SelectGroup>
+                                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 24].map((hr) => (
+                                        <SelectItem key={hr} value={hr.toString()}>
+                                          {hr} {hr === 1 ? "Hr" : "Hrs"}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
                               </motion.div>
                             ))}
                           </AnimatePresence>

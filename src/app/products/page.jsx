@@ -160,6 +160,7 @@ export default async function ProductsPage({ searchParams }) {
   const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
 
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
+  const approx_runtime = resolvedSearchParams?.approx_runtime || null;
   const from = resolvedSearchParams?.from || null;
 
   const page = resolvedSearchParams?.page || "1";
@@ -177,6 +178,7 @@ export default async function ProductsPage({ searchParams }) {
 
     if (from) params.set("from", from);
     if (backup_capacity) params.set("backup_capacity", backup_capacity);
+    if (approx_runtime) params.set("approx_runtime", approx_runtime);
 
     const res = await fetch(`${baseUrl}/api/products?${params}`);
 
