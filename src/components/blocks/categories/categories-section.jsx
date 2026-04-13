@@ -41,12 +41,12 @@ export default function CategoriesSection({ data, filterData }) {
   return (
     <section className="w-full h-auto block bg-[#181818] py-10 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container">
-        <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 sm:mb-12 xl:mb-18 2xl:mb-20 3xl:mb-25">
+        <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 sm:mb-10 xl:mb-12 2xl:mb-18 3xl:mb-20">
           <div className="w-full sm:flex-1">
             <Heading
               as="h2"
               size="h1"
-              className="leading-tight font-medium text-white mb-1 sm:mb-0 lg:max-w-[60%]"
+              className="xl:text-[54px] 2xl:text-[58px] 3xl:text-[72px] leading-tight font-medium text-white mb-1 sm:mb-0 lg:max-w-[60%] xl:max-w-[80%]"
             >
               {parse(filterData?.title || "")}
             </Heading>
@@ -54,7 +54,7 @@ export default function CategoriesSection({ data, filterData }) {
 
           <div className="w-[120px] sm:w-[140px] xl:w-[170px] 2xl:w-[200px] 3xl:w-[245px] lg:mb-2 ml-auto">
             <Select onValueChange={(value) => fetchCategories(value)}>
-              <SelectTrigger className="text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[20px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[18px] 3xl:text-[22px] leading-tight font-normal text-white data-[placeholder]:text-white/80 w-full p-0 border-0 border-b-2 border-b-[#008dd2] focus-visible:border-b-[#008dd2] rounded-none hover:scale-100 focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="Use Case" />
               </SelectTrigger>
               <SelectContent className="bg-white">
@@ -134,7 +134,7 @@ export default function CategoriesSection({ data, filterData }) {
                       alt={"icon-arrow-right-blue"}
                       width={13}
                       height={10}
-                      className="w-3"
+                      className="w-1/2"
                       unoptimized
                     />
                   </span>

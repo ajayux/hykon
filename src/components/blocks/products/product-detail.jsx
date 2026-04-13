@@ -256,21 +256,21 @@ export default function ProductDetail({ data, themeProps }) {
             slides={data?.media?.map((item) =>
               item.type === "video"
                 ? {
-                  type: "video",
-                  width: 1280,
-                  height: 720,
-                  poster: item?.thumbnailUrl,
-                  autoPlay: true,
-                  sources: [
-                    {
-                      src: item?.url,
-                      type: "video/mp4",
-                    },
-                  ],
-                }
+                    type: "video",
+                    width: 1280,
+                    height: 720,
+                    poster: item?.thumbnailUrl,
+                    autoPlay: true,
+                    sources: [
+                      {
+                        src: item?.url,
+                        type: "video/mp4",
+                      },
+                    ],
+                  }
                 : {
-                  src: item?.url,
-                },
+                    src: item?.url,
+                  },
             )}
             animation={{ fade: 10 }}
             controller={{
@@ -324,8 +324,8 @@ export default function ProductDetail({ data, themeProps }) {
 
           <div className="w-full lg:flex-1">
             <div className="w-full xl:max-w-11/12">
-              <div className="flex flex-wrap sm:flex-nowrap items-center justify-between mb-2 xl:mb-3 2xl:mb-4 3xl:mb-5">
-                <div className="flex flex-wrap items-center gap-x-2 xl:gap-x-3 2xl:gap-x-4 3xl:gap-x-5 gap-y-1 xl:gap-y-2">
+              <div className="flex flex-wrap sm:flex-nowrap sm:items-center justify-between mb-3 xl:mb-3 2xl:mb-4 3xl:mb-5 max-sm:flex-col-reverse">
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-2 xl:gap-x-3 2xl:gap-x-4 3xl:gap-x-5 gap-y-1 xl:gap-y-2">
                   <Heading
                     as="h2"
                     size="h2"
@@ -347,13 +347,13 @@ export default function ProductDetail({ data, themeProps }) {
                     {data?.pricing?.formattedDiscountPercentage}
                   </Text>
                 </div>
-                <div className="xl:mx-4 2xl:mx-5 3xl:mx-6">
+                <div className="xl:mx-4 2xl:mx-5 3xl:mx-6 max-sm:my-2">
                   <Button
                     size="lg"
                     variant="none"
                     onClick={() => setShareOpen(true)}
                     className={cn(
-                      "flex text-[12px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer hover:scale-100 hover:translate-y-0",
+                      "flex text-[13px] sm:text-[12px] xl:text-[13px] 2xl:text-[16px] 3xl:text-[19px] text-[#bcbcbc] gap-1 xl:gap-1.5 2xl:gap-2 3xl:gap-2.5 px-0 ml-auto hover:text-[#008dd2] transition-colors cursor-pointer hover:scale-100 hover:translate-y-0",
                       "text-[var(--theme-fg-50)] hover:text-[var(--theme-color)]",
                     )}
                   >
@@ -364,7 +364,7 @@ export default function ProductDetail({ data, themeProps }) {
                       height={32}
                       className="w-3 xl:w-4.5 2xl:w-5 3xl:w-6 block opacity-70"
                     /> */}
-                    <Share2 className="size-3 xl:size-4.5 2xl:size-5 3xl:size-6 block opacity-70 text-[var(--theme-fg-50)]" />
+                    <Share2 className="size-3.5 sm:size-3 xl:size-4.5 2xl:size-5 3xl:size-6 block opacity-70 text-[var(--theme-fg-50)]" />
                     Share
                   </Button>
                 </div>
@@ -462,20 +462,20 @@ export default function ProductDetail({ data, themeProps }) {
                           className="size-1/2"
                         >
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M17.5 5.66016H0.000209808V7.16016H17.5V5.66016Z"
                             fill="var(--theme-color)"
                           />
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M16.7499 7.16005C13.2223 7.16005 10.3398 4.05791 10.3398 0.75V0H11.8398V0.75C11.8398 3.26158 14.0825 5.66005 16.7499 5.66005H17.5V7.16005H16.7499Z"
                             fill="var(--theme-color)"
                           />
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M16.7499 5.66016C13.2223 5.66016 10.3398 8.76226 10.3398 12.0702V12.8202H11.8398V12.0702C11.8398 9.55866 14.0825 7.16016 16.7499 7.16016H17.5V5.66016H16.7499Z"
                             fill="var(--theme-color)"
                           />
@@ -531,18 +531,18 @@ export default function ProductDetail({ data, themeProps }) {
                     {data?.variants?.items?.map((variant) => (
                       <div
                         key={variant?.id}
-                        className="w-[100px] sm:w-[140px] lg:w-1/5"
+                        // className="w-[100px] sm:w-[140px] lg:w-1/5"
                       >
                         <Button
                           size="none"
                           variant="none"
                           title={variant?.name}
                           className={cn(
-                            "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                            "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full max-w-[268px] sm:max-w-[210px] lg:max-w-[230px] xl:max-w-[268px] 2xl:max-w-[320px] h-9 xl:h-7 2xl:h-8 3xl:h-9 px-2 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
                             !variant?.isAvailabile &&
-                            "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
+                              "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
-                            "border-white/60 border-[var(--theme-color)] text-white pointer-events-none",
+                              "border-white/60 border-[var(--theme-color)] text-white pointer-events-none",
                             "text-[var(--theme-fg-80)] bg-[var(--theme-bg-alt)] border-[var(--theme-border-20-alt)] hover:bg-[var(--theme-color)] hover:text-[var(--theme-fg)] hover:text-white",
                           )}
                           asChild={
@@ -551,7 +551,7 @@ export default function ProductDetail({ data, themeProps }) {
                           }
                         >
                           {variant?.isAvailabile &&
-                            data?.slug !== variant?.slug ? (
+                          data?.slug !== variant?.slug ? (
                             <Link href={`/products/${variant?.slug}`}>
                               <span className="truncate">{variant?.name}</span>
                             </Link>
@@ -619,7 +619,7 @@ export default function ProductDetail({ data, themeProps }) {
                       "typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]",
                       "[--text-color:var(--theme-fg)]",
                       themeProps?.defaultColor &&
-                      "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
+                        "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
                     )}
                   >
                     <ParsedContent html={tab?.description} />
@@ -629,7 +629,7 @@ export default function ProductDetail({ data, themeProps }) {
             ))}
           </Tabs>
 
-          {data?.specificationVideo && (
+          {data?.specificationVideo?.url && (
             <div className="w-full mb-6 xl:mb-8 2xl:mb-9 3xl:mb-10">
               <div className="w-full max-w-full overflow-hidden">
                 <YouTube

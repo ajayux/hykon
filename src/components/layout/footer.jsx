@@ -32,7 +32,7 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
 
   return (
     <footer className="w-full pt-8 xl:pt-[45px] 2xl:pt-[50px] 3xl:pt-[70px] overflow-hidden bg-[#212121] relative z-0 max-sm:pb-12">
-      <div className="container opacity-95">
+      <div className="container">
         <div className="flex flex-wrap items-center justify-between">
           <Link
             href={footerData?.slug ?? ""}
@@ -47,11 +47,11 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
               unoptimized
             />
           </Link>
-          <div className="w-full max-w-full lg:max-w-[468px] xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[880px]">
+          <div className="w-full max-w-full lg:max-w-[468px] xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[840px]">
             <Heading
               as="div"
               size="none"
-              className="text-[12px] lg:text-[14px] xl:text-[18px] 2xl:text-[22px] 3xl:text-[28px] font-normal text-white"
+              className="text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[20px] 3xl:text-[24px] font-normal text-white"
             >
               {parse(footerData?.description ?? "")}
             </Heading>
@@ -321,8 +321,8 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
         </div>
       </div>
 
-      <div className="w-full bg-[#1b1b1b] py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-22 2xl:mt-20 3xl:mt-22">
-        <div className="container opacity-95">
+      <div className="w-full bg-[#1b1b1b] py-2 sm:py-3 xl:py-4 2xl:py-4.5 mt-10 xl:mt-15 2xl:mt-20 3xl:mt-22">
+        <div className="container">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-y-2 sm:gap-x-5 ">
             <Text as="div" size="p2" className="tracking-wide text-white">
               {parse(footerData?.copyright ?? "")}
