@@ -87,6 +87,11 @@ const nextConfig = {
         destination: "/investor-relations",
         permanent: true,
       },
+         {
+        source: "/about",
+        destination: "/about-us",
+        permanent: true,
+      },
       {
         source: "/csr-policy",
         destination: "/investor-relations",
