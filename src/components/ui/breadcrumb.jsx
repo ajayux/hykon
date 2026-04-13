@@ -13,7 +13,7 @@ function BreadcrumbList({ className, ...props }) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "text-[12px] xl:text-[10px] 2xl:text-[12px] 3xl:text-[16px] leading-normal font-light text-[#fff] flex flex-wrap items-center gap-1 sm:gap-1.5 break-words ",
+        "text-[12px] xl:text-[12px] 2xl:text-[14px] 3xl:text-[16px] leading-normal font-light tracking-wide text-[#fff] flex flex-wrap items-center gap-1 sm:gap-1.5 break-words ",
         className,
       )}
       {...props}
@@ -51,7 +51,7 @@ function BreadcrumbPage({ className, ...props }) {
       aria-disabled="true"
       aria-current="page"
       className={cn(
-        "text-[12px] xl:text-[10px] 2xl:text-[12px] 3xl:text-[16px] leading-normal font-light text-[#fff]",
+        "text-[12px] xl:text-[12px] 2xl:text-[14px] 3xl:text-[16px] leading-normal font-light text-[#fff]",
         className,
       )}
       {...props}

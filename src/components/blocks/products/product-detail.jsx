@@ -462,20 +462,20 @@ export default function ProductDetail({ data, themeProps }) {
                           className="size-1/2"
                         >
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M17.5 5.66016H0.000209808V7.16016H17.5V5.66016Z"
                             fill="var(--theme-color)"
                           />
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M16.7499 7.16005C13.2223 7.16005 10.3398 4.05791 10.3398 0.75V0H11.8398V0.75C11.8398 3.26158 14.0825 5.66005 16.7499 5.66005H17.5V7.16005H16.7499Z"
                             fill="var(--theme-color)"
                           />
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M16.7499 5.66016C13.2223 5.66016 10.3398 8.76226 10.3398 12.0702V12.8202H11.8398V12.0702C11.8398 9.55866 14.0825 7.16016 16.7499 7.16016H17.5V5.66016H16.7499Z"
                             fill="var(--theme-color)"
                           />
@@ -531,14 +531,14 @@ export default function ProductDetail({ data, themeProps }) {
                     {data?.variants?.items?.map((variant) => (
                       <div
                         key={variant?.id}
-                        className="w-[100px] sm:w-[140px] lg:w-1/5"
+                        // className="w-[100px] sm:w-[140px] lg:w-1/5"
                       >
                         <Button
                           size="none"
                           variant="none"
                           title={variant?.name}
                           className={cn(
-                            "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full h-7 2xl:h-8 3xl:h-9 px-1 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
+                            "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full max-w-[200px] sm:max-w-[210px] lg:max-w-[230px] xl:max-w-[268px] 2xl:max-w-[320px] h-7 2xl:h-8 3xl:h-9 px-1 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
                             !variant?.isAvailabile &&
                               "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
@@ -629,7 +629,7 @@ export default function ProductDetail({ data, themeProps }) {
             ))}
           </Tabs>
 
-          {data?.specificationVideo && (
+          {data?.specificationVideo?.url && (
             <div className="w-full mb-6 xl:mb-8 2xl:mb-9 3xl:mb-10">
               <div className="w-full max-w-full overflow-hidden">
                 <YouTube

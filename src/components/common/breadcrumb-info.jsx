@@ -43,7 +43,7 @@ export default function BreadcrumbInfo({
   };
 
   const dotStyle = cn(
-    "w-1 xl:w-1.5 aspect-square bg-[var(--theme-color)] rounded-full",
+    "w-1 xl:w-1.5 2xl:w-2 aspect-square bg-[var(--theme-color)] rounded-full",
     variant === "product-detail" && "bg-[#008dd2] bg-[var(--theme-color)]",
   );
   return (
