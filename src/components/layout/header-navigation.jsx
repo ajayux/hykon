@@ -73,11 +73,15 @@ export default function HeaderNavigation({ navigationData, className }) {
                     : "text-white/90 lg:text-[#1e1e1e]/90",
                 isSubmenuOpen && "max-lg:bg-[#131313]/80",
               )}
-              {...(item?.hasSubmenu ? {} : { asChild: true })}
+              {...(item?.hasSubmenu || !item?.slug ? {} : { asChild: true })}
             >
               {item?.hasSubmenu ? (
                 <div className="flex items-center justify-between lg:justify-start gap-0.5 w-full cursor-pointer">
-                  <Link href={`${item?.slug}`}>{item?.name}</Link>
+                  {item?.slug ? (
+                    <Link href={`${item?.slug}`}>{item?.name}</Link>
+                  ) : (
+                    <span>{item?.name}</span>
+                  )}
                   <ChevronDown
                     className={cn(
                       "size-4 text-[#008dd2] transition-transform duration-200 mt-px xl:mt-[2px]",
@@ -85,8 +89,10 @@ export default function HeaderNavigation({ navigationData, className }) {
                     )}
                   />
                 </div>
-              ) : (
+              ) : item?.slug ? (
                 <Link href={item?.slug}>{item?.name}</Link>
+              ) : (
+                <span>{item?.name}</span>
               )}
             </Button>
 

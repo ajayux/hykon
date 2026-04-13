@@ -4,7 +4,7 @@ import WarrantyFormInfo from "@/components/blocks/warranty-complaints/warranty-f
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("warranty");
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("warranty-registration");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
 

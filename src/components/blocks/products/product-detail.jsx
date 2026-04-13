@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
-import { cn, ParsedContent } from "@/lib/utils";
+import { cn, ParsedContent, getYoutubeVideoId } from "@/lib/utils";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -256,21 +256,21 @@ export default function ProductDetail({ data, themeProps }) {
             slides={data?.media?.map((item) =>
               item.type === "video"
                 ? {
-                    type: "video",
-                    width: 1280,
-                    height: 720,
-                    poster: item?.thumbnailUrl,
-                    autoPlay: true,
-                    sources: [
-                      {
-                        src: item?.url,
-                        type: "video/mp4",
-                      },
-                    ],
-                  }
+                  type: "video",
+                  width: 1280,
+                  height: 720,
+                  poster: item?.thumbnailUrl,
+                  autoPlay: true,
+                  sources: [
+                    {
+                      src: item?.url,
+                      type: "video/mp4",
+                    },
+                  ],
+                }
                 : {
-                    src: item?.url,
-                  },
+                  src: item?.url,
+                },
             )}
             animation={{ fade: 10 }}
             controller={{
@@ -540,9 +540,9 @@ export default function ProductDetail({ data, themeProps }) {
                           className={cn(
                             "text-[12px] lg:text-[9px] 2xl:text-[11px] 3xl:text-[13px] leading-none font-normal truncate text-[#c6c6c6] w-full max-w-[200px] sm:max-w-[210px] lg:max-w-[230px] xl:max-w-[268px] 2xl:max-w-[320px] h-7 2xl:h-8 3xl:h-9 px-1 xl:px-2 2xl:px-3 bg-[#333] rounded-full border border-[#333] hover:bg-[#008dd2] hover:text-white",
                             !variant?.isAvailabile &&
-                              "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
+                            "opacity-50 cursor-not-allowed grayscale-100 pointer-events-none",
                             data?.slug === variant?.slug &&
-                              "border-white/60 border-[var(--theme-color)] text-white pointer-events-none",
+                            "border-white/60 border-[var(--theme-color)] text-white pointer-events-none",
                             "text-[var(--theme-fg-80)] bg-[var(--theme-bg-alt)] border-[var(--theme-border-20-alt)] hover:bg-[var(--theme-color)] hover:text-[var(--theme-fg)] hover:text-white",
                           )}
                           asChild={
@@ -551,7 +551,7 @@ export default function ProductDetail({ data, themeProps }) {
                           }
                         >
                           {variant?.isAvailabile &&
-                          data?.slug !== variant?.slug ? (
+                            data?.slug !== variant?.slug ? (
                             <Link href={`/products/${variant?.slug}`}>
                               <span className="truncate">{variant?.name}</span>
                             </Link>
@@ -619,7 +619,7 @@ export default function ProductDetail({ data, themeProps }) {
                       "typography [--text-color:#fff] [&_h5]:text-[#008dd2]  [&_td:nth-child(odd)]:text-[#333]",
                       "[--text-color:var(--theme-fg)]",
                       themeProps?.defaultColor &&
-                        "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
+                      "[&_ul>li]:list-disc [&_ul>li]:list-image-none",
                     )}
                   >
                     <ParsedContent html={tab?.description} />
@@ -633,9 +633,7 @@ export default function ProductDetail({ data, themeProps }) {
             <div className="w-full mb-6 xl:mb-8 2xl:mb-9 3xl:mb-10">
               <div className="w-full max-w-full overflow-hidden">
                 <YouTube
-                  videoId={new URL(
-                    data.specificationVideo.url,
-                  ).searchParams.get("v")}
+                  videoId={getYoutubeVideoId(data?.specificationVideo?.url)}
                   opts={opts}
                 />
               </div>

@@ -14,11 +14,11 @@ export async function generateMetadata({ params }) {
   try {
     const res = await fetch(`${baseUrl}/api/variant/${slug}`);
 
-    if (!res.ok) return { title: "Product Not Found" };
+    if (!res.ok) return { title: "" };
     
     const response = await res.json();
     const data = response.data;
-    if (!data) return { title: "Product Not Found" };
+    if (!data) return { title: "" };
     
     const { meta_title, meta_description, meta_keywords, other_meta_tags } = data.metaTags || {};
     console.log("res : ", meta_title)
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }) {
       },
     };
   } catch {
-    return { title: "Product Not Founds" };
+    return { title: "s" };
   }
 }
 

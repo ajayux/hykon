@@ -135,7 +135,7 @@ export default function SearchDialog({ children }) {
               </div>
             ) : suggestions.length > 0 ? (
               /* Suggestions list */
-              <div className="space-y-1 2xl:space-y-1.5">
+              <div className="space-y-1 2xl:space-y-1.5 max-h-[300px] xl:max-h-[350px] 2xl:max-h-[400px] 3xl:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                 {suggestions.map((suggestion) => (
                   <Link
                     key={suggestion.id}

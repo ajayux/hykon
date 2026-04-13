@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
@@ -31,17 +31,26 @@ import Link from "next/link";
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
+function getBatteryVoltage(va) {
+  if (va <= 1500) return 12;
+  if (va <= 5000) return 24;
+  return 48;
+}
+
 export default function PowerCalculation({ data, appliances, highestPower }) {
   const router = useRouter();
   const [items, setItems] = useState(() =>
     (appliances || []).map((appliance, index) => ({
       name: appliance.name,
       powerOptions: appliance.powerOptions,
-      rows: [{ id: index + 1, power: "", count: "" }],
+      rows: [{ id: index + 1, power: "", count: "", runtime: "" }],
     })),
   );
   const [invalidRows, setInvalidRows] = useState(new Set());
+  const [invalidRuntimeRows, setInvalidRuntimeRows] = useState(new Set());
   const [dialogOpen, setDialogOpen] = useState(false);
+  const isNavigatingRef = useRef(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -57,9 +66,32 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     }, 0);
   }, [items]);
 
+  const totalAh = useMemo(() => {
+    const voltage = getBatteryVoltage(totalVA);
+    return items.reduce((acc, item) => {
+      const itemTotal = item.rows.reduce((rowAcc, row) => {
+        const powerStr = row.power || "";
+        const runtimeVal = parseFloat(row.runtime);
+        const countVal = parseFloat(row.count);
+
+        if (!powerStr || isNaN(runtimeVal) || runtimeVal <= 0 || isNaN(countVal) || countVal <= 0) {
+          return rowAcc;
+        }
+
+        let powerVal = parseFloat(powerStr) || 0;
+        if (powerStr.toLowerCase().includes("kw")) {
+          powerVal *= 1000;
+        }
+
+        return rowAcc + (powerVal * countVal * runtimeVal) / voltage;
+      }, 0);
+      return acc + itemTotal;
+    }, 0);
+  }, [items, totalVA]);
+
   const handleAddItem = (index) => {
     const newItems = [...items];
-    newItems[index].rows.push({ id: Date.now(), power: "", count: "" });
+    newItems[index].rows.push({ id: Date.now(), power: "", count: "", runtime: "" });
     setItems(newItems);
   };
 
@@ -74,38 +106,97 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     newItems[itemIndex].rows[rowIndex][field] = value;
     setItems(newItems);
 
+    const row = newItems[itemIndex].rows[rowIndex];
+
     if (field === "count") {
       setInvalidRows((prev) => {
         const next = new Set(prev);
-        next.delete(newItems[itemIndex].rows[rowIndex].id);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
         return next;
       });
+    } else if (field === "runtime") {
+      setInvalidRuntimeRows((prev) => {
+        const next = new Set(prev);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
+        return next;
+      });
+    } else if (field === "power") {
+      if (value && !row.count) {
+        setInvalidRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
+      if (value && !row.runtime) {
+        setInvalidRuntimeRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
     }
   };
 
   const handleClickHere = () => {
+    if (isNavigatingRef.current) return;
+
     const errorIds = new Set();
+    const errorRuntimeIds = new Set();
     items.forEach((item) => {
       item.rows.forEach((row) => {
         if (row.power && !row.count) {
           errorIds.add(row.id);
         }
+        if (row.power && !row.runtime) {
+          errorRuntimeIds.add(row.id);
+        }
       });
     });
 
     setInvalidRows(errorIds);
+    setInvalidRuntimeRows(errorRuntimeIds);
 
-    if (errorIds.size > 0) {
+    if (errorIds.size > 0 || errorRuntimeIds.size > 0) {
       return;
     }
 
     setInvalidRows(new Set());
+    setInvalidRuntimeRows(new Set());
 
     if (totalVA > 0) {
       if (!highestPower || totalVA <= parseFloat(highestPower)) {
-        router.push(
-          `/products?backup_capacity=${totalVA}&from=power_calculator`,
-        );
+        isNavigatingRef.current = true;
+        setIsNavigating(true);
+
+        const params = new URLSearchParams();
+        params.set("backup_capacity", totalVA.toString());
+        params.set("from", "power_calculator");
+
+        // Find the maximum runtime across all rows
+        let maxRuntime = 0;
+        items.forEach((item) => {
+          item.rows.forEach((row) => {
+            const r = parseFloat(row.runtime) || 0;
+            if (r > maxRuntime) maxRuntime = r;
+          });
+        });
+        if (totalAh > 0) {
+          params.set("backup_capacity_ah", totalAh.toFixed(2));
+        }
+        if (maxRuntime > 0) {
+          params.set("backup_hours", maxRuntime.toString());
+        }
+
+        router.push(`/products?${params.toString()}`);
       } else {
         setDialogOpen(true);
       }
@@ -132,16 +223,19 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                       { name: "Appliances" },
                       { name: "Power" },
                       { name: "No." },
+                      { name: "Runtime (Hrs)" },
                     ].map((item, index) => (
                       <th
                         key={item.name}
                         className={cn(
                           "bg-[#333] border-b border-white/35 px-3 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 sm:py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5",
                           index === 0
-                            ? "w-3/10 text-start"
+                            ? "w-2.5/10 text-start"
                             : index === 1
-                              ? "w-5/10 text-start"
-                              : "w-2/10 text-start",
+                              ? "w-4/10 text-start"
+                              : index === 2
+                                ? "w-1.5/10 text-start"
+                                : "w-2/10 text-start",
                         )}
                       >
                         <Text as="p" size="p1" className="text-white">
@@ -272,6 +366,43 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                           </AnimatePresence>
                         </div>
                       </td>
+                      <td className="align-top py-4">
+                        <div className="flex flex-col gap-y-3">
+                          <AnimatePresence initial={false}>
+                            {item.rows.map((row, rowIndex) => (
+                              <motion.div
+                                key={row.id}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="h-7 xl:h-8 2xl:h-9 3xl:h-11 flex items-center overflow-hidden"
+                              >
+                                <Input
+                                  type="text"
+                                  placeholder="Hrs"
+                                  value={row.runtime}
+                                  onChange={(e) =>
+                                    handleUpdateItem(
+                                      itemIndex,
+                                      rowIndex,
+                                      "runtime",
+                                      e.target.value
+                                        .replace(/[^0-9.]/g, "")
+                                        .replace(/(\..*)\./g, "$1"),
+                                    )
+                                  }
+                                  className={cn(
+                                    inputClasses,
+                                    "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRuntimeRows.has(row.id) && "border-red-500",
+                                  )}
+                                />
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -299,13 +430,27 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
               <Text
                 as="p"
                 size="p1"
+                className="text-white mb-2.5 2xl:mb-3 3xl:mb-4"
+              >
+                {data?.ahTitle || "Your approximate capacity (Ah) need is:"}
+              </Text>
+              <Text
+                as="div"
+                size="p1"
+                className="leading-tight text-white w-full h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-white/10 border border-white rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] flex items-center justify-center mb-4 2xl:mb-7 3xl:mb-9 font-medium"
+              >
+                {totalAh.toFixed(2)} Ah
+              </Text>
+              <Text
+                as="p"
+                size="p1"
                 className="text-white mb-2 2xl:mb-2.5 3xl:mb-3"
               >
                 {data?.calculatorDescription}
               </Text>
               <Button
                 onClick={handleClickHere}
-                disabled={totalVA === 0}
+                disabled={totalVA === 0 || isNavigating}
                 size="lg"
                 variant="outline"
                 className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9 disabled:opacity-40 disabled:cursor-not-allowed"
