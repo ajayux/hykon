@@ -31,6 +31,12 @@ import Link from "next/link";
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
+function getBatteryVoltage(va) {
+  if (va <= 1500) return 12;
+  if (va <= 5000) return 24;
+  return 48;
+}
+
 export default function PowerCalculation({ data, appliances, highestPower }) {
   const router = useRouter();
   const [items, setItems] = useState(() =>
@@ -41,6 +47,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     })),
   );
   const [invalidRows, setInvalidRows] = useState(new Set());
+  const [invalidRuntimeRows, setInvalidRuntimeRows] = useState(new Set());
   const [dialogOpen, setDialogOpen] = useState(false);
   const isNavigatingRef = useRef(false);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -58,6 +65,29 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
       return acc + itemTotal;
     }, 0);
   }, [items]);
+
+  const totalAh = useMemo(() => {
+    const voltage = getBatteryVoltage(totalVA);
+    return items.reduce((acc, item) => {
+      const itemTotal = item.rows.reduce((rowAcc, row) => {
+        const powerStr = row.power || "";
+        const runtimeVal = parseFloat(row.runtime);
+        const countVal = parseFloat(row.count);
+
+        if (!powerStr || isNaN(runtimeVal) || runtimeVal <= 0 || isNaN(countVal) || countVal <= 0) {
+          return rowAcc;
+        }
+
+        let powerVal = parseFloat(powerStr) || 0;
+        if (powerStr.toLowerCase().includes("kw")) {
+          powerVal *= 1000;
+        }
+
+        return rowAcc + (powerVal * countVal * runtimeVal) / voltage;
+      }, 0);
+      return acc + itemTotal;
+    }, 0);
+  }, [items, totalVA]);
 
   const handleAddItem = (index) => {
     const newItems = [...items];
@@ -88,12 +118,31 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
         }
         return next;
       });
-    } else if (field === "power" && value && !row.count) {
-      setInvalidRows((prev) => {
+    } else if (field === "runtime") {
+      setInvalidRuntimeRows((prev) => {
         const next = new Set(prev);
-        next.add(row.id);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
         return next;
       });
+    } else if (field === "power") {
+      if (value && !row.count) {
+        setInvalidRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
+      if (value && !row.runtime) {
+        setInvalidRuntimeRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
     }
   };
 
@@ -101,21 +150,27 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     if (isNavigatingRef.current) return;
 
     const errorIds = new Set();
+    const errorRuntimeIds = new Set();
     items.forEach((item) => {
       item.rows.forEach((row) => {
         if (row.power && !row.count) {
           errorIds.add(row.id);
         }
+        if (row.power && !row.runtime) {
+          errorRuntimeIds.add(row.id);
+        }
       });
     });
 
     setInvalidRows(errorIds);
+    setInvalidRuntimeRows(errorRuntimeIds);
 
-    if (errorIds.size > 0) {
+    if (errorIds.size > 0 || errorRuntimeIds.size > 0) {
       return;
     }
 
     setInvalidRows(new Set());
+    setInvalidRuntimeRows(new Set());
 
     if (totalVA > 0) {
       if (!highestPower || totalVA <= parseFloat(highestPower)) {
@@ -134,9 +189,8 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
             if (r > maxRuntime) maxRuntime = r;
           });
         });
-
-        if (maxRuntime > 0) {
-          params.set("approx_runtime", maxRuntime.toString());
+        if (totalAh > 0) {
+          params.set("backup_capacity_ah", totalAh.toFixed(2));
         }
 
         router.push(`/products?${params.toString()}`);
@@ -321,35 +375,26 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                                 transition={{ duration: 0.2 }}
                                 className="h-7 xl:h-8 2xl:h-9 3xl:h-11 flex items-center overflow-hidden"
                               >
-                                <Select
-                                  onValueChange={(val) =>
+                                <Input
+                                  type="text"
+                                  placeholder="Hrs"
+                                  value={row.runtime}
+                                  onChange={(e) =>
                                     handleUpdateItem(
                                       itemIndex,
                                       rowIndex,
                                       "runtime",
-                                      val,
+                                      e.target.value
+                                        .replace(/[^0-9.]/g, "")
+                                        .replace(/(\..*)\./g, "$1"),
                                     )
                                   }
-                                  value={row.runtime || undefined}
-                                >
-                                  <SelectTrigger
-                                    className={cn(
-                                      inputClasses,
-                                      "data-[placeholder]:text-white data-[size=default]:h-7 xl:data-[size=default]:h-8 2xl:data-[size=default]:h-9 3xl:data-[size=default]:h-11 justify-between",
-                                    )}
-                                  >
-                                    <SelectValue placeholder="Hrs" />
-                                  </SelectTrigger>
-                                  <SelectContent className="bg-white">
-                                    <SelectGroup>
-                                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 24].map((hr) => (
-                                        <SelectItem key={hr} value={hr.toString()}>
-                                          {hr} {hr === 1 ? "Hr" : "Hrs"}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectGroup>
-                                  </SelectContent>
-                                </Select>
+                                  className={cn(
+                                    inputClasses,
+                                    "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRuntimeRows.has(row.id) && "border-red-500",
+                                  )}
+                                />
                               </motion.div>
                             ))}
                           </AnimatePresence>
@@ -378,6 +423,20 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                 {totalVA >= 1000
                   ? (totalVA / 1000).toFixed(2) + " kVA"
                   : totalVA + " VA"}
+              </Text>
+              <Text
+                as="p"
+                size="p1"
+                className="text-white mb-2.5 2xl:mb-3 3xl:mb-4"
+              >
+                {data?.ahTitle || "Your approximate capacity (Ah) need is:"}
+              </Text>
+              <Text
+                as="div"
+                size="p1"
+                className="leading-tight text-white w-full h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-white/10 border border-white rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] flex items-center justify-center mb-4 2xl:mb-7 3xl:mb-9 font-medium"
+              >
+                {totalAh.toFixed(2)} Ah
               </Text>
               <Text
                 as="p"
