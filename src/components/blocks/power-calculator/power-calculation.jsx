@@ -192,6 +192,9 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
         if (totalAh > 0) {
           params.set("backup_capacity_ah", totalAh.toFixed(2));
         }
+        if (maxRuntime > 0) {
+          params.set("backup_hours", maxRuntime.toString());
+        }
 
         router.push(`/products?${params.toString()}`);
       } else {

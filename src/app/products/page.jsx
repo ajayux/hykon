@@ -161,6 +161,7 @@ export default async function ProductsPage({ searchParams }) {
 
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
   const approx_runtime = resolvedSearchParams?.approx_runtime || null;
+  const backup_hours = resolvedSearchParams?.backup_hours || null;
   const from = resolvedSearchParams?.from || null;
 
   const page = resolvedSearchParams?.page || "1";
@@ -179,6 +180,8 @@ export default async function ProductsPage({ searchParams }) {
     if (from) params.set("from", from);
     if (backup_capacity) params.set("backup_capacity", backup_capacity);
     if (approx_runtime) params.set("approx_runtime", approx_runtime);
+    if (backup_hours) params.set("backup_hours", backup_hours);
+
 
     const res = await fetch(`${baseUrl}/api/products?${params}`);
 
