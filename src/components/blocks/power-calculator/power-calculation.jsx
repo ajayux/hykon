@@ -66,8 +66,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
     }, 0);
   }, [items]);
 
-  const totalAh = useMemo(() => {
-    const voltage = getBatteryVoltage(totalVA);
+  const totalVAh = useMemo(() => {
     return items.reduce((acc, item) => {
       const itemTotal = item.rows.reduce((rowAcc, row) => {
         const powerStr = row.power || "";
@@ -83,11 +82,11 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
           powerVal *= 1000;
         }
 
-        return rowAcc + (powerVal * countVal * runtimeVal) / voltage;
+        return rowAcc + powerVal * countVal * runtimeVal;
       }, 0);
       return acc + itemTotal;
     }, 0);
-  }, [items, totalVA]);
+  }, [items]);
 
   const handleAddItem = (index) => {
     const newItems = [...items];
@@ -429,14 +428,14 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
                 size="p1"
                 className="text-white mb-2.5 2xl:mb-3 3xl:mb-4"
               >
-                {data?.ahTitle || "Your approximate capacity (Ah) need is:"}
+                {data?.ahTitle || "Your approximate capacity (VAh) need is:"}
               </Text>
               <Text
                 as="div"
                 size="p1"
                 className="leading-tight text-white w-full h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-white/10 border border-white rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] flex items-center justify-center mb-4 2xl:mb-7 3xl:mb-9 font-medium"
               >
-                {totalAh.toFixed(2)} Ah
+                {totalVAh.toFixed(2)} VAh
               </Text>
               <Text
                 as="p"
