@@ -189,7 +189,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
           });
         });
         if (maxRuntime > 0) {
-          params.set("backup_hours", maxRuntime.toString());
+          params.set("VAh", totalVAh.toString());
         }
 
         router.push(`/products?${params.toString()}`);
