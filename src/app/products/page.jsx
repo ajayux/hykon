@@ -161,7 +161,7 @@ export default async function ProductsPage({ searchParams }) {
 
   const backup_capacity = resolvedSearchParams?.backup_capacity || null;
   const approx_runtime = resolvedSearchParams?.approx_runtime || null;
-  const backup_hours = resolvedSearchParams?.backup_hours || null;
+  const backup_hours = resolvedSearchParams?.VAh || null;
   const from = resolvedSearchParams?.from || null;
 
   const page = resolvedSearchParams?.page || "1";
