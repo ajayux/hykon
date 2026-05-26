@@ -227,7 +227,7 @@ export default function ProductDetail({ data, themeProps }) {
                               loop
                               muted
                               playsInline
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-cover"
                             >
                               <source src={item?.url} type="video/mp4" />
                             </video>
@@ -237,7 +237,7 @@ export default function ProductDetail({ data, themeProps }) {
                               alt={item?.alt || "main"}
                               width={1080}
                               height={1080}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-cover"
                             />
                           )}
                         </div>
