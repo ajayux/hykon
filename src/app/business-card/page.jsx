@@ -7,7 +7,6 @@ import BusinessGallery from "@/components/blocks/business-card/business-gallery"
 import BusinessServices from "@/components/blocks/business-card/business-services";
 import BusinessVideos from "@/components/blocks/business-card/business-videos";
 import BusinessHeader from "@/components/blocks/business-card/business-header";
-import { div } from "three/src/nodes/math/OperatorNode";
 
 const local_data = {
   businessHero: {
