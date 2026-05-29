@@ -33,7 +33,7 @@ export default function HomeHero({ data }) {
                   autoPlay
                   muted
                   loop
-                  poster={item?.media?.poster ?? "/images/placeholder.jpg"}
+                  poster={item?.media?.image ?? "/images/placeholder.jpg"}
                   playsInline
                   className="w-full h-full object-cover pointer-events-none"
                 />
@@ -60,8 +60,8 @@ export default function HomeHero({ data }) {
 
       <div className="absolute z-1 inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
 
-      <div className="absolute z-2 bottom-0 inset-x-0  container flex justify-end pb-4 lg:pb-12.5 2xl:pb-15 3xl:pb-19">
-        <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-2 xl:py-3 2xl:py-4.5 3xl:py-5 px-4 xl:px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
+      <div className="absolute z-2 bottom-0 inset-x-0 container min-[1200px]:max-w-[1200px] min-[1408px]:max-w-[1408px] min-[1576px]:max-w-[1576px] min-[1720px]:max-w-[1720px] flex justify-end pb-4 lg:pb-12.5 2xl:pb-15 3xl:pb-19">
+        <div className="bg-white/12 backdrop-blur-[18px] border border-white/15 rounded-full py-2 xl:py-3 2xl:py-3.5 3xl:py-4 px-4 xl:px-4.5 2xl:px-5 3xl:px-7 flex flex-wrap items-center">
           <div className="pl-2 2xl:pl-2.5 3xl:pl-3 pr-5 2xl:pr-6 3xl:pr-7.5">
             <Text as="p" size="p2" className="text-white">
               {data?.contactInfo?.title}
@@ -71,14 +71,14 @@ export default function HomeHero({ data }) {
               </span>
             </Text>
           </div>
-          <div className="w-6.5 h-6.5 2xl:w-7 2xl:h-7 3xl:w-11 3xl:h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
+          <div className="w-7 h-7 2xl:w-7 2xl:h-7 3xl:w-11 3xl:h-11 bg-[#d9d9d9] rounded-full flex items-center justify-center">
             <a href={`tel:${data?.contactInfo?.phone}`} target="_blank">
               <Image
                 src={"/images/icon-arrow-right.svg"}
                 alt={"icon-arrow-right"}
                 width={18}
                 height={13}
-                className="w-4"
+                className="w-9/10 m-auto"
                 unoptimized
               />
             </a>

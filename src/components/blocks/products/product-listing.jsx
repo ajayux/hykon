@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useCallback, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/utils/typography";
 import { ListFilterPlus } from "lucide-react";
@@ -62,11 +62,32 @@ export function ProductListingSkeleton() {
 }
 
 function ProductGrid({ data }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const product_slugs = searchParams.getAll("product_slug[]");
+  const rawSlug = searchParams.get("product_slug");
+  const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
+  const from = searchParams.get("from");
+  const backup_capacity = searchParams.get("backup_capacity");
+  const approx_runtime = searchParams.get("approx_runtime");
 
-  const [items, setItems] = useState(data?.productInfo?.productItems ?? []);
-  const [pagination, setPagination] = useState(data?.productInfo?.pagination ?? {});
+  function handleProductSelect(productSlug) {
+    if (!productSlug) return;
+    const current = new URLSearchParams(searchParams.toString());
+    const existing = current.get("product_slug");
+    const slugs = existing ? existing.split(",").filter(Boolean) : [];
+    if (!slugs.includes(productSlug)) {
+      slugs.push(productSlug);
+      current.set("product_slug", slugs.join(","));
+      router.replace(`/products?${current.toString()}`, { scroll: false });
+    }
+  }
+
+  const [items, setItems] = useState(
+    data?.productInfo?.productItems?.data ?? [],
+  );
+  const [pagination, setPagination] = useState(
+    data?.productInfo?.productItems?.pagination ?? {},
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
   const prevSlugsRef = useRef(product_slugs.join(","));
@@ -82,8 +103,8 @@ function ProductGrid({ data }) {
 
   // Reset items when server responds with new filtered data
   useEffect(() => {
-    setItems(data?.productInfo?.productItems ?? []);
-    setPagination(data?.productInfo?.pagination ?? {});
+    setItems(data?.productInfo?.productItems?.data ?? []);
+    setPagination(data?.productInfo?.productItems?.pagination ?? {});
     setIsFiltering(false);
   }, [data]);
 
@@ -93,20 +114,27 @@ function ProductGrid({ data }) {
       const params = new URLSearchParams();
       product_slugs.forEach((s) => params.append("product_slug[]", s));
       params.set("page", String(pagination.current_page + 1));
+      if (from) params.set("from", from);
+      if (backup_capacity) params.set("backup_capacity", backup_capacity);
+      if (approx_runtime) params.set("approx_runtime", approx_runtime);
 
       const res = await fetch(`${API_URL}/products?${params}`);
       if (res.ok) {
         const response = await res.json();
-        const result = response.data?.productSection?.productInfo || response.data?.productInfo;
-        setItems((prev) => [...prev, ...(result?.productItems ?? [])]);
-        setPagination(result?.pagination ?? {});
+        const result =
+          response.data?.productSection?.productInfo ||
+          response.data?.productInfo;
+        setItems((prev) => [...prev, ...(result?.productItems?.data ?? [])]);
+        setPagination(result?.productItems?.pagination ?? {});
       }
     } catch (error) {
       console.error("Error loading more products:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [product_slugs.join(","), pagination.current_page]);
+  }, [product_slugs.join(","), pagination.current_page, from]);
+
+  const hasMore = pagination.current_page !== pagination.last_page;
 
   return (
     <div className="w-full lg:flex-1">
@@ -120,7 +148,10 @@ function ProductGrid({ data }) {
       <div className="flex flex-wrap -mx-1 sm:-mx-2.5 xl:-mx-3.5 2xl:-mx-4.5 3xl:-mx-5.5 [&>div]:py-2 sm:[&>div]:py-2.5 xl:[&>div]:py-3 2xl:[&>div]:py-3.5 3xl:[&>div]:py-5 [&>div]:px-1 sm:[&>div]:px-2.5 xl:[&>div]:px-3.5 2xl:[&>div]:px-4.5 3xl:[&>div]:px-5.5">
         {isFiltering ? (
           [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div key={`sk-filter-${i}`} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
+            <div
+              key={`sk-filter-${i}`}
+              className="w-1/2 min-[468px]:w-1/3 md:w-1/4"
+            >
               <ProductCardSkeleton />
             </div>
           ))
@@ -128,12 +159,19 @@ function ProductGrid({ data }) {
           <>
             {items.map((item) => (
               <div key={item.id} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
-                <ProductCard item={item} variant="variant-1" />
+                <ProductCard
+                  item={item}
+                  variant="variant-1"
+                  onSelect={handleProductSelect}
+                />
               </div>
             ))}
             {isLoading &&
               [1, 2, 3, 4].map((i) => (
-                <div key={`sk-${i}`} className="w-1/2 min-[468px]:w-1/3 md:w-1/4">
+                <div
+                  key={`sk-${i}`}
+                  className="w-1/2 min-[468px]:w-1/3 md:w-1/4"
+                >
                   <ProductCardSkeleton />
                 </div>
               ))}
@@ -159,7 +197,7 @@ function ProductGrid({ data }) {
         )}
       </div>
 
-      {pagination?.has_more && (
+      {hasMore && (
         <div className="w-full flex justify-center mt-10 xl:mt-12.5 2xl:mt-15 3xl:mt-20">
           <Button
             size="lg"
@@ -168,7 +206,7 @@ function ProductGrid({ data }) {
             onClick={fetchMore}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Load More"}
+            {isLoading ? "" : "Load More"}
             {!isLoading && (
               <Image
                 src={"/images/icon-news-right.svg"}
@@ -186,48 +224,67 @@ function ProductGrid({ data }) {
   );
 }
 
-export default function ProductListing({ data }) {
+export default function ProductListing({ data, from }) {
+  const mobileFilterRef = useRef(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const hideFilter = from === "power_calculator";
+
   return (
     <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
-      <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
+      <div className="container ">
         <div className="flex flex-wrap sm:gap-x-8 xl:gap-x-13 2xl:gap-x-15 3xl:gap-x-20">
-          <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
-            <div className="w-full sticky top-(--header-y) hidden lg:block">
-              <Suspense fallback={null}>
-                <FilterCard data={data} />
-              </Suspense>
-            </div>
-            <Sheet>
-              <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
-                <ListFilterPlus className="size-3 xl:size-4 text-white" />
-                FILTER
-              </SheetTrigger>
-              <SheetContent
-                showCloseButton={true}
-                className="bg-[#181818] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
-              >
-                <SheetHeader className="sr-only">
-                  <SheetTitle>FILTER</SheetTitle>
-                  <SheetDescription>
-                    This action cannot be undone.
-                  </SheetDescription>
-                </SheetHeader>
+          {!hideFilter && (
+            <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
+              <div className="w-full sticky top-(--header-y) hidden lg:block">
                 <Suspense fallback={null}>
                   <FilterCard data={data} />
                 </Suspense>
-                <SheetFooter className="grid grid-cols-2 gap-2 px-0">
-                  <SheetClose asChild>
-                    <Button size="lg" variant="outline">
-                      Close
+              </div>
+              <Sheet
+                open={sheetOpen}
+                onOpenChange={(open) => {
+                  if (!open) mobileFilterRef.current?.reset();
+                  setSheetOpen(open);
+                }}
+              >
+                <SheetTrigger className="text-[12px] xl:text-[14px] leading-tight font-medium text-white flex items-center gap-2 ml-auto lg:hidden">
+                  <ListFilterPlus className="size-3 xl:size-4 text-white" />
+                  FILTER
+                </SheetTrigger>
+                <SheetContent
+                  showCloseButton={true}
+                  className="bg-[#181818] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
+                >
+                  <SheetHeader className="sr-only">
+                    <SheetTitle>FILTER</SheetTitle>
+                    <SheetDescription>
+                      This action cannot be undone.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <Suspense fallback={null}>
+                    <FilterCard ref={mobileFilterRef} data={data} deferred />
+                  </Suspense>
+                  <SheetFooter className="grid grid-cols-2 gap-2 px-0">
+                    <SheetClose asChild>
+                      <Button size="lg" variant="outline">
+                        Close
+                      </Button>
+                    </SheetClose>
+                    <Button
+                      size="lg"
+                      variant="white"
+                      onClick={() => {
+                        mobileFilterRef.current?.apply();
+                        setSheetOpen(false);
+                      }}
+                    >
+                      Apply
                     </Button>
-                  </SheetClose>
-                  <Button size="lg" variant="white" type="submit">
-                    Apply
-                  </Button>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          </div>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+            </div>
+          )}
 
           <Suspense fallback={null}>
             <ProductGrid data={data} />

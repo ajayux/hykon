@@ -20,7 +20,7 @@ export default function HomeBusiness({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block py-8 lg:py-3 bg-[#008dd2] lg:bg-linear-to-b from-[#181818] to-black overflow-hidden">
+    <section className="w-full h-auto block py-8 lg:py-3 bg-[#008dd2] lg:bg-[#181818] overflow-hidden">
       <div
         className={cn(
           "w-full bg-[#008dd2]",
@@ -33,7 +33,7 @@ export default function HomeBusiness({ data }) {
               <Heading
                 as="div"
                 size="h6"
-                className="tracking-1 font-normal uppercase text-white mb-1 xl:mb-2.5 2xl:mb-4"
+                className="tracking-[0.4rem] font-normal uppercase text-white mb-1 xl:mb-2.5 2xl:mb-4"
               >
                 {data?.title}
               </Heading>
@@ -47,7 +47,7 @@ export default function HomeBusiness({ data }) {
               <Button
                 size="lg"
                 variant="none"
-                className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] px-0"
+                className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] justify-start px-0"
                 asChild
               >
                 <Link href={`/factory`}>
@@ -79,62 +79,66 @@ export default function HomeBusiness({ data }) {
                         "flex-[0_0_220px] sm:flex-[0_0_33.333%] lg:flex-[0_0_25%] min-w-0 select-none max-lg:px-1",
                       )}
                     >
-                      <div className="group w-full h-full block relative z-0">
-                        <div className="w-full absolute z-0 inset-0 flex flex-col justify-center max-lg:hidden">
-                          <div className="text-[52px] sm:text-[68px] xl:text-[83px] 2xl:text-[100px] 3xl:text-[125px] font-medium leading-none text-transparent bg-linear-to-b from-white to-transparent bg-clip-text select-none opacity-40 mb-2 xl:mb-5 2xl:mb-6 3xl:mb-7.5">
-                            {item?.id}
-                          </div>
-                          <Heading
-                            as="h3"
-                            size="none"
-                            className="text-[12px] sm:text-[14px] xl:text-[15px] 2xl:text-[17px] 3xl:text-[22px] leading-tight font-normal line-clamp-2 text-white max-w-8/10 lg:max-w-6/10"
-                          >
-                            {item?.title}
-                          </Heading>
-                        </div>
-
-                        <div className="w-full h-full 3xl:min-h-[410px] bg-white px-3 xl:px-4 3xl:px-5 py-4 xl:py-6 3xl:py-8 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-500 lg:-translate-x-1/6 lg:translate-y-4 lg:group-hover:translate-y-0 lg:group-hover:scale-105 rounded-2xl shadow-lg flex flex-col">
-                          <div className="relative w-full aspect-34/18 overflow-hidden rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[10px] mb-2 xl:mb-4.5 3xl:mb-6.5">
-                            <Image
-                              src={item?.media?.path}
-                              alt={item?.media?.alt}
-                              fill
-                              className="object-cover transition-transform duration-700 hover:scale-110"
-                            />
-                          </div>
-                          <div className="flex-1 flex flex-col justify-between">
+                      <Link href={`/factory/${item?.slug}`}>
+                        <div className="group w-full h-full block relative z-0">
+                          <div className="w-full absolute z-0 inset-0 flex flex-col justify-center max-lg:hidden">
+                            <div className="text-[52px] sm:text-[68px] xl:text-[83px] 2xl:text-[100px] 3xl:text-[125px] font-medium leading-none text-transparent bg-linear-to-b from-white to-transparent bg-clip-text select-none opacity-40 mb-2 xl:mb-5 2xl:mb-6 3xl:mb-7.5">
+                              {item?.id}
+                            </div>
                             <Heading
                               as="h3"
                               size="none"
-                              className="text-[12px] sm:text-[14px] xl:text-[15px] 2xl:text-[17px] 3xl:text-[22px] leading-tight font-normal line-clamp-2 text-black mb-2 xl:mb-3 2xl:mb-4 3xl:mb-6"
+                              className="text-[12px] sm:text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[21px] leading-tight font-normal line-clamp-2 text-white max-w-8/10 lg:max-w-6/10"
                             >
                               {item?.title}
                             </Heading>
-                            <div>
-                              <Button
-                                size="lg"
-                                variant="none"
-                                className="text-black min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
-                                asChild
+                          </div>
+
+                          <div className="w-full h-full 3xl:min-h-[410px] bg-white px-3 xl:px-4 3xl:px-5 py-4 xl:py-6 3xl:py-8 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-500 lg:-translate-x-1/6 lg:translate-y-4 lg:group-hover:translate-y-0 lg:group-hover:scale-105 rounded-2xl shadow-lg flex flex-col">
+                            <div className="relative w-full aspect-34/18 overflow-hidden rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[10px] mb-2 xl:mb-4.5 3xl:mb-6.5">
+                              <Image
+                                src={item?.media?.path}
+                                alt={item?.media?.alt}
+                                fill
+                                className="object-cover transition-transform duration-700 hover:scale-110"
+                              />
+                            </div>
+                            <div className="flex-1 flex flex-col justify-between">
+                              <Heading
+                                as="h3"
+                                size="none"
+                                className="text-[12px] sm:text-[14px] xl:text-[15px] 2xl:text-[17px] 3xl:text-[22px] leading-tight font-normal line-clamp-2 text-black mb-2 xl:mb-3 2xl:mb-4 3xl:mb-6"
                               >
-                                <Link href={`/factory/${item?.slug}`}>
-                                  <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
-                                    <Image
-                                      src={"/images/icon-arrow-right-white.svg"}
-                                      alt={"icon-arrow-right-white"}
-                                      width={18}
-                                      height={13}
-                                      className="w-1/2"
-                                      unoptimized
-                                    />
+                                {item?.title}
+                              </Heading>
+                              <div>
+                                <Button
+                                  size="lg"
+                                  variant="none"
+                                  className="text-black min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0"
+                                  asChild
+                                >
+                                  <div>
+                                    <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                                      <Image
+                                        src={
+                                          "/images/icon-arrow-right-white.svg"
+                                        }
+                                        alt={"icon-arrow-right-white"}
+                                        width={18}
+                                        height={13}
+                                        className="w-1/2"
+                                        unoptimized
+                                      />
+                                    </div>
+                                    {data?.button?.label}
                                   </div>
-                                  {data?.button?.label}
-                                </Link>
-                              </Button>
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </div>
                   ))}
                 </div>

@@ -13,7 +13,7 @@ export default function HomePower({ data }) {
         alt={"home-calculate-bg"}
         width={1360}
         height={125}
-        className="w-full h-full absolute -z-1 inset-0 object-cover pointer-events-none opacity-50"
+        className="w-full h-full absolute -z-2 inset-0 object-cover pointer-events-none opacity-50"
       />
       <div className="flex flex-col">
         <Heading

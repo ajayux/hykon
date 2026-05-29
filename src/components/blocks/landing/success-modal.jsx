@@ -13,8 +13,8 @@ export default function SuccessModal({ isOpen, onClose }) {
       <DialogPortal>
         <DialogOverlay className="bg-[#000000]/50"/>
         <DialogContent
-          showCloseButton={false}
           className="bg-[#212121] rounded-[10px] lg:rounded-[20px]"
+          closeClassName="text-white"
         >
           <FormSubmitResponse
             imagePath="/images/form-submitted-success.svg"

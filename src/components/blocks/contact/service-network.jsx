@@ -35,7 +35,7 @@ export default function ServiceNetwork({ data }) {
         <Heading
           as="h2"
           size="h1"
-          className="text-center font-medium text-white mb-4 xl:mb-6 2xl:mb-8 3xl:mb-10"
+          className="text-center font-medium text-white mb-4 xl:mb-7 2xl:mb-9 3xl:mb-11"
         >
           {data?.title}
         </Heading>
@@ -46,10 +46,10 @@ export default function ServiceNetwork({ data }) {
               key={item?.id}
               onClick={() => handleTabChange(item?.slug)}
               className={cn(
-                "text-[14px] lg:text-[12px] 2xl:text-[14px] 3xl:text-[17px] leading-tight font-normal text-white px-3 xl:px-5 2xl:px-6 3xl:px-7 py-1 xl:py-1.5 2xl:py-2 3xl:py-2.5 rounded-full border border-[#d0d0d0] transition-all duration-300",
+                "text-[12px] lg:text-[11.5px] 2xl:text-[13.2px] 3xl:text-[16px] leading-tight font-normal px-3 xl:px-5 2xl:px-6 3xl:px-7 py-1 xl:py-1.5 2xl:py-2 3xl:py-2.5 rounded-full border border-[#d0d0d0] transition-all duration-300",
                 activeFilter === item?.slug
-                  ? "bg-[#008dd2]"
-                  : "bg-[#181818] hover:border-[#008dd2]",
+                  ? "text-white bg-[#008dd2]"
+                  : "text-white/80 bg-[#181818] hover:border-[#008dd2]",
               )}
             >
               {item?.title}
@@ -79,9 +79,9 @@ export default function ServiceNetwork({ data }) {
                     className="w-full bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] transition-all hover:bg-[#27333a]"
                   >
                     <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4 border-b border-white/10">
-                      <Text as="div" size="p0" className="text-white mt-1">
+                      <div className="text-[15px] lg:text-[14px] 2xl:text-[17.6px] 3xl:text-[21.5px] leading-normal font-medium tracking-[0.020rem] text-white mt-1">
                         {item.title}
-                      </Text>
+                      </div>
                     </div>
                     <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4">
                       <Text
@@ -125,9 +125,7 @@ export default function ServiceNetwork({ data }) {
 
 function ServiceSkeleton() {
   return (
-    <div
-      className="w-full bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
-    >
+    <div className="w-full bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]">
       <div className="px-4 xl:px-5 2xl:px-6 3xl:px-8 py-2 xl:py-2 2xl:py-3 3xl:py-4 border-b border-white/10">
         <Skeleton className="h-4 w-3/4 mt-1 bg-white/10" />
       </div>

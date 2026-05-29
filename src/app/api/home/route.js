@@ -100,7 +100,7 @@ export async function GET(request) {
         "<p>For over three decades since 1991, Hykon India has successfully evolved its expertise from power electronics into a leader in sustainable energy. Our core focus now includes complete solar energy solutions and cutting-edge Lithium-ion battery manufacturing. As a top-ranked Indian manufacturer, we ensure reliable, high-quality power for consumers and industries across the nation.</p>",
       button: {
         label: "Read More",
-        link: "/about",
+        link: "/about-us",
       },
       chairman: {
         title: "Christo George",
@@ -509,7 +509,7 @@ export async function GET(request) {
       ],
       button: {
         label: "View All",
-        link: "/news",
+        link: "/news-events",
       },
       items: [
         {
@@ -642,7 +642,7 @@ export async function GET(request) {
       title: "Blogs",
       button: {
         label: "View All",
-        link: "/blogs",
+        link: "/blog",
       },
       items: [
         {

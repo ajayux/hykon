@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 
-export default function NewsCard({ item, isLoading }) {
+export default function NewsCard({ item, isLoading, variant = "news" }) {
   if (isLoading) return <NewsCardSkelton />;
   return (
     <Suspense fallback={<NewsCardSkelton />}>
@@ -51,7 +51,7 @@ export default function NewsCard({ item, isLoading }) {
             <Text
               as="div"
               size="p2"
-              className="line-clamp-3 font-normal text-white mb-1 xl:mb-2 3xl:mb-3"
+              className="line-clamp-3 xl:leading-[1.7] font-normal text-white mb-1 xl:mb-2 3xl:mb-3"
             >
               {parse(
                 item?.description ||
@@ -66,7 +66,7 @@ export default function NewsCard({ item, isLoading }) {
               className="text-white px-0"
               asChild
             >
-              <Link href={`/news/${item?.slug}`}>
+              <Link href={`/${variant}/${item?.slug}`}>
                 Read More
                 <Image
                   src={"/images/icon-news-right.svg"}

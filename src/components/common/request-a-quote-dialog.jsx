@@ -41,7 +41,7 @@ export default function RequestAQuoteDialog({ children }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[68vh] overflow-y-auto px-4 py-1">
-          <RequestAQuoteForm />
+          <RequestAQuoteForm onClose={() => setOpen(false)} />
         </div>
       </DialogContent>
     </Dialog>

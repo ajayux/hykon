@@ -5,23 +5,9 @@ import { notFound } from "next/navigation";
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("blogs");
+  const { title, description, keywords, twitter, openGraph, alternates, other } = await getMetaData("blog");
   return { title, description, keywords, twitter, openGraph, alternates, other };
 }
-
-const localData = {
-  title: "Blog",
-  description: "Blog Listing Page",
-  heroSection: {
-    title: "Blogs",
-    media: {
-      type: "image",
-      mobilePath: "/images/blogs-hero-1.jpg",
-      desktopPath: "/images/blogs-hero-1.jpg",
-      alt: "Blogs",
-    },
-  },
-};
 
 export default async function BlogsPage() {
   let blogsData = null;

@@ -10,7 +10,7 @@ export default function LandingHeader({ isSidebarOpen }) {
       >
         <Link
           href="/"
-          className="w-[100px] sm:w-[110px] xl:w-[130px] 2xl:w-[160px] 3xl:w-[200px] h-auto aspect-[200/85] overflow-hidden block"
+          className="w-[100px] sm:w-[110px] xl:w-[110px] 2xl:w-[130px] 3xl:w-[160px] h-auto aspect-[200/85] overflow-hidden block"
         >
           <Image
             src="/images/brand-logo.svg"

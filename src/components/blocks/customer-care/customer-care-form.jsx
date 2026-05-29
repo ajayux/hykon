@@ -5,6 +5,9 @@ import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
+import { ComplaintRegistrationForm } from "@/components/form/complaint-registration-form";
+import { InstallationRequestForm } from "@/components/form/installation-request-form";
+import { DealershipRequestForm } from "@/components/form/dealership-request-form";
 
 export default function CustomerCareForm({ data }) {
   const [activeTab, setActiveTab] = useState(
@@ -64,7 +67,16 @@ export default function CustomerCareForm({ data }) {
               >
                 {activeTab.replace(/-/g, " ")}
               </Heading>
-              <WarrantyRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+
+              {activeTab === "warranty-registration" ? (
+                <WarrantyRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+              ) : activeTab === "registration-complaints" ? (
+                <ComplaintRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+              ) : activeTab === "installation-request" ? (
+                <InstallationRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+              ) : activeTab === "dealership-request" ? (
+                <DealershipRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+              ) : null}
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import parse from "html-react-parser";
@@ -24,51 +25,32 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
 
-export default function PowerCalculation({ data }) {
-  const [items, setItems] = useState([
-    {
-      name: "Lamps (Bulb)",
-      powerOptions: ["5W", "10W", "15W", "20W", "40W", "60W"],
-      rows: [{ id: 1, power: "", count: "" }],
-    },
-    {
-      name: "Lamps (CFL)",
-      powerOptions: ["5W", "8W", "11W", "14W", "20W", "24W"],
-      rows: [{ id: 2, power: "", count: "" }],
-    },
-    {
-      name: "LED Lights",
-      powerOptions: ["3W", "5W", "7W", "9W", "12W", "15W", "18W", "20W"],
-      rows: [{ id: 3, power: "", count: "" }],
-    },
-    {
-      name: "Tube Lights",
-      powerOptions: ["18W", "20W", "36W", "40W"],
-      rows: [{ id: 4, power: "", count: "" }],
-    },
-    {
-      name: "Fans",
-      powerOptions: ["50W", "60W", "75W", "80W"],
-      rows: [{ id: 5, power: "", count: "" }],
-    },
-    {
-      name: "Window air conditioner",
-      powerOptions: ["0.75kW", "1kW", "1.5kW", "2kW"],
-      rows: [{ id: 6, power: "", count: "" }],
-    },
-    {
-      name: "Water Heater/Geaser",
-      powerOptions: ["1kW", "2kW", "3kW"],
-      rows: [{ id: 7, power: "", count: "" }],
-    },
-  ]);
+function getBatteryVoltage(va) {
+  if (va <= 1500) return 12;
+  if (va <= 5000) return 24;
+  return 48;
+}
+
+export default function PowerCalculation({ data, appliances, highestPower }) {
+  const router = useRouter();
+  const [items, setItems] = useState(() =>
+    (appliances || []).map((appliance, index) => ({
+      name: appliance.name,
+      powerOptions: appliance.powerOptions,
+      rows: [{ id: index + 1, power: "", count: "", runtime: "" }],
+    })),
+  );
+  const [invalidRows, setInvalidRows] = useState(new Set());
+  const [invalidRuntimeRows, setInvalidRuntimeRows] = useState(new Set());
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const isNavigatingRef = useRef(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const totalVA = useMemo(() => {
     return items.reduce((acc, item) => {
@@ -84,9 +66,31 @@ export default function PowerCalculation({ data }) {
     }, 0);
   }, [items]);
 
+  const totalVAh = useMemo(() => {
+    return items.reduce((acc, item) => {
+      const itemTotal = item.rows.reduce((rowAcc, row) => {
+        const powerStr = row.power || "";
+        const runtimeVal = parseFloat(row.runtime);
+        const countVal = parseFloat(row.count);
+
+        if (!powerStr || isNaN(runtimeVal) || runtimeVal <= 0 || isNaN(countVal) || countVal <= 0) {
+          return rowAcc;
+        }
+
+        let powerVal = parseFloat(powerStr) || 0;
+        if (powerStr.toLowerCase().includes("kw")) {
+          powerVal *= 1000;
+        }
+
+        return rowAcc + powerVal * countVal * runtimeVal;
+      }, 0);
+      return acc + itemTotal;
+    }, 0);
+  }, [items]);
+
   const handleAddItem = (index) => {
     const newItems = [...items];
-    newItems[index].rows.push({ id: Date.now(), power: "", count: "" });
+    newItems[index].rows.push({ id: Date.now(), power: "", count: "", runtime: "" });
     setItems(newItems);
   };
 
@@ -100,6 +104,99 @@ export default function PowerCalculation({ data }) {
     const newItems = [...items];
     newItems[itemIndex].rows[rowIndex][field] = value;
     setItems(newItems);
+
+    const row = newItems[itemIndex].rows[rowIndex];
+
+    if (field === "count") {
+      setInvalidRows((prev) => {
+        const next = new Set(prev);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
+        return next;
+      });
+    } else if (field === "runtime") {
+      setInvalidRuntimeRows((prev) => {
+        const next = new Set(prev);
+        if (!value && row.power) {
+          next.add(row.id);
+        } else {
+          next.delete(row.id);
+        }
+        return next;
+      });
+    } else if (field === "power") {
+      if (value && !row.count) {
+        setInvalidRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
+      if (value && !row.runtime) {
+        setInvalidRuntimeRows((prev) => {
+          const next = new Set(prev);
+          next.add(row.id);
+          return next;
+        });
+      }
+    }
+  };
+
+  const handleClickHere = () => {
+    if (isNavigatingRef.current) return;
+
+    const errorIds = new Set();
+    const errorRuntimeIds = new Set();
+    items.forEach((item) => {
+      item.rows.forEach((row) => {
+        if (row.power && !row.count) {
+          errorIds.add(row.id);
+        }
+        if (row.power && !row.runtime) {
+          errorRuntimeIds.add(row.id);
+        }
+      });
+    });
+
+    setInvalidRows(errorIds);
+    setInvalidRuntimeRows(errorRuntimeIds);
+
+    if (errorIds.size > 0 || errorRuntimeIds.size > 0) {
+      return;
+    }
+
+    setInvalidRows(new Set());
+    setInvalidRuntimeRows(new Set());
+
+    if (totalVA > 0) {
+      if (!highestPower || totalVA <= parseFloat(highestPower)) {
+        isNavigatingRef.current = true;
+        setIsNavigating(true);
+
+        const params = new URLSearchParams();
+        params.set("backup_capacity", totalVA.toString());
+        params.set("from", "power_calculator");
+
+        // Find the maximum runtime across all rows
+        let maxRuntime = 0;
+        items.forEach((item) => {
+          item.rows.forEach((row) => {
+            const r = parseFloat(row.runtime) || 0;
+            if (r > maxRuntime) maxRuntime = r;
+          });
+        });
+        if (maxRuntime > 0) {
+          params.set("VAh", totalVAh.toString());
+        }
+
+        router.push(`/products?${params.toString()}`);
+      } else {
+        setDialogOpen(true);
+      }
+    }
   };
 
   return (
@@ -122,16 +219,19 @@ export default function PowerCalculation({ data }) {
                       { name: "Appliances" },
                       { name: "Power" },
                       { name: "No." },
+                      { name: "Runtime (Hrs)" },
                     ].map((item, index) => (
                       <th
                         key={item.name}
                         className={cn(
                           "bg-[#333] border-b border-white/35 px-3 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 py-2 sm:py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5",
                           index === 0
-                            ? "w-3/10 text-start"
+                            ? "w-2.5/10 text-start"
                             : index === 1
-                              ? "w-5/10 text-start"
-                              : "w-2/10 text-start",
+                              ? "w-4/10 text-start"
+                              : index === 2
+                                ? "w-1.5/10 text-start"
+                                : "w-2/10 text-start",
                         )}
                       >
                         <Text as="p" size="p1" className="text-white">
@@ -177,7 +277,7 @@ export default function PowerCalculation({ data }) {
                                       val,
                                     )
                                   }
-                                  value={row.power}
+                                  value={row.power || undefined}
                                 >
                                   <SelectTrigger
                                     className={cn(
@@ -189,11 +289,13 @@ export default function PowerCalculation({ data }) {
                                   </SelectTrigger>
                                   <SelectContent className="bg-white">
                                     <SelectGroup>
-                                      {item?.powerOptions?.map((opt) => (
-                                        <SelectItem key={opt} value={opt}>
-                                          {opt}
-                                        </SelectItem>
-                                      ))}
+                                      {item?.powerOptions
+                                        ?.filter((opt) => opt === row.power || !item.rows.some((r) => r.power === opt))
+                                        .map((opt) => (
+                                          <SelectItem key={opt} value={opt}>
+                                            {isNaN(Number(opt)) ? opt : opt + "W"}
+                                          </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                   </SelectContent>
                                 </Select>
@@ -203,7 +305,8 @@ export default function PowerCalculation({ data }) {
                                     onClick={() => handleAddItem(itemIndex)}
                                     size="lg"
                                     variant="outline"
-                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0"
+                                    disabled={item.rows.length >= (item.powerOptions?.length || 0) || totalVA === 0}
+                                    className="text-white rounded-full w-7 xl:w-8 2xl:w-9 3xl:w-11 h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#152832] border-[#152832] p-0 shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
                                   >
                                     <Plus className="size-4" />
                                   </Button>
@@ -238,7 +341,7 @@ export default function PowerCalculation({ data }) {
                               >
                                 <Input
                                   type="text"
-                                  placeholder="No"
+                                  placeholder="No."
                                   value={row.count}
                                   onChange={(e) =>
                                     handleUpdateItem(
@@ -251,6 +354,44 @@ export default function PowerCalculation({ data }) {
                                   className={cn(
                                     inputClasses,
                                     "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRows.has(row.id) && "border-red-500",
+                                  )}
+                                />
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+                      </td>
+                      <td className="align-top py-4">
+                        <div className="flex flex-col gap-y-3">
+                          <AnimatePresence initial={false}>
+                            {item.rows.map((row, rowIndex) => (
+                              <motion.div
+                                key={row.id}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="h-7 xl:h-8 2xl:h-9 3xl:h-11 flex items-center overflow-hidden"
+                              >
+                                <Input
+                                  type="text"
+                                  placeholder="Hrs"
+                                  value={row.runtime}
+                                  onChange={(e) =>
+                                    handleUpdateItem(
+                                      itemIndex,
+                                      rowIndex,
+                                      "runtime",
+                                      e.target.value
+                                        .replace(/[^0-9.]/g, "")
+                                        .replace(/(\..*)\./g, "$1"),
+                                    )
+                                  }
+                                  className={cn(
+                                    inputClasses,
+                                    "text-center px-0 w-10.5 2xl:w-13 3xl:w-16",
+                                    invalidRuntimeRows.has(row.id) && "border-red-500",
                                   )}
                                 />
                               </motion.div>
@@ -285,19 +426,34 @@ export default function PowerCalculation({ data }) {
               <Text
                 as="p"
                 size="p1"
+                className="text-white mb-2.5 2xl:mb-3 3xl:mb-4"
+              >
+                {data?.ahTitle || "Your approximate capacity (VAh) need is:"}
+              </Text>
+              <Text
+                as="div"
+                size="p1"
+                className="leading-tight text-white w-full h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-white/10 border border-white rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] flex items-center justify-center mb-4 2xl:mb-7 3xl:mb-9 font-medium"
+              >
+                {totalVAh.toFixed(2)} VAh
+              </Text>
+              <Text
+                as="p"
+                size="p1"
                 className="text-white mb-2 2xl:mb-2.5 3xl:mb-3"
               >
                 {data?.calculatorDescription}
               </Text>
-              <PowerDialog>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9"
-                >
-                  Click Here
-                </Button>
-              </PowerDialog>
+              <Button
+                onClick={handleClickHere}
+                disabled={totalVA === 0 || isNavigating}
+                size="lg"
+                variant="outline"
+                className="text-white min-w-full rounded-[6px] 2xl:rounded-[7px] 3xl:rounded-[8px] h-8 xl:h-8 2xl:h-9 3xl:h-11 bg-[#008dd2] mb-4 2xl:mb-7 3xl:mb-9 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Click Here
+              </Button>
+              <PowerDialog open={dialogOpen} onOpenChange={setDialogOpen} />
               <div className="text-[12px] lg:text-[10px] 2xl:text-[11px] 3xl:text-[14px] leading-normal font-light italic text-white/80">
                 {parse(data?.calculatorNote)}
               </div>
@@ -309,32 +465,33 @@ export default function PowerCalculation({ data }) {
   );
 }
 
-function PowerDialog({ children }) {
+function PowerDialog({ open, onOpenChange }) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={
           "xl:max-w-[480px] 2xl:max-w-[576px] 3xl:max-w-[680px] bg-[#212121] py-8 sm:py-10 xl:py-14 2xl:py-16 3xl:py-20 px-4 sm:px-5 xl:px-7 2xl:px-8 3xl:px-10 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
         }
-        closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
+        closeClassName="3xl:size-4 top-2 right-2 3xl:top-4 3xl:right-4 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >
         <DialogHeader className={"text-start"}>
           <DialogTitle asChild>
             <Heading
               as="h2"
               size="h4"
-              className="leading-tight font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
+              className="leading-normal font-normal text-center text-white [&_a]:text-[#008dd2] [&_a]:underline [&_a]:underline-offset-4"
             >
               Sorry! Your power consumption is above standard usage levels.
-              Please contact <Link href="/customer-care">customer care</Link>{" "}
-              for customized solutions. career application form
+              Please contact{" "}
+              <i>
+                <Link href="/customer-care">customer care</Link>{" "}
+              </i>
+              for customized solutions.
             </Heading>
           </DialogTitle>
           <DialogDescription className={"sr-only"}>
             Sorry! Your power consumption is above standard usage levels. Please
-            contact customer care for customized solutions. career application
-            form
+            contact customer care for customized solutions.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

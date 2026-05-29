@@ -27,7 +27,7 @@ export async function getMetaData(pageKey) {
 
 
     if (result?.success) {
-      const other = parseOtherMeta(meta?.other_meta_tags || "");
+      const { other } = parseOtherMeta(meta?.other_meta_tags || "");
 
       return {
         title: meta?.meta_title,

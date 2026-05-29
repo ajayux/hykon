@@ -21,7 +21,7 @@ export default function HomeBlogs({ data }) {
   );
   return (
     <section className="w-full h-auto block bg-[#181818] pb-10 xl:pb-[66px] 2xl:pb-20 3xl:pb-[100px] relative z-0">
-      <div className="absolute -z-1 top-0 inset-x-0  -translate-y-1/3 overflow-hidden">
+      <div className="absolute -z-1 top-2 inset-x-0 -translate-y-1/3 overflow-hidden">
         <div className="text-[60px] sm:text-[100px] lg:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-[#181818] select-none opacity-40 [-webkit-text-stroke:1px_#595959]">
           {parse(data?.title)}
         </div>
@@ -32,7 +32,7 @@ export default function HomeBlogs({ data }) {
           "max-sm:pr-0 max-sm:[mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)] max-sm:[-webkit-mask-image:linear-gradient(to_right,black_0%,black_95%,transparent_100%)]",
         )}
       >
-        <div className="flex flex-wrap items-end gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15 max-sm:pr-4">
+        <div className="flex flex-wrap items-center gap-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-6 xl:mb-10 2xl:mb-11 3xl:mb-15 max-sm:pr-4">
           <div className="flex-1">
             <Heading
               as="h2"
@@ -46,11 +46,11 @@ export default function HomeBlogs({ data }) {
             <Button
               size="lg"
               variant="outline"
-              className="text-white min-w-full justify-between pl-4 xl:pl-5"
+              className="text-white min-w-full justify-between"
               asChild
             >
-              <Link href={"/blogs"}>
-                View All
+              <Link href={"/blog"}>
+                <span className="flex-1 text-center">View All</span>
                 <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                   <Image
                     src={"/images/icon-arrow-right-white.svg"}
@@ -75,7 +75,7 @@ export default function HomeBlogs({ data }) {
                 )}
               >
                 <Link
-                  href={`/blogs/${item?.slug}`}
+                  href={`/blog/${item?.slug}`}
                   className="group w-full h-full aspect-square rounded-[20px] overflow-hidden bg-[#113B50] block relative z-0"
                 >
                   <div className="w-full h-full visible group-hover:invisible scale-100 group-hover:scale-90 transition-all duration-300">

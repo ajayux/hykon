@@ -7,7 +7,7 @@ export default function ContactDetails({ data }) {
   return (
     <section className="w-full h-auto block py-4 xl:py-6 2xl:py-8 3xl:py-10 bg-[#181818] overflow-hidden">
       <div className="container">
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-6 xl:gap-6.5 2xl:gap-7.5 3xl:gap-9">
           <div className="w-full sm:flex-1">
             <Heading
               as="h2"
@@ -105,8 +105,9 @@ export default function ContactDetails({ data }) {
             </div>
           </div>
 
-          <div className="w-full lg:w-[576px] xl:w-[600px] 2xl:w-[720px] 3xl:w-[880px]">
-            <div className="w-full h-full bg-[#212121] bg-linear-to-r from-[#212121] via-[#212121] via-[80%] to-[#008dd2]/30 p-4 sm:p-6 xl:p-8 2xl:p-9.5 3xl:p-12 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] flex items-center">
+          <div className="w-full lg:w-[576px] xl:w-[650px] 2xl:w-[725px] 3xl:w-[885px]">
+            <div className="w-full h-full bg-[#212121] p-4 sm:p-6 xl:p-8 2xl:p-9.5 3xl:p-12 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] flex items-center overflow-hidden relative z-0">
+              <div className="absolute z-1 inset-0 left-auto pointer-events-none w-[25%] h-full  bg-linear-to-r from-transparent  to-[#008dd2]/30 " />
               <div className="w-full">
                 <Heading as="h2" size="h1" className="text-white mb-1 xl:mb-2">
                   Enquiry Form
@@ -141,7 +142,7 @@ function ContactDetailsCard({ children, title, icon }) {
           alt={title || "address"}
           width={20}
           height={20}
-          className="w-3 2xl:w-4 3xl:w-5 aspect-square object-contain"
+          className="w-3 2xl:w-3.5 3xl:w-4 aspect-square object-contain"
         />
         {title}
       </Text>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import CountUp from "react-countup";
 import { Heading, Text } from "../../utils/typography";
-
+import parse from "html-react-parser"
 export default function LandingHomes({ data, isSidebarOpen }) {
   return (
     <section className="w-full h-auto py-[25px] sm:py-[35px] 2xl:py-[40px] bg-[#008DD2] block">
@@ -28,15 +28,15 @@ export default function LandingHomes({ data, isSidebarOpen }) {
               <span className="font-light block">{data?.title}</span>
             </Heading>
             <Text as="div" size="p1" className="font-light text-white">
-              {data?.description}
+              {parse(data?.description??"")}
             </Text>
           </div>
           <div className="w-full xl:w-[65%] xl:pl-[20px]">
             <div className="flex flex-wrap relative">
-              {data?.feature_list?.length > 1 && (
+              {data?.featureList?.length > 1 && (
                 <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/70 to-transparent" />
               )}
-              {data?.feature_list?.map((item, index) => (
+              {data?.featureList?.map((item, index) => (
                 <div key={item?.id} className="contents">
                   {index > 0 && index % 2 === 0 && (
                     <div className="w-full h-[1px] bg-linear-to-r from-transparent via-white/70 to-transparent" />
