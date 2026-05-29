@@ -15,13 +15,14 @@ export async function generateMetadata({ params }) {
     const res = await fetch(`${baseUrl}/api/variant/${slug}`);
 
     if (!res.ok) return { title: "" };
-    
+
     const response = await res.json();
     const data = response.data;
     if (!data) return { title: "" };
-    
-    const { meta_title, meta_description, meta_keywords, other_meta_tags } = data.metaTags || {};
-    console.log("res : ", meta_title)
+
+    const { meta_title, meta_description, meta_keywords, other_meta_tags } =
+      data.metaTags || {};
+    console.log("res : ", meta_title);
     const { other } = parseOtherMeta(other_meta_tags || "");
     const ogImage = data.product?.media?.path || "";
 
@@ -32,7 +33,16 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: meta_title || "Product",
         description: meta_description || "",
-        images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: data.product?.media?.alt || "" }] : [],
+        images: ogImage
+          ? [
+              {
+                url: ogImage,
+                width: 1200,
+                height: 630,
+                alt: data.product?.media?.alt || "",
+              },
+            ]
+          : [],
         type: "article",
       },
       twitter: {
@@ -50,7 +60,6 @@ export async function generateMetadata({ params }) {
     return { title: "s" };
   }
 }
-
 
 export default async function productDetailPage({ params }) {
   let productsData = null;

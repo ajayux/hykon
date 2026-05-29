@@ -42,7 +42,7 @@ const opts = {
 };
 
 const GALLERY_STYLES =
-  "h-[260px] sm:h-[276px] xl:h-[340px] 2xl:h-[420px] 3xl:h-[480px]";
+  "h-[285px] sm:h-[320px] xl:h-[390px] 2xl:h-[475px] 3xl:h-[530px]";
 
 export default function ProductDetail({ data, themeProps }) {
   const styleVars = {
@@ -156,7 +156,7 @@ export default function ProductDetail({ data, themeProps }) {
                 "w-full flex flex-wrap max-lg:flex-direction-row-reverse",
               )}
             >
-              <div className="w-[40px] sm:w-[60px] xl:w-[100px] 2xl:w-[120px] 3xl:w-[140px] mask-[linear-gradient(to_bottom,transparent_0%,white_5%,white_95%,transparent_100%)]">
+              <div className="w-[60px] sm:w-[100px] xl:w-[115px] 2xl:w-[140px] 3xl:w-[160px] mask-[linear-gradient(to_bottom,transparent_0%,white_5%,white_95%,transparent_100%)]">
                 <div className="overflow-hidden" ref={emblaThumbsRef}>
                   <div
                     className={cn(
@@ -173,7 +173,7 @@ export default function ProductDetail({ data, themeProps }) {
                           onClick={() => onThumbClick(index)}
                           type="button"
                           className={cn(
-                            "w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border transition select-none",
+                            "w-full h-auto aspect-[540/540] bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border transition select-none",
                             index === selectedIndex
                               ? " border-white border-[var(--theme-color)]"
                               : "border-[#888] border-[var(--theme-border-20)]",
@@ -195,14 +195,13 @@ export default function ProductDetail({ data, themeProps }) {
               </div>
               <div
                 className={cn(
-                  "w-[calc(100%-40px)] sm:w-[calc(100%-60px)] xl:w-[calc(100%-100px)] 2xl:w-[calc(100%-120px)] 3xl:w-[calc(100%-140px)]",
+                  "w-[calc(100%-60px)] sm:w-[calc(100%-100px)] xl:w-[calc(100%-115px)] 2xl:w-[calc(100%-140px)] 3xl:w-[calc(100%-160px)]",
                 )}
               >
                 <div className="overflow-hidden" ref={emblaMainRef}>
                   <div
                     className={cn(
-                      "flex touch-pan-y touch-pinch-zoom",
-                      GALLERY_STYLES,
+                      "h-auto flex touch-pan-y touch-pinch-zoom"
                     )}
                   >
                     {data?.media?.map((item, index) => (
@@ -216,7 +215,7 @@ export default function ProductDetail({ data, themeProps }) {
                       >
                         <div
                           className={cn(
-                            "w-full h-full block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none cursor-pointer",
+                            "w-full h-auto aspect-[540/540] block bg-[#2d2d2d] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] overflow-hidden border border-[#2d2d2d] transition select-none cursor-pointer",
                             "bg-[var(--theme-bg-alt)]",
                             "border-[var(--theme-border-20)]",
                           )}
