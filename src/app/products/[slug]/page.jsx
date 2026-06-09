@@ -1,6 +1,5 @@
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
-import CategoriesDetail from "@/components/blocks/categories/categories-detail";
 import ProductDetail from "@/components/blocks/products/product-detail";
 import ProductSimilar from "@/components/blocks/products/product-similar";
 import ProductQuestions from "@/components/blocks/products/product-questions";

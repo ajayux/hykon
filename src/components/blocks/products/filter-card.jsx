@@ -75,7 +75,7 @@ const FilterCard = forwardRef(function FilterCard(
         <Button
           size="lg"
           variant="none"
-          className="font-semibold text-[#008dd2] p-0 !h-auto"
+          className="font-semibold text-[#008dd2] p-0 !h-auto cursor-pointer"
           onClick={handleClearAll}
         >
           Clear All

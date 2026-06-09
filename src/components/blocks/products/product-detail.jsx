@@ -488,7 +488,7 @@ export default function ProductDetail({ data, themeProps }) {
                     size="lg"
                     variant="outline"
                     className={cn(
-                      "text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5",
+                      "cursor-pointer text-white min-w-[120px] xl:min-w-[135px] 2xl:min-w-[160px] 3xl:min-w-[190px] pl-4 xl:pl-5",
                       "text-[var(--theme-fg)] hover:bg-[var(--theme-color)]",
                     )}
                   >

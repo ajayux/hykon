@@ -150,7 +150,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             size="lg"
             variant="none"
             className={cn(
-              "capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-colors",
+              "cursor-pointer capitalize text-white py-0 px-2 sm:px-4 xl:px-6 2xl:px-7 3xl:px-9 relative z-0 transition-colors",
               isActive ? "text-white" : "text-white/50 hover:text-white",
             )}
           >

@@ -17,7 +17,6 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
 });
 
 export default function Footer({ quickLinks, footerData, socialLinkData }) {
-  console.log("footer:", footerData);
 
   const pathname = usePathname();
   const isLandingPage =
@@ -38,14 +37,16 @@ export default function Footer({ quickLinks, footerData, socialLinkData }) {
             href={footerData?.slug ?? ""}
             className="w-[90px] sm:w-[100px] lg:w-[125px] 2xl:w-[150px] 3xl:w-[186px] block mb-3 lg:mb-0"
           >
-            <Image
-              src={footerData?.logoUrl}
-              alt={footerData?.name}
-              width={186}
-              height={58}
-              className="w-full h-full block hover:scale-105 transition"
-              unoptimized
-            />
+            {footerData?.logoUrl && (
+              <Image
+                src={footerData.logoUrl}
+                alt={footerData?.name ?? ""}
+                width={186}
+                height={58}
+                className="w-full h-full block hover:scale-105 transition"
+                unoptimized
+              />
+            )}
           </Link>
           <div className="w-full max-w-full lg:max-w-[468px] xl:max-w-[590px] 2xl:max-w-[700px] 3xl:max-w-[840px]">
             <Heading

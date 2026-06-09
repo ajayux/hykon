@@ -213,7 +213,7 @@ export default async function RootLayout({ children }) {
   let globalData = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = `${baseUrl}/api/layout`;
 
     const res = await fetch(url);
@@ -223,9 +223,7 @@ export default async function RootLayout({ children }) {
       globalData = response.data;
     }
   } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("Error fetching global data:", error);
-    }
+    console.error("Error fetching global layout data:", error);
   }
 
   // Fallback data if API fails
@@ -249,7 +247,7 @@ export default async function RootLayout({ children }) {
     socialLinkData,
     questionsSection,
     mobileMenuData,
-  } = globalData;
+  } = globalData || {};
 
   const productSubmenu =
     footerData?.productCategories?.items?.map((item, index) => ({

@@ -151,7 +151,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
               size="lg"
               variant="none"
               className={cn(
-                "text-[10px] sm:text-[12px] xl:text-[14.1px] 2xl:text-[16.8px] 3xl:text-[20.6px] font-medium capitalize text-white p-0 relative z-0 transition-colors",
+                "cursor-pointer text-[10px] sm:text-[12px] xl:text-[14.1px] 2xl:text-[16.8px] 3xl:text-[20.6px] font-medium capitalize text-white p-0 relative z-0 transition-colors",
                 isActive ? "text-white" : "hover:text-[#008dd2]",
               )}
             >
