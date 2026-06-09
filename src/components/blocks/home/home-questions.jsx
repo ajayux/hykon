@@ -16,8 +16,22 @@ export default function HomeQuestions({ data }) {
     pathname === "/business-card" || pathname?.startsWith("/business-card/");
 
   if (isLandingPage || isBusinessCardPage) return null;
+
+  const hasImage = !!data?.media?.path;
+
   return (
-    <section className="w-full h-auto block bg-[#008dd2] py-10 xl:py-12 2xl:py-17.5 3xl:py-[85px] overflow-hidden relative z-0">
+    <section className={`w-full h-auto block py-10 xl:py-12 2xl:py-17.5 3xl:py-[85px] overflow-hidden relative z-0 ${!hasImage ? " bg-[#008dd2]" : ""}`}>
+      {hasImage && (
+        <>
+          <Image
+            src={data.media.path}
+            alt={data.media.alt}
+            fill
+            className="object-cover -z-10"
+          />
+          <div className="absolute inset-0 bg-black/40 -z-10" />
+        </>
+      )}
       <Image
         src={"/images/home-questions-bg.png"}
         alt={"home-questions-bg"}
@@ -61,17 +75,6 @@ export default function HomeQuestions({ data }) {
                 </span>
               </Button>
             </GetInTouchDialog>
-          </div>
-          <div className="w-full sm:w-[320px] lg:w-[440px] 2xl:w-[540px] 3xl:w-[680px] ml-auto pointer-events-none">
-            <div className="w-full h-auto aspect-72/34 block xl:scale-120 lg:translate-y-2 max-lg:-mt-10">
-              <Image
-                src={data?.media?.path}
-                alt={data?.media?.alt}
-                width={730}
-                height={340}
-                className="w-full h-full object-cover"
-              />
-            </div>
           </div>
         </div>
       </div>
