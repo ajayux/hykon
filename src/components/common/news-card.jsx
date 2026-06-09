@@ -11,7 +11,7 @@ export default function NewsCard({ item, isLoading, variant = "news" }) {
   if (isLoading) return <NewsCardSkelton />;
   return (
     <Suspense fallback={<NewsCardSkelton />}>
-      <div className="group w-full h-full flex flex-col relative z-0">
+      <Link href={`/${variant}/${item?.slug}`} className="group w-full h-full flex flex-col relative z-0">
         <div className="w-full mb-6 xl:mb-9 2xl:mb-11 3xl:mb-14 relative z-0">
           <div className="w-full aspect-63/33 rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] overflow-hidden bg-gray-500">
             <Image
@@ -66,7 +66,7 @@ export default function NewsCard({ item, isLoading, variant = "news" }) {
               className="text-white px-0"
               asChild
             >
-              <Link href={`/${variant}/${item?.slug}`}>
+              <div>
                 Read More
                 <Image
                   src={"/images/icon-news-right.svg"}
@@ -76,11 +76,11 @@ export default function NewsCard({ item, isLoading, variant = "news" }) {
                   className="w-1 3xl:w-1.5 block mt-0.5"
                   unoptimized
                 />
-              </Link>
+              </div>
             </Button>
           </div>
         </div>
-      </div>
+      </Link>
     </Suspense>
   );
 }

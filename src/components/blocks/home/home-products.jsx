@@ -273,7 +273,7 @@ function CategoryItem({ item, activeItem, reversed }) {
           className={cn(
             "transition-all duration-300 overflow-hidden",
             activeItem === item.id
-              ? "h-auto visible opacity-100"
+              ? "h-auto asible opacity-100"
               : "lg:h-0 lg:invisible opacity-50 lg:opacity-90",
           )}
         >

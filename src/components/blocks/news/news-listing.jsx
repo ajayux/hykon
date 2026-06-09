@@ -171,7 +171,7 @@ function FilterItems({ items, activeFilter, onFilterChange, className }) {
             variant="none"
             disabled={isActive}
             className={cn(
-              "capitalize text-white p-0 relative z-0 transition-colors disabled:opacity-100",
+              "capitalize cursor-pointer text-white p-0 relative z-0 transition-colors disabled:opacity-100",
               isActive ? "text-white" : "text-white/50 hover:text-white",
             )}
           >

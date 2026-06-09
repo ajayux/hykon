@@ -21,7 +21,7 @@ export default function FactoryListing({ data }) {
               key={item?.id}
               className="w-[276px] min-[376px]:w-1/2 sm:w-1/3 lg:w-1/4 p-1.5 sm:p-2 xl:p-3.5 2xl:p-4.5 3xl:p-6"
             >
-              <div className="group w-full h-full 3xl:min-h-[410px] bg-none px-3 xl:px-4 3xl:px-5 py-4 xl:py-6 3xl:py-8 transition-all duration-500 rounded-[12px] 2xl:rounded-[14px] 3xl:rounded-[18px] bg-[#252525] border border-[#676767] flex flex-col hover:bg-white">
+              <Link href={`/factory/${item?.slug}`} className="group w-full h-full 3xl:min-h-[410px] bg-none px-3 xl:px-4 3xl:px-5 py-4 xl:py-6 3xl:py-8 transition-all duration-500 rounded-[12px] 2xl:rounded-[14px] 3xl:rounded-[18px] bg-[#252525] border border-[#676767] flex flex-col hover:bg-white">
                 <div className="relative w-full aspect-34/18 overflow-hidden rounded-[6px] 2xl:rounded-[8px] 3xl:rounded-[10px] mb-2 xl:mb-4.5 3xl:mb-6.5">
                   <Image
                     src={item?.media?.path}
@@ -45,7 +45,7 @@ export default function FactoryListing({ data }) {
                       className="text-white min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto px-0 group-hover:text-black transition-colors duration-300"
                       asChild
                     >
-                      <Link href={`/factory/${item?.slug}`}>
+                      <div>
                         <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                           <Image
                             src={"/images/icon-arrow-right-white.svg"}
@@ -57,11 +57,11 @@ export default function FactoryListing({ data }) {
                           />
                         </div>
                         View Details
-                      </Link>
+                      </div>
                     </Button>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
