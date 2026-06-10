@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/utils/typography";
-import { API_BASE_URL } from "@/lib/api/constants";
 
 const TYPE_LABELS = {
   blog: "Blog",
@@ -47,16 +46,33 @@ export default function SearchDialog({ children }) {
   const [isSearching, setIsSearching] = useState(false);
   const debounceRef = useRef(null);
 
+  const handleQueryChange = (value) => {
+    setQuery(value);
+    if (value.trim().length < 2) {
+      setSuggestions([]);
+      setIsSearching(false);
+    } else {
+      setIsSearching(true);
+    }
+  };
+
+  const handleOpenChange = (nextOpen) => {
+    setOpen(nextOpen);
+    // Reset state when dialog closes
+    if (!nextOpen) {
+      setQuery("");
+      setSuggestions([]);
+      setIsSearching(false);
+    }
+  };
+
   useEffect(() => {
     const trimmed = query.trim();
 
     if (trimmed.length < 2) {
-      setSuggestions([]);
-      setIsSearching(false);
       return;
     }
 
-    setIsSearching(true);
     clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(async () => {
@@ -81,15 +97,6 @@ export default function SearchDialog({ children }) {
     return () => clearTimeout(debounceRef.current);
   }, [query]);
 
-  // Reset state when dialog closes
-  useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setSuggestions([]);
-      setIsSearching(false);
-    }
-  }, [open]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -97,7 +104,7 @@ export default function SearchDialog({ children }) {
   const isTyping = query.trim().length >= 2;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className="xl:max-w-[560px] 2xl:max-w-[660px] 3xl:max-w-[760px] bg-[#212121] py-6 sm:py-8 xl:py-10 2xl:py-12 3xl:py-16 px-6 sm:px-7 xl:px-8.5 2xl:px-10 3xl:px-12.5 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]"
@@ -114,7 +121,7 @@ export default function SearchDialog({ children }) {
               type="search"
               placeholder="Search..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => handleQueryChange(e.target.value)}
               className="pl-9 2xl:pl-10 3xl:pl-12 h-10 2xl:h-11 3xl:h-13 text-white bg-white/10 border-white/20 placeholder:text-[#858589] focus-visible:border-[#008dd2] focus-visible:ring-[#008dd2]/30 rounded-lg 2xl:rounded-xl text-sm 2xl:text-base 3xl:text-lg"
             />
           </div>

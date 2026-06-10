@@ -104,7 +104,7 @@ export default function LandingForm({ onClose, slug }) {
         size="h2"
         className="text-white mb-[20px] lg:mb-[30px] xl:mb-[40px] 2xl:mb-[45px] 3xl:mb-[60px] max-w-[400px]"
       >
-        Want to Learn More? Share Your info and we'll be in touch!
+        Want to Learn More? Share Your info and we&apos;ll be in touch!
       </Heading>
       <form
         onSubmit={form.handleSubmit(onSubmit)}

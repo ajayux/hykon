@@ -20,8 +20,8 @@ export default function NotFound() {
               Oops! This page seems to have driven away
             </h2>
             <p className="mt-4 text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[18px]">
-              Don't worry, even the best GPS can take a wrong turn sometimes.
-              Let's get you back on the road to finding what you need.
+              Don&apos;t worry, even the best GPS can take a wrong turn sometimes.
+              Let&apos;s get you back on the road to finding what you need.
             </p>
             <div className="w-full sm:w-[100px] xl:w-[124px] 2xl:w-[140px] 3xl:w-[156px] mt-[20px] xl:mt-[25px] 2xl:mt-[30px] 3xl:mt-[36px] mx-auto">
               <Button

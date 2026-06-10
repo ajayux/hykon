@@ -1,6 +1,6 @@
 import { parseOtherMeta } from "../helper";
 import { API_URL } from "./client";
-import { API_BASE_URL, defaultMeta, DefaultOgImage } from "./constants";
+import { defaultMeta, DefaultOgImage } from "./constants";
 
 const fallback = {
   title: "Hykon India",

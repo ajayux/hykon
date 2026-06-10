@@ -2,6 +2,7 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import CategoriesDetail from "@/components/blocks/categories/categories-detail";
 import { parseOtherMeta } from "@/lib/helper";
+import { notFound } from "next/navigation";
 
 
 export async function generateMetadata({ params }) {

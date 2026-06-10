@@ -36,7 +36,7 @@ export default function CareerLife({ data }) {
                   <div className="w-full h-full rounded-[10px] overflow-hidden relative">
                     <Image
                       src={data?.mediaOne?.path}
-                      alt={data?.mediaOne?.alt || ""}
+                      alt={data?.mediaOne?.alt || "mediaOne"}
                       fill
                       className="object-cover hover:scale-105 transition-all duration-300"
                     />

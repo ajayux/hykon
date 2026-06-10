@@ -25,10 +25,21 @@ export const useDotButton = (emblaApi, onButtonClick) => {
   useEffect(() => {
     if (!emblaApi) return;
 
-    onInit(emblaApi);
-    onSelect(emblaApi);
+    // Defer the initial sync so state updates happen outside the effect body
+    const frame = requestAnimationFrame(() => {
+      onInit(emblaApi);
+      onSelect(emblaApi);
+    });
 
     emblaApi.on("reInit", onInit).on("reInit", onSelect).on("select", onSelect);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      emblaApi
+        .off("reInit", onInit)
+        .off("reInit", onSelect)
+        .off("select", onSelect);
+    };
   }, [emblaApi, onInit, onSelect]);
 
   return {

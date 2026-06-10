@@ -86,10 +86,10 @@ export default function CategoriesSection({ data, filterData }) {
             isLoading && "opacity-50 pointer-events-none",
           )}
         >
-          {categoryItems?.map((item) => (
+          {categoryItems?.map((item, index) => (
             <Link
               href={`/category/${item?.slug}`}
-              key={item?.id}
+              key={index}
               className={cn("w-1/2 min-[468px]:w-1/3 sm:w-1/4 lg:w-1/6")}
             >
               <div className="group w-full h-full bg-[#171f23] rounded-[10px] 2xl:rounded-[13px] 3xl:rounded-[15px] flex flex-col px-2 sm:px-3 xl:px-4 2xl:px-5 3xl:px-6 pt-5 sm:pt-5 xl:pt-7.5 2xl:pt-9 3xl:pt-11 pb-12 sm:pb-15 lg:pb-5 xl:pb-7.5 2xl:pb-9 3xl:pb-11 transition-all duration-300 relative z-0 hover:bg-[#008dd2]">

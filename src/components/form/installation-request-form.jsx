@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -76,9 +76,12 @@ export function InstallationRequestForm({ activeTab }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  useEffect(() => {
+  // Reset success state when the active tab changes
+  const [prevTab, setPrevTab] = useState(activeTab);
+  if (prevTab !== activeTab) {
+    setPrevTab(activeTab);
     setIsSuccess(false);
-  }, [activeTab]);
+  }
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],

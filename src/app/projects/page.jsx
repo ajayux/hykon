@@ -2,7 +2,7 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import NewsListing from "@/components/blocks/news/news-listing";
 import { getMetaData } from "@/lib/api/metaApi";
-import NotFound from "../not-found";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata() {
   const { title, description, keywords, twitter, openGraph, alternates, other } =
@@ -22,10 +22,10 @@ export default async function NewsPage() {
       projectData = response.data;
     }
   } catch (error) {
-    console.error("Error fetching factory detail data:", error);
+    console.error("Error fetching projects data:", error);
   }
   if (!projectData) {
-    NotFound();
+    notFound();
   }
 
   const { heroSection, newsSection } = projectData;
