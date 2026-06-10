@@ -166,7 +166,7 @@ export default function HomeAbout({ data }) {
                 >
                   <Link
                     href={`/about-us`}
-                    aria-label={"about-us"}
+                    aria-label={"Learn more about Hykon"}
                   >
                     <span className="flex-1 text-center">
                       {data?.button?.label}
