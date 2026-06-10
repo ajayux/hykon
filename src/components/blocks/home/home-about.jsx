@@ -170,6 +170,7 @@ export default function HomeAbout({ data }) {
                   >
                     <span className="flex-1 text-center">
                       {data?.button?.label}
+                      <span className="sr-only"> about Hykon</span>
                     </span>
                     <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
                       <Image

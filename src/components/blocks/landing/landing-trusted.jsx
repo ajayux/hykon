@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
 import Autoplay from "embla-carousel-autoplay";

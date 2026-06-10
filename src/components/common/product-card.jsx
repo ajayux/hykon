@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Heading, Text } from "../utils/typography";
 import { Button } from "../ui/button";
