@@ -31,7 +31,6 @@ export default async function faqPage() {
 
   const { heroSection, faqSection } = faqData;
 
-  console.log(faqData)
 
   return (
     <>

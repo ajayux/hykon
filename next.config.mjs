@@ -1,3 +1,9 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
 const securityHeaders = [
   // ✅ Prevents MIME type sniffing
   {
@@ -30,13 +36,12 @@ const securityHeaders = [
     value: "1; mode=block",
   },
   // ✅ Content Security Policy — most important header
-  // 
+  //
 ];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
-    async headers() {
+  async headers() {
     return [
       {
         source: "/(.*)",
@@ -45,7 +50,6 @@ const nextConfig = {
     ];
   },
 
-  
   images: {
     remotePatterns: [
       {
@@ -79,6 +83,7 @@ const nextConfig = {
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],
+    optimizeCss: true,
   },
   async redirects() {
     return [
@@ -87,7 +92,7 @@ const nextConfig = {
         destination: "/investor-relations",
         permanent: true,
       },
-         {
+      {
         source: "/about",
         destination: "/about-us",
         permanent: true,
@@ -110,4 +115,4 @@ const nextConfig = {
     ];
   },
 };
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

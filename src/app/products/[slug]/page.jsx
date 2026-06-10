@@ -21,7 +21,6 @@ export async function generateMetadata({ params }) {
 
     const { meta_title, meta_description, meta_keywords, other_meta_tags } =
       data.metaTags || {};
-    console.log("res : ", meta_title);
     const { other } = parseOtherMeta(other_meta_tags || "");
     const ogImage = data.product?.media?.path || "";
 
@@ -64,7 +63,6 @@ export default async function productDetailPage({ params }) {
   let productsData = null;
   const { slug } = await params;
 
-  console.log(slug);
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

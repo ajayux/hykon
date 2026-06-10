@@ -215,8 +215,9 @@ export default async function RootLayout({ children }) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = `${baseUrl}/api/layout`;
-
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      next: { revalidate: 60 },
+    });
 
     if (res.ok) {
       const response = await res.json();
@@ -225,21 +226,6 @@ export default async function RootLayout({ children }) {
   } catch (error) {
     console.error("Error fetching global layout data:", error);
   }
-
-  // Fallback data if API fails
-  // const fallbackData = {
-  //   headerData: {
-  //     name: "HYKON",
-  //     logoUrl: "/images/logo.svg",
-  //     logoWhiteUrl: "/images/logo-white.svg",
-  //   },
-  //   navigationData: [],
-  //   footerData: {
-  //     name: "HYKON",
-  //     logoUrl: "/images/logo.svg",
-  //   },
-  //   socialLinkData: [],
-  // };
 
   const {
     headerData,

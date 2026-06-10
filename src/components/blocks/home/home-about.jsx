@@ -163,6 +163,7 @@ export default function HomeAbout({ data }) {
                   variant="outline"
                   className="text-center text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[137px] 3xl:min-w-[167px]"
                   asChild
+                  aria-label={data?.button?.label}
                 >
                   <Link href={`/about-us`}>
                     <span className="flex-1 text-center">

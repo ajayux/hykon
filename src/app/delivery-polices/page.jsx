@@ -22,7 +22,6 @@ export default async function TermsPage() {
       termsData = response.data;
     }
 
-    console.log(termsData)
   } catch (error) {
     console.error("Error fetching terms data:", error);
   }

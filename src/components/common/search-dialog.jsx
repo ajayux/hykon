@@ -61,7 +61,6 @@ export default function SearchDialog({ children }) {
 
     debounceRef.current = setTimeout(async () => {
       try {
-        console.log("api url", process.env.NEXT_PUBLIC_BASE_URL);
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/search?keyword=${encodeURIComponent(trimmed)}`,
           { cache: "no-store" },

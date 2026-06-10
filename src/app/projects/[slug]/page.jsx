@@ -65,7 +65,6 @@ export default async function BlogDetailPage({ params }) {
       data = response.data;
     }
 
-    console.log("newsData : ",data)
 
   } catch (error) {
     console.error("Error fetching home data:", error);

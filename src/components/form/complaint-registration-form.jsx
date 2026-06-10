@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -129,7 +128,6 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
   async function onSubmit(data) {
     if (!executeRecaptcha) return;
 
-    console.log("activeTab", page)
     setIsSubmitting(true);
     try {
       const captchaToken = await executeRecaptcha("client_complaint");

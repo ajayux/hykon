@@ -18,7 +18,6 @@ export async function generateMetadata({ params }) {
     if (!data) return { title: "Category Not Found" };
     
     const { meta_title, meta_description, meta_keywords, other_meta_tags } = data.metaTags || {};
-    console.log("res : ", meta_title)
     const { other } = parseOtherMeta(other_meta_tags || "");
     const ogImage = data.category?.media?.path || "";
 

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import TermsAndConditions from "@/components/blocks/terms/terms-conditions";
-import { getMetaData } from "@/lib/api/metaApi";
+import { parseOtherMeta } from "@/lib/helper";
 
 export async function generateMetadata() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -54,7 +54,6 @@ export default async function TermsPage() {
       termsData = response.data;
     }
 
-    console.log(termsData)
   } catch (error) {
     console.error("Error fetching terms data:", error);
   }
