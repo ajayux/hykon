@@ -11,9 +11,6 @@ import dynamic from "next/dynamic";
 const YouTube = dynamic(() => import("react-youtube"), { ssr: false });
 import { useCallback, useEffect, useState } from "react";
 const Lightbox = dynamic(() => import("yet-another-react-lightbox"));
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Video from "yet-another-react-lightbox/plugins/video";
-import "yet-another-react-lightbox/styles.css";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Fade from "embla-carousel-fade";
@@ -97,6 +94,17 @@ export default function ProductDetail({ data, themeProps }) {
   const [indexProduct, setIndexProduct] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [lightboxPlugins, setLightboxPlugins] = useState([]);
+
+  useEffect(() => {
+    Promise.all([
+      import("yet-another-react-lightbox/plugins/video"),
+      import("yet-another-react-lightbox/plugins/zoom"),
+      import("yet-another-react-lightbox/styles.css"),
+    ]).then(([video, zoom]) => {
+      setLightboxPlugins([video.default, zoom.default]);
+    });
+  }, []);
 
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
@@ -276,7 +284,7 @@ export default function ProductDetail({ data, themeProps }) {
               closeOnPullDown: true,
               closeOnBackdropClick: true,
             }}
-            plugins={[Video, Zoom]}
+            plugins={lightboxPlugins}
           />
 
           <Dialog open={shareOpen} onOpenChange={setShareOpen}>

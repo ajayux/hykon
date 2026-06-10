@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Heading } from "../utils/typography";
 import { CareerApplicationForm } from "../form/career-application-form";
+import RecaptchaProvider from "./recaptcha-provider";
 import { cn } from "@/lib/utils";
 
 export default function CareerDialog({ children, jobTitle, slug }) {
@@ -49,12 +50,14 @@ export default function CareerDialog({ children, jobTitle, slug }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
-          <CareerApplicationForm
-            jobTitle={jobTitle}
-            slug={slug}
-            onClose={() => setOpen(false)}
-            onSuccess={() => setIsSuccess(true)}
-          />
+          <RecaptchaProvider>
+            <CareerApplicationForm
+              jobTitle={jobTitle}
+              slug={slug}
+              onClose={() => setOpen(false)}
+              onSuccess={() => setIsSuccess(true)}
+            />
+          </RecaptchaProvider>
         </div>
       </DialogContent>
     </Dialog>

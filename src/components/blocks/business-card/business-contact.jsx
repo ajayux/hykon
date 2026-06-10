@@ -1,4 +1,5 @@
 import { BusinessContactForm } from "@/components/form/business-contact-form";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 import Image from "next/image";
 
 export default function BusinessContact({ data }) {
@@ -17,7 +18,9 @@ export default function BusinessContact({ data }) {
         <div className="text-[28px] leading-normal font-medium text-white mb-3">
           {data?.title}
         </div>
-        <BusinessContactForm />
+        <RecaptchaProvider>
+          <BusinessContactForm />
+        </RecaptchaProvider>
       </div>
     </section>
   );

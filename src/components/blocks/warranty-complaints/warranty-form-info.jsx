@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { WarrantyRegistrationForm } from "@/components/form/warranty-registration-form";
 import { ComplaintRegistrationForm } from "@/components/form/complaint-registration-form";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 
 export default function WarrantyFormInfo({ data }) {
   const [activeTab, setActiveTab] = useState(
@@ -61,21 +62,23 @@ export default function WarrantyFormInfo({ data }) {
             </div>
           </div>
         </div>
-        <div className="w-full">
-          {activeTab === "warranty" ? (
-            <WarrantyRegistrationForm
-              key={activeTab}
-              page={"warranty"}
-              activeTab={activeTab}
-            />
-          ) : (
-            <ComplaintRegistrationForm
-              key={activeTab}
-              page={"warranty"}
-              activeTab={activeTab}
-            />
-          )}
-        </div>
+        <RecaptchaProvider>
+          <div className="w-full">
+            {activeTab === "warranty" ? (
+              <WarrantyRegistrationForm
+                key={activeTab}
+                page={"warranty"}
+                activeTab={activeTab}
+              />
+            ) : (
+              <ComplaintRegistrationForm
+                key={activeTab}
+                page={"warranty"}
+                activeTab={activeTab}
+              />
+            )}
+          </div>
+        </RecaptchaProvider>
       </div>
     </section>
   );

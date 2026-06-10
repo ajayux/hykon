@@ -8,6 +8,7 @@ import { WarrantyRegistrationForm } from "@/components/form/warranty-registratio
 import { ComplaintRegistrationForm } from "@/components/form/complaint-registration-form";
 import { InstallationRequestForm } from "@/components/form/installation-request-form";
 import { DealershipRequestForm } from "@/components/form/dealership-request-form";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 
 export default function CustomerCareForm({ data }) {
   const [activeTab, setActiveTab] = useState(
@@ -68,15 +69,17 @@ export default function CustomerCareForm({ data }) {
                 {activeTab.replace(/-/g, " ")}
               </Heading>
 
-              {activeTab === "warranty-registration" ? (
-                <WarrantyRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
-              ) : activeTab === "registration-complaints" ? (
-                <ComplaintRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
-              ) : activeTab === "installation-request" ? (
-                <InstallationRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
-              ) : activeTab === "dealership-request" ? (
-                <DealershipRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
-              ) : null}
+              <RecaptchaProvider>
+                {activeTab === "warranty-registration" ? (
+                  <WarrantyRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+                ) : activeTab === "registration-complaints" ? (
+                  <ComplaintRegistrationForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+                ) : activeTab === "installation-request" ? (
+                  <InstallationRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+                ) : activeTab === "dealership-request" ? (
+                  <DealershipRequestForm key={activeTab} page={"customerCare"} activeTab={activeTab} />
+                ) : null}
+              </RecaptchaProvider>
             </div>
           </div>
         </div>

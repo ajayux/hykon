@@ -1,5 +1,6 @@
 "use client";
 import LandingForm from "./landing-form";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 
 export default function LandingSidebar({ isOpen, onToggle, slug }) {
   return (
@@ -11,7 +12,9 @@ export default function LandingSidebar({ isOpen, onToggle, slug }) {
             : "w-0"
         }`}
       >
-        <LandingForm onClose={onToggle} slug={slug} />
+        <RecaptchaProvider>
+          <LandingForm onClose={onToggle} slug={slug} />
+        </RecaptchaProvider>
       </aside>
       {!isOpen && (
         <button

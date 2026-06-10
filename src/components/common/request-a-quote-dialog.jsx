@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Heading, Text } from "../utils/typography";
 import { RequestAQuoteForm } from "../form/request-a-quote-form";
+import RecaptchaProvider from "./recaptcha-provider";
 
 export default function RequestAQuoteDialog({ children }) {
   const [open, setOpen] = useState(false);
@@ -41,7 +42,9 @@ export default function RequestAQuoteDialog({ children }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[68vh] overflow-y-auto px-4 py-1">
-          <RequestAQuoteForm onClose={() => setOpen(false)} />
+          <RecaptchaProvider>
+            <RequestAQuoteForm onClose={() => setOpen(false)} />
+          </RecaptchaProvider>
         </div>
       </DialogContent>
     </Dialog>

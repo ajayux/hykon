@@ -1,5 +1,6 @@
 import { ContactEnquiryForm } from "@/components/form/contact-enquiry-form";
 import { Heading, Text } from "@/components/utils/typography";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 import parse from "html-react-parser";
 import Image from "next/image";
 
@@ -119,7 +120,9 @@ export default function ContactDetails({ data }) {
                 >
                   Explore our best-selling and high-performance models.
                 </Text>
-                <ContactEnquiryForm />
+                <RecaptchaProvider>
+                  <ContactEnquiryForm />
+                </RecaptchaProvider>
               </div>
             </div>
           </div>

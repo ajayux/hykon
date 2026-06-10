@@ -82,7 +82,14 @@ const nextConfig = {
   // poweredByHeader: false,
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ["lucide-react", "@radix-ui/react-slot"],
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-slot",
+      "motion",
+      "embla-carousel",
+      "embla-carousel-react",
+      "@fancyapps/ui",
+    ],
     optimizeCss: true,
   },
   async redirects() {

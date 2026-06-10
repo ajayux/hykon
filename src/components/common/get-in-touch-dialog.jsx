@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Heading, Text } from "../utils/typography";
 import { GetInTouchForm } from "../form/get-in-touch-form";
+import RecaptchaProvider from "./recaptcha-provider";
 
 export default function GetInTouchDialog({ children }) {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,9 @@ export default function GetInTouchDialog({ children }) {
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[75vh] overflow-y-auto px-4">
-          <GetInTouchForm onClose={() => setOpen(false)} />
+          <RecaptchaProvider>
+            <GetInTouchForm onClose={() => setOpen(false)} />
+          </RecaptchaProvider>
         </div>
       </DialogContent>
     </Dialog>

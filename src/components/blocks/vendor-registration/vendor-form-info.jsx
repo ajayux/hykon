@@ -1,5 +1,6 @@
 import { Heading } from "@/components/utils/typography";
 import { VendorRegistrationForm } from "@/components/form/vendor-registration-form";
+import RecaptchaProvider from "@/components/common/recaptcha-provider";
 
 export default function VendorFormInfo({ data }) {
   return (
@@ -12,7 +13,9 @@ export default function VendorFormInfo({ data }) {
         >
           {data?.title}
         </Heading>
-        <VendorRegistrationForm />
+        <RecaptchaProvider>
+          <VendorRegistrationForm />
+        </RecaptchaProvider>
       </div>
     </section>
   );
