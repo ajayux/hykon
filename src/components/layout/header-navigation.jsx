@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -96,38 +95,38 @@ export default function HeaderNavigation({ navigationData, className }) {
               )}
             </Button>
 
-            <AnimatePresence>
-              {item?.hasSubmenu && isSubmenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="lg:absolute top-full left-0 z-50 min-w-[200px] bg-[#131313]/80 lg:bg-[#eaeaea] lg:text-black p-2 lg:mt-2 lg:rounded-md lg:shadow-lg"
-                >
-                  <div className="w-full h-full max-h-[220px] overflow-y-auto [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] flex flex-col gap-1">
-                    {item?.submenu?.map((subItem, idx) => {
-                      const isSubItemActive = pathname === subItem?.slug;
-                      return (
-                        <Link
-                          key={"subItem" + idx}
-                          href={subItem?.slug}
-                          onClick={() => setOpenSubmenu(null)}
-                          className={cn(
-                            "text-[14px] lg:text-[12px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[14px] hover:text-[#008dd2] transition-colors py-1 lg:py-1 px-2 transition-all duration-200",
-                            isSubItemActive
-                              ? "text-[#008dd2] lg:text-[#008dd2]"
-                              : "lg:text-[#1e1e1e] max-lg:text-white/90",
-                          )}
-                        >
-                          {subItem?.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {item?.hasSubmenu && (
+              <div
+                style={{
+                  opacity: isSubmenuOpen ? 1 : 0,
+                  transform: isSubmenuOpen ? "translateY(0)" : "translateY(10px)",
+                  pointerEvents: isSubmenuOpen ? "auto" : "none",
+                  transition: "opacity 0.2s ease, transform 0.2s ease",
+                }}
+                className="lg:absolute top-full left-0 z-50 min-w-[200px] bg-[#131313]/80 lg:bg-[#eaeaea] lg:text-black p-2 lg:mt-2 lg:rounded-md lg:shadow-lg"
+              >
+                <div className="w-full h-full max-h-[220px] overflow-y-auto [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] flex flex-col gap-1">
+                  {item?.submenu?.map((subItem, idx) => {
+                    const isSubItemActive = pathname === subItem?.slug;
+                    return (
+                      <Link
+                        key={"subItem" + idx}
+                        href={subItem?.slug}
+                        onClick={() => setOpenSubmenu(null)}
+                        className={cn(
+                          "text-[14px] lg:text-[12px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[14px] hover:text-[#008dd2] transition-colors py-1 lg:py-1 px-2 transition-all duration-200",
+                          isSubItemActive
+                            ? "text-[#008dd2] lg:text-[#008dd2]"
+                            : "lg:text-[#1e1e1e] max-lg:text-white/90",
+                        )}
+                      >
+                        {subItem?.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         );
       })}

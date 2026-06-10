@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -54,29 +53,32 @@ function HeaderContent({ data, navigationData, socialLinkData, mobileMenuData })
     pathname === "/landing" || pathname?.startsWith("/landing/");
   const isBusinessCardPage =
     pathname === "/business-card" || pathname?.startsWith("/business-card/");
-  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll visibility
-  useMotionValueEvent(scrollY, "change", (current) => {
-    const previous = scrollY.getPrevious();
-    if (typeof current === "number" && typeof previous === "number") {
-      const direction = current - previous;
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const current = window.scrollY;
       const atTop = current < 50;
-      setVisible(atTop || direction < 0);
+      setVisible(atTop || current < lastY);
       setIsScrolled(!atTop);
-    }
-  });
+      lastY = current;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   if (isLandingPage || isBusinessCardPage) return null;
 
   return (
-    <motion.header
-      initial={{ opacity: 1, y: 0 }}
-      animate={{ y: visible ? 0 : "-100%", opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+    <header
+      style={{
+        transform: visible ? "translateY(0)" : "translateY(-100%)",
+        opacity: visible ? 1 : 0,
+        transition: "transform 0.3s ease-in-out, opacity 0.3s ease-in-out",
+      }}
       className={cn(
         "w-full h-(--header-y) z-50 top-0 inset-x-0 flex items-center transition-[background-color,backdrop-filter,box-shadow] fixed",
         isScrolled
@@ -145,7 +147,7 @@ function HeaderContent({ data, navigationData, socialLinkData, mobileMenuData })
           </div>
         </div>
       </div>
-    </motion.header>
+    </header>
   );
 }
 
