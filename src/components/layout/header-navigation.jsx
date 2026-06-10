@@ -46,14 +46,14 @@ export default function HeaderNavigation({ navigationData, className }) {
         className,
       )}
     >
-      {navigationData?.map((item) => {
+      {navigationData?.map((item, idx) => {
         const isActive =
           pathname === item?.slug ||
           item?.submenu?.some((subItem) => pathname === subItem?.slug);
         const isSubmenuOpen = openSubmenu === item?.id;
 
         return (
-          <div key={item?.id} className="w-full lg:w-auto relative group">
+          <div key={"HeaderNavigation" + idx} className="w-full lg:w-auto relative group">
             <Button
               variant="none"
               size="none"
@@ -65,7 +65,7 @@ export default function HeaderNavigation({ navigationData, className }) {
                 }
               }}
               className={cn(
-                "text-[16px] lg:text-[13px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[18px] leading-none font-[400] w-full px-4 lg:px-2.5 xl:px-4 2xl:px-5 3xl:px-7.5 hover:scale-100 py-4 lg:py-0 border-b-1 border-white/20 max-lg:rounded-none max-lg:justify-start lg:border-none",
+                "text-[16px] lg:text-[12px] xl:text-[14px] 2xl:text-[16px] 3xl:text-[18px] leading-none font-[400] w-full px-4 lg:px-2.5 xl:px-3.5 2xl:px-4 3xl:px-6 hover:scale-100 py-4 lg:py-0 border-b-1 border-white/20 max-lg:rounded-none max-lg:justify-start lg:border-none",
                 isActive
                   ? "text-[#008dd2] lg:text-[#008dd2]"
                   : isSubmenuOpen
@@ -106,11 +106,11 @@ export default function HeaderNavigation({ navigationData, className }) {
                   className="lg:absolute top-full left-0 z-50 min-w-[200px] bg-[#131313]/80 lg:bg-[#eaeaea] lg:text-black p-2 lg:mt-2 lg:rounded-md lg:shadow-lg"
                 >
                   <div className="w-full h-full max-h-[220px] overflow-y-auto [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] flex flex-col gap-1">
-                    {item?.submenu?.map((subItem) => {
+                    {item?.submenu?.map((subItem, idx) => {
                       const isSubItemActive = pathname === subItem?.slug;
                       return (
                         <Link
-                          key={subItem?.id}
+                          key={"subItem" + idx}
                           href={subItem?.slug}
                           onClick={() => setOpenSubmenu(null)}
                           className={cn(
