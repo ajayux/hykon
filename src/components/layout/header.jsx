@@ -105,7 +105,7 @@ function HeaderContent({ data, navigationData, socialLinkData, mobileMenuData })
             )}
           </div>
 
-          <div className="flex items-center justify-end lg:justify-end transition gap-x-6 lg:gap-x-5 xl:gap-x-7 2xl:gap-x-8 3xl:gap-x-10 bg-transparent lg:bg-white/75 lg:backdrop-blur-[30px] lg:rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] lg:p-3 2xl:p-3.5 3xl:p-4">
+          <div className="flex items-center justify-end lg:justify-end transition gap-x-6 lg:gap-x-4 xl:gap-x-7 2xl:gap-x-8 3xl:gap-x-10 bg-transparent lg:bg-white/75 lg:backdrop-blur-[30px] lg:rounded-[14px] 2xl:rounded-[16px] 3xl:rounded-[20px] lg:p-3 2xl:p-3.5 3xl:p-4">
             <HeaderNavigation
               className="max-lg:hidden"
               navigationData={navigationData}

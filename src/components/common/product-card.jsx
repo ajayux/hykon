@@ -104,9 +104,9 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
             size="lg"
             variant="none"
             className="text-[9.8px] 2xl:text-[11.7px] 3xl:text-[14.3px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto justify-start px-0"
-            asChild
+            // asChild
           >
-            <Link href={`/products?product_slug=${item?.slug}` || "#"}>
+            {/* <Link href={`/products?product_slug=${item?.slug}` || "#"}> */}
               <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
                 <Image
                   src={"/images/icon-arrow-right-white.svg"}
@@ -118,7 +118,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
                 />
               </div>
               View Details
-            </Link>
+            {/* </Link> */}
           </Button>
         </div>
       </div>
