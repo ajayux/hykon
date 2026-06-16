@@ -221,6 +221,9 @@ export default function CategoriesDetail({ data }) {
                                 {parse(variant?.title)}
                               </Text>
                             </div>
+                              
+                              {variant?.price > 0 && (
+
                             <div>
                               <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-white/90 line-through mb-0.5">
                                 {"MRP-"}
@@ -232,6 +235,8 @@ export default function CategoriesDetail({ data }) {
                                 {"/-"}
                               </div>
                             </div>
+                              )}
+
                           </Link>
                         </div>
                       ))}

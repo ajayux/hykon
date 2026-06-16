@@ -343,6 +343,10 @@ export default function ProductDetail({ data, themeProps }) {
                   >
                     {parse(data?.title)}
                   </Heading>
+
+{data?.pricing?.formattedDiscountPercentage > 0 && (
+
+  
                   <Text
                     as="div"
                     size="p2"
@@ -353,6 +357,7 @@ export default function ProductDetail({ data, themeProps }) {
                   >
                     {data?.pricing?.formattedDiscountPercentage}
                   </Text>
+                  )}
                 </div>
                 <div className="xl:mx-4 2xl:mx-5 3xl:mx-6 max-sm:my-2">
                   <Button
@@ -376,6 +381,7 @@ export default function ProductDetail({ data, themeProps }) {
                   </Button>
                 </div>
               </div>
+              {data?.pricing?.sellingPrice > 0 && (
               <div className="w-full mb-5 sm:mb-3 xl:mb-3.5 2xl:mb-4 3xl:mb-5">
                 <Text
                   as="div"
@@ -410,6 +416,7 @@ export default function ProductDetail({ data, themeProps }) {
                   {data?.pricing?.taxLabel}
                 </Text>
               </div>
+              )}
               <div className="flex flex-wrap items-center gap-x-3 xl:gap-x-3.5 2xl:gap-x-4 3xl:gap-x-4.5 gap-y-3 mb-5 xl:mb-5 2xl:mb-6 3xl:mb-7">
                 {data?.deliveryInfo && (
                   <Button
