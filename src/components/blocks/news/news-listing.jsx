@@ -113,7 +113,7 @@ export default function NewsListing({ data, variant }) {
           ) : (
             <div className="w-full flex items-center justify-center py-20">
               <Text as="p" size="p1" className="text-center text-white/50">
-                No {activeFilter.toLowerCase()} news available.
+                No {activeFilter.toLowerCase()} {variant} available.
               </Text>
             </div>
           )}

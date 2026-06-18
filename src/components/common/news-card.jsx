@@ -23,19 +23,22 @@ export default function NewsCard({ item, isLoading, variant = "news" }) {
             />
           </div>
           <div className="absolute z-1 bottom-0 left-4 translate-y-1/3 3xl:translate-y-1/4">
+          {variant === "news" && (
             <div
               className={cn(
                 "w-full min-w-[80px] lg:min-w-[100px] 2xl:min-w-[120px] 3xl:min-w-[147px] bg-[#262626] rounded-[14px] 3xl:rounded-[20px] py-2 xl:py-3 2xl:py-4 3xl:py-5 px-2 xl:px-3 2xl:px-3.5 3xl:px-3.5 transition-all duration-300",
                 "group-hover:bg-[#008dd2]",
               )}
             >
-              <div className="text-[20px] sm:text-[24px] lg:text-[28px] xl:text-[35px] 2xl:text-[42px] 3xl:text-[53px] leading-none font-normal text-center text-white mb-1 xl:mb-2">
+                  
+                  <div className="text-[20px] sm:text-[24px] lg:text-[28px] xl:text-[35px] 2xl:text-[42px] 3xl:text-[53px] leading-none font-normal text-center text-white mb-1 xl:mb-2">
                 {item?.publishDay}
               </div>
               <div className="text-[10px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] 3xl:text-[22px] leading-none font-normal text-center text-white">
                 {item?.publishMonthYear}
               </div>
-            </div>
+              </div>
+              )}
           </div>
         </div>
 
