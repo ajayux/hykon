@@ -377,7 +377,7 @@ export default function ProductDetail({ data, themeProps }) {
                   </Button>
                 </div>
               </div>
-              {data?.pricing?.sellingPrice > 0 && (
+              {parseInt(data?.pricing?.sellingPrice) > 0 && (
                 <div className="w-full mb-5 sm:mb-3 xl:mb-3.5 2xl:mb-4 3xl:mb-5">
                   <Text
                     as="div"

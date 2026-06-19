@@ -33,6 +33,9 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
               >
                 {item?.title}
               </Heading>
+              
+              {parseInt(item?.price) > 0 &&(
+                
               <div className="mb-1 xl:mb-2 2xl:mb-2.5 3xl:mb-3">
                 <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-center text-white/90 line-through mb-0.5">
                   {"MRP-"}
@@ -45,6 +48,8 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
                   {"/-"}
                 </div>
               </div>
+              ) }
+
               <div>
                 <Button
                   size="lg"
