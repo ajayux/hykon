@@ -208,9 +208,7 @@ export default function ProductDetail({ data, themeProps }) {
               >
                 <div className="overflow-hidden" ref={emblaMainRef}>
                   <div
-                    className={cn(
-                      "h-auto flex touch-pan-y touch-pinch-zoom"
-                    )}
+                    className={cn("h-auto flex touch-pan-y touch-pinch-zoom")}
                   >
                     {data?.media?.map((item, index) => (
                       <div
@@ -344,19 +342,17 @@ export default function ProductDetail({ data, themeProps }) {
                     {parse(data?.title)}
                   </Heading>
 
-{data?.pricing?.formattedDiscountPercentage > 0 && (
-
-  
-                  <Text
-                    as="div"
-                    size="p2"
-                    className={cn(
-                      "leading-tight bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full",
-                      "text-[var(--theme-fg)] text-white bg-[var(--theme-color)]",
-                    )}
-                  >
-                    {data?.pricing?.formattedDiscountPercentage}
-                  </Text>
+                  {data?.pricing?.formattedDiscountPercentage > 0 && (
+                    <Text
+                      as="div"
+                      size="p2"
+                      className={cn(
+                        "leading-tight bg-[#008dd2] px-2 xl:px-2.5 2xl:px-3 3xl:px-4.5 py-0.5 xl:py-1 2xl:py-1.5 3xl:py-2 rounded-full",
+                        "text-[var(--theme-fg)] text-white bg-[var(--theme-color)]",
+                      )}
+                    >
+                      {data?.pricing?.formattedDiscountPercentage}
+                    </Text>
                   )}
                 </div>
                 <div className="xl:mx-4 2xl:mx-5 3xl:mx-6 max-sm:my-2">
@@ -382,40 +378,40 @@ export default function ProductDetail({ data, themeProps }) {
                 </div>
               </div>
               {data?.pricing?.sellingPrice > 0 && (
-              <div className="w-full mb-5 sm:mb-3 xl:mb-3.5 2xl:mb-4 3xl:mb-5">
-                <Text
-                  as="div"
-                  size="p0"
-                  className={cn(
-                    "text-[#ccc] line-through mb-0.5 xl:mb-1",
-                    "text-[var(--theme-fg-80)]",
-                  )}
-                >
-                  {"MRP-"}
-                  {data?.pricing?.mrp}
-                  {"/-"}
-                </Text>
-                <div
-                  className={cn(
-                    "text-[16px] sm:text-[18px] lg:text-[19px] 2xl:text-[23px] 3xl:text-[28px] leading-tight font-semibold text-[#008dd2] mb-1 xl:mb-1.5",
-                    "text-[var(--theme-color)]",
-                  )}
-                >
-                  {data?.pricing?.currencySymbol}
-                  {data?.pricing?.sellingPrice}
-                  {"/-"}
+                <div className="w-full mb-5 sm:mb-3 xl:mb-3.5 2xl:mb-4 3xl:mb-5">
+                  <Text
+                    as="div"
+                    size="p0"
+                    className={cn(
+                      "text-[#ccc] line-through mb-0.5 xl:mb-1",
+                      "text-[var(--theme-fg-80)]",
+                    )}
+                  >
+                    {"MRP-"}
+                    {data?.pricing?.mrp}
+                    {"/-"}
+                  </Text>
+                  <div
+                    className={cn(
+                      "text-[16px] sm:text-[18px] lg:text-[19px] 2xl:text-[23px] 3xl:text-[28px] leading-tight font-semibold text-[#008dd2] mb-1 xl:mb-1.5",
+                      "text-[var(--theme-color)]",
+                    )}
+                  >
+                    {data?.pricing?.currencySymbol}
+                    {data?.pricing?.sellingPrice}
+                    {"/-"}
+                  </div>
+                  <Text
+                    as="div"
+                    size="p1"
+                    className={cn(
+                      "text-[#878787]",
+                      "text-[var(--theme-fg-50-alt)]",
+                    )}
+                  >
+                    {data?.pricing?.taxLabel}
+                  </Text>
                 </div>
-                <Text
-                  as="div"
-                  size="p1"
-                  className={cn(
-                    "text-[#878787]",
-                    "text-[var(--theme-fg-50-alt)]",
-                  )}
-                >
-                  {data?.pricing?.taxLabel}
-                </Text>
-              </div>
               )}
               <div className="flex flex-wrap items-center gap-x-3 xl:gap-x-3.5 2xl:gap-x-4 3xl:gap-x-4.5 gap-y-3 mb-5 xl:mb-5 2xl:mb-6 3xl:mb-7">
                 {data?.deliveryInfo && (
@@ -442,24 +438,25 @@ export default function ProductDetail({ data, themeProps }) {
                   </Button>
                 )}
 
-                {data?.pricing?.shophifyUrl && (
-                  <Link href={data?.pricing?.shophifyUrl} target="_blank">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className={cn(
-                        "min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] pl-4 xl:pl-5",
-                        "text-white bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
-                      )}
-                    >
-                      Buy Now
-                      <span
+                {data?.pricing?.shophifyUrl &&
+                  data?.pricing?.sellingPrice > 0 && (
+                    <Link href={data?.pricing?.shophifyUrl} target="_blank">
+                      <Button
+                        size="lg"
+                        variant="outline"
                         className={cn(
-                          "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
-                          "border-[var(--theme-color)]",
+                          "min-w-[100px] xl:min-w-[110px] 2xl:min-w-[130px] 3xl:min-w-[150px] pl-4 xl:pl-5",
+                          "text-white bg-[var(--theme-color)] hover:bg-[var(--theme-color)]",
                         )}
                       >
-                        {/* <Image
+                        Buy Now
+                        <span
+                          className={cn(
+                            "w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-white rounded-full flex items-center justify-center ml-auto border border-[#008dd2]",
+                            "border-[var(--theme-color)]",
+                          )}
+                        >
+                          {/* <Image
                           src={"/images/icon-arrow-right-blue.svg"}
                           alt={"icon-arrow-right-blue"}
                           width={18}
@@ -467,37 +464,37 @@ export default function ProductDetail({ data, themeProps }) {
                           className="w-1/2"
                           unoptimized
                         /> */}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="13"
-                          viewBox="0 0 18 13"
-                          fill="none"
-                          className="size-1/2"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M17.5 5.66016H0.000209808V7.16016H17.5V5.66016Z"
-                            fill="var(--theme-color)"
-                          />
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.7499 7.16005C13.2223 7.16005 10.3398 4.05791 10.3398 0.75V0H11.8398V0.75C11.8398 3.26158 14.0825 5.66005 16.7499 5.66005H17.5V7.16005H16.7499Z"
-                            fill="var(--theme-color)"
-                          />
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.7499 5.66016C13.2223 5.66016 10.3398 8.76226 10.3398 12.0702V12.8202H11.8398V12.0702C11.8398 9.55866 14.0825 7.16016 16.7499 7.16016H17.5V5.66016H16.7499Z"
-                            fill="var(--theme-color)"
-                          />
-                        </svg>
-                      </span>
-                    </Button>
-                  </Link>
-                )}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="13"
+                            viewBox="0 0 18 13"
+                            fill="none"
+                            className="size-1/2"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M17.5 5.66016H0.000209808V7.16016H17.5V5.66016Z"
+                              fill="var(--theme-color)"
+                            />
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M16.7499 7.16005C13.2223 7.16005 10.3398 4.05791 10.3398 0.75V0H11.8398V0.75C11.8398 3.26158 14.0825 5.66005 16.7499 5.66005H17.5V7.16005H16.7499Z"
+                              fill="var(--theme-color)"
+                            />
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M16.7499 5.66016C13.2223 5.66016 10.3398 8.76226 10.3398 12.0702V12.8202H11.8398V12.0702C11.8398 9.55866 14.0825 7.16016 16.7499 7.16016H17.5V5.66016H16.7499Z"
+                              fill="var(--theme-color)"
+                            />
+                          </svg>
+                        </span>
+                      </Button>
+                    </Link>
+                  )}
                 <RequestAQuoteDialog>
                   <Button
                     size="lg"
