@@ -65,7 +65,7 @@ export default function CareerPositions({ data }) {
   };
 
   return (
-    <section className="w-full h-auto block bg-[#181818] pt-8 xl:pt-9 2xl:pt-10 3xl:pt-11.5 pb-10 xl:pb-12 2xl:pb-14 3xl:pb-15">
+    <section className="w-full h-auto block bg-[#444142] pt-8 xl:pt-9 2xl:pt-10 3xl:pt-11.5 pb-10 xl:pb-12 2xl:pb-14 3xl:pb-15">
       <div className="container">
         <div className="flex flex-wrap items-end justify-between mb-8 xl:mb-10 2xl:mb-12.5 3xl:mb-15">
           <Heading

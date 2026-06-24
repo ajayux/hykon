@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function AboutStory({ data }) {
   return (
-    <section className="w-full py-12 sm:py-10 lg:py-[58px] 2xl:py-[70px] 3xl:py-[90px] bg-[#181818]">
+    <section className="w-full py-12 sm:py-10 lg:py-[58px] 2xl:py-[70px] 3xl:py-[90px] bg-[#444142]">
       <div className="container">
         <div className="flex flex-wrap items-center gap-x-10 lg:gap-x-[65px] 2xl:gap-x-[74px] 3xl:gap-x-[94px]">
           <div className="w-full sm:w-[320px] lg:w-[420px] xl:w-[495px] 2xl:w-[595px] 3xl:w-[740px] aspect-74/76 overflow-hidden rounded-[8px] 2xl:rounded-[10px] 3xl:rounded-[16px] max-lg:mb-5">

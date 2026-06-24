@@ -72,7 +72,7 @@ export default function BlogsListing({ data }) {
   };
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-[52px_42px] 2xl:py-[60px_50px] 3xl:py-[80px_60px] relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-8 xl:py-[52px_42px] 2xl:py-[60px_50px] 3xl:py-[80px_60px] relative z-0">
       <div className="container">
         <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-4 sm:mb-8 xl:mb-10 2xl:mb-12.5 3xl:mb-16.5">
           <div className="w-full flex-1">

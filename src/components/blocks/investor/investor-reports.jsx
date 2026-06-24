@@ -64,7 +64,7 @@ export default function InvestorReports({ data }) {
   };
 
   return (
-    <section className="w-full h-auto block py-10 xl:py-15 2xl:py-20 3xl:py-24 bg-[#181818]">
+    <section className="w-full h-auto block py-10 xl:py-15 2xl:py-20 3xl:py-24 bg-[#444142]">
       <div className="container">
         <div className="w-full bg-[#212121] py-6 sm:py-8 xl:py-12 2xl:py-14 3xl:py-18 px-8 sm:px-10 xl:px-14 2xl:px-16 3xl:px-20 rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px]">
           <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-15 3xl:mb-20">

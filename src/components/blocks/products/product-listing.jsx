@@ -36,7 +36,7 @@ function ProductCardSkeleton() {
 
 export function ProductListingSkeleton() {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
       <div className="container lg:px-6 xl:px-6.5 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap sm:gap-x-8 xl:gap-x-13 2xl:gap-x-15 3xl:gap-x-20">
           <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
@@ -230,7 +230,7 @@ export default function ProductListing({ data, from }) {
   const hideFilter = from === "power_calculator";
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
       <div className="container ">
         <div className="flex flex-wrap sm:gap-x-8 xl:gap-x-13 2xl:gap-x-15 3xl:gap-x-20">
           {!hideFilter && (
@@ -253,7 +253,7 @@ export default function ProductListing({ data, from }) {
                 </SheetTrigger>
                 <SheetContent
                   showCloseButton={true}
-                  className="bg-[#181818] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
+                  className="bg-[#444142] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
                 >
                   <SheetHeader className="sr-only">
                     <SheetTitle>FILTER</SheetTitle>

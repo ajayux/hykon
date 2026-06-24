@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 export default function AboutLeadership({ data }) {
   return (
-    <section className="w-full h-auto block py-10 sm:py-[40px] lg:py-[165px_75px] 2xl:py-[200px_90px] 3xl:py-[250px_110px] bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-10 sm:py-[40px] lg:py-[165px_75px] 2xl:py-[200px_90px] 3xl:py-[250px_110px] bg-[#444142] overflow-hidden">
       <div className="container lg:max-w-[668px] xl:max-w-[768px] 2xl:max-w-[920px] 3xl:max-w-[1140px] xl:translate-x-[8%]">
         <div className="flex flex-wrap items-center justify-center sm:justify-between gap-x-10 lg:gap-x-[100px] 2xl:gap-x-[125px] 3xl:gap-x-[160px]">
           <div className="w-[140px] sm:w-[180px] lg:w-[200px] xl:w-[240px] 2xl:w-[288px] 3xl:w-[360px] relative z-0 max-sm:mb-4">

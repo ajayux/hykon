@@ -20,7 +20,7 @@ export default function HomeBlogs({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block bg-[#181818] pb-10 xl:pb-[66px] 2xl:pb-20 3xl:pb-[100px] relative z-0">
+    <section className="w-full h-auto block bg-[#444142] pb-10 xl:pb-[66px] 2xl:pb-20 3xl:pb-[100px] relative z-0">
       <div className="absolute -z-1 top-2 inset-x-0 -translate-y-1/3 overflow-hidden">
         <div className="text-[60px] sm:text-[100px] lg:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-[#181818] select-none opacity-40 [-webkit-text-stroke:1px_#595959]">
           {parse(data?.title)}

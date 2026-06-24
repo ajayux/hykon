@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 export default function FactoryQualityControl({ data }) {
   return (
-    <section className="w-full h-auto block py-12 xl:py-17 2xl:py-20 3xl:py-25 bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-12 xl:py-17 2xl:py-20 3xl:py-25 bg-[#444142] overflow-hidden">
       <div className="container lg:px-[30px] xl:px-[34px] 2xl:px-[40px] 3xl:px-[48px]">
         <div className="flex flex-wrap items-center justify-between gap-5 sm:gap-x-10 lg:gap-x-[100px] xl:gap-x-[120px] 2xl:gap-x-[180px] 3xl:gap-x-[200px]">
           <div className="w-full lg:flex-1">

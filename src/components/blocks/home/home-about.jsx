@@ -22,7 +22,7 @@ export default function HomeAbout({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block py-[30px] sm:py-[40px] lg:py-[120px_80px] 2xl:py-[150px_110px] 3xl:py-[190px_140px] bg-[#181818] overflow-hidden relative z-0">
+    <section className="w-full h-auto block py-[30px] sm:py-[40px] lg:py-[120px_80px] 2xl:py-[150px_110px] 3xl:py-[190px_140px] bg-[#444142] overflow-hidden relative z-0">
       <div className="container xl:max-w-[1140px] 2xl:max-w-[1408px] 3xl:max-w-[1700px]">
         <div className="flex flex-wrap sm:items-center -mx-3 lg:-mx-1 3xl:-mx-3 [&>*]:p-3 lg:[&>*]:p-1 3xl:[&>*]:p-3">
           <div className="w-full lg:w-[36%] xl:w-[37%] 2xl:w-[38%] 3xl:w-[37%]">
@@ -101,7 +101,7 @@ export default function HomeAbout({ data }) {
                   />
                   <div className="absolute z-1 bottom-0 inset-x-0 flex items-center translate-y-2/10 lg:translate-y-8/10">
                     <div className="flex-1 h-[1px] xl:h-[0.5px] bg-[#008dd2]" />
-                    <div className="w-full max-w-8/12 h-auto bg-[#181818] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-4 lg:pl-6 2xl:pl-8 py-3 lg:py-5">
+                    <div className="w-full max-w-8/12 h-auto bg-[#444142] rounded-tl-[20px] lg:rounded-tl-[30px] rounded-bl-[20px] lg:rounded-bl-[30px] pl-4 lg:pl-6 2xl:pl-8 py-3 lg:py-5">
                       <Heading
                         as="div"
                         size="h4"

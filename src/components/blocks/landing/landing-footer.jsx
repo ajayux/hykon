@@ -124,7 +124,7 @@ export default function LandingFooter({ data, isSidebarOpen }) {
           </div>
         </div>
       </div>
-      <div className="w-full bg-[#181818] py-2 sm:py-3 xl:py-4 2xl:py-4.5">
+      <div className="w-full bg-[#444142] py-2 sm:py-3 xl:py-4 2xl:py-4.5">
         <div
           className={cn("w-full", isSidebarOpen ? "isContainer" : "container")}
         >

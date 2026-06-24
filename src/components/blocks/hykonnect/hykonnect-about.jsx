@@ -3,7 +3,7 @@ import parse from "html-react-parser";
 
 export default function HykonnectAbout({ data }) {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-[20px_40px] lg:py-[30px_60px] 2xl:py-[40px_70px] 3xl:py-[50px_90px]">
+    <section className="w-full h-auto block bg-[#444142] py-[20px_40px] lg:py-[30px_60px] 2xl:py-[40px_70px] 3xl:py-[50px_90px]">
       <div className="container lg:max-w-[1020px] 2xl:max-w-[1160px] 3xl:max-w-[1450px]">
         <div className="text-center">
           <Heading

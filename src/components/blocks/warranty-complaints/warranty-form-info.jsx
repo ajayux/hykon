@@ -12,7 +12,7 @@ export default function WarrantyFormInfo({ data }) {
     data?.filters?.[0]?.slug || "warranty",
   );
   return (
-    <section className="w-full h-auto block pt-8 xl:pt-10 2xl:pt-12 3xl:pt-15 pb-15 xl:pb-35 2xl:pb-40 3xl:pb-50 bg-[#181818]">
+    <section className="w-full h-auto block pt-8 xl:pt-10 2xl:pt-12 3xl:pt-15 pb-15 xl:pb-35 2xl:pb-40 3xl:pb-50 bg-[#444142]">
       <div className="container">
         <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 xl:mb-10 2xl:mb-12.5 3xl:mb-15">
           <div className="w-full sm:flex-1">
