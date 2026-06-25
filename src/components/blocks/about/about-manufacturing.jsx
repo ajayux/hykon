@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 export default function AboutManufacturing({ data }) {
   return (
-    <section className="w-full h-auto block py-10 xl:py-[55px_75px] 2xl:py-[65px_85px] 3xl:py-[80px_110px] bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-10 xl:py-[55px_75px] 2xl:py-[65px_85px] 3xl:py-[80px_110px] bg-[#444142] overflow-hidden">
       <div className="container">
         <div className="flex flex-wrap items-center justify-between gap-x-10 lg:gap-x-[65px] 2xl:gap-x-[74px] 3xl:gap-x-[100px]">
           <div className="w-full sm:w-[320px] lg:w-[420px] xl:w-[500px] 2xl:w-[600px] 3xl:w-[760px] max-lg:mb-5">

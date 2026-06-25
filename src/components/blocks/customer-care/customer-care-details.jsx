@@ -9,7 +9,7 @@ export default function CustomerCareDetails({ data }) {
   );
 
   return (
-    <section className="w-full h-auto block py-6 xl:py-8 2xl:py-10 3xl:py-11 bg-[#181818]">
+    <section className="w-full h-auto block py-6 xl:py-8 2xl:py-10 3xl:py-11 bg-[#444142]">
       <div className="container">
         <div className="w-full sm:bg-[#212121] rounded-[10px] 2xl:rounded-[12px] 3xl:rounded-[15px] py-6 sm:p-6 lg:p-8 xl:p-[44px_66px] 2xl:p-[58px_86px] 3xl:p-16">
           <Heading

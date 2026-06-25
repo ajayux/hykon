@@ -15,7 +15,7 @@ export default function CustomerCareForm({ data }) {
     data?.filters?.[0]?.slug || "warranty-registration",
   );
   return (
-    <section className="w-full h-auto block pt-6 xl:pt-8 2xl:pt-10 3xl:pt-11 pb-16 xl:pb-18 2xl:pb-22 3xl:pb-24 bg-[#181818]">
+    <section className="w-full h-auto block pt-6 xl:pt-8 2xl:pt-10 3xl:pt-11 pb-16 xl:pb-18 2xl:pb-22 3xl:pb-24 bg-[#444142]">
       <div className="container">
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="w-full lg:w-[260px] xl:w-[260px] 2xl:w-[280px] 3xl:w-[340px]">

@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 export default function FactoryInfo({ data }) {
   return (
-    <section className="w-full h-auto block pt-8 xl:pt-13 2xl:pt-15 3xl:pt-20 pb-10 xl:pb-15 2xl:pb-17 3xl:pb-25 bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block pt-8 xl:pt-13 2xl:pt-15 3xl:pt-20 pb-10 xl:pb-15 2xl:pb-17 3xl:pb-25 bg-[#444142] overflow-hidden">
       <div className="container">
         <div className="w-full max-w-[576px] sm:max-w-[768px] xl:max-w-[880px] 2xl:max-w-[1010px] 3xl:max-w-[1260px] mx-auto mb-5 xl:mb-10 2xl:mb-12 3xl:mb-15">
           <Heading

@@ -11,7 +11,7 @@ import { Minus, Plus } from "lucide-react";
 
 export default function ProductQuestions({ data }) {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-10 xl:py-[40px_60px] 2xl:py-[50px_70px] 3xl:py-[60px_90px]">
+    <section className="w-full h-auto block bg-[#444142] py-10 xl:py-[40px_60px] 2xl:py-[50px_70px] 3xl:py-[60px_90px]">
       <div className="container">
         <Heading
           as="h2"

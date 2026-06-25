@@ -18,7 +18,7 @@ export default function AboutMilestones({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block bg-[#181818]">
+    <section className="w-full h-auto block bg-[#444142]">
       <div className="container xl:max-w-[1250px] 2xl:max-w-[1500px] 3xl:max-w-[1870px]">
         <div className="w-full bg-[linear-gradient(to_bottom,#008dd2b3_0%,#181818b3_20%,#181818b3_70%,#008dd2b3_100%)] rounded-[13px] 2xl:rounded-[16px] 3xl:rounded-[20px] px-4 sm:px-6 xl:px-10 2xl:px-12.5 3xl:px-[60px] py-5 sm:py-10 xl:py-13 2xl:py-20 3xl:py-[100px] relative z-0 overflow-hidden">
           <div className="text-[40px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none text-center text-transparent select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">

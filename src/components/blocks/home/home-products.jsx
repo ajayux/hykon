@@ -24,7 +24,7 @@ export default function HomeProducts({ data }) {
   const { corporateItems, domesticItems } = data;
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-6 lg:py-8 xl:py-10 2xl:py-15 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-6 lg:py-8 xl:py-10 2xl:py-15 3xl:py-20 relative z-0">
       {corporateItems?.items?.length > 0 && (
         <ProductBlock sectionData={corporateItems} parentTitle={data?.title} />
       )}

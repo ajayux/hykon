@@ -62,7 +62,7 @@ export default function NewsListing({ data, variant }) {
   };
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-8 xl:py-13 2xl:py-15 3xl:py-20 relative z-0">
       <div className="text-[80px] sm:text-[140px] xl:text-[166px] 2xl:text-[200px] 3xl:text-[250px] font-bold leading-none uppercase text-center text-transparent select-none opacity-40 absolute -z-1 top-0 inset-x-0 [-webkit-text-stroke:1px_#595959]">
         {parse(data?.title || "")}
       </div>

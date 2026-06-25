@@ -50,7 +50,7 @@ export default function BreadcrumbInfo({
     <section
       style={styleVars}
       className={cn(
-        "w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#181818]",
+        "w-full block py-2 lg:py-3.5 2xl:py-4.5 3xl:py-5 bg-[#444142]",
         className,
         variant === "product-detail" && "bg-[#212121] bg-[var(--theme-bg)]",
       )}

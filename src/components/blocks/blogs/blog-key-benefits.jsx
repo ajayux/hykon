@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 
 export default function BlogKeyBenefits({ data }) {
   return (
-    <section className="w-full h-auto block py-[15px_20px] sm:py-[20px_25px] xl:py-[25px_30px] 2xl:py-[30px_40px] 3xl:py-[40px_50px] bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-[15px_20px] sm:py-[20px_25px] xl:py-[25px_30px] 2xl:py-[30px_40px] 3xl:py-[40px_50px] bg-[#444142] overflow-hidden">
       <div className="container">
         <div className="w-full block px-[20px] sm:px-[35px] xl:px-[35px_26px] 2xl:px-[62px_34px] 3xl:px-[78px_42px] py-6 xl:py-8.5 2xl:py-11.5 3xl:py-13.75 rounded-[6px] sm:rounded-[8px] xl:rounded-[12px] 2xl:rounded-[16px] 3xl:rounded-[20px] bg-[#202020] overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-[40%_60%] 2xl:grid-cols-2 items-center">

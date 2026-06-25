@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HomePromotions({ data }) {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-10 xl:pt-15 2xl:pt-17.5 3xl:pt-20 xl:pb-9 2xl:pb-10 3xl:pb-11 relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-10 xl:pt-15 2xl:pt-17.5 3xl:pt-20 xl:pb-9 2xl:pb-10 3xl:pb-11 relative z-0">
       <div className="container">
         <Link
           href={`https://play.google.com/store/apps/details?id=in.nexxio.partnerconnect.hykon&hl=en`}

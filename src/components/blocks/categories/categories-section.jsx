@@ -39,7 +39,7 @@ export default function CategoriesSection({ data, filterData }) {
   }, []);
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-10 xl:py-16 2xl:py-18 3xl:py-22.5">
+    <section className="w-full h-auto block bg-[#444142] py-10 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container">
         <div className="flex flex-wrap sm:items-end gap-4 sm:gap-x-6 xl:gap-x-12 2xl:gap-x-17.5 3xl:gap-x-21.5 mb-8 sm:mb-10 xl:mb-12 2xl:mb-18 3xl:mb-20">
           <div className="w-full sm:flex-1">

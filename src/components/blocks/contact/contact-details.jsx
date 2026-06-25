@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function ContactDetails({ data }) {
   return (
-    <section className="w-full h-auto block py-4 xl:py-6 2xl:py-8 3xl:py-10 bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-4 xl:py-6 2xl:py-8 3xl:py-10 bg-[#444142] overflow-hidden">
       <div className="container">
         <div className="flex flex-wrap gap-6 xl:gap-6.5 2xl:gap-7.5 3xl:gap-9">
           <div className="w-full sm:flex-1">

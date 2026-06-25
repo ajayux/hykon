@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 
 export default function AboutPresence({ data }) {
   return (
-    <section className="w-full block py-10 xl:py-[75px_85px] 2xl:py-[90px_100px] 3xl:py-[110px_130px] bg-[#181818]">
+    <section className="w-full block py-10 xl:py-[75px_85px] 2xl:py-[90px_100px] 3xl:py-[110px_130px] bg-[#444142]">
       <div className="container">
         <div className="w-full bg-[#008dd2] rounded-[10px] lg:rounded-[14px] 2xl:rounded-[6px] 3xl:rounded-[20px] px-6 sm:px-12 lg:px-19 2xl:px-22.5 3xl:px-28 flex items-center overflow-hidden relative z-0">
           <Image

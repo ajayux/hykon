@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function CareerLife({ data }) {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-6 xl:py-9 2xl:py-10 3xl:py-11.5">
+    <section className="w-full h-auto block bg-[#444142] py-6 xl:py-9 2xl:py-10 3xl:py-11.5">
       <div className="container">
         <div className="flex flex-wrap lg:items-center lg:gap-x-[100px] 2xl:gap-x-[110px] 3xl:gap-x-[130px]">
           <div className="w-full lg:flex-1 max-lg:mb-5">

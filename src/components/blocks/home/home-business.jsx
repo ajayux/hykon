@@ -20,7 +20,7 @@ export default function HomeBusiness({ data }) {
     [Autoplay({ delay: 5000, stopOnInteraction: true, pauseOnHover: true })],
   );
   return (
-    <section className="w-full h-auto block py-8 lg:py-3 bg-[#008dd2] lg:bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-8 lg:py-3 bg-[#008dd2] lg:bg-[#444142] overflow-hidden">
       <div
         className={cn(
           "w-full bg-[#008dd2]",

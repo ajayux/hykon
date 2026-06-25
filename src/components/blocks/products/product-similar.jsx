@@ -39,7 +39,7 @@ export default function ProductSimilar({ data }) {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="w-full h-auto block bg-[#181818] py-10 xl:py-[75px_40px] 2xl:py-[90px_50px] 3xl:py-[110px_60px]">
+    <section className="w-full h-auto block bg-[#444142] py-10 xl:py-[75px_40px] 2xl:py-[90px_50px] 3xl:py-[110px_60px]">
       <div className="container">
         <div className="flex flex-wrap justify-between gap-4 mb-5 xl:mb-6 2xl:mb-8 3xl:mb-9">
           <Heading

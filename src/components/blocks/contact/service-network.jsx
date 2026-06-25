@@ -30,7 +30,7 @@ export default function ServiceNetwork({ data }) {
   }
 
   return (
-    <section className="w-full h-auto block py-10 xl:py-11 2xl:py-13 3xl:py-15 bg-[#181818]">
+    <section className="w-full h-auto block py-10 xl:py-11 2xl:py-13 3xl:py-15 bg-[#444142]">
       <div className="container">
         <Heading
           as="h2"
@@ -49,7 +49,7 @@ export default function ServiceNetwork({ data }) {
                 "text-[12px] lg:text-[11.5px] 2xl:text-[13.2px] 3xl:text-[16px] leading-tight font-normal px-3 xl:px-5 2xl:px-6 3xl:px-7 py-1 xl:py-1.5 2xl:py-2 3xl:py-2.5 rounded-full border border-[#d0d0d0] transition-all duration-300",
                 activeFilter === item?.slug
                   ? "text-white bg-[#008dd2]"
-                  : "text-white/80 bg-[#181818] hover:border-[#008dd2]",
+                  : "text-white/80 bg-[#444142] hover:border-[#008dd2]",
               )}
             >
               {item?.title}

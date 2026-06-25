@@ -3,7 +3,7 @@ import parse from "html-react-parser";
 
 export default function MapSection({ data }) {
   return (
-    <section className="w-full h-auto block py-10 xl:py-15 2xl:py-20 3xl:py-24 bg-[#181818]">
+    <section className="w-full h-auto block py-10 xl:py-15 2xl:py-20 3xl:py-24 bg-[#444142]">
       <div className="container">
         <Heading
           as="h2"

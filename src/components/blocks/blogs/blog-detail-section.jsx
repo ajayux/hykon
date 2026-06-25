@@ -47,7 +47,7 @@ export default function BlogDetailSection({ data }) {
   }
 
   return (
-    <section className="w-full h-auto block pt-[30px] sm:pt-[50px] xl:pt-[74px] 2xl:pt-[96px] 3xl:pt-[100px] bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block pt-[30px] sm:pt-[50px] xl:pt-[74px] 2xl:pt-[96px] 3xl:pt-[100px] bg-[#444142] overflow-hidden">
       <div className="container">
         <div className="w-full block mb-0 py-[15px] sm:py-[15px_20px] xl:py-[17px_25px] 2xl:py-[25px_30px] 3xl:py-[30px_40px]">
           <div className="flex space-between items-center">

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function AboutWhyHykon({ data }) {
   return (
-    <section className="w-full h-auto block bg-[#181818] py-12 xl:py-[70px_55px] 2xl:py-[85px_65px] 3xl:py-[110px_80px] relative z-0">
+    <section className="w-full h-auto block bg-[#444142] py-12 xl:py-[70px_55px] 2xl:py-[85px_65px] 3xl:py-[110px_80px] relative z-0">
       <div className="container lg:px-5 xl:px-6 2xl:px-8 3xl:px-10">
         <div className="flex flex-wrap">
           <div className="w-full lg:w-1/3 max-lg:mb-5">

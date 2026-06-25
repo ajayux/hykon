@@ -15,7 +15,7 @@ export default function FactoryGallery({ data }) {
   );
 
   return (
-    <section className="w-full h-auto block py-10 xl:py-[80px_60px] 2xl:py-[90px_65px] 3xl:py-[110px_80px] bg-[#181818] overflow-hidden">
+    <section className="w-full h-auto block py-10 xl:py-[80px_60px] 2xl:py-[90px_65px] 3xl:py-[110px_80px] bg-[#444142] overflow-hidden">
       <div className="container">
         <Heading
           as="h2"

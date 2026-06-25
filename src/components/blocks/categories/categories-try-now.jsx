@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 
 export default function CategoriesTryNow({ data }) {
   return (
-    <section className="w-full block py-10 xl:py-15 2xl:py-17.5 3xl:py-22 bg-[#181818]">
+    <section className="w-full block py-10 xl:py-15 2xl:py-17.5 3xl:py-22 bg-[#444142]">
       <div className="container">
         <div className="w-full bg-[#008dd2] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] px-6 sm:px-7 lg:px-9 2xl:px-10 3xl:px-12.5 flex items-center overflow-hidden relative z-0">
           <picture className="w-full h-full block absolute -z-1 inset-0 max-lg:opacity-40">
