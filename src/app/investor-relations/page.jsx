@@ -5,17 +5,31 @@ import { notFound } from "next/navigation";
 import { getMetaData } from "@/lib/api/metaApi";
 
 export async function generateMetadata() {
-  const { title, description, keywords, twitter, openGraph, alternates, other } =
-    await getMetaData("investor relations");
-  return { title, description, keywords, twitter, openGraph, alternates, other };
+  const {
+    title,
+    description,
+    keywords,
+    twitter,
+    openGraph,
+    alternates,
+    other,
+  } = await getMetaData("investor relations");
+  return {
+    title,
+    description,
+    keywords,
+    twitter,
+    openGraph,
+    alternates,
+    other,
+  };
 }
 
 export default async function InvestorRelationsPage() {
   let investorData = null;
 
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
-    //   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+   try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const res = await fetch(`${baseUrl}/api/reports`, {
       next: { revalidate: 60 },
     });
@@ -25,20 +39,17 @@ export default async function InvestorRelationsPage() {
       investorData = response.data;
     }
   } catch (error) {
-    console.error("Error fetching investor relations data:", error);
+    console.error("Error fetching home data:", error);
   }
 
-  if (!investorData) {
-    notFound();
-  }
 
-  const { heroSection, reportsSection } = investorData;
+  const { heroSection, reportSection, reportsSection } = investorData || {};
 
   return (
     <>
       <InnerHero data={heroSection} />
       <BreadcrumbInfo slug="investor Relations" />
-      <InvestorReports data={reportsSection} />
+      <InvestorReports data={reportSection || reportsSection} />
     </>
   );
 }

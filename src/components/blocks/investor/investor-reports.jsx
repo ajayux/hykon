@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function InvestorReports({ data }) {
   const [activeFilter, setActiveFilter] = useState(
-    data?.filters?.[0]?.slug || "investor-relations",
+    data?.filterItems?.[0]?.slug || data?.filters?.[0]?.slug || "investor-relations",
   );
   const [items, setItems] = useState(data?.items ?? []);
   const [pagination, setPagination] = useState(data?.pagination ?? {});
@@ -22,13 +22,16 @@ export default function InvestorReports({ data }) {
     setIsLoading(true);
     if (!isAppend) setItems([]);
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL;
       const res = await fetch(
         `${baseUrl}/api/reports?category=${category}&page=${page}`,
       );
       if (res.ok) {
         const response = await res.json();
-        const reportsData = response.data?.reportsSection || response.data;
+        const reportsData =
+          response.data?.reportSection ||
+          response.data?.reportsSection ||
+          response.data;
 
         if (isAppend) {
           setItems((prev) => [...prev, ...(reportsData.items || [])]);
@@ -74,13 +77,19 @@ export default function InvestorReports({ data }) {
                 size="h1"
                 className="text-medium text-white mb-2 sm:mb-0"
               >
-                {parse(data?.filters?.[0]?.title || "")}
+                {parse(
+                  data?.filterItems?.find((item) => item.slug === activeFilter)?.title ||
+                    data?.filters?.find((item) => item.slug === activeFilter)?.title ||
+                    data?.filterItems?.[0]?.title ||
+                    data?.filters?.[0]?.title ||
+                    ""
+                )}
               </Heading>
             </div>
             <div className="w-full sm:w-auto flex">
               <FilterItems
                 className="ml-auto"
-                items={data?.filters}
+                items={data?.filterItems || data?.filters}
                 activeFilter={activeFilter}
                 onFilterChange={handleFilterChange}
               />
