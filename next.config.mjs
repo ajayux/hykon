@@ -67,6 +67,11 @@ const nextConfig = {
         hostname: "beta.hykon.dev14.intersmarthosting.in",
         pathname: "/**",
       },
+       {
+        protocol: "https",
+        hostname: "admin.hykonindia.com",
+        pathname: "/**",
+      },
     ],
     qualities: [100],
     formats: ["image/avif", "image/webp"],
