@@ -1,9 +1,9 @@
 export default function robots() {
   return {
-    rules: {
+   rules: {
       userAgent: '*',
-      disallow: '/',
+      allow: '/',
     },
-    sitemap: 'https://hykon-beta-ux.netlify.app/sitemap.xml',
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
   }
 }
