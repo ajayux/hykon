@@ -57,11 +57,12 @@ export default async function sitemap() {
   const appDir = path.join(process.cwd(), "src/app");
   const staticPaths = getStaticRoutes(appDir);
 
-  const [blogSlugs, newsSlugs, serviceSlugs, categorySlugs] = await Promise.all([
+  const [blogSlugs, newsSlugs, serviceSlugs, categorySlugs, projectSlugs] = await Promise.all([
     fetchSlugs("/api/blogs",      d => d?.blogSection?.items?.map(i => i.slug)),
     fetchSlugs("/api/news",       d => d?.newsSection?.items?.map(i => i.slug)),
     fetchSlugs("/api/service",    d => d?.newsSection?.items?.map(i => i.slug)),
     fetchSlugs("/api/categories", d => d?.categoriesSection?.items?.map(i => i.slug)),
+    fetchSlugs("/api/projects",   d => d?.newsSection?.items?.map(i => i.slug)),
   ]);
 
   const variantSlugs = [];
@@ -96,5 +97,6 @@ export default async function sitemap() {
     ...serviceSlugs.map(s  => toEntry(`/service/${s}`)),
     ...categorySlugs.map(s => toEntry(`/category/${s}`)),
     ...uniqueVariantSlugs.map(s => toEntry(`/products/${s}`)),
+    ...projectSlugs.map(s  => toEntry(`/projects/${s}`)),
   ];
 }
