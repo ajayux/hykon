@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const baseUrl = "https://hykon-beta-ux.netlify.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const apiBase = process.env.NEXT_PUBLIC_BASE_URL;
 
 function getStaticRoutes(dir, baseRoute = "") {
