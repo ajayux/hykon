@@ -478,12 +478,10 @@ export const commonValidations = {
   contactEnquiryFile: (fieldName) =>
     z
       .any()
-      .refine((file) => file instanceof File, {
-        message: `Please upload a ${fieldName}`,
-      })
+      .optional()
       .refine((file) => !(file instanceof File) || file.size > 0, {
         message:
-          "The uploaded file appears to be empty. Please upload a valid file",
+          "The uploaded fkile appears to be empty. Please upload a valid file",
       })
       .refine(
         (file) =>

@@ -3,6 +3,7 @@ import { Heading, Text } from "@/components/utils/typography";
 import RecaptchaProvider from "@/components/common/recaptcha-provider";
 import parse from "html-react-parser";
 import Image from "next/image";
+import { linkifyPhoneNumbers } from "@/lib/utils";
 
 export default function ContactDetails({ data }) {
   return (
@@ -45,7 +46,7 @@ export default function ContactDetails({ data }) {
                   >
                     <Text as="div" size="p1" className="text-white">
                       <a href={`tel:${data?.customer_support}`}>
-                        {data?.customer_support}
+                        {linkifyPhoneNumbers(data?.customer_support)}
                       </a>
                     </Text>
                   </ContactDetailsCard>
@@ -59,21 +60,21 @@ export default function ContactDetails({ data }) {
                   >
                     <Text as="div" size="p1" className="text-white">
                       <a href={`tel:${data?.service_support}`}>
-                        {data?.service_support}
+                        {linkifyPhoneNumbers(data?.service_support)}
                       </a>
                     </Text>
                   </ContactDetailsCard>
                 )}
               </div>
               <div className="w-full">
-                {data?.sales_support && (
+                {data?.salesSupport && (
                   <ContactDetailsCard
                     icon="/images/icon-contact-loc.svg"
                     title="Sales Support"
                   >
                     <Text as="div" size="p1" className="text-white">
-                      <a href={`tel:${data?.sales_support}`}>
-                        {data?.sales_support}
+                      <a href={`tel:${data?.salesSupport}`}>
+                        {linkifyPhoneNumbers(data?.salesSupport)}
                       </a>
                     </Text>
                   </ContactDetailsCard>
