@@ -103,9 +103,12 @@ export function ContactEnquiryForm() {
       formData.append("email", data.email);
       formData.append("product_category_id", data.productCategory || "");
       formData.append("requirement", data.requirement || "");
-      formData.append("file", data.attachment);
       formData.append("message", data.message || "");
       formData.append("captcha_key", recaptchaToken);
+
+      if (data.attachment) {
+        formData.append("file", data.attachment);
+      }
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/contact-enquiry`, {
@@ -130,133 +133,93 @@ export function ContactEnquiryForm() {
 
   return (
     <>
-    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
-    <form
-      id="contact-enquiry-form"
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-4"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Name */}
-        <Controller
-          name="fullName"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="name" className="sr-only">
-                Name*
-              </FieldLabel>
-              <Input
-                {...field}
-                placeholder="Name*"
-                className={inputClasses}
-                disabled={isSubmitting}
-              />
-              {fieldState.invalid && (
-                <FieldError
-                  errors={[fieldState.error]}
-                  className={errorClass}
-                />
-              )}
-            </Field>
-          )}
-        />
-        {/* Phone */}
-        <Controller
-          name="phone"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel className="sr-only">Phone*</FieldLabel>
-              <Input
-                {...field}
-                placeholder="Phone*"
-                className={inputClasses}
-                disabled={isSubmitting}
-              />
-              {fieldState.invalid && (
-                <FieldError
-                  errors={[fieldState.error]}
-                  className={errorClass}
-                />
-              )}
-            </Field>
-          )}
-        />
-        {/* Email */}
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel className="sr-only">Email*</FieldLabel>
-              <Input
-                {...field}
-                type="email"
-                placeholder="Email*"
-                className={inputClasses}
-                disabled={isSubmitting}
-              />
-              {fieldState.invalid && (
-                <FieldError
-                  errors={[fieldState.error]}
-                  className={errorClass}
-                />
-              )}
-            </Field>
-          )}
-        />
-        {/* Product Category */}
-        <Controller
-          name="productCategory"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel className="sr-only">Product Category*</FieldLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={isSubmitting || categoriesLoading}
-              >
-                <SelectTrigger
-                  className={cn(
-                    inputClasses,
-                    "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
-                  )}
-                >
-                  <SelectValue placeholder="Product Category*" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup>
-                    {productCategory?.map((item) => (
-                      <SelectItem key={item?.slug} value={item?.slug}>
-                        {item?.title}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {fieldState.invalid && (
-                <FieldError
-                  errors={[fieldState.error]}
-                  className={errorClass}
-                />
-              )}
-            </Field>
-          )}
-        />
-        {/* Requirement */}
-        <div className="md:col-span-2">
+      <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
+      <form
+        id="contact-enquiry-form"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Name */}
           <Controller
-            name="requirement"
+            name="fullName"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className="sr-only">Requirement*</FieldLabel>
+                <FieldLabel htmlFor="name" className="sr-only">
+                  Name*
+                </FieldLabel>
+                <Input
+                  {...field}
+                  placeholder="Name*"
+                  className={inputClasses}
+                  disabled={isSubmitting}
+                />
+                {fieldState.invalid && (
+                  <FieldError
+                    errors={[fieldState.error]}
+                    className={errorClass}
+                  />
+                )}
+              </Field>
+            )}
+          />
+          {/* Phone */}
+          <Controller
+            name="phone"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel className="sr-only">Phone*</FieldLabel>
+                <Input
+                  {...field}
+                  placeholder="Phone*"
+                  className={inputClasses}
+                  disabled={isSubmitting}
+                />
+                {fieldState.invalid && (
+                  <FieldError
+                    errors={[fieldState.error]}
+                    className={errorClass}
+                  />
+                )}
+              </Field>
+            )}
+          />
+          {/* Email */}
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel className="sr-only">Email*</FieldLabel>
+                <Input
+                  {...field}
+                  type="email"
+                  placeholder="Email*"
+                  className={inputClasses}
+                  disabled={isSubmitting}
+                />
+                {fieldState.invalid && (
+                  <FieldError
+                    errors={[fieldState.error]}
+                    className={errorClass}
+                  />
+                )}
+              </Field>
+            )}
+          />
+          {/* Product Category */}
+          <Controller
+            name="productCategory"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel className="sr-only">Product Category*</FieldLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || categoriesLoading}
                 >
                   <SelectTrigger
                     className={cn(
@@ -264,18 +227,15 @@ export function ContactEnquiryForm() {
                       "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
                     )}
                   >
-                    <SelectValue placeholder="Requirement*" />
+                    <SelectValue placeholder="Product Category*" />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     <SelectGroup>
-                      <SelectItem value="Sales">Sales</SelectItem>
-                      <SelectItem value="Service">Service</SelectItem>
-                      <SelectItem value="Technical Support">
-                        Technical Support
-                      </SelectItem>
-                      <SelectItem value="Partnership">Partnership</SelectItem>
-                      <SelectItem value="Maintenance">Maintenance</SelectItem>
-                      <SelectItem value="Others">Others</SelectItem>
+                      {productCategory?.map((item) => (
+                        <SelectItem key={item?.slug} value={item?.slug}>
+                          {item?.title}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -288,99 +248,145 @@ export function ContactEnquiryForm() {
               </Field>
             )}
           />
-        </div>
-      </div>
-
-      {/* File Upload */}
-      <div className="relative flex flex-col gap-3">
-        {!uploadedFile ? (
-          <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors">
-            <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white flex items-center gap-3">
-              <Image
-                src="/images/icon-upload.svg"
-                alt="Upload"
-                width={20}
-                height={20}
-                className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
-              />
-              <span>Upload Your File (PDF, DOC, DOCX, JPG, PNG)</span>
-            </div>
-            <input
-              type="file"
-              className="hidden"
-              accept=".pdf,.doc,.docx,.jpg,.png"
-              onChange={handleFileChange}
-              disabled={isSubmitting}
-            />
-          </label>
-        ) : (
-          <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border-1 border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
-            <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
-              {uploadedFile.name}
-            </div>
-            <button
-              type="button"
-              onClick={handleFileRemove}
-              className="text-red-500 hover:text-red-400"
-              disabled={isSubmitting}
-            >
-              <X className="size-4 xl:size-5" />
-            </button>
-          </div>
-        )}
-        {form.formState.errors.attachment && (
-          <div className={errorClass}>
-            {form.formState.errors.attachment.message}
-          </div>
-        )}
-      </div>
-
-      {/* Message */}
-      <Controller
-        name="message"
-        control={form.control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel className="sr-only">Message</FieldLabel>
-            <Textarea
-              {...field}
-              placeholder="Message"
-              className={cn(
-                inputClasses,
-                "min-h-[60px] xl:min-h-[76px] 2xl:min-h-[90px] 3xl:min-h-[110px]",
+          {/* Requirement */}
+          <div className="md:col-span-2">
+            <Controller
+              name="requirement"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="sr-only">Requirement*</FieldLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={isSubmitting}
+                  >
+                    <SelectTrigger
+                      className={cn(
+                        inputClasses,
+                        "data-[placeholder]:text-white data-[size=default]:h-[35px] xl:data-[size=default]:h-[40px] 2xl:data-[size=default]:h-[45px] 3xl:data-[size=default]:h-[55px] justify-between",
+                      )}
+                    >
+                      <SelectValue placeholder="Requirement*" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white">
+                      <SelectGroup>
+                        <SelectItem value="Sales">Sales</SelectItem>
+                        <SelectItem value="Service">Service</SelectItem>
+                        <SelectItem value="Technical Support">
+                          Technical Support
+                        </SelectItem>
+                        <SelectItem value="Partnership">Partnership</SelectItem>
+                        <SelectItem value="Maintenance">Maintenance</SelectItem>
+                        <SelectItem value="Others">Others</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {fieldState.invalid && (
+                    <FieldError
+                      errors={[fieldState.error]}
+                      className={errorClass}
+                    />
+                  )}
+                </Field>
               )}
-              disabled={isSubmitting}
             />
-            {fieldState.invalid && (
-              <FieldError errors={[fieldState.error]} className={errorClass} />
-            )}
-          </Field>
-        )}
-      />
+          </div>
+        </div>
 
-      {/* Submit Button */}
-      <div className="flex justify-end mt-4 xl:mt-8 2xl:mt-10 3xl:mt-12">
-        <Button
-          type="submit"
-          size="lg"
-          variant="outline"
-          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
-          <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-            <Image
-              src={"/images/icon-arrow-right-white.svg"}
-              alt={"icon-arrow-right-white"}
-              width={18}
-              height={13}
-              className="w-1/2"
-              unoptimized
-            />
-          </span>
-        </Button>
-      </div>
-    </form>
+        {/* File Upload */}
+        <div className="relative flex flex-col gap-3">
+          {!uploadedFile ? (
+            <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors">
+              <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white flex items-center gap-3">
+                <Image
+                  src="/images/icon-upload.svg"
+                  alt="Upload"
+                  width={20}
+                  height={20}
+                  className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
+                />
+                <span>Upload Your File (PDF, DOC, DOCX, JPG, PNG)</span>
+              </div>
+              <input
+                type="file"
+                className="hidden"
+                accept=".pdf,.doc,.docx,.jpg,.png"
+                onChange={handleFileChange}
+                disabled={isSubmitting}
+              />
+            </label>
+          ) : (
+            <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] border-1 border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
+              <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
+                {uploadedFile.name}
+              </div>
+              <button
+                type="button"
+                onClick={handleFileRemove}
+                className="text-red-500 hover:text-red-400"
+                disabled={isSubmitting}
+              >
+                <X className="size-4 xl:size-5" />
+              </button>
+            </div>
+          )}
+          {form.formState.errors.attachment && (
+            <div className={errorClass}>
+              {form.formState.errors.attachment.message}
+            </div>
+          )}
+        </div>
+
+        {/* Message */}
+        <Controller
+          name="message"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel className="sr-only">Message</FieldLabel>
+              <Textarea
+                {...field}
+                placeholder="Message"
+                className={cn(
+                  inputClasses,
+                  "min-h-[60px] xl:min-h-[76px] 2xl:min-h-[90px] 3xl:min-h-[110px]",
+                )}
+                disabled={isSubmitting}
+              />
+              {fieldState.invalid && (
+                <FieldError
+                  errors={[fieldState.error]}
+                  className={errorClass}
+                />
+              )}
+            </Field>
+          )}
+        />
+
+        {/* Submit Button */}
+        <div className="flex justify-end mt-4 xl:mt-8 2xl:mt-10 3xl:mt-12">
+          <Button
+            type="submit"
+            size="lg"
+            variant="outline"
+            className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+            <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <Image
+                src={"/images/icon-arrow-right-white.svg"}
+                alt={"icon-arrow-right-white"}
+                width={18}
+                height={13}
+                className="w-1/2"
+                unoptimized
+              />
+            </span>
+          </Button>
+        </div>
+      </form>
     </>
   );
 }
