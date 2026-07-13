@@ -21,10 +21,8 @@ export async function getMetaData(pageKey) {
       headers: { "Content-Type": "application/json" },
     });
 
-
     const result = await response.json();
     const meta = result.data;
-
 
     if (result?.success) {
       const { other } = parseOtherMeta(meta?.other_meta_tags || "");
@@ -35,30 +33,50 @@ export async function getMetaData(pageKey) {
         keywords: meta?.meta_keywords || metaKeywords,
         openGraph: {
           title: meta?.og_title || meta?.meta_title || metaTitle,
-          description: meta?.og_description || meta?.meta_description || metaDescription,
-          images: meta?.og_image
-            ? [{ url: meta.og_image, width: 1200, height: 630 }]
-            : [{ url: DefaultOgImage, width: 1200, height: 630 }],
+          description:
+            meta?.og_description || meta?.meta_description || metaDescription,
+          images: [
+            { url: meta?.og_image || DefaultOgImage, width: 1200, height: 630 },
+          ],
           type: "website",
-          url: pageKey === "home" ? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+          url:
+            pageKey === "home"
+              ? `${process.env.NEXT_PUBLIC_SITE_URL}`
+              : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
         },
         twitter: {
           card: "summary_large_image",
           title: meta?.twitter_title || meta?.meta_title || metaTitle,
-          description: meta?.twitter_description || meta?.meta_description || metaDescription,
-          images: meta?.twitter_image ? [meta.twitter_image] : [],
+          description:
+            meta?.twitter_description ||
+            meta?.meta_description ||
+            metaDescription,
+          images: [meta?.twitter_image || DefaultOgImage],
         },
         alternates: {
-          canonical: pageKey === "home" ? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+          canonical:
+            pageKey === "home"
+              ? `${process.env.NEXT_PUBLIC_SITE_URL}`
+              : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
         },
         other,
         error: null,
       };
     }
 
-    return buildFallbackMetadata(metaTitle, metaDescription, metaKeywords, pageKey);
+    return buildFallbackMetadata(
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      pageKey,
+    );
   } catch (error) {
-    return buildFallbackMetadata(metaTitle, metaDescription, metaKeywords, pageKey);
+    return buildFallbackMetadata(
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      pageKey,
+    );
   }
 }
 
@@ -72,7 +90,10 @@ function buildFallbackMetadata(title, description, keywords, pageKey) {
       description,
       images: [{ url: DefaultOgImage, width: 1200, height: 630 }],
       type: "website",
-      url: pageKey === "home"? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+      url:
+        pageKey === "home"
+          ? `${process.env.NEXT_PUBLIC_SITE_URL}`
+          : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -80,7 +101,10 @@ function buildFallbackMetadata(title, description, keywords, pageKey) {
       description,
     },
     alternates: {
-      canonical: pageKey === "home"? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+      canonical:
+        pageKey === "home"
+          ? `${process.env.NEXT_PUBLIC_SITE_URL}`
+          : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
     },
     other: {},
     error: "No metadata found",
