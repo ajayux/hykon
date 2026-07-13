@@ -7,6 +7,7 @@ import Footer from "@/components/layout/footer";
 import FloatNavigation from "@/components/common/float-navigation";
 import HomeQuestions from "@/components/blocks/home/home-questions";
 import Providers from "./providers";
+import {GoogleTagManager} from "@next/third-parties/google"
 
 export const metadata = {
   title: {
@@ -258,15 +259,17 @@ export default async function RootLayout({ children }) {
       className={cn(fontVariable, "antialiased")}
       suppressHydrationWarning
     >
-      <head>
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
+      {/* <head>
+       <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
-        /> */}
-      </head>
+        /> 
+      </head> */}
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
       <body className={cn("antialiased", fontClassName, fontVariable)}>
+
         <FloatNavigation />
 
         <Header
@@ -275,6 +278,7 @@ export default async function RootLayout({ children }) {
           socialLinkData={socialLinkData}
           mobileMenuData={mobileMenuData}
         />
+
 
         <main className="min-h-screen">
           <Providers>
