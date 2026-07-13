@@ -38,7 +38,7 @@ const formSchema = z.object({
   email: commonValidations.email,
   state: commonValidations.textBox("state"),
   place: commonValidations.textBox("place"),
-  message: commonValidations.optionalString,
+  message: commonValidations.message,
 });
 
 const inputClasses =

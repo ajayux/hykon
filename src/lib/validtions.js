@@ -190,155 +190,180 @@ export const commonValidations = {
       ),
 
   // ─── Email ───────────────────────────────────────────────────────────────────
-  email: z
-    .string()
-    .transform((val) => val.trim())
-    .pipe(
-      z
-        .string()
-        .refine((val) => val.length > 0, {
-          message: "Email is required",
-        })
-        .refine((val) => !/^\s+$/.test(val), {
+email: z
+  .string()
+  .transform((val) => val.trim())
+  .pipe(
+    z
+      .string()
+      .refine((val) => val.length > 0, {
+        message: "Email is required",
+      })
+      .refine((val) => !/^\s+$/.test(val), {
+        message:
+          "Email address cannot be just spaces. Please enter a valid email",
+      })
+      .refine((val) => val.includes("@"), {
+        message:
+          "Email address is missing the @ symbol. Please check and try again",
+      })
+      .refine((val) => !/@@/.test(val), {
+        message:
+          "Email address contains too many @ symbols. Please enter a valid email",
+      })
+      .refine(
+        (val) => {
+          const [, domain] = val.split("@");
+          return domain && domain.includes(".");
+        },
+        {
           message:
-            "Email address cannot be just spaces. Please enter a valid email",
-        })
-        .refine((val) => val.includes("@"), {
+            "Email address is missing a valid domain (e.g. example.com). Please check and try again",
+        },
+      )
+      .refine(
+        (val) => {
+          const [local] = val.split("@");
+          return local && local.length > 0;
+        },
+        {
           message:
-            "Email address is missing the @ symbol. Please check and try again",
-        })
-        .refine((val) => !/@@/.test(val), {
+            "Email address is missing the part before @. Please enter a valid email",
+        },
+      )
+      // NEW: TLD must be at least 2 characters (catches "intersmart.i")
+      .refine(
+        (val) => {
+          const [, domain] = val.split("@");
+          if (!domain) return false;
+          const parts = domain.split(".");
+          const tld = parts[parts.length - 1];
+          return tld && tld.length >= 2;
+        },
+        {
           message:
-            "Email address contains too many @ symbols. Please enter a valid email",
-        })
-        .refine(
-          (val) => {
-            const [, domain] = val.split("@");
-            return domain && domain.includes(".");
-          },
-          {
-            message:
-              "Email address is missing a valid domain (e.g. example.com). Please check and try again",
-          },
-        )
-        .refine(
-          (val) => {
-            const [local] = val.split("@");
-            return local && local.length > 0;
-          },
-          {
-            message:
-              "Email address is missing the part before @. Please enter a valid email",
-          },
-        )
-        .refine(
-          (val) => !/<\s*script/i.test(val) && !/javascript:/i.test(val),
-          {
-            message:
-              "Email address contains invalid characters. Please enter a valid email",
-          },
-        )
-        .refine(
-          (val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b|\bAND\b)/i.test(val),
-          {
-            message:
-              "Email address contains invalid characters. Please enter a valid email",
-          },
-        )
-        .refine((val) => val.length <= VALIDATION_CONFIG.email.maxLength, {
-          message: `Email address is too long. Please keep it under ${VALIDATION_CONFIG.email.maxLength} characters`,
-        })
-        .refine((val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
-          message: "Please enter a valid email address (e.g. name@example.com)",
-        }),
-    ),
+            "Email domain looks incomplete. Please check and try again (e.g. example.in, not example.i)",
+        },
+      )
+      // NEW: domain can't have consecutive dots, or start/end with . or -
+      .refine(
+        (val) => {
+          const [, domain] = val.split("@");
+          if (!domain) return false;
+          return (
+            !/\.\./.test(domain) &&
+            !/^[.-]/.test(domain) &&
+            !/[.-]$/.test(domain)
+          );
+        },
+        {
+          message:
+            "Email domain is not formatted correctly. Please check and try again",
+        },
+      )
+      .refine(
+        (val) => !/<\s*script/i.test(val) && !/javascript:/i.test(val),
+        {
+          message:
+            "Email address contains invalid characters. Please enter a valid email",
+        },
+      )
+      .refine(
+        (val) => !/(;|--|\bDROP\b|\bSELECT\b|\bOR\b|\bAND\b)/i.test(val),
+        {
+          message:
+            "Email address contains invalid characters. Please enter a valid email",
+        },
+      )
+      .refine((val) => val.length <= VALIDATION_CONFIG.email.maxLength, {
+        message: `Email address is too long. Please keep it under ${VALIDATION_CONFIG.email.maxLength} characters`,
+      })
+      .refine((val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+        message: "Please enter a valid email address (e.g. name@example.com)",
+      })
+      // Tighten the final regex too, so TLD in the base pattern is also 2+ chars
+      .refine((val) => /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(val), {
+        message: "Please enter a valid email address (e.g. name@example.com)",
+      }),
+  ),
 
   // ─── Optional Message ────────────────────────────────────────────────────────
-  message: z
-    .string()
-    .optional()
-    .transform((val) => (val ? val.trim() : val))
-    .pipe(
-      z
-        .string()
-        .optional()
-        .refine(
-          (val) => !val || val.length >= VALIDATION_CONFIG.message.minLength,
-          {
-            message: `This field is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
-          },
-        )
-        .refine(
-          (val) => !val || val.length <= VALIDATION_CONFIG.message.maxLength,
-          {
-            message: `This field is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength} characters`,
-          },
-        )
-        // Must contain actual words (not just symbols/numbers)
-        .refine((val) => !val || /\p{L}{2,}/u.test(val), {
-          message:
-            "This field must contain actual words. Please write a meaningful message",
-        })
-        // Excessive repeated characters e.g. "AAAAAAA..." or "!!!!!!!"
-        .refine((val) => !val || !/(.)\1{9,}/.test(val), {
-          message:
-            "This field contains excessive repeated characters. Please enter a valid message",
-        })
-        // XSS: <script> tags
-        .refine(
-          (val) => !val || !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
-          {
-            message:
-              "This field contains invalid content. Please enter a valid message",
-          },
-        )
-        // XSS: <img onerror>
-        .refine((val) => !val || !/<img[\s\S]*?onerror=/i.test(val), {
+message: z
+  .string()
+  .transform((val) => val.trim())
+  .pipe(
+    z
+      .string()
+      .min(VALIDATION_CONFIG.message.minLength, {
+        message: `This field is too short. Please enter at least ${VALIDATION_CONFIG.message.minLength} characters`,
+      })
+      .max(VALIDATION_CONFIG.message.maxLength, {
+        message: `This field is too long. Please keep it under ${VALIDATION_CONFIG.message.maxLength} characters`,
+      })
+      // Must contain actual words (not just symbols/numbers)
+      .refine((val) => /\p{L}{2,}/u.test(val), {
+        message:
+          "This field must contain actual words. Please write a meaningful message",
+      })
+      // Excessive repeated characters e.g. "AAAAAAA..." or "!!!!!!!"
+      .refine((val) => !/(.)\1{9,}/.test(val), {
+        message:
+          "This field contains excessive repeated characters. Please enter a valid message",
+      })
+      // XSS: <script> tags
+      .refine(
+        (val) => !/<\s*script[\s\S]*?>[\s\S]*?<\/script>/i.test(val),
+        {
           message:
             "This field contains invalid content. Please enter a valid message",
-        })
-        // XSS: <iframe>
-        .refine((val) => !val || !/<\s*iframe/i.test(val), {
+        },
+      )
+      // XSS: <img onerror>
+      .refine((val) => !/<img[\s\S]*?onerror=/i.test(val), {
+        message:
+          "This field contains invalid content. Please enter a valid message",
+      })
+      // XSS: <iframe>
+      .refine((val) => !/<\s*iframe/i.test(val), {
+        message:
+          "This field contains invalid content. Please enter a valid message",
+      })
+      // XSS: javascript: protocol
+      .refine((val) => !/javascript\s*:/i.test(val), {
+        message:
+          "This field contains invalid content. Please enter a valid message",
+      })
+      // XSS: on* event handlers e.g. onclick=, onload=
+      .refine((val) => !/\bon\w+\s*=/i.test(val), {
+        message:
+          "This field contains invalid content. Please enter a valid message",
+      })
+      // Template injection: {{...constructor...}}
+      .refine(
+        (val) => !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
+        {
           message:
             "This field contains invalid content. Please enter a valid message",
-        })
-        // XSS: javascript: protocol
-        .refine((val) => !val || !/javascript\s*:/i.test(val), {
+        },
+      )
+      // SQL injection
+      .refine(
+        (val) =>
+          !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bTABLE\b|\bFROM\b|\bWHERE\b)/i.test(
+            val,
+          ),
+        {
           message:
             "This field contains invalid content. Please enter a valid message",
-        })
-        // XSS: on* event handlers e.g. onclick=, onload=
-        .refine((val) => !val || !/\bon\w+\s*=/i.test(val), {
-          message:
-            "This field contains invalid content. Please enter a valid message",
-        })
-        // Template injection: {{...constructor...}}
-        .refine(
-          (val) => !val || !/\{\{[\s\S]*constructor[\s\S]*\}\}/i.test(val),
-          {
-            message:
-              "This field contains invalid content. Please enter a valid message",
-          },
-        )
-        // SQL injection
-        .refine(
-          (val) =>
-            !val ||
-            !/(;|--|\bDROP\b|\bINSERT\b|\bSELECT\b|\bDELETE\b|\bUPDATE\b|\bTABLE\b|\bFROM\b|\bWHERE\b)/i.test(
-              val,
-            ),
-          {
-            message:
-              "This field contains invalid content. Please enter a valid message",
-          },
-        )
-        // Null bytes
-        .refine((val) => !val || !/\x00/.test(val), {
-          message:
-            "This field contains invalid characters. Please enter a valid message",
-        }),
-    ),
-
+        },
+      )
+      // Null bytes
+      .refine((val) => !/\x00/.test(val), {
+        message:
+          "This field contains invalid characters. Please enter a valid message",
+      }),
+  ),
+  
   // ─── Place ───────────────────────────────────────────────────────────────────
   textBox: (value) =>
     z

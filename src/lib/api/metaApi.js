@@ -40,7 +40,7 @@ export async function getMetaData(pageKey) {
             ? [{ url: meta.og_image, width: 1200, height: 630 }]
             : [{ url: DefaultOgImage, width: 1200, height: 630 }],
           type: "website",
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+          url: pageKey === "home" ? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
         },
         twitter: {
           card: "summary_large_image",
@@ -49,7 +49,7 @@ export async function getMetaData(pageKey) {
           images: meta?.twitter_image ? [meta.twitter_image] : [],
         },
         alternates: {
-          canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+          canonical: pageKey === "home" ? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
         },
         other,
         error: null,
@@ -72,7 +72,7 @@ function buildFallbackMetadata(title, description, keywords, pageKey) {
       description,
       images: [{ url: DefaultOgImage, width: 1200, height: 630 }],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+      url: pageKey === "home"? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -80,7 +80,7 @@ function buildFallbackMetadata(title, description, keywords, pageKey) {
       description,
     },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
+      canonical: pageKey === "home"? `${process.env.NEXT_PUBLIC_SITE_URL}` : `${process.env.NEXT_PUBLIC_SITE_URL}/${pageKey}`,
     },
     other: {},
     error: "No metadata found",

@@ -7,7 +7,6 @@ import BlogDetailSection from "@/components/blocks/blogs/blog-detail-section";
 import BlogKeyBenefits from "@/components/blocks/blogs/blog-key-benefits";
 import BlogRelatedBlogs from "@/components/blocks/blogs/related-blogs";
 
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -20,7 +19,8 @@ export async function generateMetadata({ params }) {
     const data = response.data;
     if (!data) return { title: "News Not Found" };
 
-    const { meta_title, meta_description, meta_keywords, other_meta_tags } = data.metaTag || {};
+    const { meta_title, meta_description, meta_keywords, other_meta_tags } =
+      data.metaTag || {};
     const { other } = parseOtherMeta(other_meta_tags || "");
     const ogImage = data.news?.media?.path || "";
 
@@ -31,7 +31,16 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: meta_title || data.news?.title || "News",
         description: meta_description || "",
-        images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: data.news?.media?.alt || "" }] : [],
+        images: ogImage
+          ? [
+              {
+                url: ogImage,
+                width: 1200,
+                height: 630,
+                alt: data.news?.media?.alt || "",
+              },
+            ]
+          : [],
         type: "article",
       },
       twitter: {
@@ -63,8 +72,6 @@ export default async function BlogDetailPage({ params }) {
       const response = await res.json();
       data = response.data;
     }
-
-
   } catch (error) {
     console.error("Error fetching home data:", error);
   }
@@ -75,26 +82,25 @@ export default async function BlogDetailPage({ params }) {
 
   const { heroSection, news, keyBenifits, relatedNews } = data;
 
-
   const page = {
     link: "news-events",
     label: "News",
-  }
+  };
 
   return (
     <>
       {heroSection && <InnerHero data={heroSection} />}
       <BreadcrumbInfo page={page} slug={`${news?.title}`} />
       {news && <BlogDetailSection data={news} />}
-      {keyBenifits?.items?.length>0 && <BlogKeyBenefits data={keyBenifits} />}
-      {relatedNews?.length >0  && (
+      {keyBenifits?.items?.length > 0 && <BlogKeyBenefits data={keyBenifits} />}
+      {relatedNews?.length > 0 && (
         <BlogRelatedBlogs
           data={{
             title: "Related News",
             description: "",
             items: relatedNews,
           }}
-          variant = "news-events"
+          variant="news-events"
         />
       )}
     </>
