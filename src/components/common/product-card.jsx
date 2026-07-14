@@ -5,12 +5,15 @@ import { Heading, Text } from "../utils/typography";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import parse from "html-react-parser";
+import { setProductFilters } from "@/lib/utils/local-storage";
 
 export default function ProductCard({ item, variant = "default", onSelect }) {
   if (variant === "variant-1") {
     return (
       <div>
-        <Link href={`/products/${item?.slug}`}>
+        <Link href={`/products/${item?.slug}`}  onClick={() => {
+          setProductFilters({ category_slug: item?.slug });
+        }}>
           <div
             className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-7.5 bg-[#212121] border border-[#212121] rounded-[8px] 2xl:rounded-[9px] 3xl:rounded-[11px] transition-all duration-500 hover:border-[#008dd2] cursor-pointer"
             onClick={() => onSelect?.(item?.product_slug)}
@@ -33,22 +36,21 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
               >
                 {item?.title}
               </Heading>
-              
-              {parseInt(item?.price) > 0 &&(
-                
-              <div className="mb-1 xl:mb-2 2xl:mb-2.5 3xl:mb-3">
-                <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-center text-white/90 line-through mb-0.5">
-                  {"MRP-"}
-                  {item?.mrp}
-                  {"/-"}
+
+              {parseInt(item?.price) > 0 && (
+                <div className="mb-1 xl:mb-2 2xl:mb-2.5 3xl:mb-3">
+                  <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-center text-white/90 line-through mb-0.5">
+                    {"MRP-"}
+                    {item?.mrp}
+                    {"/-"}
+                  </div>
+                  <div className="text-[14px] sm:text-[12px] lg:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-tight font-semibold text-center text-[#008dd2]">
+                    {"₹"}
+                    {item?.price}
+                    {"/-"}
+                  </div>
                 </div>
-                <div className="text-[14px] sm:text-[12px] lg:text-[13px] 2xl:text-[16px] 3xl:text-[19px] leading-tight font-semibold text-center text-[#008dd2]">
-                  {"₹"}
-                  {item?.price}
-                  {"/-"}
-                </div>
-              </div>
-              ) }
+              )}
 
               <div>
                 <Button
@@ -82,7 +84,12 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
 
   return (
     <div className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-8 transition-all duration-500">
-      <Link href={`/${item?.slug}` || "#"}>
+      <Link
+        href={`/${item?.slug}` || "#"}
+        onClick={() => {
+          setProductFilters({ category_slug: item?.slug });
+        }}
+      >
         <div className="w-full lg:max-w-[106px] 2xl:max-w-[125px] 3xl:max-w-[154px] aspect-10/8 overflow-hidden mb-2 xl:mb-5 3xl:mb-6 transition-transform duration-700 group-hover:scale-110">
           <Image
             src={item?.media?.path}
