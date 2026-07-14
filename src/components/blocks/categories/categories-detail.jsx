@@ -200,7 +200,10 @@ export default function CategoriesDetail({ data, categorySlug }) {
                     >
                       Available options {"("}
                       <Link
-                        href={getProductUrl(item?.slug)}
+                        href={getProductUrl(categorySlug)}
+                         onClick={() => {
+                              setProductFilters({ category_slug: item?.slug });
+                          }}
                         className="underline hover:text-[#008dd2]"
                       >
                         {item?.variants?.title}

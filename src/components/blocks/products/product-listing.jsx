@@ -102,11 +102,46 @@ function ProductGrid({ data, slug, categoryFilters }) {
   const prevKeyRef = useRef(`${categoryFilters.join(",")}|||`);
 
   // Reset items when the server-rendered data changes (e.g. a direct link to
-  // a category page provides fresh SSR data).
+  // a category page provides fresh SSR data). Skipped while secondary filters
+  // (backup_capacity/VAh/from) are active, since SSR `data` never reflects
+  // those — trusting it here would clobber a filtered view with the full
+  // unfiltered list whenever `data` changes for unrelated reasons (e.g. the
+  // Next.js router cache replaying a stale RSC payload after a back/forward
+  // navigation).
   useEffect(() => {
+    if (from || backup_capacity || backup_hours) return;
     setItems(data?.productInfo?.productItems?.data ?? []);
     setPagination(data?.productInfo?.productItems?.pagination ?? {});
-  }, [data]);
+  }, [data, from, backup_capacity, backup_hours]);
+
+  const fetchFiltered = useCallback(async () => {
+    let cancelled = false;
+    setIsFiltering(true);
+    try {
+      const params = new URLSearchParams();
+      categoryFilters.forEach((s) => params.append("product_slug[]", s));
+      if (from) params.set("from", from);
+      if (backup_capacity) params.set("backup_capacity", backup_capacity);
+      if (backup_hours) params.set("backup_hours", backup_hours);
+
+      const res = await fetch(`${API_URL}/products?${params}`);
+      if (res.ok && !cancelled) {
+        const response = await res.json();
+        const result =
+          response.data?.productSection?.productInfo ||
+          response.data?.productInfo;
+        setItems(result?.productItems?.data ?? []);
+        setPagination(result?.productItems?.pagination ?? {});
+      }
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+    } finally {
+      if (!cancelled) setIsFiltering(false);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [categoryFilters.join(","), from, backup_capacity, backup_hours]);
 
   // Re-fetch client-side whenever the selected category filters or secondary
   // filters (backup_capacity/VAh/from) change, without touching the URL.
@@ -115,36 +150,27 @@ function ProductGrid({ data, slug, categoryFilters }) {
     if (prevKeyRef.current === key) return;
     prevKeyRef.current = key;
 
-    let cancelled = false;
-    setIsFiltering(true);
-    (async () => {
-      try {
-        const params = new URLSearchParams();
-        categoryFilters.forEach((s) => params.append("product_slug[]", s));
-        if (from) params.set("from", from);
-        if (backup_capacity) params.set("backup_capacity", backup_capacity);
-        if (backup_hours) params.set("backup_hours", backup_hours);
-
-        const res = await fetch(`${API_URL}/products?${params}`);
-        if (res.ok && !cancelled) {
-          const response = await res.json();
-          const result =
-            response.data?.productSection?.productInfo ||
-            response.data?.productInfo;
-          setItems(result?.productItems?.data ?? []);
-          setPagination(result?.productItems?.pagination ?? {});
-        }
-      } catch (error) {
-        console.error("Error fetching filtered products:", error);
-      } finally {
-        if (!cancelled) setIsFiltering(false);
-      }
-    })();
-
+    let cleanup;
+    fetchFiltered().then((c) => {
+      cleanup = c;
+    });
     return () => {
-      cancelled = true;
+      cleanup?.();
     };
-  }, [categoryFilters.join(","), from, backup_capacity, backup_hours]);
+  }, [categoryFilters.join(","), from, backup_capacity, backup_hours, fetchFiltered]);
+
+  // A back/forward navigation restored from the browser's bfcache freezes JS
+  // execution entirely, so no effect re-runs to re-sync state — force a
+  // re-fetch of the currently active filters when that happens.
+  useEffect(() => {
+    function handlePageShow(e) {
+      if (e.persisted && (from || backup_capacity || backup_hours)) {
+        fetchFiltered();
+      }
+    }
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, [fetchFiltered]);
 
   const fetchMore = useCallback(async () => {
     setIsLoading(true);

@@ -28,8 +28,9 @@ export async function generateMetadata() {
 
 
 export default async function ProductsPage({ params }) {
-  const { slug } = await params;
-  const categorySlugs = slug.split(",").filter(Boolean);
+  const { slug:categorySlugs } = await params;
+
+  console.log("categorySlugs", categorySlugs)
 
   const cookieStore = await cookies();
   const storedFilters = cookieStore.get("product_filters")?.value;
@@ -88,7 +89,7 @@ export default async function ProductsPage({ params }) {
         page={parentPage}
         slug={breadcrumbSlug}
       />
-      {productsData && <ProductListing data={productSection} slug={slug} />}
+      {productsData && <ProductListing data={productSection} slug={categorySlugs} />}
     </>
   );
 }
