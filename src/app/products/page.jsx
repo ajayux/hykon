@@ -4,6 +4,7 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
+import { parseCategorySlugFromCookie } from "@/lib/utils/local-storage";
 
 export async function generateMetadata() {
   const {
@@ -33,13 +34,9 @@ export default async function ProductsPage({ params }) {
     slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
 
   const cookieStore = await cookies();
-  const storedFilters = cookieStore.get("product_filters")?.value;
-  let storedCategorySlug = null;
-  if (storedFilters) {
-    try {
-      storedCategorySlug = JSON.parse(storedFilters)?.category_slug;
-    } catch {}
-  }
+  const storedCategorySlug = parseCategorySlugFromCookie(
+    cookieStore.get("product_filters")?.value,
+  );
   const filterSlugs = storedCategorySlug
     ? storedCategorySlug.split(",").filter(Boolean)
     : product_slugs;

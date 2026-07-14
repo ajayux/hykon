@@ -28,12 +28,19 @@ const FilterCard = forwardRef(function FilterCard(
 
   useImperativeHandle(ref, () => ({
     apply() {
-      onApply(currentSlugs);
+      applySlugs(currentSlugs);
     },
     reset() {
       setOptimisticCategory(undefined);
     },
   }));
+
+  function applySlugs(slugs) {
+    onApply(slugs);
+    if (slugs.length === 0 && data?.categorySlug) {
+      router.push(`/category/${data.categorySlug}`);
+    }
+  }
 
   function handleCheck(slug) {
     const next = currentSlugs.includes(slug)
@@ -41,7 +48,7 @@ const FilterCard = forwardRef(function FilterCard(
       : [...currentSlugs, slug];
     setOptimisticCategory(next);
     if (!deferred) {
-      onApply(next);
+      applySlugs(next);
     }
   }
 

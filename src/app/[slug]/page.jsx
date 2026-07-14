@@ -4,6 +4,7 @@ import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
+import { parseCategorySlugFromCookie } from "@/lib/utils/local-storage";
 
 export async function generateMetadata() {
   const {
@@ -28,26 +29,17 @@ export async function generateMetadata() {
 
 
 export default async function ProductsPage({ params }) {
-  const { slug:categorySlugs } = await params;
-
-  console.log("categorySlugs", categorySlugs)
+  const { slug } = await params;
+  const categorySlugs = slug.split(",").filter(Boolean);
 
   const cookieStore = await cookies();
-  const storedFilters = cookieStore.get("product_filters")?.value;
-  let storedCategorySlug = null;
-  if (storedFilters) {
-    try {
-      storedCategorySlug = JSON.parse(storedFilters)?.category_slug;
-    } catch {}
-  }
-
-  console.log("storedCategorySlug", storedCategorySlug)
+  const storedCategorySlug = parseCategorySlugFromCookie(
+    cookieStore.get("product_filters")?.value,
+  );
   const filterSlugs = storedCategorySlug
     ? storedCategorySlug.split(",").filter(Boolean)
     : categorySlugs;
 
-
-    console.log("filterSlugs ", filterSlugs)
   let productsData = null;
 
   try {
@@ -89,7 +81,7 @@ export default async function ProductsPage({ params }) {
         page={parentPage}
         slug={breadcrumbSlug}
       />
-      {productsData && <ProductListing data={productSection} slug={categorySlugs} />}
+      {productsData && <ProductListing data={productSection} slug={slug} />}
     </>
   );
 }

@@ -27,8 +27,9 @@ export function getProductFilters() {
 }
 
 export function setProductFilters(filters) {
-  deleteCookie(KEY);
   if (typeof window === "undefined") return;
+
+  deleteCookie(KEY);
 
   if (!filters) return;
 
@@ -38,4 +39,13 @@ export function setProductFilters(filters) {
 export function clearProductFilters() {
   if (typeof window === "undefined") return;
   deleteCookie(KEY);
+}
+
+export function parseCategorySlugFromCookie(rawValue) {
+  if (!rawValue) return null;
+  try {
+    return JSON.parse(rawValue)?.category_slug ?? null;
+  } catch {
+    return null;
+  }
 }

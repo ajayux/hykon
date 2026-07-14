@@ -114,49 +114,48 @@ function ProductGrid({ data, slug, categoryFilters }) {
     setPagination(data?.productInfo?.productItems?.pagination ?? {});
   }, [data, from, backup_capacity, backup_hours]);
 
-  const fetchFiltered = useCallback(async () => {
-    let cancelled = false;
-    setIsFiltering(true);
-    try {
-      const params = new URLSearchParams();
-      categoryFilters.forEach((s) => params.append("product_slug[]", s));
-      if (from) params.set("from", from);
-      if (backup_capacity) params.set("backup_capacity", backup_capacity);
-      if (backup_hours) params.set("backup_hours", backup_hours);
+  const fetchFiltered = useCallback(
+    async (signal) => {
+      setIsFiltering(true);
+      try {
+        const params = new URLSearchParams();
+        categoryFilters.forEach((s) => params.append("product_slug[]", s));
+        if (from) params.set("from", from);
+        if (backup_capacity) params.set("backup_capacity", backup_capacity);
+        if (backup_hours) params.set("backup_hours", backup_hours);
 
-      const res = await fetch(`${API_URL}/products?${params}`);
-      if (res.ok && !cancelled) {
-        const response = await res.json();
-        const result =
-          response.data?.productSection?.productInfo ||
-          response.data?.productInfo;
-        setItems(result?.productItems?.data ?? []);
-        setPagination(result?.productItems?.pagination ?? {});
+        const res = await fetch(`${API_URL}/products?${params}`, { signal });
+        if (res.ok) {
+          const response = await res.json();
+          const result =
+            response.data?.productSection?.productInfo ||
+            response.data?.productInfo;
+          setItems(result?.productItems?.data ?? []);
+          setPagination(result?.productItems?.pagination ?? {});
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error fetching filtered products:", error);
+        }
+      } finally {
+        if (!signal.aborted) setIsFiltering(false);
       }
-    } catch (error) {
-      console.error("Error fetching filtered products:", error);
-    } finally {
-      if (!cancelled) setIsFiltering(false);
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [categoryFilters.join(","), from, backup_capacity, backup_hours]);
+    },
+    [categoryFilters.join(","), from, backup_capacity, backup_hours],
+  );
 
   // Re-fetch client-side whenever the selected category filters or secondary
   // filters (backup_capacity/VAh/from) change, without touching the URL.
+  // Aborts a still-in-flight previous request so a stale response can't
+  // overwrite a newer one.
   useEffect(() => {
     const key = `${categoryFilters.join(",")}|${from || ""}|${backup_capacity || ""}|${backup_hours || ""}`;
     if (prevKeyRef.current === key) return;
     prevKeyRef.current = key;
 
-    let cleanup;
-    fetchFiltered().then((c) => {
-      cleanup = c;
-    });
-    return () => {
-      cleanup?.();
-    };
+    const controller = new AbortController();
+    fetchFiltered(controller.signal);
+    return () => controller.abort();
   }, [categoryFilters.join(","), from, backup_capacity, backup_hours, fetchFiltered]);
 
   // A back/forward navigation restored from the browser's bfcache freezes JS
@@ -165,12 +164,12 @@ function ProductGrid({ data, slug, categoryFilters }) {
   useEffect(() => {
     function handlePageShow(e) {
       if (e.persisted && (from || backup_capacity || backup_hours)) {
-        fetchFiltered();
+        fetchFiltered(new AbortController().signal);
       }
     }
     window.addEventListener("pageshow", handlePageShow);
     return () => window.removeEventListener("pageshow", handlePageShow);
-  }, [fetchFiltered]);
+  }, [fetchFiltered, from, backup_capacity, backup_hours]);
 
   const fetchMore = useCallback(async () => {
     setIsLoading(true);
@@ -304,14 +303,14 @@ export default function ProductListing({ data, slug }) {
   const redirectedSlugs =
     slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
 
- 
   useEffect(() => {
-    setHideFilter(getProductFilters()?.from === "power_calculator");
+    const filters = getProductFilters();
+    setHideFilter(filters?.from === "power_calculator");
 
     // The stored selection (set when the user picks a specific item, e.g.
     // "View Products" on a category item) wins, since it's what the SSR
     // fetch in the page filtered by; otherwise fall back to the URL slug.
-    const stored = getProductFilters()?.category_slug;
+    const stored = filters?.category_slug;
     if (stored) {
       setCategoryFilters(stored.split(",").filter(Boolean));
       return;
