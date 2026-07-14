@@ -282,16 +282,17 @@ export default function ProductListing({ data, slug }) {
   useEffect(() => {
     setHideFilter(getProductFilters()?.from === "power_calculator");
 
-    // A direct link to a category page (e.g. from the categories block) wins;
-    // otherwise fall back to the last filter selection stored in localStorage.
-    const fromUrl =
-      slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
-    if (fromUrl.length) {
-      setCategoryFilters(fromUrl);
+    // The stored selection (set when the user picks a specific item, e.g.
+    // "View Products" on a category item) wins, since it's what the SSR
+    // fetch in the page filtered by; otherwise fall back to the URL slug.
+    const stored = getProductFilters()?.category_slug;
+    if (stored) {
+      setCategoryFilters(stored.split(",").filter(Boolean));
       return;
     }
-    const stored = getProductFilters()?.category_slug;
-    setCategoryFilters(stored ? stored.split(",").filter(Boolean) : []);
+    const fromUrl =
+      slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+    setCategoryFilters(fromUrl);
   }, [slug]);
 
   function applyCategoryFilters(slugs) {

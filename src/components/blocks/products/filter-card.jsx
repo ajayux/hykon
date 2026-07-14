@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useState, useImperativeHandle, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { Minus } from "lucide-react";
@@ -13,6 +14,7 @@ const FilterCard = forwardRef(function FilterCard(
   { data, selected, onApply, deferred = false, redirectedSlugs = [] },
   ref,
 ) {
+  const router = useRouter();
   const [optimisticCategory, setOptimisticCategory] = useState(undefined);
 
   const currentSlugs =
@@ -45,9 +47,12 @@ const FilterCard = forwardRef(function FilterCard(
 
   function handleClearAll() {
     setOptimisticCategory(redirectedSlugs);
-    clearProductFilters()
+    clearProductFilters();
     if (!deferred) {
       onApply(redirectedSlugs);
+    }
+    if (data?.categorySlug) {
+      router.push(`/category/${data.categorySlug}`);
     }
   }
 

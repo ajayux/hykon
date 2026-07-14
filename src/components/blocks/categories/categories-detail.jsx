@@ -3,10 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
-import {
-  getProductFilters,
-  setProductFilters,
-} from "@/lib/utils/local-storage";
+import { setProductFilters } from "@/lib/utils/local-storage";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -173,11 +170,7 @@ export default function CategoriesDetail({ data, categorySlug }) {
                           target={btn?.target === "blank" ? "_blank" : ""}
                           onClick={() => {
                             if (btn?.isViewProducts) {
-                              const existing = getProductFilters() || {};
-                              setProductFilters({
-                                ...existing,
-                                category_slug: item?.slug,
-                              });
+                              setProductFilters({ category_slug: item?.slug });
                             }
                           }}
                         >

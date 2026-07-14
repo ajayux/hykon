@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
@@ -31,12 +32,24 @@ export default async function ProductsPage({ params }) {
   const product_slugs =
     slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
 
+  const cookieStore = await cookies();
+  const storedFilters = cookieStore.get("product_filters")?.value;
+  let storedCategorySlug = null;
+  if (storedFilters) {
+    try {
+      storedCategorySlug = JSON.parse(storedFilters)?.category_slug;
+    } catch {}
+  }
+  const filterSlugs = storedCategorySlug
+    ? storedCategorySlug.split(",").filter(Boolean)
+    : product_slugs;
+
   let productsData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const apiParams = new URLSearchParams();
-    product_slugs.forEach((s) => apiParams.append("product_slug[]", s));
+    filterSlugs.forEach((s) => apiParams.append("product_slug[]", s));
 
     const res = await fetch(`${baseUrl}/api/products?${apiParams}`);
 
