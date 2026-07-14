@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useCallback, useEffect, useRef } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/utils/typography";
 import { ListFilterPlus } from "lucide-react";
@@ -21,6 +21,11 @@ import ProductCard from "@/components/common/product-card";
 import FilterCard from "./filter-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { API_URL } from "@/lib/api/client";
+import {
+  clearProductFilters,
+  getProductFilters,
+  setProductFilters,
+} from "@/lib/utils/local-storage";
 
 function ProductCardSkeleton() {
   return (
@@ -61,24 +66,28 @@ export function ProductListingSkeleton() {
   );
 }
 
-function ProductGrid({ data }) {
+function ProductGrid({ data, slug, categoryFilters }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const rawSlug = searchParams.get("product_slug");
-  const product_slugs = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
-  const from = searchParams.get("from");
-  const backup_capacity = searchParams.get("backup_capacity");
-  const approx_runtime = searchParams.get("approx_runtime");
+  // Only used for the legacy "select a product" URL append below; the actual
+  // listing/filtering fetch is driven by `categoryFilters`, not the URL.
+  const urlSlugs =
+    slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+
+  const [secondaryFilters, setSecondaryFilters] = useState(null);
+
+  useEffect(() => {
+    setSecondaryFilters(getProductFilters());
+  }, []);
+
+  const from = secondaryFilters?.from || null;
+  const backup_capacity = secondaryFilters?.backup_capacity || null;
+  const backup_hours = secondaryFilters?.VAh || null;
 
   function handleProductSelect(productSlug) {
     if (!productSlug) return;
-    const current = new URLSearchParams(searchParams.toString());
-    const existing = current.get("product_slug");
-    const slugs = existing ? existing.split(",").filter(Boolean) : [];
-    if (!slugs.includes(productSlug)) {
-      slugs.push(productSlug);
-      current.set("product_slug", slugs.join(","));
-      router.replace(`/products?${current.toString()}`, { scroll: false });
+    if (!urlSlugs.includes(productSlug)) {
+      const slugs = [...urlSlugs, productSlug];
+      router.replace(`/${slugs.join(",")}`, { scroll: false });
     }
   }
 
@@ -90,33 +99,62 @@ function ProductGrid({ data }) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
-  const prevSlugsRef = useRef(product_slugs.join(","));
+  const prevKeyRef = useRef(`${categoryFilters.join(",")}|||`);
 
-  // Show skeletons when filter slugs change (before server responds)
-  useEffect(() => {
-    const current = product_slugs.join(",");
-    if (prevSlugsRef.current !== current) {
-      prevSlugsRef.current = current;
-      setIsFiltering(true);
-    }
-  }, [product_slugs.join(",")]);
-
-  // Reset items when server responds with new filtered data
+  // Reset items when the server-rendered data changes (e.g. a direct link to
+  // a category page provides fresh SSR data).
   useEffect(() => {
     setItems(data?.productInfo?.productItems?.data ?? []);
     setPagination(data?.productInfo?.productItems?.pagination ?? {});
-    setIsFiltering(false);
   }, [data]);
+
+  // Re-fetch client-side whenever the selected category filters or secondary
+  // filters (backup_capacity/VAh/from) change, without touching the URL.
+  useEffect(() => {
+    const key = `${categoryFilters.join(",")}|${from || ""}|${backup_capacity || ""}|${backup_hours || ""}`;
+    if (prevKeyRef.current === key) return;
+    prevKeyRef.current = key;
+
+    let cancelled = false;
+    setIsFiltering(true);
+    (async () => {
+      try {
+        const params = new URLSearchParams();
+        categoryFilters.forEach((s) => params.append("product_slug[]", s));
+        if (from) params.set("from", from);
+        if (backup_capacity) params.set("backup_capacity", backup_capacity);
+        if (backup_hours) params.set("backup_hours", backup_hours);
+
+        const res = await fetch(`${API_URL}/products?${params}`);
+        if (res.ok && !cancelled) {
+          const response = await res.json();
+          const result =
+            response.data?.productSection?.productInfo ||
+            response.data?.productInfo;
+          setItems(result?.productItems?.data ?? []);
+          setPagination(result?.productItems?.pagination ?? {});
+        }
+      } catch (error) {
+        console.error("Error fetching filtered products:", error);
+      } finally {
+        if (!cancelled) setIsFiltering(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [categoryFilters.join(","), from, backup_capacity, backup_hours]);
 
   const fetchMore = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
-      product_slugs.forEach((s) => params.append("product_slug[]", s));
+      categoryFilters.forEach((s) => params.append("product_slug[]", s));
       params.set("page", String(pagination.current_page + 1));
       if (from) params.set("from", from);
       if (backup_capacity) params.set("backup_capacity", backup_capacity);
-      if (approx_runtime) params.set("approx_runtime", approx_runtime);
+      if (backup_hours) params.set("backup_hours", backup_hours);
 
       const res = await fetch(`${API_URL}/products?${params}`);
       if (res.ok) {
@@ -132,7 +170,13 @@ function ProductGrid({ data }) {
     } finally {
       setIsLoading(false);
     }
-  }, [product_slugs.join(","), pagination.current_page, from]);
+  }, [
+    categoryFilters.join(","),
+    pagination.current_page,
+    from,
+    backup_capacity,
+    backup_hours,
+  ]);
 
   const hasMore = pagination.current_page !== pagination.last_page;
 
@@ -224,10 +268,37 @@ function ProductGrid({ data }) {
   );
 }
 
-export default function ProductListing({ data, from }) {
+export default function ProductListing({ data, slug }) {
   const mobileFilterRef = useRef(null);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const hideFilter = from === "power_calculator";
+  const [hideFilter, setHideFilter] = useState(false);
+  const [categoryFilters, setCategoryFilters] = useState(() =>
+    slug && slug !== "products" ? slug.split(",").filter(Boolean) : [],
+  );
+  const redirectedSlugs =
+    slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+
+ 
+  useEffect(() => {
+    setHideFilter(getProductFilters()?.from === "power_calculator");
+
+    // A direct link to a category page (e.g. from the categories block) wins;
+    // otherwise fall back to the last filter selection stored in localStorage.
+    const fromUrl =
+      slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+    if (fromUrl.length) {
+      setCategoryFilters(fromUrl);
+      return;
+    }
+    const stored = getProductFilters()?.category_slug;
+    setCategoryFilters(stored ? stored.split(",").filter(Boolean) : []);
+  }, [slug]);
+
+  function applyCategoryFilters(slugs) {
+    setCategoryFilters(slugs);
+    const existing = getProductFilters() || {};
+    setProductFilters({ ...existing, category_slug: slugs.join(",") });
+  }
 
   return (
     <section className="w-full h-auto block bg-[#444142] py-[40px_60px] sm:py-[50px_80px] xl:py-[60px_100px] 2xl:py-[70px_100px] 3xl:py-[80px_120px] relative z-0">
@@ -237,7 +308,12 @@ export default function ProductListing({ data, from }) {
             <div className="w-full lg:w-[220px] xl:w-[235px] 2xl:w-[276px] 3xl:w-[340px] max-lg:border-b max-lg:pb-2 max-lg:mb-8 max-lg:border-[#212121]">
               <div className="w-full sticky top-(--header-y) hidden lg:block">
                 <Suspense fallback={null}>
-                  <FilterCard data={data} />
+                  <FilterCard
+                    data={data}
+                    selected={categoryFilters}
+                    onApply={applyCategoryFilters}
+                    redirectedSlugs={redirectedSlugs}
+                  />
                 </Suspense>
               </div>
               <Sheet
@@ -262,7 +338,14 @@ export default function ProductListing({ data, from }) {
                     </SheetDescription>
                   </SheetHeader>
                   <Suspense fallback={null}>
-                    <FilterCard ref={mobileFilterRef} data={data} deferred />
+                    <FilterCard
+                      ref={mobileFilterRef}
+                      data={data}
+                      selected={categoryFilters}
+                      onApply={applyCategoryFilters}
+                      redirectedSlugs={redirectedSlugs}
+                      deferred
+                    />
                   </Suspense>
                   <SheetFooter className="grid grid-cols-2 gap-2 px-0">
                     <SheetClose asChild>
@@ -287,7 +370,11 @@ export default function ProductListing({ data, from }) {
           )}
 
           <Suspense fallback={null}>
-            <ProductGrid data={data} />
+            <ProductGrid
+              data={data}
+              slug={slug}
+              categoryFilters={categoryFilters}
+            />
           </Suspense>
         </div>
       </div>

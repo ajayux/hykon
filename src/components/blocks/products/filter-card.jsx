@@ -1,40 +1,32 @@
 "use client";
 
 import { forwardRef, useState, useImperativeHandle, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { Minus } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
+import { clearProductFilters } from "@/lib/utils/local-storage";
 
 const FilterCard = forwardRef(function FilterCard(
-  { data, deferred = false },
+  { data, selected, onApply, deferred = false, redirectedSlugs = [] },
   ref,
 ) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const rawSlug = searchParams.get("product_slug");
-  const serverCategory = rawSlug ? rawSlug.split(",").filter(Boolean) : [];
   const [optimisticCategory, setOptimisticCategory] = useState(undefined);
 
   const currentSlugs =
-    optimisticCategory !== undefined ? optimisticCategory : serverCategory;
+    optimisticCategory !== undefined ? optimisticCategory : selected;
 
-  // Reset optimistic state whenever the URL changes externally (e.g. mobile Apply updates URL,
-  // desktop instance must re-sync its checkboxes from the new URL)
+  // Reset optimistic state whenever the shared selection changes externally
+  // (e.g. mobile Apply just committed it, desktop instance must re-sync)
   useEffect(() => {
     setOptimisticCategory(undefined);
-  }, [rawSlug]);
+  }, [selected]);
 
   useImperativeHandle(ref, () => ({
     apply() {
-      const param = currentSlugs.join(",");
-      router.replace(
-        currentSlugs.length ? `/products?product_slug=${param}` : "/products",
-        { scroll: false },
-      );
+      onApply(currentSlugs);
     },
     reset() {
       setOptimisticCategory(undefined);
@@ -47,18 +39,15 @@ const FilterCard = forwardRef(function FilterCard(
       : [...currentSlugs, slug];
     setOptimisticCategory(next);
     if (!deferred) {
-      const param = next.join(",");
-      router.replace(
-        next.length ? `/products?product_slug=${param}` : "/products",
-        { scroll: false },
-      );
+      onApply(next);
     }
   }
 
   function handleClearAll() {
-    setOptimisticCategory([]);
+    setOptimisticCategory(redirectedSlugs);
+    clearProductFilters()
     if (!deferred) {
-      router.replace("/products", { scroll: false });
+      onApply(redirectedSlugs);
     }
   }
 

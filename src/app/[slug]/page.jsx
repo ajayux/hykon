@@ -28,15 +28,14 @@ export async function generateMetadata() {
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
-  const product_slugs =
-    slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+  const categorySlugs = slug.split(",").filter(Boolean);
 
   let productsData = null;
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const apiParams = new URLSearchParams();
-    product_slugs.forEach((s) => apiParams.append("product_slug[]", s));
+    categorySlugs.forEach((s) => apiParams.append("product_slug[]", s));
 
     const res = await fetch(`${baseUrl}/api/products?${apiParams}`);
 

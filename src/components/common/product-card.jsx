@@ -82,7 +82,7 @@ export default function ProductCard({ item, variant = "default", onSelect }) {
 
   return (
     <div className="group w-full h-auto px-4 xl:px-8 3xl:px-10 py-4 xl:py-6 3xl:py-8 transition-all duration-500">
-      <Link href={`/products?product_slug=${item?.slug}` || "#"}>
+      <Link href={`/${item?.slug}` || "#"}>
         <div className="w-full lg:max-w-[106px] 2xl:max-w-[125px] 3xl:max-w-[154px] aspect-10/8 overflow-hidden mb-2 xl:mb-5 3xl:mb-6 transition-transform duration-700 group-hover:scale-110">
           <Image
             src={item?.media?.path}

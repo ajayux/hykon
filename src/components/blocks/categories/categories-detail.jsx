@@ -3,6 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
+import {
+  getProductFilters,
+  setProductFilters,
+} from "@/lib/utils/local-storage";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,10 +25,10 @@ const scrollToSection = (e, slug) => {
 };
 
 const getProductUrl = (slug) => {
-  return `/products?product_slug=${slug}`;
+  return `/${slug}`;
 };
 
-export default function CategoriesDetail({ data }) {
+export default function CategoriesDetail({ data, categorySlug }) {
   return (
     <section className="w-full h-auto block bg-[#444142] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container">
@@ -142,7 +146,8 @@ export default function CategoriesDetail({ data }) {
                         ? [
                             {
                               label: "View Products",
-                              url: getProductUrl(item?.slug),
+                              url: getProductUrl(categorySlug),
+                              isViewProducts: true,
                             },
                           ]
                         : []),
@@ -166,6 +171,15 @@ export default function CategoriesDetail({ data }) {
                         <Link
                           href={btn?.url ?? ""}
                           target={btn?.target === "blank" ? "_blank" : ""}
+                          onClick={() => {
+                            if (btn?.isViewProducts) {
+                              const existing = getProductFilters() || {};
+                              setProductFilters({
+                                ...existing,
+                                category_slug: item?.slug,
+                              });
+                            }
+                          }}
                         >
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
