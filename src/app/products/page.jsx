@@ -1,10 +1,8 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
-import { parseCategorySlugFromCookie } from "@/lib/utils/local-storage";
 
 export async function generateMetadata() {
   const {
@@ -30,16 +28,8 @@ export async function generateMetadata() {
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
-  const product_slugs =
+  const filterSlugs =
     slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
-
-  const cookieStore = await cookies();
-  const storedCategorySlug = parseCategorySlugFromCookie(
-    cookieStore.get("product_filters")?.value,
-  );
-  const filterSlugs = storedCategorySlug
-    ? storedCategorySlug.split(",").filter(Boolean)
-    : product_slugs;
 
   let productsData = null;
 
@@ -66,13 +56,13 @@ export default async function ProductsPage({ params }) {
 
   const { categorySlug, categoryTitle, productTitle } = productSection;
 
-  const grandParentPage = { label: "Product Category", link: "category" };
+  const grandParentPage = { label: "Products", link: "category" };
 
   const parentPage = categorySlug && categoryTitle
     ? { label: categoryTitle, link: `category/${categorySlug}` }
     : null;
 
-  const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");
+  const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Products");
 
   return (
     <>

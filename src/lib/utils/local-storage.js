@@ -12,7 +12,7 @@ function setCookie(name, value) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/`;
 }
 
-function deleteCookie(name) {
+export function deleteCookie(name) {
   document.cookie = `${name}=; path=/; max-age=0`;
 }
 
@@ -39,13 +39,4 @@ export function setProductFilters(filters) {
 export function clearProductFilters() {
   if (typeof window === "undefined") return;
   deleteCookie(KEY);
-}
-
-export function parseCategorySlugFromCookie(rawValue) {
-  if (!rawValue) return null;
-  try {
-    return JSON.parse(rawValue)?.category_slug ?? null;
-  } catch {
-    return null;
-  }
 }

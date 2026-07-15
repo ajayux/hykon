@@ -1,10 +1,8 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import InnerHero from "@/components/common/inner-hero";
 import BreadcrumbInfo from "@/components/common/breadcrumb-info";
 import ProductListing from "@/components/blocks/products/product-listing";
 import { getMetaData } from "@/lib/api/metaApi";
-import { parseCategorySlugFromCookie } from "@/lib/utils/local-storage";
 
 export async function generateMetadata() {
   const {
@@ -30,15 +28,7 @@ export async function generateMetadata() {
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
-  const categorySlugs = slug.split(",").filter(Boolean);
-
-  const cookieStore = await cookies();
-  const storedCategorySlug = parseCategorySlugFromCookie(
-    cookieStore.get("product_filters")?.value,
-  );
-  const filterSlugs = storedCategorySlug
-    ? storedCategorySlug.split(",").filter(Boolean)
-    : categorySlugs;
+  const filterSlugs = slug.split(",").filter(Boolean);
 
   let productsData = null;
 
@@ -47,6 +37,7 @@ export default async function ProductsPage({ params }) {
     const apiParams = new URLSearchParams();
     filterSlugs.forEach((s) => apiParams.append("product_slug[]", s));
 
+    console.log("apiParams" , apiParams)
     const res = await fetch(`${baseUrl}/api/products?${apiParams}`);
 
     if (res.ok) {

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
-import { setProductFilters } from "@/lib/utils/local-storage";
+import { deleteCookie } from "@/lib/utils/local-storage";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -89,22 +89,25 @@ export default function CategoriesDetail({ data, categorySlug }) {
                   </ul>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2 sm:gap-4 xl:gap-6 2xl:gap-7.5 3xl:gap-8.5">
-                {data?.specification?.specificationMedia?.map((item) => (
-                  <div
-                    key={item?.id}
-                    className="w-10 sm:w-13 xl:w-15 2xl:w-18 3xl:w-22"
-                  >
-                    <Image
-                      src={item?.path}
-                      alt={item?.alt}
-                      width={100}
-                      height={100}
-                      className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
-                    />
-                  </div>
-                ))}
-              </div>
+
+              {data?.specification?.specificationMedia.length > 0 && (
+                <div className="flex flex-wrap gap-2 sm:gap-4 xl:gap-6 2xl:gap-7.5 3xl:gap-8.5">
+                  {data?.specification?.specificationMedia?.map((item) => (
+                    <div
+                      key={item?.id}
+                      className="w-10 sm:w-13 xl:w-15 2xl:w-18 3xl:w-22"
+                    >
+                      <Image
+                        src={item?.path}
+                        alt={item?.alt}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -143,7 +146,7 @@ export default function CategoriesDetail({ data, categorySlug }) {
                         ? [
                             {
                               label: "View Products",
-                              url: getProductUrl(categorySlug),
+                              url: getProductUrl(item?.slug || categorySlug),
                               isViewProducts: true,
                             },
                           ]
@@ -167,12 +170,8 @@ export default function CategoriesDetail({ data, categorySlug }) {
                       >
                         <Link
                           href={btn?.url ?? ""}
+                          onClick={() => deleteCookie("product_filters")}
                           target={btn?.target === "blank" ? "_blank" : ""}
-                          onClick={() => {
-                            if (btn?.isViewProducts) {
-                              setProductFilters({ category_slug: item?.slug });
-                            }
-                          }}
                         >
                           {btn?.label}
                           <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
@@ -200,10 +199,8 @@ export default function CategoriesDetail({ data, categorySlug }) {
                     >
                       Available options {"("}
                       <Link
-                        href={getProductUrl(categorySlug)}
-                         onClick={() => {
-                              setProductFilters({ category_slug: item?.slug });
-                          }}
+                        href={getProductUrl(item?.slug || categorySlug)}
+                        onClick={() => deleteCookie("product_filters")}
                         className="underline hover:text-[#008dd2]"
                       >
                         {item?.variants?.title}
@@ -220,6 +217,7 @@ export default function CategoriesDetail({ data, categorySlug }) {
                         >
                           <Link
                             href={`/products/${variant?.slug}`}
+                            onClick={() => deleteCookie("product_filters")}
                             className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]"
                           >
                             <div>

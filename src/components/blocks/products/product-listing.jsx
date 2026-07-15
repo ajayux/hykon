@@ -24,7 +24,6 @@ import { API_URL } from "@/lib/api/client";
 import {
   clearProductFilters,
   getProductFilters,
-  setProductFilters,
 } from "@/lib/utils/local-storage";
 
 function ProductCardSkeleton() {
@@ -307,14 +306,6 @@ export default function ProductListing({ data, slug }) {
     const filters = getProductFilters();
     setHideFilter(filters?.from === "power_calculator");
 
-    // The stored selection (set when the user picks a specific item, e.g.
-    // "View Products" on a category item) wins, since it's what the SSR
-    // fetch in the page filtered by; otherwise fall back to the URL slug.
-    const stored = filters?.category_slug;
-    if (stored) {
-      setCategoryFilters(stored.split(",").filter(Boolean));
-      return;
-    }
     const fromUrl =
       slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
     setCategoryFilters(fromUrl);
@@ -322,8 +313,6 @@ export default function ProductListing({ data, slug }) {
 
   function applyCategoryFilters(slugs) {
     setCategoryFilters(slugs);
-    const existing = getProductFilters() || {};
-    setProductFilters({ ...existing, category_slug: slugs.join(",") });
   }
 
   return (
