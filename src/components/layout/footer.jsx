@@ -17,7 +17,6 @@ const MediaQuery = dynamic(() => import("react-responsive"), {
 });
 
 export default function Footer({ quickLinks, footerData, socialLinkData }) {
-
   const pathname = usePathname();
   const isLandingPage =
     pathname === "/landing" || pathname?.startsWith("/landing/");
