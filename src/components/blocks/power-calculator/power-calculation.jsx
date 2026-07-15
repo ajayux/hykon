@@ -27,6 +27,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { setProductFilters } from "@/lib/utils/local-storage";
 
 const inputClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white placeholder:text-white/60 w-full h-7 xl:h-8 2xl:h-9 3xl:h-11 bg-[#252525] dark:bg-[#252525] border-[#676767]/80 rounded-[6px] 3xl:rounded-[9px] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-white selection:bg-primary-800 appearance-none shadow-none px-4";
@@ -176,10 +177,6 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
         isNavigatingRef.current = true;
         setIsNavigating(true);
 
-        const params = new URLSearchParams();
-        params.set("backup_capacity", totalVA.toString());
-        params.set("from", "power_calculator");
-
         // Find the maximum runtime across all rows
         let maxRuntime = 0;
         items.forEach((item) => {
@@ -188,11 +185,14 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
             if (r > maxRuntime) maxRuntime = r;
           });
         });
-        if (maxRuntime > 0) {
-          params.set("VAh", totalVAh.toString());
-        }
 
-        router.push(`/products?${params.toString()}`);
+        setProductFilters({
+          backup_capacity: totalVA.toString(),
+          from: "power_calculator",
+          ...(maxRuntime > 0 ? { VAh: totalVAh.toString() } : {}),
+        });
+
+        router.push("/products");
       } else {
         setDialogOpen(true);
       }

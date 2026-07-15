@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Heading, Text } from "@/components/utils/typography";
 import { cn } from "@/lib/utils";
+import { deleteCookie } from "@/lib/utils/local-storage";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,10 +22,10 @@ const scrollToSection = (e, slug) => {
 };
 
 const getProductUrl = (slug) => {
-  return `/products?product_slug=${slug}`;
+  return `/${slug}`;
 };
 
-export default function CategoriesDetail({ data }) {
+export default function CategoriesDetail({ data, categorySlug }) {
   return (
     <section className="w-full h-auto block bg-[#444142] py-12 xl:py-16 2xl:py-18 3xl:py-22.5">
       <div className="container">
@@ -88,22 +89,25 @@ export default function CategoriesDetail({ data }) {
                   </ul>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2 sm:gap-4 xl:gap-6 2xl:gap-7.5 3xl:gap-8.5">
-                {data?.specification?.specificationMedia?.map((item) => (
-                  <div
-                    key={item?.id}
-                    className="w-10 sm:w-13 xl:w-15 2xl:w-18 3xl:w-22"
-                  >
-                    <Image
-                      src={item?.path}
-                      alt={item?.alt}
-                      width={100}
-                      height={100}
-                      className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
-                    />
-                  </div>
-                ))}
-              </div>
+
+              {data?.specification?.specificationMedia.length > 0 && (
+                <div className="flex flex-wrap gap-2 sm:gap-4 xl:gap-6 2xl:gap-7.5 3xl:gap-8.5">
+                  {data?.specification?.specificationMedia?.map((item) => (
+                    <div
+                      key={item?.id}
+                      className="w-10 sm:w-13 xl:w-15 2xl:w-18 3xl:w-22"
+                    >
+                      <Image
+                        src={item?.path}
+                        alt={item?.alt}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-contain transition-all duration-500 hover:scale-105"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -142,7 +146,8 @@ export default function CategoriesDetail({ data }) {
                         ? [
                             {
                               label: "View Products",
-                              url: getProductUrl(item?.slug),
+                              url: getProductUrl(item?.slug || categorySlug),
+                              isViewProducts: true,
                             },
                           ]
                         : []),
@@ -165,6 +170,7 @@ export default function CategoriesDetail({ data }) {
                       >
                         <Link
                           href={btn?.url ?? ""}
+                          onClick={() => deleteCookie("product_filters")}
                           target={btn?.target === "blank" ? "_blank" : ""}
                         >
                           {btn?.label}
@@ -193,7 +199,8 @@ export default function CategoriesDetail({ data }) {
                     >
                       Available options {"("}
                       <Link
-                        href={getProductUrl(item?.slug)}
+                        href={getProductUrl(item?.slug || categorySlug)}
+                        onClick={() => deleteCookie("product_filters")}
                         className="underline hover:text-[#008dd2]"
                       >
                         {item?.variants?.title}
@@ -210,6 +217,7 @@ export default function CategoriesDetail({ data }) {
                         >
                           <Link
                             href={`/products/${variant?.slug}`}
+                            onClick={() => deleteCookie("product_filters")}
                             className="w-full h-full bg-[#212121] rounded-[7px] 2xl:rounded-[8px] 3xl:rounded-[10px] p-2 xl:p-2.5 2xl:p-3 3xl:p-3.5 border border-[#008dd2] bg-[#282828] flex flex-col justify-between transition-all duration-500 hover:bg-[#222222]"
                           >
                             <div>

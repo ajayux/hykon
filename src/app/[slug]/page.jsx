@@ -28,8 +28,7 @@ export async function generateMetadata() {
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
-  const filterSlugs =
-    slug && slug !== "products" ? slug.split(",").filter(Boolean) : [];
+  const filterSlugs = slug.split(",").filter(Boolean);
 
   let productsData = null;
 
@@ -38,6 +37,7 @@ export default async function ProductsPage({ params }) {
     const apiParams = new URLSearchParams();
     filterSlugs.forEach((s) => apiParams.append("product_slug[]", s));
 
+    console.log("apiParams" , apiParams)
     const res = await fetch(`${baseUrl}/api/products?${apiParams}`);
 
     if (res.ok) {
@@ -56,13 +56,13 @@ export default async function ProductsPage({ params }) {
 
   const { categorySlug, categoryTitle, productTitle } = productSection;
 
-  const grandParentPage = { label: "Products", link: "category" };
+  const grandParentPage = { label: "Product Category", link: "category" };
 
   const parentPage = categorySlug && categoryTitle
     ? { label: categoryTitle, link: `category/${categorySlug}` }
     : null;
 
-  const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Products");
+  const breadcrumbSlug = productTitle ?? (categoryTitle ?? "Product Category");
 
   return (
     <>
