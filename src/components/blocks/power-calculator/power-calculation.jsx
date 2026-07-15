@@ -192,7 +192,7 @@ export default function PowerCalculation({ data, appliances, highestPower }) {
           ...(maxRuntime > 0 ? { VAh: totalVAh.toString() } : {}),
         });
 
-        router.push("/products");
+        router.push("/power-calculator-products");
       } else {
         setDialogOpen(true);
       }
