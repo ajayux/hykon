@@ -494,7 +494,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
           className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          {isSubmitting ? "Submitting..." : "Enquire Now"}
           <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
             <Image
               src={"/images/icon-arrow-right-white.svg"}
