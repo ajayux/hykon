@@ -10,6 +10,9 @@ import Providers from "./providers";
 import {GoogleTagManager} from "@next/third-parties/google"
 
 export const metadata = {
+  verification: {
+    google: "OAG15f15OYQUo2zcOL-aqfijVaKhRwqCAlyRObl7JFE",
+  },
   title: {
     default: "HYKON",
     template: "%s",
