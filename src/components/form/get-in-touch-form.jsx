@@ -52,7 +52,7 @@ export function GetInTouchForm({ slug, onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
 
 
-  // const pageUrl = window.location.href;
+  const pageUrl = window.location.href;
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
