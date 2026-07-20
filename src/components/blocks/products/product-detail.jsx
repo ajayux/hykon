@@ -495,7 +495,13 @@ export default function ProductDetail({ data, themeProps }) {
                       </Button>
                     </Link>
                   )}
-                <RequestAQuoteDialog>
+                <RequestAQuoteDialog
+                  data={{
+                    categorySlug: data?.categorySlug,
+                    slug: data?.slug,
+                    productSlug: data?.productSlug,
+                  }}
+                >
                   <Button
                     size="lg"
                     variant="outline"

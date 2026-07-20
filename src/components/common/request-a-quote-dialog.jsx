@@ -12,7 +12,7 @@ import { Heading, Text } from "../utils/typography";
 import { RequestAQuoteForm } from "../form/request-a-quote-form";
 import RecaptchaProvider from "./recaptcha-provider";
 
-export default function RequestAQuoteDialog({ children }) {
+export default function RequestAQuoteDialog({ children, data }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -43,7 +43,7 @@ export default function RequestAQuoteDialog({ children }) {
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[68vh] overflow-y-auto px-4 py-1">
           <RecaptchaProvider>
-            <RequestAQuoteForm onClose={() => setOpen(false)} />
+            <RequestAQuoteForm productData={data} onClose={() => setOpen(false)} />
           </RecaptchaProvider>
         </div>
       </DialogContent>

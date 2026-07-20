@@ -52,7 +52,7 @@ export function GetInTouchForm({ slug, onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
 
 
-  const pageUrl = window.location.href;
+  // const pageUrl = window.location.href;
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
@@ -87,7 +87,7 @@ export function GetInTouchForm({ slug, onClose }) {
       formData.append("place", data.place);
       formData.append("message", data.message || "");
       formData.append("captcha_key", recaptchaToken);
-      formData.append("page_url", pageUrl);
+      // formData.append("page_url", pageUrl);
 
       const res = await fetch(`${API_URL}/get-in-touch`, {
         method: "POST",

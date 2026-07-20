@@ -40,18 +40,17 @@ const formSchema = z.object({
   phone: commonValidations.phone("Phone Number"),
   city: commonValidations.requiredString("City"),
   state: commonValidations.dropDown("State"),
-  district: commonValidations.dropDown("District"),
-  pincode: commonValidations.postalCode,
-  productCategory: commonValidations.dropDown("Product Category"),
-  productModel: commonValidations.dropDown("Product Model"),
-  quantityRequired: commonValidations.requiredString("Quantity Required"),
-  productPurpose: commonValidations.dropDown("Product Purpose"),
-  productPowerRequirement: commonValidations.optionalString,
-  installationSupport: z.string().optional(),
-  projectSiteDetails: commonValidations.optionalString,
-  preferredTime: commonValidations.optionalString,
   comments: commonValidations.optionalString,
-  images: commonValidations.quoteDocumentUpload("File"),
+  // projectSiteDetails: commonValidations.optionalString,
+  // preferredTime: commonValidations.optionalString,
+  // district: commonValidations.dropDown("District"),
+  // pincode: commonValidations.postalCode,
+  // productCategory: commonValidations.dropDown("Product Category"),
+  // productModel: commonValidations.dropDown("Product Model"),
+  // quantityRequired: commonValidations.requiredString("Quantity Required"),
+  // productPurpose: commonValidations.dropDown("Product Purpose"),
+  // productPowerRequirement: commonValidations.optionalString,
+  // installationSupport: z.string().optional(),
 });
 
 const headingClasses =
@@ -65,7 +64,10 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 mt-1";
 
-export function RequestAQuoteForm({ activeTab, page, onClose }) {
+export function RequestAQuoteForm({ productData, activeTab, page, onClose }) {
+
+
+  console.log("productData", productData)
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,23 +76,23 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
 
-  const { data: categories = [], isLoading: categoriesLoading } = useQuery({
-    queryKey: ["product-categories"],
-    queryFn: () => apiClient("/get-categories").then((r) => r.data),
-    staleTime: 1000 * 60 * 60, // 1 hour
-    gcTime: 1000 * 60 * 60, // 1 hour
-  });
+  // const { data: categories = [], isLoading: categoriesLoading } = useQuery({
+  //   queryKey: ["product-categories"],
+  //   queryFn: () => apiClient("/get-categories").then((r) => r.data),
+  //   staleTime: 1000 * 60 * 60, // 1 hour
+  //   gcTime: 1000 * 60 * 60, // 1 hour
+  // });
 
-  const { data: products = [], isLoading: productsLoading } = useQuery({
-    queryKey: ["products", selectedCategory],
-    queryFn: () =>
-      apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then(
-        (r) => r.data,
-      ),
-    enabled: !!selectedCategory,
-    staleTime: 1000 * 60 * 30, // 30 minutes
-    gcTime: 1000 * 60 * 60, // 1 hour
-  });
+  // const { data: products = [], isLoading: productsLoading } = useQuery({
+  //   queryKey: ["products", selectedCategory],
+  //   queryFn: () =>
+  //     apiClient(`/get-catgeory-wise-product?slug=${selectedCategory}`).then(
+  //       (r) => r.data,
+  //     ),
+  //   enabled: !!selectedCategory,
+  //   staleTime: 1000 * 60 * 30, // 30 minutes
+  //   gcTime: 1000 * 60 * 60, // 1 hour
+  // });
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
     queryKey: ["states"],
@@ -99,14 +101,14 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
     gcTime: 1000 * 60 * 60 * 24,
   });
 
-  const { data: districts = [], isLoading: districtsLoading } = useQuery({
-    queryKey: ["districts", selectedState],
-    queryFn: () =>
-      apiClient(`/districts?state_slug=${selectedState}`).then((r) => r.data),
-    enabled: !!selectedState,
-    staleTime: 1000 * 60 * 60, // 1 hour
-    gcTime: 1000 * 60 * 60 * 2, // 2 hours
-  });
+  // const { data: districts = [], isLoading: districtsLoading } = useQuery({
+  //   queryKey: ["districts", selectedState],
+  //   queryFn: () =>
+  //     apiClient(`/districts?state_slug=${selectedState}`).then((r) => r.data),
+  //   enabled: !!selectedState,
+  //   staleTime: 1000 * 60 * 60, // 1 hour
+  //   gcTime: 1000 * 60 * 60 * 2, // 2 hours
+  // });
 
   const { data: useCases = [], isLoading: useCasesLoading } = useQuery({
     queryKey: ["use-cases"],
@@ -123,74 +125,77 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       phone: "",
       city: "",
       state: "",
-      district: "",
-      pincode: "",
-      productCategory: "",
-      productModel: "",
-      quantityRequired: "",
-      productPurpose: "",
-      productPowerRequirement: "",
-      installationSupport: "Yes",
-      projectSiteDetails: "",
-      preferredTime: "",
-      comments: "",
-      images: null,
+      message: "",
+      // district: "",
+      // pincode: "",
+      // productCategory: "",
+      // productModel: "",
+      // quantityRequired: "",
+      // productPurpose: "",
+      // productPowerRequirement: "",
+      // installationSupport: "Yes",
+      // projectSiteDetails: "",
+      // preferredTime: "",
+      // comments: "",
+      // images: null,
     },
   });
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setUploadedFile(file);
-      form.setValue("images", file);
-      form.clearErrors("images");
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     setUploadedFile(file);
+  //     form.setValue("images", file);
+  //     form.clearErrors("images");
+  //   }
+  // };
 
-  const handleFileRemove = () => {
-    setUploadedFile(null);
-    form.setValue("images", null);
-  };
+  // const handleFileRemove = () => {
+  //   setUploadedFile(null);
+  //   form.setValue("images", null);
+  // };
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
       return;
     }
+
+    const productUrl = window.location.href;
+
     setIsSubmitting(true);
     try {
       const recaptchaToken = await executeRecaptcha("request_quote");
 
       const formData = new FormData();
 
-      
-
       formData.append("name", data.fullName);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
       formData.append("city", data.city);
       formData.append("state_slug", data.state);
-      formData.append("district_slug", data.district);
-      formData.append("pincode", data.pincode);
-      formData.append("product_category_slug", data.productCategory);
-      formData.append("product_slug", data.productModel);
-      formData.append("quantity", data.quantityRequired);
-      formData.append("use_case_slug", data.productPurpose);
-      formData.append(
-        "loading_power",
-        data.productPowerRequirement || "",
-      );
-      const installationSupportMap = { Yes: 1, No: 2, "Not Sure": 3 };
-      formData.append(
-        "installation_support",
-        installationSupportMap[data.installationSupport] ?? 1,
-      );
-      formData.append("site_details", data.projectSiteDetails || "");
-      formData.append("time_for_call", data.preferredTime || "");
+      formData.append("page_url", productUrl);
+      // formData.append("district_slug", data.district);
+      // formData.append("pincode", data.pincode);
+      formData.append("product_slug", productData?.productSlug);
+      formData.append("product_category_slug", productData?.categorySlug);
+      // formData.append("quantity", data.quantityRequired);
+      // formData.append("use_case_slug", data.productPurpose);
+      // formData.append(
+      //   "loading_power",
+      //   data.productPowerRequirement || "",
+      // );
+      // const installationSupportMap = { Yes: 1, No: 2, "Not Sure": 3 };
+      // formData.append(
+      //   "installation_support",
+      //   installationSupportMap[data.installationSupport] ?? 1,
+      // );
+      // formData.append("site_details", data.projectSiteDetails || "");
+      // formData.append("time_for_call", data.preferredTime || "");
       formData.append("message", data.comments || "");
 
-      if (data.images instanceof File) {
-        formData.append("file", data.images);
-      }
+      // if (data.images instanceof File) {
+      //   formData.append("file", data.images);
+      // }
       formData.append("captcha_key", recaptchaToken);
 
       const url = `${API_URL}/get-a-quote`;
@@ -269,20 +274,20 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
                 form.setValue("district", "");
               },
             },
-            {
-              name: "district",
-              placeholder: selectedState && !districtsLoading && districts.length === 0
-                ? "No district available"
-                : "District*",
-              type: "select",
-              options: districts,
-              isLoading: districtsLoading,
-              disabled: !selectedState || districtsLoading || districts.length === 0,
-            },
-            {
-              name: "pincode",
-              placeholder: "Pincode*",
-            },
+            // {
+            //   name: "district",
+            //   placeholder: selectedState && !districtsLoading && districts.length === 0
+            //     ? "No district available"
+            //     : "District*",
+            //   type: "select",
+            //   options: districts,
+            //   isLoading: districtsLoading,
+            //   disabled: !selectedState || districtsLoading || districts.length === 0,
+            // },
+            // {
+            //   name: "pincode",
+            //   placeholder: "Pincode*",
+            // },
           ].map((item) => (
             <FormBlock
               key={item.name}
@@ -295,7 +300,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
       </div>
 
       {/* Product Details */}
-      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+      {/* <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
         <div className={headingClasses}>Product / Requirement Details</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
           {[
@@ -348,10 +353,10 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
             />
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Installation Requirement */}
-      <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
+      {/* <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
         <div className={headingClasses}>Installation Requirement</div>
         <FieldGroup>
           <Controller
@@ -402,21 +407,21 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
             )}
           />
         </FieldGroup>
-      </div>
+      </div> */}
 
       {/* Additional Information */}
       <div className="mb-6 xl:mb-8.5 2xl:mb-10 3xl:mb-12.5">
         <div className={headingClasses}>Additional Information</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
           {[
-            {
-              name: "projectSiteDetails",
-              placeholder: "Project / Site Details",
-            },
-            {
-              name: "preferredTime",
-              placeholder: "Preferred Time to Contact",
-            },
+            // {
+            //   name: "projectSiteDetails",
+            //   placeholder: "Project / Site Details",
+            // },
+            // {
+            //   name: "preferredTime",
+            //   placeholder: "Preferred Time to Contact",
+            // },
             {
               name: "comments",
               placeholder: "Comments / Requirements",
@@ -432,7 +437,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
 
           <div className="sm:col-span-2 md:col-span-3">
             {/* Product Image Upload */}
-            <div className="relative flex flex-col gap-3">
+            {/* <div className="relative flex flex-col gap-3">
               {!uploadedFile ? (
                 <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors px-4">
                   <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-tight font-normal text-white flex items-center gap-3">
@@ -480,7 +485,7 @@ export function RequestAQuoteForm({ activeTab, page, onClose }) {
                   {form.formState.errors.images.message}
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
