@@ -229,8 +229,8 @@ export default function CategoriesDetail({ data, categorySlug }) {
                                 {parse(variant?.title)}
                               </Text>
                             </div>
-
-                            {parseInt(variant?.price) > 0 && (
+                            
+                            {parseInt(variant?.price) > 0 ? (
                               <div>
                                 <div className="text-[10px] 2xl:text-[12px] 3xl:text-[14px] leading-tight font-normal text-white/90 line-through mb-0.5">
                                   {"MRP-"}
@@ -241,6 +241,22 @@ export default function CategoriesDetail({ data, categorySlug }) {
                                   {variant?.price}
                                   {"/-"}
                                 </div>
+                              </div>
+                            ) : (
+                              <div
+                                className="text-[9.8px] 2xl:text-[11px] 3xl:text-[14px] text-white min-w-[80px] sm:min-w-[100px] xl:min-w-[105px] 2xl:min-w-[130px] h-auto inline-flex items-center gap-2 justify-start px-0" 
+                              >
+                                <div className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center">
+                                  <Image
+                                    src={"/images/icon-arrow-right-white.svg"}
+                                    alt={"icon-arrow-right-white"}
+                                    width={18}
+                                    height={13}
+                                    className="w-1/2"
+                                    unoptimized
+                                  />
+                                </div>
+                                View Details
                               </div>
                             )}
                           </Link>
