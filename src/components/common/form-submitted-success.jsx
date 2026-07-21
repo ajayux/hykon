@@ -8,16 +8,18 @@ import Link from "next/link";
 export default function FormSubmitResponse({ imagePath, title, description, onClose }) {
   return (
     <div className="w-full max-w-[320px] xl:max-w-[360px] 2xl:max-w-[420px] 3xl:max-w-[540px] h-auto mx-auto py-20">
-      <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
-        <Image
-          src={imagePath}
-          alt={title}
-          width={120}
-          height={120}
-          className="w-full h-full object-contain"
-          unoptimized
-        />
-      </div>
+      {imagePath && (
+        <div className="w-[40px] xl:w-[60px] 2xl:w-[80px] 3xl:w-[100px] aspect-square mx-auto mb-7.5 2xl:mb-8 3xl:mb-10">
+          <Image
+            src={imagePath}
+            alt={title}
+            width={120}
+            height={120}
+            className="w-full h-full object-contain"
+            unoptimized
+          />
+        </div>
+      )}
       <Heading
         as="h2"
         size="h3"
@@ -25,9 +27,11 @@ export default function FormSubmitResponse({ imagePath, title, description, onCl
       >
         {title}
       </Heading>
-      <Text as="div" size="p1" className="font-normal text-center text-white">
-        {description}
-      </Text>
+      {description && (
+        <Text as="div" size="p1" className="font-normal text-center text-white">
+          {description}
+        </Text>
+      )}
       <div className="w-full flex justify-center mt-4 xl:mt-6">
         <Button
           size="lg"

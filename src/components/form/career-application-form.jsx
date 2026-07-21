@@ -49,7 +49,7 @@ const inputClasses =
 const errorClass =
   "text-[10px] md:text-[10px] xl:text-[11px] 3xl:text-[12px] leading-normal font-normal text-red-500 ";
 
-export function CareerApplicationForm({ slug, onClose, onSuccess }) {
+export function CareerApplicationForm({ slug, onClose, onStatusChange }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { data: states = [], isLoading: statesLoading } = useQuery({
@@ -59,6 +59,7 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -93,6 +94,7 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
       return;
     }
     setIsSubmitting(true);
+    setSubmitError(null);
     try {
       const recaptchaToken = await executeRecaptcha("career_application");
       const formData = new FormData();
@@ -113,17 +115,25 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
         body: formData,
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to submit application");
+
+      const result = await res.json();
+
+      if (!res.ok || !result.success) {
+        setSubmitError(
+          result?.message || "Failed to submit application. Please try again.",
+        );
+        if (onStatusChange) onStatusChange();
+        return;
       }
 
       setIsSuccess(true);
-      if (onSuccess) onSuccess();
+      if (onStatusChange) onStatusChange();
       form.reset();
       setUploadedFile(null);
     } catch (error) {
       console.error("Submission Error:", error);
-      // You might want to show an error message to the user here
+      setSubmitError("Failed to submit application. Please try again.");
+      if (onStatusChange) onStatusChange();
     } finally {
       setIsSubmitting(false);
     }
@@ -139,6 +149,10 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
         onClose={onClose}
       />
     );
+  }
+
+  if (submitError) {
+    return <FormSubmitResponse title={submitError} onClose={onClose} />;
   }
 
   return (
@@ -409,14 +423,6 @@ export function CareerApplicationForm({ slug, onClose, onSuccess }) {
           </span>
         </Button>
       </div>
-
-      {/* form success message */}
-      {/* <FormSubmitResponse
-        imagePath="/images/form-submitted-success.svg"
-        title="Your Application is Submitted"
-        description="Thank you for applying. Our team will get in touch with you if your
-        profile matches our requirements."
-      /> */}
     </form>
   );
 }

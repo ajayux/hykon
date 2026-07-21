@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 export default function CareerDialog({ children, jobTitle, slug }) {
   const [open, setOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [hideHeader, setHideHeader] = useState(false);
 
   return (
     <Dialog
@@ -23,7 +23,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
       onOpenChange={(val) => {
         setOpen(val);
         if (!val) {
-          setTimeout(() => setIsSuccess(false), 300);
+          setTimeout(() => setHideHeader(false), 300);
         }
       }}
     >
@@ -34,7 +34,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
         }
         closeClassName="3xl:size-6 3xl:top-6 3xl:right-8 text-[#858589] xl:[&_svg:not([class*='size-'])]:size-6 3xl:[&_svg:not([class*='size-'])]:size-8"
       >
-        <DialogHeader className={cn("text-start", isSuccess && "sr-only")}>
+        <DialogHeader className={cn("text-start", hideHeader && "sr-only")}>
           <DialogTitle asChild>
             <Heading
               as="h2"
@@ -55,7 +55,7 @@ export default function CareerDialog({ children, jobTitle, slug }) {
               jobTitle={jobTitle}
               slug={slug}
               onClose={() => setOpen(false)}
-              onSuccess={() => setIsSuccess(true)}
+              onStatusChange={() => setHideHeader(true)}
             />
           </RecaptchaProvider>
         </div>
