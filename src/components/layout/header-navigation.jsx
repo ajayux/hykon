@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
-export default function HeaderNavigation({ navigationData, className }) {
+export default function HeaderNavigation({
+  navigationData,
+  className,
+  isSheetOpen,
+}) {
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const pathname = usePathname();
   const navRef = useRef(null);
@@ -52,7 +56,10 @@ export default function HeaderNavigation({ navigationData, className }) {
         const isSubmenuOpen = openSubmenu === item?.id;
 
         return (
-          <div key={"HeaderNavigation" + idx} className="w-full lg:w-auto relative group">
+          <div
+            key={"HeaderNavigation" + idx}
+            className="w-full lg:w-auto relative group"
+          >
             <Button
               variant="none"
               size="none"
@@ -77,7 +84,12 @@ export default function HeaderNavigation({ navigationData, className }) {
               {item?.hasSubmenu ? (
                 <div className="flex items-center justify-between lg:justify-start gap-0.5 w-full cursor-pointer">
                   {item?.slug ? (
-                    <Link href={`${item?.slug}`}>{item?.name}</Link>
+                    <Link
+                      href={`${item?.slug}`}
+                      onClick={() => isSheetOpen(false)}
+                    >
+                      {item?.name}
+                    </Link>
                   ) : (
                     <span>{item?.name}</span>
                   )}
@@ -89,7 +101,9 @@ export default function HeaderNavigation({ navigationData, className }) {
                   />
                 </div>
               ) : item?.slug ? (
-                <Link href={item?.slug}>{item?.name}</Link>
+                <Link href={item?.slug} onClick={() => isSheetOpen(false)}>
+                  {item?.name}
+                </Link>
               ) : (
                 <span>{item?.name}</span>
               )}
@@ -99,11 +113,16 @@ export default function HeaderNavigation({ navigationData, className }) {
               <div
                 style={{
                   opacity: isSubmenuOpen ? 1 : 0,
-                  transform: isSubmenuOpen ? "translateY(0)" : "translateY(10px)",
+                  transform: isSubmenuOpen
+                    ? "translateY(0)"
+                    : "translateY(10px)",
                   pointerEvents: isSubmenuOpen ? "auto" : "none",
                   transition: "opacity 0.2s ease, transform 0.2s ease",
                 }}
-                className="lg:absolute top-full left-0 z-50 min-w-[200px] bg-[#131313]/80 lg:bg-[#eaeaea] lg:text-black p-2 lg:mt-2 lg:rounded-md lg:shadow-lg"
+                className={cn(
+                  "lg:absolute top-full left-0 z-50 min-w-[200px] bg-[#131313]/80 lg:bg-[#eaeaea] lg:text-black lg:mt-2 lg:rounded-md lg:shadow-lg",
+                  isSubmenuOpen ? "h-auto p-2" : "h-0 ",
+                )}
               >
                 <div className="w-full h-full max-h-[220px] overflow-y-auto [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] flex flex-col gap-1">
                   {item?.submenu?.map((subItem, idx) => {
@@ -112,7 +131,10 @@ export default function HeaderNavigation({ navigationData, className }) {
                       <Link
                         key={"subItem" + idx}
                         href={subItem?.slug}
-                        onClick={() => setOpenSubmenu(null)}
+                        onClick={() => {
+                          setOpenSubmenu(null);
+                          isSheetOpen(false);
+                        }}
                         className={cn(
                           "text-[14px] lg:text-[12px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[14px] hover:text-[#008dd2] transition-colors py-1 lg:py-1 px-2 transition-all duration-200",
                           isSubItemActive

@@ -343,7 +343,7 @@ export default function ProductListing({ data, slug }) {
                   FILTER
                 </SheetTrigger>
                 <SheetContent
-                  showCloseButton={true}
+                  showCloseButton={false}
                   className="bg-[#444142] px-4 sm:px-5 xl:px-6 2xl:px-7.5 3xl:px-9 py-5 sm:py-8 xl:py-10 2xl:py-12 3xl:py-15"
                 >
                   <SheetHeader className="sr-only">

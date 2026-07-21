@@ -25,7 +25,7 @@ export default function ContactDetails({ data }) {
                   icon="/images/icon-contact-loc.svg"
                   title="Address"
                 >
-                  <div className="grid grid-cols-2 xl:gap-10 2xl:gap-10 3xl:gap-10">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 xl:gap-10 2xl:gap-10 3xl:gap-10">
                     <Text as="div" size="p1" className="text-white">
                       {parse(data?.address)}
                     </Text>

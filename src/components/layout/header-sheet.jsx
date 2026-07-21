@@ -90,7 +90,10 @@ export default function HeaderSheet({
         </div>
 
         <div className="w-full h-[calc(100vh-280px)] [mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_5%,black_95%,transparent_100%)] py-4 overflow-y-scroll lg:hidden">
-          <HeaderNavigation navigationData={navigationData} />
+          <HeaderNavigation
+            isSheetOpen={open}
+            navigationData={navigationData}
+          />
         </div>
 
         <div className="w-full h-[280px] lg:h-full bg-[#008dd2] lg:bg-transparent flex flex-col align-justify py-3 lg:py-0 [&>div]:px-4 lg:[&>div]:px-4 2xl:[&>div]:px-5 3xl:[&>div]:px-6 overflow-y-auto max-lg:mt-auto">

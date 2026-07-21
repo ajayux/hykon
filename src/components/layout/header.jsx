@@ -90,7 +90,7 @@ function HeaderContent({ data, navigationData, socialLinkData, mobileMenuData })
         <div className="flex justify-between items-center gap-x-3 lg:gap-x-8 relative z-0">
           <div className="w-[140px] xl:w-[152px] 2xl:w-[182px] 3xl:w-[228px]">
             {data?.logoUrl ? (
-              <Link href={data?.slug ?? ""}>
+              <Link href={data?.slug ?? "/"} aria-label="home">
                 <Image
                   src={data.logoUrl}
                   alt={data?.name}

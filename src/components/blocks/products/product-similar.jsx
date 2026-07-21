@@ -50,11 +50,15 @@ export default function ProductSimilar({ data }) {
             {parse(data?.title)}
           </Heading>
           <div>
-            <div className="flex flex-wrap gap-2 xl:gap-2.5 2xl:gap-3 3xl:gap-4">
+            <div className={cn("flex flex-wrap gap-2 xl:gap-2.5 2xl:gap-3 3xl:gap-4",
+              data?.productItems?.length < 3 && "lg:opacity-0",
+              data?.productItems?.length < 4 && "sm:opacity-0",
+              data?.productItems?.length < 3 && "opacity-0",
+            )}>
               <button
                 className={cn(
                   "w-6.5 xl:w-6.5 2xl:w-8 3xl:w-10 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center transition-opacity",
-                  prevBtnDisabled && "opacity-50 cursor-not-allowed"
+                  prevBtnDisabled && "opacity-50 cursor-not-allowed",
                 )}
                 onClick={scrollPrev}
                 disabled={prevBtnDisabled}

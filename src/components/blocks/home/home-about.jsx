@@ -34,7 +34,7 @@ export default function HomeAbout({ data }) {
               {data?.subTitle}
             </Heading>
             <Heading
-              as="h2"
+              as="h1"
               size="h1"
               className="text-medium text-white mb-6 xl:mb-12 2xl:mb-13 3xl:mb-14 lg:max-w-11/12"
             >
