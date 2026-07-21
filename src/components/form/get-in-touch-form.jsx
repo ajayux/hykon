@@ -36,8 +36,8 @@ const formSchema = z.object({
   fullName: commonValidations.name("Name"),
   phone: commonValidations.phone("Phone Number"),
   email: commonValidations.email,
-  state: commonValidations.textBox("state"),
-  place: commonValidations.textBox("place"),
+  state: commonValidations.dropDown("State"),
+  place: commonValidations.textBox("Place"),
   message: commonValidations.message,
 });
 
