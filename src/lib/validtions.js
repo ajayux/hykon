@@ -37,6 +37,7 @@ const VALIDATION_CONFIG = {
     ],
     allowedExtensions: [".jpg", ".jpeg", ".png"],
     maxSizeMB: 5, // adjust as needed
+    maxTotalSizeMB: 5, // combined size cap across all uploaded images
   },
 
   contactEnquiryUpload: {
@@ -73,6 +74,12 @@ const VALIDATION_CONFIG = {
     ],
     allowedExtensions: [".pdf", ".doc", ".docx"],
     maxSizeMB: 10,
+  },
+
+  invoiceUpload: {
+    allowedTypes: ["application/pdf"],
+    allowedExtensions: [".pdf"],
+    maxSizeMB: 5,
   },
 };
 
@@ -503,6 +510,93 @@ export const commonValidations = {
           file.size <= VALIDATION_CONFIG.file.maxSizeMB * 1024 * 1024,
         {
           message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.file.maxSizeMB}MB`,
+        },
+      ),
+
+  // ─── Multiple Image Upload ───────────────────────────────────────────────────
+  multipleFiles: (fieldName) =>
+    z
+      .array(z.instanceof(File))
+      .min(1, { message: `Please upload at least one ${fieldName}` })
+      .refine((files) => files.every((file) => file.size > 0), {
+        message:
+          "One or more uploaded files appear to be empty. Please upload valid files",
+      })
+      .refine(
+        (files) =>
+          files.every((file) =>
+            VALIDATION_CONFIG.file.allowedTypes.includes(file.type),
+          ),
+        {
+          message: "Only JPG, JPEG, and PNG files are allowed",
+        },
+      )
+      .refine(
+        (files) =>
+          files.every((file) =>
+            VALIDATION_CONFIG.file.allowedExtensions.some((ext) =>
+              file.name.toLowerCase().endsWith(ext),
+            ),
+          ),
+        {
+          message: "Files must have a .jpg, .jpeg, or .png extension",
+        },
+      )
+      .refine(
+        (files) =>
+          files.every(
+            (file) =>
+              file.size <= VALIDATION_CONFIG.file.maxSizeMB * 1024 * 1024,
+          ),
+        {
+          message: `Each file must be smaller than ${VALIDATION_CONFIG.file.maxSizeMB}MB`,
+        },
+      )
+      .refine(
+        (files) =>
+          files.reduce((total, file) => total + file.size, 0) <=
+          VALIDATION_CONFIG.file.maxTotalSizeMB * 1024 * 1024,
+        {
+          message: `Total size of all images must not exceed ${VALIDATION_CONFIG.file.maxTotalSizeMB}MB. Please remove some images or upload smaller ones`,
+        },
+      ),
+
+  // ─── Invoice PDF Upload ───────────────────────────────────────────────────────
+  invoiceUpload: (fieldName) =>
+    z
+      .any()
+      .refine((file) => file instanceof File, {
+        message: `Please upload a ${fieldName}`,
+      })
+      .refine((file) => !(file instanceof File) || file.size > 0, {
+        message:
+          "The uploaded file appears to be empty. Please upload a valid file",
+      })
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.invoiceUpload.allowedTypes.includes(file.type),
+        {
+          message: "Only PDF files are allowed",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          VALIDATION_CONFIG.invoiceUpload.allowedExtensions.some((ext) =>
+            file.name.toLowerCase().endsWith(ext),
+          ),
+        {
+          message: "File must have a .pdf extension",
+        },
+      )
+      .refine(
+        (file) =>
+          !(file instanceof File) ||
+          file.size <=
+            VALIDATION_CONFIG.invoiceUpload.maxSizeMB * 1024 * 1024,
+        {
+          message: `File is too large. Please upload a file smaller than ${VALIDATION_CONFIG.invoiceUpload.maxSizeMB}MB`,
         },
       ),
 

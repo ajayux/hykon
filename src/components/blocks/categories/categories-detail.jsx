@@ -46,7 +46,7 @@ export default function CategoriesDetail({ data, categorySlug }) {
               {parse(data?.description)}
             </Text>
 
-            {data?.button?.url === null && (
+            {data?.button?.url && (
               <Button
                 size="lg"
                 variant="outline"

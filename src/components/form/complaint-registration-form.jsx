@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldError,
+  FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   Select,
@@ -30,34 +32,86 @@ import { commonValidations } from "@/lib/validtions";
 import { API_URL, apiClient } from "@/lib/api/client";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-const formSchema = z.object({
-  fullName: commonValidations.name("Name"),
-  phone: commonValidations.phone("Phone Number"),
-  email: commonValidations.email,
-  category: commonValidations.dropDown("Category"),
-  product: commonValidations.dropDown("Product"),
-  productVariant: commonValidations.optionalDropdown,
-  serialNumber: commonValidations.requiredString("Serial Number"),
-  invoiceDate: z
-    .string()
-    .min(1, "Invoice Date is required")
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date (YYYY-MM-DD)")
-    .refine((val) => {
-      const date = new Date(val);
-      return !isNaN(date.getTime());
-    }, "Please enter a valid calendar date")
-    .refine((val) => {
-      const date = new Date(val);
-      return date <= new Date();
-    }, "Invoice date cannot be a future date")
-    .refine((val) => {
-      const date = new Date(val);
-      return date >= new Date("1900-01-01");
-    }, "Please enter a valid invoice date"),
-  invoiceNumber: commonValidations.requiredString("Invoice Number"),
-  phone: commonValidations.phone("Phone Number"),
-  message: commonValidations.message,
-});
+const formSchema = z
+  .object({
+    fullName: commonValidations.name("Name"),
+    phone: commonValidations.phone("Phone Number"),
+    email: commonValidations.email,
+    category: commonValidations.dropDown("Category"),
+    product: commonValidations.dropDown("Product"),
+    productVariant: commonValidations.optionalDropdown,
+    serialNumber: commonValidations.requiredString("Serial Number"),
+    invoiceDate: z
+      .string()
+      .min(1, "Invoice Date is required")
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date (YYYY-MM-DD)")
+      .refine((val) => {
+        const date = new Date(val);
+        return !isNaN(date.getTime());
+      }, "Please enter a valid calendar date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date <= new Date();
+      }, "Invoice date cannot be a future date")
+      .refine((val) => {
+        const date = new Date(val);
+        return date >= new Date("1900-01-01");
+      }, "Please enter a valid invoice date"),
+    invoiceNumber: commonValidations.requiredString("Invoice Number"),
+    phone: commonValidations.phone("Phone Number"),
+    message: commonValidations.message,
+    // Billing Address
+    billingAddressBuilding: commonValidations.requiredString(
+      "Building/Apartment Name",
+    ),
+    billingAddressBlock: commonValidations.requiredString("Block/Flat No"),
+    billingAddressStreet: commonValidations.requiredString("Street/Road Name"),
+    billingAddressPincode: commonValidations.postalCode,
+    billingAddressState: commonValidations.requiredString("State"),
+    billingAddressDistrict: commonValidations.requiredString("District"),
+    // Installation Address — optional at schema level; conditionally required via superRefine
+    installationAddressBuilding: commonValidations.optionalString,
+    installationAddressBlock: commonValidations.optionalString,
+    installationAddressStreet: commonValidations.optionalString,
+    installationAddressPincode: commonValidations.optionalString,
+    installationAddressState: commonValidations.optionalString,
+    installationAddressDistrict: commonValidations.optionalString,
+    sameAsBillingAddress: z.boolean().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.sameAsBillingAddress) {
+      const installationFields = [
+        {
+          key: "installationAddressBuilding",
+          label: "Building/Apartment Name",
+        },
+        { key: "installationAddressBlock", label: "Block/Flat No" },
+        { key: "installationAddressStreet", label: "Street/Road Name" },
+        { key: "installationAddressPincode", label: "Pincode" },
+        { key: "installationAddressState", label: "State" },
+        { key: "installationAddressDistrict", label: "District" },
+      ];
+      for (const { key, label } of installationFields) {
+        if (!data[key] || data[key].trim() === "") {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `${label} is required`,
+            path: [key],
+          });
+        } else if (
+          key === "installationAddressPincode" &&
+          !/^[1-9][0-9]{5}$/.test(data[key])
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              "Invalid PIN code: must be 6 digits and cannot start with 0",
+            path: [key],
+          });
+        }
+      }
+    }
+  });
 
 const labelClasses =
   "text-[10px] md:text-[10px] xl:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-none font-normal text-white";
@@ -75,6 +129,9 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedBillingState, setSelectedBillingState] = useState(null);
+  const [selectedInstallationState, setSelectedInstallationState] =
+    useState(null);
 
   // Reset success state when the active tab changes
   const [prevTab, setPrevTab] = useState(activeTab);
@@ -112,6 +169,33 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
     gcTime: 1000 * 60 * 60, // 1 hour
   });
 
+  const { data: states = [], isLoading: statesLoading } = useQuery({
+    queryKey: ["states"],
+    queryFn: () => apiClient("/states?slug=india").then((r) => r.data),
+  });
+
+  const { data: billingDistricts = [], isLoading: billingDistrictsLoading } =
+    useQuery({
+      queryKey: ["districts", selectedBillingState],
+      queryFn: () =>
+        apiClient(`/districts?state_slug=${selectedBillingState}`).then(
+          (r) => r.data,
+        ),
+      enabled: !!selectedBillingState,
+    });
+
+  const {
+    data: installationDistricts = [],
+    isLoading: installationDistrictsLoading,
+  } = useQuery({
+    queryKey: ["districts", selectedInstallationState],
+    queryFn: () =>
+      apiClient(`/districts?state_slug=${selectedInstallationState}`).then(
+        (r) => r.data,
+      ),
+    enabled: !!selectedInstallationState,
+  });
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -125,8 +209,59 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
       invoiceDate: "",
       invoiceNumber: "",
       message: "",
+      billingAddressBuilding: "",
+      billingAddressBlock: "",
+      billingAddressStreet: "",
+      billingAddressPincode: "",
+      billingAddressState: "",
+      billingAddressDistrict: "",
+      installationAddressBuilding: "",
+      installationAddressBlock: "",
+      installationAddressStreet: "",
+      installationAddressPincode: "",
+      installationAddressState: "",
+      installationAddressDistrict: "",
+      sameAsBillingAddress: false,
     },
   });
+
+  const sameAsBilling = form.watch("sameAsBillingAddress");
+  const billingValues = form.watch([
+    "billingAddressBuilding",
+    "billingAddressBlock",
+    "billingAddressStreet",
+    "billingAddressPincode",
+    "billingAddressState",
+    "billingAddressDistrict",
+  ]);
+
+  useEffect(() => {
+    if (sameAsBilling) {
+      form.setValue("installationAddressBuilding", billingValues[0]);
+      form.setValue("installationAddressBlock", billingValues[1]);
+      form.setValue("installationAddressStreet", billingValues[2]);
+      form.setValue("installationAddressPincode", billingValues[3]);
+      form.setValue("installationAddressState", billingValues[4]);
+      form.setValue("installationAddressDistrict", billingValues[5]);
+      setSelectedInstallationState(selectedBillingState);
+      form.clearErrors([
+        "installationAddressBuilding",
+        "installationAddressBlock",
+        "installationAddressStreet",
+        "installationAddressPincode",
+        "installationAddressState",
+        "installationAddressDistrict",
+      ]);
+    } else {
+      form.setValue("installationAddressBuilding", "");
+      form.setValue("installationAddressBlock", "");
+      form.setValue("installationAddressStreet", "");
+      form.setValue("installationAddressPincode", "");
+      form.setValue("installationAddressState", "");
+      form.setValue("installationAddressDistrict", "");
+      setSelectedInstallationState(null);
+    }
+  }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
 
   async function onSubmit(data) {
     if (!executeRecaptcha) return;
@@ -142,6 +277,53 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
       formData.append("invoice_date", data.invoiceDate);
       formData.append("invoice_number", data.invoiceNumber);
       formData.append("message", data.message);
+
+      formData.append("billing_apartment_name", data.billingAddressBuilding);
+      formData.append("billing_flat_number", data.billingAddressBlock);
+      formData.append("billing_street_name", data.billingAddressStreet);
+      formData.append("billing_state_slug", data.billingAddressState);
+      formData.append("billing_district_slug", data.billingAddressDistrict);
+      formData.append("billing_pincode", data.billingAddressPincode);
+
+      formData.append("is_same_as_billing", data.sameAsBillingAddress ? 1 : 0);
+
+      formData.append(
+        "installation_apartment_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressBuilding
+          : data.installationAddressBuilding || "",
+      );
+      formData.append(
+        "installation_flat_number",
+        data.sameAsBillingAddress
+          ? data.billingAddressBlock
+          : data.installationAddressBlock || "",
+      );
+      formData.append(
+        "installation_street_name",
+        data.sameAsBillingAddress
+          ? data.billingAddressStreet
+          : data.installationAddressStreet || "",
+      );
+      formData.append(
+        "installation_state_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressState
+          : data.installationAddressState || "",
+      );
+      formData.append(
+        "installation_district_slug",
+        data.sameAsBillingAddress
+          ? data.billingAddressDistrict
+          : data.installationAddressDistrict || "",
+      );
+      formData.append(
+        "installation_pincode",
+        data.sameAsBillingAddress
+          ? data.billingAddressPincode
+          : data.installationAddressPincode || "",
+      );
+
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
@@ -167,6 +349,8 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
 
       setSelectedCategory(null);
       setSelectedProduct(null);
+      setSelectedBillingState(null);
+      setSelectedInstallationState(null);
     } catch (error) {
       console.error("Submission Error:", error);
     } finally {
@@ -248,6 +432,165 @@ export function ComplaintRegistrationForm({ activeTab, page }) {
             form={form}
             isSubmitting={isSubmitting}
           />
+        </div>
+      </div>
+
+      {/* Billing Address */}
+      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
+        <Heading
+          as="div"
+          size="h6"
+          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
+        >
+          Billing Address
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+          {[
+            {
+              name: "billingAddressBuilding",
+              placeholder: "Building/Apartment Name*",
+            },
+            {
+              name: "billingAddressBlock",
+              placeholder: "Block/Flat No*",
+            },
+            {
+              name: "billingAddressStreet",
+              placeholder: "Street/Road Name*",
+            },
+            {
+              name: "billingAddressPincode",
+              placeholder: "Pincode*",
+            },
+            {
+              name: "billingAddressState",
+              placeholder: "State*",
+              type: "select",
+              options: states,
+              isLoading: statesLoading,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedBillingState(value);
+                form.setValue("billingAddressDistrict", "");
+              },
+            },
+            {
+              name: "billingAddressDistrict",
+              placeholder:
+                selectedBillingState &&
+                !billingDistrictsLoading &&
+                billingDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
+              type: "select",
+              options: billingDistricts,
+              isLoading: billingDistrictsLoading,
+              disabled:
+                !selectedBillingState ||
+                billingDistrictsLoading ||
+                billingDistricts.length === 0,
+            },
+          ].map((item) => (
+            <FormBlock
+              key={item.name}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Installation Address */}
+      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
+        <Heading
+          as="div"
+          size="h6"
+          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
+        >
+          Installation Address
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+          <FieldGroup className="sm:col-span-2 md:col-span-3">
+            <Controller
+              name="sameAsBillingAddress"
+              control={form.control}
+              render={({ field }) => (
+                <Field orientation="horizontal">
+                  <Checkbox
+                    id="sameAsBillingAddress"
+                    checked={field.value}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked === true)
+                    }
+                    className={"text-white data-[state=checked]:text-white"}
+                  />
+                  <FieldLabel
+                    className={labelClasses}
+                    htmlFor="sameAsBillingAddress"
+                  >
+                    Same as billing address
+                  </FieldLabel>
+                </Field>
+              )}
+            />
+          </FieldGroup>
+          {[
+            {
+              name: "installationAddressBuilding",
+              placeholder: "Building/Apartment Name*",
+            },
+            {
+              name: "installationAddressBlock",
+              placeholder: "Block/Flat No*",
+            },
+            {
+              name: "installationAddressStreet",
+              placeholder: "Street/Road Name*",
+            },
+            {
+              name: "installationAddressPincode",
+              placeholder: "Pincode*",
+            },
+            {
+              name: "installationAddressState",
+              placeholder: "State*",
+              type: "select",
+              options: states,
+              isLoading: statesLoading,
+              disabled: sameAsBilling,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedInstallationState(value);
+                form.setValue("installationAddressDistrict", "");
+              },
+            },
+            {
+              name: "installationAddressDistrict",
+              placeholder:
+                selectedInstallationState &&
+                !installationDistrictsLoading &&
+                installationDistricts.length === 0
+                  ? "No district available"
+                  : "District*",
+              type: "select",
+              options: installationDistricts,
+              isLoading: installationDistrictsLoading,
+              disabled:
+                sameAsBilling ||
+                !selectedInstallationState ||
+                installationDistrictsLoading ||
+                installationDistricts.length === 0,
+            },
+          ].map((item) => (
+            <FormBlock
+              key={item.name}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+              extraDisabled={sameAsBilling}
+            />
+          ))}
         </div>
       </div>
 

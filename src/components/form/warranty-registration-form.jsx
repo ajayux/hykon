@@ -78,7 +78,8 @@ const formSchema = z
     installationAddressState: commonValidations.optionalString,
     installationAddressDistrict: commonValidations.optionalString,
     sameAsBillingAddress: z.boolean().optional(),
-    images: commonValidations.file("Product image"),
+    images: commonValidations.multipleFiles("Product image"),
+    invoice: commonValidations.invoiceUpload("Invoice"),
   })
   .superRefine((data, ctx) => {
     if (!data.sameAsBillingAddress) {
@@ -126,7 +127,8 @@ const errorClass =
 
 export function WarrantyRegistrationForm({ activeTab, page }) {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploadedInvoice, setUploadedInvoice] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -190,8 +192,6 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     enabled: !!selectedInstallationState,
   });
 
-
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -218,7 +218,8 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       installationAddressState: "",
       installationAddressDistrict: "",
       sameAsBillingAddress: false,
-      images: null,
+      images: [],
+      invoice: null,
     },
   });
 
@@ -260,18 +261,45 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
     }
   }, [sameAsBilling, ...billingValues, form, selectedBillingState]);
 
+  const imagePreviewUrls = React.useMemo(
+    () => uploadedFiles.map((file) => URL.createObjectURL(file)),
+    [uploadedFiles],
+  );
+
+  useEffect(() => {
+    return () => {
+      imagePreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imagePreviewUrls]);
+
   const handleFileChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      const merged = [...uploadedFiles, ...files];
+      setUploadedFiles(merged);
+      form.setValue("images", merged, { shouldValidate: true });
+    }
+    e.target.value = "";
+  };
+
+  const handleFileRemove = (index) => {
+    const remaining = uploadedFiles.filter((_, i) => i !== index);
+    setUploadedFiles(remaining);
+    form.setValue("images", remaining, { shouldValidate: true });
+  };
+
+  const handleInvoiceChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setUploadedFile(file);
-      form.setValue("images", file);
-      form.clearErrors("images");
+      setUploadedInvoice(file);
+      form.setValue("invoice", file);
+      form.clearErrors("invoice");
     }
   };
 
-  const handleFileRemove = () => {
-    setUploadedFile(null);
-    form.setValue("images", null);
+  const handleInvoiceRemove = () => {
+    setUploadedInvoice(null);
+    form.setValue("invoice", null);
   };
 
   async function onSubmit(data) {
@@ -350,8 +378,12 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       formData.append("product_category_slug", data.category);
       formData.append("product_slug", data.product);
       formData.append("product_variant_slug", data.productVariant);
-      if (data.images) {
-        formData.append("file", data.images);
+      uploadedFiles.forEach((file) => {
+        formData.append("files[]", file);
+      });
+      
+      if (data.invoice) {
+        formData.append("invoice", data.invoice);
       }
       formData.append(
         "captcha_key",
@@ -370,7 +402,8 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
       setIsSuccess(true);
       form.reset();
 
-      setUploadedFile(null);
+      setUploadedFiles([]);
+      setUploadedInvoice(null);
       setSelectedCategory(null);
       setSelectedProduct(null);
       setSelectedBillingState(null);
@@ -384,83 +417,82 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
 
   return (
     <>
-    <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
-    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
-        {[
-          { name: "fullName", placeholder: "Name*" },
-          { name: "phone", placeholder: "Phone*" },
-          { name: "email", placeholder: "Mail*", type: "email" },
-          {
-            name: "category",
-            placeholder:
-              !categoriesLoading && categories.length === 0
-                ? "No Category available"
-                : "Category*",
-            type: "select",
-            options: categories,
-            isLoading: categoriesLoading,
-            disabled: categoriesLoading || categories.length === 0,
-            onValueChange: (value, fieldOnChange) => {
-              fieldOnChange(value);
-              setSelectedCategory(value);
-              form.setValue("product", "");
-              form.setValue("productVariant", "");
-              setSelectedProduct(null);
+      <SuccessModal isOpen={isSuccess} onClose={() => setIsSuccess(false)} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8 mb-8 sm:mb-6 xl:mb-9.5 2xl:mb-11 3xl:mb-14">
+          {[
+            { name: "fullName", placeholder: "Name*" },
+            { name: "phone", placeholder: "Phone*" },
+            { name: "email", placeholder: "Mail*", type: "email" },
+            {
+              name: "category",
+              placeholder:
+                !categoriesLoading && categories.length === 0
+                  ? "No Category available"
+                  : "Category*",
+              type: "select",
+              options: categories,
+              isLoading: categoriesLoading,
+              disabled: categoriesLoading || categories.length === 0,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedCategory(value);
+                form.setValue("product", "");
+                form.setValue("productVariant", "");
+                setSelectedProduct(null);
+              },
             },
-          },
-          {
-            name: "product",
-            placeholder:
-              selectedCategory && !productsLoading && products.length === 0
-                ? "No products available"
-                : "Product*",
-            type: "select",
-            options: products ?? [],
-            isLoading: productsLoading,
-            disabled:
-              !selectedCategory || productsLoading || products.length === 0,
-            onValueChange: (value, fieldOnChange) => {
-              fieldOnChange(value);
-              setSelectedProduct(value);
-              form.setValue("productVariant", "");
+            {
+              name: "product",
+              placeholder:
+                selectedCategory && !productsLoading && products.length === 0
+                  ? "No products available"
+                  : "Product*",
+              type: "select",
+              options: products ?? [],
+              isLoading: productsLoading,
+              disabled:
+                !selectedCategory || productsLoading || products.length === 0,
+              onValueChange: (value, fieldOnChange) => {
+                fieldOnChange(value);
+                setSelectedProduct(value);
+                form.setValue("productVariant", "");
+              },
             },
-          },
-          {
-            name: "productVariant",
-            placeholder:
-              selectedProduct && !variantsLoading && variants.length === 0
-                ? "No product variant available"
-                : "Product variant*",
-            type: "select",
-            options: variants,
-            isLoading: variantsLoading,
-            disabled:
-              !selectedProduct || variantsLoading || variants.length === 0,
-          },
-          { name: "serialNumber", placeholder: "Serial Number*" },
-          { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
-          { name: "invoiceNumber", placeholder: "Invoice Number*" },
-        ].map((item) => (
-          <FormBlock
-            key={item.name}
-            item={item}
-            form={form}
-            isSubmitting={isSubmitting}
-          />
-        ))}
+            {
+              name: "productVariant",
+              placeholder:
+                selectedProduct && !variantsLoading && variants.length === 0
+                  ? "No product variant available"
+                  : "Product variant*",
+              type: "select",
+              options: variants,
+              isLoading: variantsLoading,
+              disabled:
+                !selectedProduct || variantsLoading || variants.length === 0,
+            },
+            { name: "serialNumber", placeholder: "Serial Number*" },
+            { name: "invoiceDate", placeholder: "Invoice Date*", type: "date" },
+            { name: "invoiceNumber", placeholder: "Invoice Number*" },
+          ].map((item) => (
+            <FormBlock
+              key={item.name}
+              item={item}
+              form={form}
+              isSubmitting={isSubmitting}
+            />
+          ))}
 
-        <div className="sm:col-span-2 md:col-span-3">
-          <FormBlock
-            item={{ name: "dealerName", placeholder: "Dealer Name*" }}
-            form={form}
-            isSubmitting={isSubmitting}
-          />
-        </div>
-        <div className="sm:col-span-2 md:col-span-3">
-          {/* Product Image Upload */}
-          <div className="relative flex flex-col gap-3">
-            {!uploadedFile ? (
+          <div className="sm:col-span-2 md:col-span-3">
+            <FormBlock
+              item={{ name: "dealerName", placeholder: "Dealer Name*" }}
+              form={form}
+              isSubmitting={isSubmitting}
+            />
+          </div>
+          <div className="sm:col-span-2 md:col-span-3">
+            {/* Product Image Upload */}
+            <div className="relative flex flex-col gap-3">
               <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors px-4">
                 <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-tight font-normal text-white flex items-center gap-3">
                   <Image
@@ -475,225 +507,289 @@ export function WarrantyRegistrationForm({ activeTab, page }) {
                     <br />
                     <small>
                       Kindly upload clear front view image/images of the
-                      installed product (Maximum size: 5 MB)
+                      installed product (Maximum size: 5 MB each)
                     </small>
                   </span>
                 </div>
                 <input
                   type="file"
                   className="hidden"
-                  // Only PDF, DOC, DOCX, JPG, and PNG files are allowed
                   accept=".jpg,.jpeg,.png"
+                  multiple
                   onChange={handleFileChange}
                   disabled={isSubmitting}
                 />
               </label>
-            ) : (
-              <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
-                <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
-                  {uploadedFile.name}
+              {uploadedFiles.length > 0 && (
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                  {uploadedFiles.map((file, index) => (
+                    <div
+                      key={`${file.name}-${file.lastModified}-${index}`}
+                      className="relative aspect-square rounded-[6px] 3xl:rounded-[9px] overflow-hidden border border-[#676767]"
+                    >
+                      <Image
+                        src={imagePreviewUrls[index]}
+                        alt={file.name}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleFileRemove(index)}
+                        className="absolute top-1 right-1 flex items-center justify-center size-5 rounded-full bg-black/70 text-red-500 hover:text-red-400"
+                        disabled={isSubmitting}
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <button
-                  type="button"
-                  onClick={handleFileRemove}
-                  className="text-red-500 hover:text-red-400"
-                  disabled={isSubmitting}
-                >
-                  <X className="size-4 xl:size-5" />
-                </button>
-              </div>
-            )}
-            {form.formState.errors.images && (
-              <div className={errorClass}>
-                {form.formState.errors.images.message}
-              </div>
-            )}
+              )}
+              {form.formState.errors.images && (
+                <div className={errorClass}>
+                  {form.formState.errors.images.message}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="sm:col-span-2 md:col-span-3">
+            {/* Invoice Upload */}
+            <div className="relative flex flex-col gap-3">
+              {!uploadedInvoice ? (
+                <label className="flex flex-col items-center justify-center w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-[#676767] rounded-[6px] 3xl:rounded-[9px] cursor-pointer hover:border-white transition-colors px-4">
+                  <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-tight font-normal text-white flex items-center gap-3">
+                    <Image
+                      src="/images/icon-upload.svg"
+                      alt="Upload"
+                      width={20}
+                      height={20}
+                      className="w-[16px] xl:w-[20px] 2xl:w-[23px] 3xl:w-[28px] object-contain"
+                    />
+                    <span>
+                      Invoice upload*
+                      <br />
+                      <small>
+                        Kindly upload the invoice for the product (PDF only,
+                        Maximum size: 5 MB)
+                      </small>
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept=".pdf"
+                    onChange={handleInvoiceChange}
+                    disabled={isSubmitting}
+                  />
+                </label>
+              ) : (
+                <div className="flex items-center justify-between w-full h-[50px] xl:h-[75px] 2xl:h-[90px] 3xl:h-[110px] bg-[#252525] border border-dashed border-white rounded-[6px] 3xl:rounded-[9px] px-6">
+                  <div className="text-[10px] lg:text-[12px] 2xl:text-[13px] 3xl:text-[16px] leading-normal font-normal text-white truncate max-w-[80%]">
+                    {uploadedInvoice.name}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleInvoiceRemove}
+                    className="text-red-500 hover:text-red-400"
+                    disabled={isSubmitting}
+                  >
+                    <X className="size-4 xl:size-5" />
+                  </button>
+                </div>
+              )}
+              {form.formState.errors.invoice && (
+                <div className={errorClass}>
+                  {form.formState.errors.invoice.message}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Billing Address */}
-      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
-        <Heading
-          as="div"
-          size="h6"
-          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
-        >
-          Billing Address
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
-          {[
-            {
-              name: "billingAddressBuilding",
-              placeholder: "Building/Apartment Name*",
-            },
-            {
-              name: "billingAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "billingAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "billingAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "billingAddressState",
-              placeholder: "State*",
-              type: "select",
-              options: states,
-              isLoading: statesLoading,
-              onValueChange: (value, fieldOnChange) => {
-                fieldOnChange(value);
-                setSelectedBillingState(value);
-                form.setValue("billingAddressDistrict", "");
+        {/* Billing Address */}
+        <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
+          <Heading
+            as="div"
+            size="h6"
+            className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
+          >
+            Billing Address
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+            {[
+              {
+                name: "billingAddressBuilding",
+                placeholder: "Building/Apartment Name*",
               },
-            },
-            {
-              name: "billingAddressDistrict",
-              placeholder:
-                selectedBillingState &&
-                !billingDistrictsLoading &&
-                billingDistricts.length === 0
-                  ? "No district available"
-                  : "District*",
-              type: "select",
-              options: billingDistricts,
-              isLoading: billingDistrictsLoading,
-              disabled:
-                !selectedBillingState ||
-                billingDistrictsLoading ||
-                billingDistricts.length === 0,
-            },
-          ].map((item) => (
-            <FormBlock
-              key={item.name}
-              item={item}
-              form={form}
-              isSubmitting={isSubmitting}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Installation Address */}
-      <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
-        <Heading
-          as="div"
-          size="h6"
-          className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
-        >
-          Installation Address
-        </Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
-          <FieldGroup className="sm:col-span-2 md:col-span-3">
-            <Controller
-              name="sameAsBillingAddress"
-              control={form.control}
-              render={({ field }) => (
-                <Field orientation="horizontal">
-                  <Checkbox
-                    id="sameAsBillingAddress"
-                    checked={field.value}
-                    onCheckedChange={(checked) =>
-                      field.onChange(checked === true)
-                    }
-                    className={"text-white data-[state=checked]:text-white"}
-                  />
-                  <FieldLabel
-                    className={labelClasses}
-                    htmlFor="sameAsBillingAddress"
-                  >
-                    Same as billing address
-                  </FieldLabel>
-                </Field>
-              )}
-            />
-          </FieldGroup>
-          {[
-            {
-              name: "installationAddressBuilding",
-              placeholder: "Building/Apartment Name*",
-            },
-            {
-              name: "installationAddressBlock",
-              placeholder: "Block/Flat No*",
-            },
-            {
-              name: "installationAddressStreet",
-              placeholder: "Street/Road Name*",
-            },
-            {
-              name: "installationAddressPincode",
-              placeholder: "Pincode*",
-            },
-            {
-              name: "installationAddressState",
-              placeholder: "State*",
-              type: "select",
-              options: states,
-              isLoading: statesLoading,
-              disabled: sameAsBilling,
-              onValueChange: (value, fieldOnChange) => {
-                fieldOnChange(value);
-                setSelectedInstallationState(value);
-                form.setValue("installationAddressDistrict", "");
+              {
+                name: "billingAddressBlock",
+                placeholder: "Block/Flat No*",
               },
-            },
-            {
-              name: "installationAddressDistrict",
-              placeholder:
-                selectedInstallationState &&
-                !installationDistrictsLoading &&
-                installationDistricts.length === 0
-                  ? "No district available"
-                  : "District*",
-              type: "select",
-              options: installationDistricts,
-              isLoading: installationDistrictsLoading,
-              disabled:
-                sameAsBilling ||
-                !selectedInstallationState ||
-                installationDistrictsLoading ||
-                installationDistricts.length === 0,
-            },
-          ].map((item) => (
-            <FormBlock
-              key={item.name}
-              item={item}
-              form={form}
-              isSubmitting={isSubmitting}
-              extraDisabled={sameAsBilling}
-            />
-          ))}
+              {
+                name: "billingAddressStreet",
+                placeholder: "Street/Road Name*",
+              },
+              {
+                name: "billingAddressPincode",
+                placeholder: "Pincode*",
+              },
+              {
+                name: "billingAddressState",
+                placeholder: "State*",
+                type: "select",
+                options: states,
+                isLoading: statesLoading,
+                onValueChange: (value, fieldOnChange) => {
+                  fieldOnChange(value);
+                  setSelectedBillingState(value);
+                  form.setValue("billingAddressDistrict", "");
+                },
+              },
+              {
+                name: "billingAddressDistrict",
+                placeholder:
+                  selectedBillingState &&
+                  !billingDistrictsLoading &&
+                  billingDistricts.length === 0
+                    ? "No district available"
+                    : "District*",
+                type: "select",
+                options: billingDistricts,
+                isLoading: billingDistrictsLoading,
+                disabled:
+                  !selectedBillingState ||
+                  billingDistrictsLoading ||
+                  billingDistricts.length === 0,
+              },
+            ].map((item) => (
+              <FormBlock
+                key={item.name}
+                item={item}
+                form={form}
+                isSubmitting={isSubmitting}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Submit Button */}
-      <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">
-        <Button
-          type="submit"
-          size="lg"
-          variant="outline"
-          className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
-          <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
-            <Image
-              src={"/images/icon-arrow-right-white.svg"}
-              alt={"icon-arrow-right-white"}
-              width={18}
-              height={13}
-              className="w-1/2"
-              unoptimized
-            />
-          </span>
-        </Button>
-      </div>
-    </form>
+        {/* Installation Address */}
+        <div className="mb-8 xl:mb-10 2xl:mb-12 3xl:mb-15">
+          <Heading
+            as="div"
+            size="h6"
+            className="text-white mb-3 xl:mb-4 2xl:mb-5 3xl:mb-6"
+          >
+            Installation Address
+          </Heading>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6 3xl:gap-8">
+            <FieldGroup className="sm:col-span-2 md:col-span-3">
+              <Controller
+                name="sameAsBillingAddress"
+                control={form.control}
+                render={({ field }) => (
+                  <Field orientation="horizontal">
+                    <Checkbox
+                      id="sameAsBillingAddress"
+                      checked={field.value}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked === true)
+                      }
+                      className={"text-white data-[state=checked]:text-white"}
+                    />
+                    <FieldLabel
+                      className={labelClasses}
+                      htmlFor="sameAsBillingAddress"
+                    >
+                      Same as billing address
+                    </FieldLabel>
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+            {[
+              {
+                name: "installationAddressBuilding",
+                placeholder: "Building/Apartment Name*",
+              },
+              {
+                name: "installationAddressBlock",
+                placeholder: "Block/Flat No*",
+              },
+              {
+                name: "installationAddressStreet",
+                placeholder: "Street/Road Name*",
+              },
+              {
+                name: "installationAddressPincode",
+                placeholder: "Pincode*",
+              },
+              {
+                name: "installationAddressState",
+                placeholder: "State*",
+                type: "select",
+                options: states,
+                isLoading: statesLoading,
+                disabled: sameAsBilling,
+                onValueChange: (value, fieldOnChange) => {
+                  fieldOnChange(value);
+                  setSelectedInstallationState(value);
+                  form.setValue("installationAddressDistrict", "");
+                },
+              },
+              {
+                name: "installationAddressDistrict",
+                placeholder:
+                  selectedInstallationState &&
+                  !installationDistrictsLoading &&
+                  installationDistricts.length === 0
+                    ? "No district available"
+                    : "District*",
+                type: "select",
+                options: installationDistricts,
+                isLoading: installationDistrictsLoading,
+                disabled:
+                  sameAsBilling ||
+                  !selectedInstallationState ||
+                  installationDistrictsLoading ||
+                  installationDistricts.length === 0,
+              },
+            ].map((item) => (
+              <FormBlock
+                key={item.name}
+                item={item}
+                form={form}
+                isSubmitting={isSubmitting}
+                extraDisabled={sameAsBilling}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-end mt-4 xl:mt-6 2xl:mt-8 3xl:mt-10">
+          <Button
+            type="submit"
+            size="lg"
+            variant="outline"
+            className="text-white min-w-[100px] xl:min-w-[115px] 2xl:min-w-[135px] 3xl:min-w-[160px] pl-6"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+            <span className="w-4 xl:w-5.5 2xl:w-6.5 3xl:w-8 aspect-square bg-[#008dd2] rounded-full flex items-center justify-center ml-auto">
+              <Image
+                src={"/images/icon-arrow-right-white.svg"}
+                alt={"icon-arrow-right-white"}
+                width={18}
+                height={13}
+                className="w-1/2"
+                unoptimized
+              />
+            </span>
+          </Button>
+        </div>
+      </form>
     </>
   );
 }
