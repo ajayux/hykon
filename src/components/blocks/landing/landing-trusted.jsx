@@ -80,15 +80,17 @@ export default function LandingTrusted({ data, isSidebarOpen }) {
                         {item?.location}
                       </Text>
                     </div>
-                    <div className="w-[var(--profile-size)] h-auto aspect-square rounded-full overflow-hidden block">
-                      <Image
-                        src={item?.media?.path}
-                        alt={item?.media?.alt}
-                        width={65}
-                        height={65}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                    {item?.media?.path && (
+                      <div className="w-[var(--profile-size)] h-auto aspect-square rounded-full overflow-hidden block">
+                        <Image
+                          src={item?.media?.path}
+                          alt={item?.media?.alt}
+                          width={65}
+                          height={65}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

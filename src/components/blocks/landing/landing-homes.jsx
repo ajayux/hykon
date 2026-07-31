@@ -4,6 +4,9 @@ import CountUp from "react-countup";
 import { Heading, Text } from "../../utils/typography";
 import parse from "html-react-parser"
 export default function LandingHomes({ data, isSidebarOpen }) {
+
+  console.log('featureList', data?.featureList[0]?.media?.path)
+
   return (
     <section className="w-full h-auto py-[25px] sm:py-[35px] 2xl:py-[40px] bg-[#008DD2] block">
       <div
@@ -45,9 +48,9 @@ export default function LandingHomes({ data, isSidebarOpen }) {
                     <div className="[--icon-size:35px] sm:[--icon-size:40px] 2xl:[--icon-size:50px] 3xl:[--icon-size:60px] w-full h-full flex flex-col sm:flex-row items-center">
                       <div className="w-[var(--icon-size)] h-auto max-sm:mb-[10px] aspect-square overflow-hidden flex items-center justify-center">
                        {
-                        item?.iconPath && (
+                        item?.media?.path && (
                           <Image
-                          src={item?.iconPath}
+                          src={item?.media?.path}
                           alt={item?.title}
                           width={60}
                           height={60}

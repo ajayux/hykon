@@ -16,7 +16,6 @@ export default async function LandingPage({ params }) {
     if (res.ok) {
       const response = await res.json();
       landingData = response.data;
-      console.log("res", landing)
     }
   } catch (error) {
     console.error("Error fetching landing data:", error);
