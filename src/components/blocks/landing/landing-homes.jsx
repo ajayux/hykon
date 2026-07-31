@@ -44,13 +44,16 @@ export default function LandingHomes({ data, isSidebarOpen }) {
                   <div className="w-1/2 h-auto p-[15px] sm:p-[30px] 2xl:p-[40px_50px] 3xl:p-[45px_60px] relative z-0">
                     <div className="[--icon-size:35px] sm:[--icon-size:40px] 2xl:[--icon-size:50px] 3xl:[--icon-size:60px] w-full h-full flex flex-col sm:flex-row items-center">
                       <div className="w-[var(--icon-size)] h-auto max-sm:mb-[10px] aspect-square overflow-hidden flex items-center justify-center">
-                        <Image
+                       {
+                        item?.iconPath && (
+                          <Image
                           src={item?.iconPath}
                           alt={item?.title}
                           width={60}
                           height={60}
                           className="w-full h-full object-contain"
-                        />
+                          />
+                        )} 
                       </div>
                       <div className="w-full sm:w-[calc(100%-var(--icon-size))] sm:pl-[15px] 3xl:pl-[20px] max-sm:text-center">
                         <Text
@@ -58,7 +61,7 @@ export default function LandingHomes({ data, isSidebarOpen }) {
                           size="p1"
                           className="font-medium text-white"
                         >
-                          {item?.title}
+                          {item?.label}
                         </Text>
                       </div>
                     </div>
