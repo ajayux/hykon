@@ -41,7 +41,7 @@ export default function LandingFeatures({ data, isSidebarOpen }) {
                 alt={data?.media?.alt}
                 width="590"
                 height="520"
-                className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
+                className="w-full h-full object-contain hover:scale-105 transition-all duration-300"
               />
             </div>
           </div>
