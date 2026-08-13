@@ -7,6 +7,14 @@ import { Heading, Text } from "../../utils/typography";
 
 export default function LandingPower({ data, isSidebarOpen }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const showVideo = isPlaying && isVideoReady;
+
+  const stopVideo = () => {
+    setIsPlaying(false);
+    setIsVideoReady(false);
+  };
+
   return (
     <section className="w-full h-auto py-[20px] xl:py-[30px_25px] 2xl:py-[40px_30px] 3xl:py-[50px_35px]">
       <div
@@ -26,15 +34,36 @@ export default function LandingPower({ data, isSidebarOpen }) {
         </div>
         <div
           className="group w-full h-auto aspect-[1255/475] rounded-[5px] 2xl:rounded-[10px] overflow-hidden cursor-pointer block relative z-0"
-          onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => {
+            if (!isPlaying) setIsPlaying(true);
+          }}
         >
-          {isPlaying ? (
+          {/* Thumbnail stays mounted at all times so switching back never shows a blank frame */}
+          <Image
+            src={data?.media?.thumbnailPath}
+            alt={data?.media?.alt}
+            width={1250}
+            height={475}
+            priority
+            className={cn(
+              "w-full h-full object-cover transition-all duration-300",
+              showVideo
+                ? "opacity-0"
+                : "opacity-100 group-hover:scale-105"
+            )}
+          />
+          {isPlaying && (
             <video
               src={data?.media?.videoPath}
               autoPlay
-              className="w-full h-full object-cover"
-              onEnded={() => setIsPlaying(false)}
-              onPause={() => setIsPlaying(false)}
+              playsInline
+              className={cn(
+                "w-full h-full object-cover absolute inset-0 top-0 left-0 transition-opacity duration-200",
+                isVideoReady ? "opacity-100" : "opacity-0"
+              )}
+              onCanPlay={() => setIsVideoReady(true)}
+              onEnded={stopVideo}
+              onPause={stopVideo}
               onClick={(e) => {
                 e.stopPropagation();
                 if (e.target.paused) {
@@ -44,28 +73,20 @@ export default function LandingPower({ data, isSidebarOpen }) {
                 }
               }}
             />
-          ) : (
-            <>
-              <Image
-                src={data?.media?.thumbnailPath}
-                alt={data?.media?.alt}
-                width={1250}
-                height={475}
-                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
-              />
-              <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-1 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <span className="w-[20px] 2xl:w-[25px] h-auto aspect-square overflow-hidden block">
-                  <Image
-                    src="/images/landing-power-playicon.svg"
-                    alt="Play Icon"
-                    width={25}
-                    height={25}
-                    className="w-full h-full object-contain"
-                  />
-                </span>
-                Watch Video
-              </div>
-            </>
+          )}
+          {!showVideo && (
+            <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <span className="w-[20px] 2xl:w-[25px] h-auto aspect-square overflow-hidden block">
+                <Image
+                  src="/images/landing-power-playicon.svg"
+                  alt="Play Icon"
+                  width={25}
+                  height={25}
+                  className="w-full h-full object-contain"
+                />
+              </span>
+              Watch Video
+            </div>
           )}
         </div>
       </div>
