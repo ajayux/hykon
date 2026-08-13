@@ -35,13 +35,13 @@ export default function LandingFeatures({ data, isSidebarOpen }) {
             </div>
           </div>
           <div className="w-[var(--width)]">
-            <div className="w-full h-[350px] lg:h-full rounded-[5px] 2xl:rounded-[10px] overflow-hidden block">
+            <div className="w-full aspect-[59/52] rounded-[5px] 2xl:rounded-[10px] overflow-hidden block">
               <Image
                 src={data?.media?.path}
                 alt={data?.media?.alt}
                 width="590"
                 height="520"
-                className="w-full h-full object-contain hover:scale-105 transition-all duration-300"
+                className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
               />
             </div>
           </div>
