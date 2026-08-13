@@ -7,6 +7,7 @@ import { Heading, Text } from "../../utils/typography";
 
 export default function LandingPower({ data, isSidebarOpen }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState("1255/475");
   const videoRef = useRef(null);
   return (
     <section className="w-full h-auto py-[20px] xl:py-[30px_25px] 2xl:py-[40px_30px] 3xl:py-[50px_35px]">
@@ -26,7 +27,8 @@ export default function LandingPower({ data, isSidebarOpen }) {
           </Text>
         </div>
         <div
-          className="group w-full h-auto aspect-[1255/475] rounded-[5px] 2xl:rounded-[10px] overflow-hidden cursor-pointer block relative z-0"
+          className="group w-full h-auto rounded-[5px] 2xl:rounded-[10px] overflow-hidden cursor-pointer block relative z-0"
+          style={{ aspectRatio }}
           onClick={() => {
             if (!isPlaying) {
               videoRef.current?.play();
@@ -39,6 +41,12 @@ export default function LandingPower({ data, isSidebarOpen }) {
             src={data?.media?.videoPath}
             preload="auto"
             className="w-full h-full object-cover"
+            onLoadedMetadata={(e) => {
+              const { videoWidth, videoHeight } = e.target;
+              if (videoWidth && videoHeight) {
+                setAspectRatio(`${videoWidth}/${videoHeight}`);
+              }
+            }}
             onEnded={() => setIsPlaying(false)}
             onPause={() => setIsPlaying(false)}
             onClick={(e) => {
@@ -58,6 +66,12 @@ export default function LandingPower({ data, isSidebarOpen }) {
                 alt={data?.media?.alt}
                 width={1250}
                 height={475}
+                onLoad={(e) => {
+                  const { naturalWidth, naturalHeight } = e.target;
+                  if (naturalWidth && naturalHeight) {
+                    setAspectRatio(`${naturalWidth}/${naturalHeight}`);
+                  }
+                }}
                 className="w-full h-full object-cover transition-all duration-300 absolute inset-0 z-1"
               />
               <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
