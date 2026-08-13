@@ -1,20 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import parse from "html-react-parser";
 import { Heading, Text } from "../../utils/typography";
 
 export default function LandingPower({ data, isSidebarOpen }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const showVideo = isPlaying && isVideoReady;
-
-  const stopVideo = () => {
-    setIsPlaying(false);
-    setIsVideoReady(false);
-  };
-
+  const videoRef = useRef(null);
   return (
     <section className="w-full h-auto py-[20px] xl:py-[30px_25px] 2xl:py-[40px_30px] 3xl:py-[50px_35px]">
       <div
@@ -35,58 +28,51 @@ export default function LandingPower({ data, isSidebarOpen }) {
         <div
           className="group w-full h-auto aspect-[1255/475] rounded-[5px] 2xl:rounded-[10px] overflow-hidden cursor-pointer block relative z-0"
           onClick={() => {
-            if (!isPlaying) setIsPlaying(true);
+            if (!isPlaying) {
+              videoRef.current?.play();
+              setIsPlaying(true);
+            }
           }}
         >
-          {/* Thumbnail stays mounted at all times so switching back never shows a blank frame */}
-          <Image
-            src={data?.media?.thumbnailPath}
-            alt={data?.media?.alt}
-            width={1250}
-            height={475}
-            priority
-            className={cn(
-              "w-full h-full object-cover transition-all duration-300",
-              showVideo
-                ? "opacity-0"
-                : "opacity-100 group-hover:scale-105"
-            )}
+          <video
+            ref={videoRef}
+            src={data?.media?.videoPath}
+            preload="auto"
+            className="w-full h-full object-cover"
+            onEnded={() => setIsPlaying(false)}
+            onPause={() => setIsPlaying(false)}
+            onClick={(e) => {
+              if (!isPlaying) return;
+              e.stopPropagation();
+              if (e.target.paused) {
+                e.target.play();
+              } else {
+                e.target.pause();
+              }
+            }}
           />
-          {isPlaying && (
-            <video
-              src={data?.media?.videoPath}
-              autoPlay
-              playsInline
-              className={cn(
-                "w-full h-full object-cover absolute inset-0 top-0 left-0 transition-opacity duration-200",
-                isVideoReady ? "opacity-100" : "opacity-0"
-              )}
-              onCanPlay={() => setIsVideoReady(true)}
-              onEnded={stopVideo}
-              onPause={stopVideo}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (e.target.paused) {
-                  e.target.play();
-                } else {
-                  e.target.pause();
-                }
-              }}
-            />
-          )}
-          {!showVideo && (
-            <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <span className="w-[20px] 2xl:w-[25px] h-auto aspect-square overflow-hidden block">
-                <Image
-                  src="/images/landing-power-playicon.svg"
-                  alt="Play Icon"
-                  width={25}
-                  height={25}
-                  className="w-full h-full object-contain"
-                />
-              </span>
-              Watch Video
-            </div>
+          {!isPlaying && (
+            <>
+              <Image
+                src={data?.media?.thumbnailPath}
+                alt={data?.media?.alt}
+                width={1250}
+                height={475}
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300 absolute inset-0 z-1"
+              />
+              <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <span className="w-[20px] 2xl:w-[25px] h-auto aspect-square overflow-hidden block">
+                  <Image
+                    src="/images/landing-power-playicon.svg"
+                    alt="Play Icon"
+                    width={25}
+                    height={25}
+                    className="w-full h-full object-contain"
+                  />
+                </span>
+                Watch Video
+              </div>
+            </>
           )}
         </div>
       </div>
