@@ -58,7 +58,7 @@ export default function LandingPower({ data, isSidebarOpen }) {
                 alt={data?.media?.alt}
                 width={1250}
                 height={475}
-                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300 absolute inset-0 z-1"
+                className="w-full h-full object-cover transition-all duration-300 absolute inset-0 z-1"
               />
               <div className="text-[11px] 2xl:text-[15px] leading-normal font-medium text-white w-auto h-auto gap-[5px] 2xl:gap-[10px] p-[5px_10px] sm:p-[10px_15px] m-auto bg-black/30 rounded-[5px] 2xl:rounded-[8px] backdrop-blur-[15px] overflow-hidden inline-flex items-center absolute z-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <span className="w-[20px] 2xl:w-[25px] h-auto aspect-square overflow-hidden block">
