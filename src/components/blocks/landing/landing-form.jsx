@@ -43,6 +43,8 @@ export default function LandingForm({ onClose, slug }) {
     },
   });
 
+  const pageUrl = window.location.href;
+
   async function onSubmit(data) {
     if (!executeRecaptcha) return;
     setIsSubmitting(true);
@@ -56,6 +58,7 @@ export default function LandingForm({ onClose, slug }) {
       formData.append("message", data.message || "");
       formData.append("captcha_key", recaptchaToken);
       formData.append("landing_page_slug", slug || "");
+      formData.append("page_url", pageUrl || "");
 
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const res = await fetch(`${baseUrl}/api/landing-page-enquiry`, {
